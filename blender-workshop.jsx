@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Utility: hex color → "r,g,b" string for rgba()
 const hexToRgb = (hex) => {
@@ -4744,6 +4744,14 @@ export default function BlenderWorkshop() {
   const [expandedSections, setExpandedSections] = useState({ 0: true });
   const [activeTab, setActiveTab] = useState("content");
   const [showPython, setShowPython] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
 
   const mod = activeModule !== null ? modules[activeModule] : null;
   const progress = Math.round((completedModules.size / modules.length) * 100);
@@ -4763,6 +4771,7 @@ export default function BlenderWorkshop() {
   const goHome = () => {
     setActiveModule(null);
     setActiveTab("content");
+    setSidebarOpen(false);
   };
 
   const tabs = [
@@ -4790,6 +4799,17 @@ export default function BlenderWorkshop() {
         * { box-sizing: border-box; }
       `}</style>
 
+      {/* Mobile overlay backdrop */}
+      {isMobile && sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+            zIndex: 10,
+          }}
+        />
+      )}
+
       {/* Sidebar */}
       <div
         style={{
@@ -4800,6 +4820,11 @@ export default function BlenderWorkshop() {
           display: "flex",
           flexDirection: "column",
           overflowY: "auto",
+          ...(isMobile ? {
+            position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 20,
+            transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
+            transition: "transform 0.25s ease",
+          } : {}),
         }}
       >
         {/* Logo */}
@@ -4935,6 +4960,7 @@ export default function BlenderWorkshop() {
                 setActiveModule(i);
                 setExpandedSections({ 0: true });
                 setActiveTab("content");
+                setSidebarOpen(false);
               }}
               style={{
                 display: "flex",
@@ -5013,7 +5039,7 @@ export default function BlenderWorkshop() {
         {/* Top bar */}
         <div
           style={{
-            padding: "0 32px",
+            padding: isMobile ? "0 12px" : "0 32px",
             borderBottom: "1px solid #1e1e2e",
             display: "flex",
             alignItems: "center",
@@ -5021,6 +5047,18 @@ export default function BlenderWorkshop() {
             flexShrink: 0,
           }}
         >
+          {isMobile && (
+            <button
+              onClick={() => setSidebarOpen(true)}
+              style={{
+                background: "transparent", border: "none", color: "#888899",
+                fontSize: 20, cursor: "pointer", padding: "12px 12px 12px 0",
+                lineHeight: 1, flexShrink: 0,
+              }}
+            >
+              ☰
+            </button>
+          )}
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -5111,7 +5149,7 @@ export default function BlenderWorkshop() {
         </div>
 
         {/* Scrollable content */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "32px" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: isMobile ? "20px 16px" : "32px" }}>
           {/* ── OUTCOMES TAB ── */}
           {activeTab === "outcomes" && (
             <div>
