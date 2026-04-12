@@ -15,12 +15,57 @@ const modules = [
     title: "Mental Model",
     tag: "FOUNDATION",
     color: "#e8622a",
-    intro: "Before touching anything: understand how Blender thinks. Its architecture shapes every decision — why modes exist, why nothing is 'just a file', and how to reason about what's possible.",
+    intro:
+      "Before touching anything: understand how Blender thinks. Its architecture shapes every decision — why modes exist, why nothing is 'just a file', and how to reason about what's possible.",
     quiz: [
-      { q: "An Object and its Mesh are separate datablocks. What does this allow you to do?", options: ["Change the mesh's color independently of the object", "Have multiple objects share the same mesh data with zero extra memory cost", "Apply modifiers to the mesh without affecting the object", "Move the mesh without moving the object"], answer: 1, explanation: "Alt+D (linked duplicate) creates a new Object that references the same Mesh datablock. Thousands of instances, one mesh in memory." },
-      { q: "Which of these is NON-destructive in Blender?", options: ["Applying a Subdivision Surface modifier", "Sculpting directly on a mesh", "Adding a Mirror modifier to a mesh", "Using the Knife tool to cut geometry"], answer: 2, explanation: "Adding a modifier leaves the original mesh data unchanged. Applying it, sculpting, or using the Knife permanently modifies the mesh." },
-      { q: "Which Properties panel tab contains the Modifier stack?", options: ["The 📐 Object tab (transform values)", "The 🔧 Modifier tab (wrench icon)", "The 📊 Object Data tab (mesh-specific settings)", "The 🎨 Material tab (shader assignment)"], answer: 1, explanation: "The wrench icon (🔧) in the Properties panel opens the Modifier tab — where you add, reorder, and remove modifiers like Subdivision Surface, Mirror, and Boolean." },
-      { q: "What is a Collection in Blender?", options: ["A group of materials applied to one object", "A set of modifier presets", "A named group of objects that can be toggled, instanced, and linked", "A folder that stores .blend files on disk"], answer: 2, explanation: "Collections are scene-level organisational containers. Objects can belong to multiple collections, and collections can be instanced as lightweight objects." },
+      {
+        q: "An Object and its Mesh are separate datablocks. What does this allow you to do?",
+        options: [
+          "Change the mesh's color independently of the object",
+          "Have multiple objects share the same mesh data with zero extra memory cost",
+          "Apply modifiers to the mesh without affecting the object",
+          "Move the mesh without moving the object",
+        ],
+        answer: 1,
+        explanation:
+          "Alt+D (linked duplicate) creates a new Object that references the same Mesh datablock. Thousands of instances, one mesh in memory.",
+      },
+      {
+        q: "Which of these is NON-destructive in Blender?",
+        options: [
+          "Applying a Subdivision Surface modifier",
+          "Sculpting directly on a mesh",
+          "Adding a Mirror modifier to a mesh",
+          "Using the Knife tool to cut geometry",
+        ],
+        answer: 2,
+        explanation:
+          "Adding a modifier leaves the original mesh data unchanged. Applying it, sculpting, or using the Knife permanently modifies the mesh.",
+      },
+      {
+        q: "Which Properties panel tab contains the Modifier stack?",
+        options: [
+          "The 📐 Object tab (transform values)",
+          "The 🔧 Modifier tab (wrench icon)",
+          "The 📊 Object Data tab (mesh-specific settings)",
+          "The 🎨 Material tab (shader assignment)",
+        ],
+        answer: 1,
+        explanation:
+          "The wrench icon (🔧) in the Properties panel opens the Modifier tab — where you add, reorder, and remove modifiers like Subdivision Surface, Mirror, and Boolean.",
+      },
+      {
+        q: "What is a Collection in Blender?",
+        options: [
+          "A group of materials applied to one object",
+          "A set of modifier presets",
+          "A named group of objects that can be toggled, instanced, and linked",
+          "A folder that stores .blend files on disk",
+        ],
+        answer: 2,
+        explanation:
+          "Collections are scene-level organisational containers. Objects can belong to multiple collections, and collections can be instanced as lightweight objects.",
+      },
     ],
     sections: [
       {
@@ -58,7 +103,7 @@ for col in bpy.data.collections:
 - **World** — Environment lighting, background, atmosphere.
 - **Collection** — A folder/group of objects. Objects can belong to multiple collections.
 
-Key insight: because objects and meshes are separate, you can duplicate an object with **Alt+D** (linked duplicate — same mesh data, different transform) vs **Shift+D** (full copy). This matters enormously for scene performance.`
+Key insight: because objects and meshes are separate, you can duplicate an object with **Alt+D** (linked duplicate — same mesh data, different transform) vs **Shift+D** (full copy). This matters enormously for scene performance.`,
       },
       {
         title: "Modes: Why They Exist",
@@ -89,7 +134,7 @@ if bpy.context.object and bpy.context.object.type == 'MESH':
 
 **Ctrl+Tab** — Mode pie menu (access any mode from any mode)
 
-The same object looks completely different depending on which mode you're in — this is intentional, not confusing. Each mode is a specialized lens.`
+The same object looks completely different depending on which mode you're in — this is intentional, not confusing. Each mode is a specialized lens.`,
       },
       {
         title: "Non-Destructive vs Destructive Workflow",
@@ -130,7 +175,7 @@ Non-destructive tools:
 
 Destructive: applying a modifier, sculpting directly, manual vertex editing, applying shape keys.
 
-**Golden rule**: stay non-destructive as long as possible. Apply modifiers only when exporting, hitting a technical limit, or when you're 100% done with that step.`
+**Golden rule**: stay non-destructive as long as possible. Apply modifiers only when exporting, hitting a technical limit, or when you're 100% done with that step.`,
       },
       {
         title: "The Properties Panel — Your Control Center",
@@ -177,7 +222,7 @@ bpy.context.scene.render.resolution_y = 1080`,
 - 🎨 **Material** — Material slots, shader assignment
 - 🖼️ **Texture** — Texture slots (legacy, mostly for displacement/brushes)
 
-**N** (in viewport) — Toggle the sidebar panel (Item, Tool, View tabs). Shows exact transform of selected object.`
+**N** (in viewport) — Toggle the sidebar panel (Item, Tool, View tabs). Shows exact transform of selected object.`,
       },
       {
         title: "Collections & Scene Organization",
@@ -210,7 +255,7 @@ for obj in bpy.data.collections["MyCollection"].objects:
 - **File → Link** — Reference a collection from another .blend file, non-destructively. The foundation of production pipelines.
 - **File → Append** — Copy data from another .blend into your current file (destructive import).
 
-The Outliner also shows the full datablock tree. Right-click any item for options. Drag to reparent.`
+The Outliner also shows the full datablock tree. Right-click any item for options. Drag to reparent.`,
       },
       {
         title: "🔨 Mini Workshop: Read the Scene",
@@ -236,9 +281,9 @@ for obj in scene.objects:
 5. Press **N** → look at the Item tab. See the exact location/rotation/scale.
 6. Click on a different icon in the Properties Editor — find the Modifier stack, the Material slots.
 
-✅ Goal: Be able to answer "what is this scene made of?" for any .blend file`
-      }
-    ]
+✅ Goal: Be able to answer "what is this scene made of?" for any .blend file`,
+      },
+    ],
   },
   {
     id: 2,
@@ -246,12 +291,57 @@ for obj in scene.objects:
     title: "Interface & Navigation",
     tag: "MAC TRACKPAD",
     color: "#5b8dee",
-    intro: "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything — do these first.",
+    intro:
+      "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything — do these first.",
     quiz: [
-      { q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?", options: ["Two-finger drag", "Three-finger swipe", "Option + drag", "Cmd + drag"], answer: 2, explanation: "Option+drag emulates the middle mouse button, which Blender uses for orbiting the viewport." },
-      { q: "You want to run a Blender feature but can't find it in any menu. What's the fastest way?", options: ["Search the Blender documentation online", "Press F3 to open the operator search", "Check Preferences → Add-ons", "Right-click in the viewport"], answer: 1, explanation: "F3 searches every available operator by name. Type what you want and run it directly — the core vibe-coding shortcut." },
-      { q: "What does pressing the Period (.) key do in the 3D viewport?", options: ["Opens the decimal input for precise transforms", "Frames the selected object(s) in the viewport", "Toggles orthographic mode", "Opens the pivot point menu"], answer: 1, explanation: "Period frames/zooms to the selected object. Essential for quickly re-centering your view on what you're working on." },
-      { q: "What does the Z key open in the 3D viewport?", options: ["The zoom controls", "The undo history", "The shading pie menu (Wireframe, Solid, Material, Rendered)", "The scale tool"], answer: 2, explanation: "Z opens the shading pie menu — a quick way to switch between how the scene looks without going to the toolbar." },
+      {
+        q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?",
+        options: [
+          "Two-finger drag",
+          "Three-finger swipe",
+          "Option + drag",
+          "Cmd + drag",
+        ],
+        answer: 2,
+        explanation:
+          "Option+drag emulates the middle mouse button, which Blender uses for orbiting the viewport.",
+      },
+      {
+        q: "You want to run a Blender feature but can't find it in any menu. What's the fastest way?",
+        options: [
+          "Search the Blender documentation online",
+          "Press F3 to open the operator search",
+          "Check Preferences → Add-ons",
+          "Right-click in the viewport",
+        ],
+        answer: 1,
+        explanation:
+          "F3 searches every available operator by name. Type what you want and run it directly — the core vibe-coding shortcut.",
+      },
+      {
+        q: "What does pressing the Period (.) key do in the 3D viewport?",
+        options: [
+          "Opens the decimal input for precise transforms",
+          "Frames the selected object(s) in the viewport",
+          "Toggles orthographic mode",
+          "Opens the pivot point menu",
+        ],
+        answer: 1,
+        explanation:
+          "Period frames/zooms to the selected object. Essential for quickly re-centering your view on what you're working on.",
+      },
+      {
+        q: "What does the Z key open in the 3D viewport?",
+        options: [
+          "The zoom controls",
+          "The undo history",
+          "The shading pie menu (Wireframe, Solid, Material, Rendered)",
+          "The scale tool",
+        ],
+        answer: 2,
+        explanation:
+          "Z opens the shading pie menu — a quick way to switch between how the scene looks without going to the toolbar.",
+      },
     ],
     sections: [
       {
@@ -278,7 +368,7 @@ bpy.ops.wm.save_userpref()`,
 Then under the **Trackpad** section (same Preferences page):
 - ✅ **Use Multi-Touch Trackpad** — enables pinch-to-zoom and two-finger pan natively
 
-Save these preferences: **Hamburger menu (☰) → Save Preferences** so they persist across launches.`
+Save these preferences: **Hamburger menu (☰) → Save Preferences** so they persist across launches.`,
       },
       {
         title: "Viewport Navigation (Trackpad-First)",
@@ -317,7 +407,7 @@ Keyboard view shortcuts (with Emulate Numpad ON):
 **Ctrl+1 / 3 / 7** — Opposite views (Back, Left, Bottom)
 **5** — Toggle Perspective ↔ Orthographic
 **0** — Camera view (what your render will see)
-**~ (backtick)** — View pie menu: access all views at once`
+**~ (backtick)** — View pie menu: access all views at once`,
       },
       {
         title: "Editor Layout & Workspaces",
@@ -353,7 +443,7 @@ Most important editors:
 
 **Workspaces** (tabs along the top bar): Blender ships with Layout, Modeling, Sculpting, Shading, Animation, Rendering, Compositing. Each is a saved editor arrangement. Create your own with the + button.
 
-**Split an editor**: hover over an edge → right-click → Split. Merge: drag a corner.`
+**Split an editor**: hover over an edge → right-click → Split. Merge: drag a corner.`,
       },
       {
         title: "The Most Useful Navigation Shortcuts",
@@ -387,7 +477,7 @@ area.spaces[0].shading.type = 'RENDERED'   # Rendered`,
 
 **Alt+Z** — Toggle X-Ray mode (see through the mesh — critical for selecting hidden geometry)
 
-**F11** — Show last render (if you've rendered anything)`
+**F11** — Show last render (if you've rendered anything)`,
       },
       {
         title: "Selection on Mac",
@@ -432,9 +522,9 @@ In Edit Mode, selection works on whichever element type is active:
 **1** — Vertex select mode
 **2** — Edge select mode
 **3** — Face select mode
-**Alt+Click** — Select an entire edge loop (one of the most important shortcuts in modeling)`
-      }
-    ]
+**Alt+Click** — Select an entire edge loop (one of the most important shortcuts in modeling)`,
+      },
+    ],
   },
   {
     id: 3,
@@ -442,11 +532,45 @@ In Edit Mode, selection works on whichever element type is active:
     title: "Mesh Primitives",
     tag: "OBJECT MODE",
     color: "#60a5fa",
-    intro: "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically — not just what it looks like.",
+    intro:
+      "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically — not just what it looks like.",
     quiz: [
-      { q: "You want to sculpt a creature head. Which sphere primitive is the better starting point, and why?", options: ["UV Sphere — more vertices means more sculpting detail", "Ico Sphere — more uniform triangle distribution across the surface, better for subdivision and sculpting", "Plane — you can extrude into any shape", "Torus — ring topology works well for necks"], answer: 1, explanation: "UV Sphere has messy pole pinching at the top/bottom which deforms badly under subdivision. Ico Sphere distributes geometry evenly — ideal for organic sculpting." },
-      { q: "You add a Cylinder and immediately want to change it to 6 sides (hexagonal). Where do you do this?", options: ["Properties → Object Data → Vertices", "The F9 operator panel that appears bottom-left after adding", "Edit Mode → Mesh → Change Vertices", "Modifier → Decimate"], answer: 1, explanation: "The F9 operator panel (or click the bottom-left panel) lets you change the vertex count right after adding. It disappears the moment you do anything else." },
-      { q: "What data type does Shift+A → Curve → Bezier give you, and how does it differ from a Mesh?", options: ["A mesh made of curved edges — same as a mesh but pre-smoothed", "A mathematically smooth path defined by control points and handles, not polygons", "A modifier that curves an existing mesh", "A texture that creates a curved gradient"], answer: 1, explanation: "Curves are a separate data type — defined by handles and control points, not vertices/edges/faces. They can be converted to mesh, or used directly (for pipes, paths, etc.) via the Curve modifier." },
+      {
+        q: "You want to sculpt a creature head. Which sphere primitive is the better starting point, and why?",
+        options: [
+          "UV Sphere — more vertices means more sculpting detail",
+          "Ico Sphere — more uniform triangle distribution across the surface, better for subdivision and sculpting",
+          "Plane — you can extrude into any shape",
+          "Torus — ring topology works well for necks",
+        ],
+        answer: 1,
+        explanation:
+          "UV Sphere has messy pole pinching at the top/bottom which deforms badly under subdivision. Ico Sphere distributes geometry evenly — ideal for organic sculpting.",
+      },
+      {
+        q: "You add a Cylinder and immediately want to change it to 6 sides (hexagonal). Where do you do this?",
+        options: [
+          "Properties → Object Data → Vertices",
+          "The F9 operator panel that appears bottom-left after adding",
+          "Edit Mode → Mesh → Change Vertices",
+          "Modifier → Decimate",
+        ],
+        answer: 1,
+        explanation:
+          "The F9 operator panel (or click the bottom-left panel) lets you change the vertex count right after adding. It disappears the moment you do anything else.",
+      },
+      {
+        q: "What data type does Shift+A → Curve → Bezier give you, and how does it differ from a Mesh?",
+        options: [
+          "A mesh made of curved edges — same as a mesh but pre-smoothed",
+          "A mathematically smooth path defined by control points and handles, not polygons",
+          "A modifier that curves an existing mesh",
+          "A texture that creates a curved gradient",
+        ],
+        answer: 1,
+        explanation:
+          "Curves are a separate data type — defined by handles and control points, not vertices/edges/faces. They can be converted to mesh, or used directly (for pipes, paths, etc.) via the Curve modifier.",
+      },
     ],
     sections: [
       {
@@ -477,7 +601,7 @@ Primitives and their structural value:
 - **Plane** — Single quad face. Floor, wall, starting point for many models, cards for hair/leaves.
 - **Circle** — Edges only, no fill. Boundary for extrusion, profile for Screw modifier.
 - **Grid** — Subdivided plane. Terrain, cloth sims, displacement maps.
-- **Monkey (Suzanne)** — Blender's test subject. Use her for shading and lighting experiments.`
+- **Monkey (Suzanne)** — Blender's test subject. Use her for shading and lighting experiments.`,
       },
       {
         title: "The Operator Panel (F9)",
@@ -520,7 +644,7 @@ bpy.ops.mesh.primitive_torus_add(
 - **Align to View** — Face the current camera direction. Useful when adding on a specific axis.
 - **Location / Rotation** — Exact initial placement.
 
-⚠️ This panel disappears the moment you perform any other action. It is a one-time window. If you miss it, use Ctrl+Z and re-add.`
+⚠️ This panel disappears the moment you perform any other action. It is a one-time window. If you miss it, use Ctrl+Z and re-add.`,
       },
       {
         title: "Curves & Surfaces (Non-Mesh Primitives)",
@@ -557,7 +681,7 @@ Curves can be converted to meshes (**Object → Convert → Mesh**) or used dire
 Key curve settings (Properties → Object Data → Geometry):
 - **Bevel → Depth** — Give the curve a round cross-section (instant pipe/tube)
 - **Bevel → Object** — Use a custom shape as the cross-section
-- **Fill Mode** — Whether the curve end caps are filled`
+- **Fill Mode** — Whether the curve end caps are filled`,
       },
       {
         title: "🔨 Mini Workshop: Know Your Topology",
@@ -587,9 +711,9 @@ print(f"Triangles: {len(tris)}")`,
 4. Add a **Torus** → Tab → notice how it's made of edge loops — great for ring topology
 5. Add a **Curve → Bezier** → Tab → see the control points and handles → G to move one
 
-✅ Goal: Given a target shape, immediately know which primitive to start from`
-      }
-    ]
+✅ Goal: Given a target shape, immediately know which primitive to start from`,
+      },
+    ],
   },
   {
     id: 4,
@@ -597,12 +721,57 @@ print(f"Triangles: {len(tris)}")`,
     title: "Edit Mode & Topology",
     tag: "CORE MODELING",
     color: "#44d9a2",
-    intro: "Edit Mode is where real modeling happens. You're operating on the mesh's actual geometry — vertices, edges, faces. Topology (how geometry is connected) determines everything: how the mesh deforms, subdivides, and renders.",
+    intro:
+      "Edit Mode is where real modeling happens. You're operating on the mesh's actual geometry — vertices, edges, faces. Topology (how geometry is connected) determines everything: how the mesh deforms, subdivides, and renders.",
     quiz: [
-      { q: "What does Alt+Click do on an edge in Edit Mode?", options: ["Deletes the edge", "Selects the entire edge loop running around the mesh", "Adds a new edge loop", "Bevels the edge"], answer: 1, explanation: "Alt+Click selects an edge loop — a ring of connected edges that runs around the mesh. One of the most powerful selection shortcuts in modeling." },
-      { q: "Why are quads (4-sided faces) preferred over triangles for most modeling?", options: ["Quads render faster in Cycles", "Quads subdivide predictably and shade cleanly; triangles cause shading artifacts on curved surfaces", "Blender can only import quad meshes", "Triangles use more memory than quads"], answer: 1, explanation: "Quads subdivide cleanly and deform predictably for animation. Triangles on curved, subdivided surfaces produce visible shading artifacts." },
-      { q: "What does Proportional Editing (O) do when you move a vertex?", options: ["Moves only the selected vertex, nothing else", "Locks the transform to a proportional axis", "Makes the transform fall off smoothly to nearby unselected vertices within a radius", "Snaps the vertex to the nearest surface"], answer: 2, explanation: "Proportional Editing creates a smooth falloff — like pulling fabric. Essential for organic shaping without selecting every vert individually." },
-      { q: "An object's faces are shading dark and look inside-out. What's most likely wrong?", options: ["The material is set to transparent", "The normals are flipped — faces are pointing inward instead of outward", "The object needs a Subdivision Surface modifier", "The viewport is in Wireframe mode"], answer: 1, explanation: "Flipped normals make faces look dark because light isn't hitting the 'outside'. Fix with Mesh → Normals → Recalculate Outside (Shift+N in Edit Mode)." },
+      {
+        q: "What does Alt+Click do on an edge in Edit Mode?",
+        options: [
+          "Deletes the edge",
+          "Selects the entire edge loop running around the mesh",
+          "Adds a new edge loop",
+          "Bevels the edge",
+        ],
+        answer: 1,
+        explanation:
+          "Alt+Click selects an edge loop — a ring of connected edges that runs around the mesh. One of the most powerful selection shortcuts in modeling.",
+      },
+      {
+        q: "Why are quads (4-sided faces) preferred over triangles for most modeling?",
+        options: [
+          "Quads render faster in Cycles",
+          "Quads subdivide predictably and shade cleanly; triangles cause shading artifacts on curved surfaces",
+          "Blender can only import quad meshes",
+          "Triangles use more memory than quads",
+        ],
+        answer: 1,
+        explanation:
+          "Quads subdivide cleanly and deform predictably for animation. Triangles on curved, subdivided surfaces produce visible shading artifacts.",
+      },
+      {
+        q: "What does Proportional Editing (O) do when you move a vertex?",
+        options: [
+          "Moves only the selected vertex, nothing else",
+          "Locks the transform to a proportional axis",
+          "Makes the transform fall off smoothly to nearby unselected vertices within a radius",
+          "Snaps the vertex to the nearest surface",
+        ],
+        answer: 2,
+        explanation:
+          "Proportional Editing creates a smooth falloff — like pulling fabric. Essential for organic shaping without selecting every vert individually.",
+      },
+      {
+        q: "An object's faces are shading dark and look inside-out. What's most likely wrong?",
+        options: [
+          "The material is set to transparent",
+          "The normals are flipped — faces are pointing inward instead of outward",
+          "The object needs a Subdivision Surface modifier",
+          "The viewport is in Wireframe mode",
+        ],
+        answer: 1,
+        explanation:
+          "Flipped normals make faces look dark because light isn't hitting the 'outside'. Fix with Mesh → Normals → Recalculate Outside (Shift+N in Edit Mode).",
+      },
     ],
     sections: [
       {
@@ -647,7 +816,7 @@ Selecting:
 **Alt+Z** — Toggle X-Ray (lets you select through the mesh, not just surface)
 
 Proportional Editing:
-**O** — Toggle Proportional Editing — transforms fall off smoothly around selected verts. Press O while transforming to adjust falloff radius with scroll wheel. Essential for organic shaping.`
+**O** — Toggle Proportional Editing — transforms fall off smoothly around selected verts. Press O while transforming to adjust falloff radius with scroll wheel. Essential for organic shaping.`,
       },
       {
         title: "Core Transform Tools",
@@ -701,7 +870,7 @@ The most important modeling operations:
 **F** — Fill: create a face or edge between selected elements
 **M** — Merge vertices (to center, to cursor, to last selected, by distance)
 **Ctrl+B** — Bevel: chamfer edges or vertices. Scroll to add segments.
-**Ctrl+M** — Mirror selected across an axis`
+**Ctrl+M** — Mirror selected across an axis`,
       },
       {
         title: "Topology Concepts That Matter",
@@ -744,7 +913,7 @@ Key concepts:
 - **Edge rings** — The edges connecting two parallel loops. Ctrl+Alt+Click selects them.
 - **Poles** — Vertices where more or fewer than 4 edges meet. 3-edge poles (stars) and 5-edge poles are sometimes necessary but should be placed carefully.
 
-**Ctrl+Alt+Shift+M** — Select Non-Manifold (broken geometry: holes, internal faces, flipped normals). Use this to diagnose mesh problems.`
+**Ctrl+Alt+Shift+M** — Select Non-Manifold (broken geometry: holes, internal faces, flipped normals). Use this to diagnose mesh problems.`,
       },
       {
         title: "Normals & Shading",
@@ -778,7 +947,7 @@ Common normal issues and fixes:
 - **Auto Smooth** — In Object Data Properties → Normals: set an angle threshold. Edges sharper than the angle show as hard; others as smooth. Best of both worlds.
 - **Weighted Normals modifier** — Computes normals based on face area. Keeps hard-surface objects looking clean after boolean operations.
 
-Overlay: **Viewport Overlays → Face Orientation** — Blue = outward-facing, Red = inward. All blue = healthy mesh.`
+Overlay: **Viewport Overlays → Face Orientation** — Blue = outward-facing, Red = inward. All blue = healthy mesh.`,
       },
       {
         title: "🔨 Mini Workshop: Box-Model a Mug",
@@ -832,9 +1001,9 @@ bpy.ops.object.join()`,
 
 The goal isn't a perfect mug. The goal is to use I, E, Ctrl+R, and Ctrl+J in context.
 
-✅ Goal: Understand that complex shapes are just primitives + Edit Mode operations`
-      }
-    ]
+✅ Goal: Understand that complex shapes are just primitives + Edit Mode operations`,
+      },
+    ],
   },
   {
     id: 5,
@@ -842,12 +1011,52 @@ The goal isn't a perfect mug. The goal is to use I, E, Ctrl+R, and Ctrl+J in con
     title: "Modifiers",
     tag: "NON-DESTRUCTIVE",
     color: "#c084fc",
-    intro: "Modifiers are Blender's superpower — non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",
+    intro:
+      "Modifiers are Blender's superpower — non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",
     quiz: [
-      { q: "You add a Bevel modifier, then a Subdivision Surface modifier. The result looks different than Subdivision then Bevel. Why?", options: ["The modifiers have conflicting settings", "Modifier order matters — the stack processes top to bottom, so each modifier receives the output of the one above it", "Only one modifier can be active at a time", "You need to Apply the first modifier before adding the second"], answer: 1, explanation: "Order is everything. Bevel → Subdivision means subdivision smooths the already-beveled edges. Subdivision → Bevel means the beveler operates on subdivided geometry. Completely different results." },
-      { q: "You want to model only the right half of a character and have the left appear automatically. Which modifier?", options: ["Array", "Mirror", "Solidify", "Screw"], answer: 1, explanation: "Mirror modifier reflects geometry across a chosen axis. Enable Clipping so vertices snap cleanly at the center seam. Model half, get the full mesh." },
-      { q: "What does the Displace modifier do?", options: ["Moves the entire object to a new location", "Uses a texture to push vertices outward along their normals", "Displaces the modifier stack order", "Creates a copy of the object at an offset"], answer: 1, explanation: "Displace reads a grayscale texture and pushes vertices along their normals by the texture's value. The fastest way to make terrain, wrinkles, or surface detail." },
-      { q: "When should you Apply a modifier rather than leaving it in the stack?", options: ["Always apply immediately — live modifiers are slow", "Only when you need to sculpt on the result, export, or manually edit the modified geometry", "Whenever you save the file", "After rendering, to save memory"], answer: 1, explanation: "Keep modifiers live as long as possible. Apply only when you need to do something the modifier stack can't support — like sculpting at the subdivided resolution." },
+      {
+        q: "You add a Bevel modifier, then a Subdivision Surface modifier. The result looks different than Subdivision then Bevel. Why?",
+        options: [
+          "The modifiers have conflicting settings",
+          "Modifier order matters — the stack processes top to bottom, so each modifier receives the output of the one above it",
+          "Only one modifier can be active at a time",
+          "You need to Apply the first modifier before adding the second",
+        ],
+        answer: 1,
+        explanation:
+          "Order is everything. Bevel → Subdivision means subdivision smooths the already-beveled edges. Subdivision → Bevel means the beveler operates on subdivided geometry. Completely different results.",
+      },
+      {
+        q: "You want to model only the right half of a character and have the left appear automatically. Which modifier?",
+        options: ["Array", "Mirror", "Solidify", "Screw"],
+        answer: 1,
+        explanation:
+          "Mirror modifier reflects geometry across a chosen axis. Enable Clipping so vertices snap cleanly at the center seam. Model half, get the full mesh.",
+      },
+      {
+        q: "What does the Displace modifier do?",
+        options: [
+          "Moves the entire object to a new location",
+          "Uses a texture to push vertices outward along their normals",
+          "Displaces the modifier stack order",
+          "Creates a copy of the object at an offset",
+        ],
+        answer: 1,
+        explanation:
+          "Displace reads a grayscale texture and pushes vertices along their normals by the texture's value. The fastest way to make terrain, wrinkles, or surface detail.",
+      },
+      {
+        q: "When should you Apply a modifier rather than leaving it in the stack?",
+        options: [
+          "Always apply immediately — live modifiers are slow",
+          "Only when you need to sculpt on the result, export, or manually edit the modified geometry",
+          "Whenever you save the file",
+          "After rendering, to save memory",
+        ],
+        answer: 1,
+        explanation:
+          "Keep modifiers live as long as possible. Apply only when you need to do something the modifier stack can't support — like sculpting at the subdivided resolution.",
+      },
     ],
     sections: [
       {
@@ -890,7 +1099,7 @@ For each modifier:
 - **Apply** — Burns the result permanently into the mesh (destructive, often irreversible)
 - **Duplicate** — Copy the modifier with same settings
 
-Keep modifiers unapplied until: you need to sculpt on the subdivided mesh, you're exporting, or you need to manually edit the resulting geometry.`
+Keep modifiers unapplied until: you need to sculpt on the subdivided mesh, you're exporting, or you need to manually edit the resulting geometry.`,
       },
       {
         title: "Generate Modifiers — Shape Creators",
@@ -950,7 +1159,7 @@ bl.solver = 'EXACT'`,
 
 **Weld** — Merge vertices within a distance threshold. Essential after Booleans.
 
-**Remesh** — Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes). Key for sculpt prep.`
+**Remesh** — Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes). Key for sculpt prep.`,
       },
       {
         title: "Deform Modifiers — Shape Changers",
@@ -1001,7 +1210,7 @@ sm.iterations = 3`,
 
 **Cast** — Push the mesh toward a sphere, cube, or cylinder shape. Good for rounding things out.
 
-**Wave** — Animate a ripple/wave across the surface. Physics-lite animation.`
+**Wave** — Animate a ripple/wave across the surface. Physics-lite animation.`,
       },
       {
         title: "Modifier Recipes for Common Goals",
@@ -1052,7 +1261,7 @@ Terrain or landscape:
 → Add Grid (high density) → Displace modifier + Noise/Musgrave texture
 
 Procedural pipe/cable following a path:
-→ Bezier curve for the path → Cylinder for cross-section → Curve modifier on cylinder → curve object as the target`
+→ Bezier curve for the path → Cylinder for cross-section → Curve modifier on cylinder → curve object as the target`,
       },
       {
         title: "🔨 Mini Workshop: Procedural Vase",
@@ -1096,9 +1305,9 @@ sd.deform_axis = 'Z'`,
 
 Explore: change the Screw angle (360° = full closed, less = open spiral), change Screw axis.
 
-✅ Goal: Understand that complex shapes = simple profiles + stacked modifiers`
-      }
-    ]
+✅ Goal: Understand that complex shapes = simple profiles + stacked modifiers`,
+      },
+    ],
   },
   {
     id: 6,
@@ -1106,12 +1315,57 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
     title: "Geometry Nodes",
     tag: "PROCEDURAL GENERATION",
     color: "#38bdf8",
-    intro: "Geometry Nodes is Blender's procedural modeling system — a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",
+    intro:
+      "Geometry Nodes is Blender's procedural modeling system — a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",
     quiz: [
-      { q: "What is a Field in Geometry Nodes?", options: ["A named input parameter on a node group", "A value that is evaluated per-element (per vertex, face, instance) rather than as a single constant", "A 2D texture used to drive geometry", "A node that stores multiple geometry outputs"], answer: 1, explanation: "Fields are functions, not values. A Position field doesn't return one point — it returns the position of each element individually. This is what makes 'distribute across a surface' possible." },
-      { q: "You want to scatter 5,000 rocks across a terrain with near-zero memory cost. What's the GN approach?", options: ["Duplicate the rock object 5,000 times manually", "Use Array modifier with count 5000", "Distribute Points on Faces → Instance on Points, with the rock as the instance", "Export and reimport as a particle system"], answer: 2, explanation: "Instances are lightweight references — 5,000 instances point to one rock mesh. Near-zero memory overhead vs 5,000 duplicates which would copy all geometry." },
-      { q: "What do Simulation Zones in Geometry Nodes allow you to do?", options: ["Simulate rendering performance before a final render", "Run per-frame iterative logic where each frame can read the previous frame's state", "Preview physics simulations faster", "Run geometry nodes only during simulation playback"], answer: 1, explanation: "Simulation Zones pass state from frame to frame — the output of frame N becomes the input of frame N+1. This enables custom physics, growth algorithms, and any iterative process." },
-      { q: "What's the key difference between using GN for hair vs the legacy particle hair system?", options: ["GN hair is slower and only works in Cycles", "GN hair is Curves-based, fully procedural, and integrated with the node graph — the legacy system uses particles and is being phased out", "GN hair requires a GPU", "There is no difference — they produce identical results"], answer: 1, explanation: "The new hair system (Blender 4.x+) treats each strand as a Curves object, which can be driven and styled procedurally in GN. Legacy particle hair is deprecated." },
+      {
+        q: "What is a Field in Geometry Nodes?",
+        options: [
+          "A named input parameter on a node group",
+          "A value that is evaluated per-element (per vertex, face, instance) rather than as a single constant",
+          "A 2D texture used to drive geometry",
+          "A node that stores multiple geometry outputs",
+        ],
+        answer: 1,
+        explanation:
+          "Fields are functions, not values. A Position field doesn't return one point — it returns the position of each element individually. This is what makes 'distribute across a surface' possible.",
+      },
+      {
+        q: "You want to scatter 5,000 rocks across a terrain with near-zero memory cost. What's the GN approach?",
+        options: [
+          "Duplicate the rock object 5,000 times manually",
+          "Use Array modifier with count 5000",
+          "Distribute Points on Faces → Instance on Points, with the rock as the instance",
+          "Export and reimport as a particle system",
+        ],
+        answer: 2,
+        explanation:
+          "Instances are lightweight references — 5,000 instances point to one rock mesh. Near-zero memory overhead vs 5,000 duplicates which would copy all geometry.",
+      },
+      {
+        q: "What do Simulation Zones in Geometry Nodes allow you to do?",
+        options: [
+          "Simulate rendering performance before a final render",
+          "Run per-frame iterative logic where each frame can read the previous frame's state",
+          "Preview physics simulations faster",
+          "Run geometry nodes only during simulation playback",
+        ],
+        answer: 1,
+        explanation:
+          "Simulation Zones pass state from frame to frame — the output of frame N becomes the input of frame N+1. This enables custom physics, growth algorithms, and any iterative process.",
+      },
+      {
+        q: "What's the key difference between using GN for hair vs the legacy particle hair system?",
+        options: [
+          "GN hair is slower and only works in Cycles",
+          "GN hair is Curves-based, fully procedural, and integrated with the node graph — the legacy system uses particles and is being phased out",
+          "GN hair requires a GPU",
+          "There is no difference — they produce identical results",
+        ],
+        answer: 1,
+        explanation:
+          "The new hair system (Blender 4.x+) treats each strand as a Curves object, which can be driven and styled procedurally in GN. Legacy particle hair is deprecated.",
+      },
     ],
     sections: [
       {
@@ -1150,7 +1404,7 @@ When to reach for Geometry Nodes:
 - **Simulation** (Blender 4.1+ Simulation Zones run physics inside GN)
 - **Anything you want to animate that isn't keyframeable with standard tools**
 
-Access: Select an object → **Properties → Modifier → Add → Geometry Nodes**. This creates a GN modifier and opens the Geometry Node Editor.`
+Access: Select an object → **Properties → Modifier → Add → Geometry Nodes**. This creates a GN modifier and opens the Geometry Node Editor.`,
       },
       {
         title: "Core Concepts: Fields, Instances, Attributes",
@@ -1186,7 +1440,7 @@ for val in mesh.attributes["my_weight"].data:
 
 **Attributes** — Named data stored per-element (vertex, edge, face, instance). Position, normal, ID, custom names. You can create, read, and write attributes. They flow through the graph.
 
-**Domains** — Where attributes live: Vertex, Edge, Face, Face Corner, Spline, Instance. Nodes can transfer data between domains.`
+**Domains** — Where attributes live: Vertex, Edge, Face, Face Corner, Spline, Instance. Nodes can transfer data between domains.`,
       },
       {
         title: "Key Node Categories",
@@ -1250,7 +1504,7 @@ mix_node    = add_node('ShaderNodeMix',                    0, -600)`,
 **Input**:
 - **Position** — The world position of each element (a field)
 - **Index** — The integer index of each element
-- **Named Attribute** — Read a custom attribute by name`
+- **Named Attribute** — Read a custom attribute by name`,
       },
       {
         title: "Simulation Zones (Blender 4.1+)",
@@ -1294,7 +1548,7 @@ What this unlocks:
 - Reaction-diffusion patterns
 - Any iterative process
 
-This is advanced but understanding it exists changes what you think is possible.`
+This is advanced but understanding it exists changes what you think is possible.`,
       },
       {
         title: "Hair System (Geometry Nodes Based)",
@@ -1332,7 +1586,7 @@ In Geometry Nodes, you can procedurally generate hair by:
 - Creating curves at those points with defined length/direction
 - Adding noise for variation
 
-Key nodes for hair: **Distribute Points on Faces**, **Curve Line**, **Set Curve Normal**, **Noise Texture** (for random variation), **Resample Curve** (for render resolution).`
+Key nodes for hair: **Distribute Points on Faces**, **Curve Line**, **Set Curve Normal**, **Noise Texture** (for random variation), **Resample Curve** (for render resolution).`,
       },
       {
         title: "🔨 Mini Workshop: Scatter Objects on a Surface",
@@ -1385,9 +1639,9 @@ You now have hundreds of spheres scattered on the grid — procedurally.
 
 7. Add **Rotate Instances** node after Instance on Points → connect a **Random Value** (Vector) to Rotation for random rotation.
 
-✅ Goal: Understand the Distribute → Instance → Modify pipeline — the foundation of 80% of GN work`
-      }
-    ]
+✅ Goal: Understand the Distribute → Instance → Modify pipeline — the foundation of 80% of GN work`,
+      },
+    ],
   },
   {
     id: 7,
@@ -1395,12 +1649,57 @@ You now have hundreds of spheres scattered on the grid — procedurally.
     title: "Materials & Shading",
     tag: "SURFACE APPEARANCE",
     color: "#f472b6",
-    intro: "Materials define what an object is made of — metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender 5.1 uses both Cycles and EEVEE Next, each with full Principled BSDF support.",
+    intro:
+      "Materials define what an object is made of — metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender 5.1 uses both Cycles and EEVEE Next, each with full Principled BSDF support.",
     quiz: [
-      { q: "What does setting Metallic to 0.5 on the Principled BSDF produce?", options: ["A semi-metallic alloy material", "An unrealistic result — Metallic should almost always be 0 or 1, not in-between", "A brushed metal appearance", "A material halfway between plastic and chrome"], answer: 1, explanation: "Real-world materials are either conductors (metals, Metallic=1) or dielectrics (everything else, Metallic=0). Values in between don't correspond to real materials and look wrong." },
-      { q: "What does the Roughness parameter control on Principled BSDF?", options: ["How rough the geometry surface is", "Whether the surface reflects light as a sharp mirror (0) or as a blurry matte (1)", "The amount of surface displacement", "How transparent the material is"], answer: 1, explanation: "Roughness controls microsurface scattering. 0 = perfect mirror, 1 = completely diffuse matte. Most real surfaces fall between 0.3–0.8." },
-      { q: "You want rock-coloured variation that's organic and non-repeating, with no image texture. Which node combination works?", options: ["Image Texture → Color Mix", "Noise Texture → ColorRamp → Base Color", "Voronoi Texture → Bump → Normal", "Wave Texture → Fresnel → Emission"], answer: 1, explanation: "Noise Texture generates infinite organic variation. ColorRamp remaps the 0–1 output to any set of colours. Connect to Base Color for instant procedural surface variation." },
-      { q: "What is the Fresnel node used for in a shader?", options: ["Controlling how transparent glass is at different angles", "Making surfaces more reflective at grazing angles — the physical phenomenon of edge highlights", "Generating a rainbow spectrum effect", "Setting the index of refraction for transmission"], answer: 1, explanation: "Fresnel models how reflectivity increases at grazing angles — exactly what makes real surfaces like plastic and water look realistic. Use as a Mix Shader factor for physically correct blending." },
+      {
+        q: "What does setting Metallic to 0.5 on the Principled BSDF produce?",
+        options: [
+          "A semi-metallic alloy material",
+          "An unrealistic result — Metallic should almost always be 0 or 1, not in-between",
+          "A brushed metal appearance",
+          "A material halfway between plastic and chrome",
+        ],
+        answer: 1,
+        explanation:
+          "Real-world materials are either conductors (metals, Metallic=1) or dielectrics (everything else, Metallic=0). Values in between don't correspond to real materials and look wrong.",
+      },
+      {
+        q: "What does the Roughness parameter control on Principled BSDF?",
+        options: [
+          "How rough the geometry surface is",
+          "Whether the surface reflects light as a sharp mirror (0) or as a blurry matte (1)",
+          "The amount of surface displacement",
+          "How transparent the material is",
+        ],
+        answer: 1,
+        explanation:
+          "Roughness controls microsurface scattering. 0 = perfect mirror, 1 = completely diffuse matte. Most real surfaces fall between 0.3–0.8.",
+      },
+      {
+        q: "You want rock-coloured variation that's organic and non-repeating, with no image texture. Which node combination works?",
+        options: [
+          "Image Texture → Color Mix",
+          "Noise Texture → ColorRamp → Base Color",
+          "Voronoi Texture → Bump → Normal",
+          "Wave Texture → Fresnel → Emission",
+        ],
+        answer: 1,
+        explanation:
+          "Noise Texture generates infinite organic variation. ColorRamp remaps the 0–1 output to any set of colours. Connect to Base Color for instant procedural surface variation.",
+      },
+      {
+        q: "What is the Fresnel node used for in a shader?",
+        options: [
+          "Controlling how transparent glass is at different angles",
+          "Making surfaces more reflective at grazing angles — the physical phenomenon of edge highlights",
+          "Generating a rainbow spectrum effect",
+          "Setting the index of refraction for transmission",
+        ],
+        answer: 1,
+        explanation:
+          "Fresnel models how reflectivity increases at grazing angles — exactly what makes real surfaces like plastic and water look realistic. Use as a Mix Shader factor for physically correct blending.",
+      },
     ],
     sections: [
       {
@@ -1440,7 +1739,7 @@ bsdf.inputs["Subsurface Weight"].default_value = 0.0    # skin/wax light scatter
 **Sheen Weight** — Soft retroreflective sheen (fabric, velvet, skin at grazing angles).
 **Emission Color + Strength** — Makes the surface glow and emit light.
 **Alpha** — Transparency (set Blend Mode in Material Settings to Alpha Blend or Alpha Clip).
-**Subsurface Weight** — Light scatters below the surface (skin, wax, marble). Set Subsurface Radius for color bleed.`
+**Subsurface Weight** — Light scatters below the surface (skin, wax, marble). Set Subsurface Radius for color bleed.`,
       },
       {
         title: "The Shader Editor",
@@ -1497,7 +1796,7 @@ Essential utility nodes:
 - **Mix Color / Mix Shader** — Blend two colors or two complete shaders.
 - **Fresnel** — More reflective at grazing angles. Physically correct, adds realism.
 - **Texture Coordinate** — Controls how textures map: UV (uses UV map), Object (texture fixed to object), Generated (auto), World (fixed in world space).
-- **Mapping** — Translate/rotate/scale a texture coordinate. Plug Texture Coordinate → Mapping → Texture.`
+- **Mapping** — Translate/rotate/scale a texture coordinate. Plug Texture Coordinate → Mapping → Texture.`,
       },
       {
         title: "EEVEE Next vs Cycles — Material Considerations",
@@ -1549,7 +1848,7 @@ EEVEE Next caveats vs Cycles:
 
 For most use cases (product shots, architectural viz, motion graphics), EEVEE Next now produces results that were previously Cycles-only, in a fraction of the render time.
 
-Shader nodes that are Cycles-only: some advanced volume shaders, true caustics paths. Everything else is compatible.`
+Shader nodes that are Cycles-only: some advanced volume shaders, true caustics paths. Everything else is compatible.`,
       },
       {
         title: "Material Recipes for Common Surfaces",
@@ -1607,7 +1906,7 @@ bsdf.inputs["Roughness"].default_value           = 0.5`,
 
 **Emissive neon**:
 → Emission Color: bright saturated color | Strength: 5–20
-→ Combine with Bloom in post-processing (Compositor or EEVEE Bloom)`
+→ Combine with Bloom in post-processing (Compositor or EEVEE Bloom)`,
       },
       {
         title: "🔨 Mini Workshop: 3 Materials, 3 Surfaces",
@@ -1642,9 +1941,9 @@ Then experiment:
 - Add a ColorRamp between a Noise Texture and Base Color on the rubber sphere
 - Set the glass sphere's Base Color to a slight blue tint
 
-✅ Goal: Understand that Principled BSDF sliders = material identity`
-      }
-    ]
+✅ Goal: Understand that Principled BSDF sliders = material identity`,
+      },
+    ],
   },
   {
     id: 8,
@@ -1652,12 +1951,57 @@ Then experiment:
     title: "Lighting",
     tag: "ILLUMINATION",
     color: "#fbbf24",
-    intro: "Lighting is half the art. The same object in bad lighting looks terrible. Blender 5.1 with EEVEE Next gives you cinema-grade lighting in real time.",
+    intro:
+      "Lighting is half the art. The same object in bad lighting looks terrible. Blender 5.1 with EEVEE Next gives you cinema-grade lighting in real time.",
     quiz: [
-      { q: "Which light type produces the softest shadows, and why?", options: ["Point — because it emits in all directions", "Sun — because it's infinitely far away", "Area — because it's a large surface emitter; larger size = softer shadows", "Spot — because of the Blend parameter"], answer: 2, explanation: "Shadow softness is determined by apparent light source size. Area lights are physical surfaces — a 2m area light produces much softer shadows than a 0.1m point." },
-      { q: "An HDRI in the World settings does what?", options: ["Adds a background image that doesn't affect lighting", "Acts as both environment background and light source — a 360° photograph that illuminates the scene", "Only affects viewport display, not renders", "Creates a dome mesh around the scene"], answer: 1, explanation: "HDRI (High Dynamic Range Image) provides realistic omnidirectional lighting from a real-world photograph. It's both the background you see and the light that hits your objects." },
-      { q: "In a 3-point lighting setup, what is the Fill Light for?", options: ["It fills the frame with light uniformly", "It's the primary key light, positioned in front", "It softens the harsh shadows created by the key light from the opposite side", "It creates a rim highlight on the back edge of the subject"], answer: 2, explanation: "Fill light reduces contrast from the key light. It's placed on the opposite side at lower intensity — typically cool-toned vs a warm key. Without it, shadow areas go completely dark." },
-      { q: "You rotate a Sun light object in the scene. Its position is 100 units away from the subject. How does this affect the lighting?", options: ["Moving the sun closer makes it brighter", "Position has no effect — only rotation matters for Sun lights", "Moving it further makes shadows softer", "The sun must be within 10 units to cast shadows"], answer: 1, explanation: "Sun lights simulate a light source at infinite distance. Their rays are perfectly parallel regardless of the object's position in the scene — only rotation determines the light direction." },
+      {
+        q: "Which light type produces the softest shadows, and why?",
+        options: [
+          "Point — because it emits in all directions",
+          "Sun — because it's infinitely far away",
+          "Area — because it's a large surface emitter; larger size = softer shadows",
+          "Spot — because of the Blend parameter",
+        ],
+        answer: 2,
+        explanation:
+          "Shadow softness is determined by apparent light source size. Area lights are physical surfaces — a 2m area light produces much softer shadows than a 0.1m point.",
+      },
+      {
+        q: "An HDRI in the World settings does what?",
+        options: [
+          "Adds a background image that doesn't affect lighting",
+          "Acts as both environment background and light source — a 360° photograph that illuminates the scene",
+          "Only affects viewport display, not renders",
+          "Creates a dome mesh around the scene",
+        ],
+        answer: 1,
+        explanation:
+          "HDRI (High Dynamic Range Image) provides realistic omnidirectional lighting from a real-world photograph. It's both the background you see and the light that hits your objects.",
+      },
+      {
+        q: "In a 3-point lighting setup, what is the Fill Light for?",
+        options: [
+          "It fills the frame with light uniformly",
+          "It's the primary key light, positioned in front",
+          "It softens the harsh shadows created by the key light from the opposite side",
+          "It creates a rim highlight on the back edge of the subject",
+        ],
+        answer: 2,
+        explanation:
+          "Fill light reduces contrast from the key light. It's placed on the opposite side at lower intensity — typically cool-toned vs a warm key. Without it, shadow areas go completely dark.",
+      },
+      {
+        q: "You rotate a Sun light object in the scene. Its position is 100 units away from the subject. How does this affect the lighting?",
+        options: [
+          "Moving the sun closer makes it brighter",
+          "Position has no effect — only rotation matters for Sun lights",
+          "Moving it further makes shadows softer",
+          "The sun must be within 10 units to cast shadows",
+        ],
+        answer: 1,
+        explanation:
+          "Sun lights simulate a light source at infinite distance. Their rays are perfectly parallel regardless of the object's position in the scene — only rotation determines the light direction.",
+      },
     ],
     sections: [
       {
@@ -1701,7 +2045,7 @@ area.data.size_y = 1.0`,
 
 **Area** — Rectangular or disc light source. Softest shadows, most photorealistic. Simulates windows, softboxes, diffuse panels. Larger = softer shadows. Requires higher power values (500W–5000W typical).
 
-**HDRI (World Environment)** — A 360° photograph used as both background and light source. Instantly realistic environmental lighting. Found in: **World Properties → Surface → Background → Environment Texture**. Download free HDRIs from Poly Haven.`
+**HDRI (World Environment)** — A 360° photograph used as both background and light source. Instantly realistic environmental lighting. Found in: **World Properties → Surface → Background → Environment Texture**. Download free HDRIs from Poly Haven.`,
       },
       {
         title: "Key Light Settings",
@@ -1756,7 +2100,7 @@ three_point()`,
 3. **Rim / Back Light** — Behind the subject, creates a highlight edge that separates it from the background.
 
 **Light Linking** (Blender 4.1+):
-In the **Light Properties → Light Linking panel**, specify exactly which objects a light affects. One light can illuminate the subject but not the background. Essential for controlled product and portrait lighting.`
+In the **Light Properties → Light Linking panel**, specify exactly which objects a light affects. One light can illuminate the subject but not the background. Essential for controlled product and portrait lighting.`,
       },
       {
         title: "HDRI Lighting Setup",
@@ -1809,7 +2153,7 @@ Controlling HDRI appearance:
 - **World Strength** — Global exposure of the environment
 - **Background visibility** — Uncheck "Show Background" in Render Properties if you want the HDRI for light only, not visible as background
 
-Combining HDRI + additional lights: the HDRI provides ambient/fill, your placed lights add controlled highlights and shadows. Best of both approaches.`
+Combining HDRI + additional lights: the HDRI provides ambient/fill, your placed lights add controlled highlights and shadows. Best of both approaches.`,
       },
       {
         title: "🔨 Mini Workshop: Light Your Subject",
@@ -1857,9 +2201,9 @@ Compare the difference between:
 
 Observe: how does shadow softness change with light size? How does light color temperature affect mood?
 
-✅ Goal: Be able to diagnose why a render looks bad — and fix it with lighting`
-      }
-    ]
+✅ Goal: Be able to diagnose why a render looks bad — and fix it with lighting`,
+      },
+    ],
   },
   {
     id: 9,
@@ -1867,12 +2211,52 @@ Observe: how does shadow softness change with light size? How does light color t
     title: "Sculpt Mode",
     tag: "ORGANIC MODELING",
     color: "#34d399",
-    intro: "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms — characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",
+    intro:
+      "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms — characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",
     quiz: [
-      { q: "What is Dyntopo (Dynamic Topology) best used for?", options: ["Final production sculpts with clean topology", "Early exploration — it adds/removes geometry on the fly so you can pull out details without pre-subdividing", "Retopologising a sculpt for animation", "Baking normal maps"], answer: 1, explanation: "Dyntopo is for messy exploration. It keeps adding triangles wherever you sculpt. The downside is chaotic topology — use it early, then Remesh before fine detail." },
-      { q: "Which sculpt brush pulls out tendrils of geometry as you drag?", options: ["Grab", "Inflate", "Snake Hook", "Elastic Deform"], answer: 2, explanation: "Snake Hook pulls geometry out as you drag, leaving a trail. Ideal for tentacles, horns, tails, and hair locks. Grab moves a chunk of mesh but doesn't elongate it." },
-      { q: "What does Remesh do to a sculpt?", options: ["Removes all geometry above a polygon limit", "Rebuilds the entire mesh surface with clean, uniform topology", "Applies all shape keys and resets the base mesh", "Smooths the entire mesh by one level"], answer: 1, explanation: "Remesh discards the existing topology and rebuilds it uniformly — either as voxels or quads. Use it to clean up chaotic Dyntopo topology before adding fine detail with Multires." },
-      { q: "You want to sculpt fine detail on the face without affecting the body. What's the right tool?", options: ["Decrease brush size and be careful", "Apply a Subdivision Surface modifier first", "Paint a Mask on the body to protect it, then sculpt freely on the face", "Separate the face into its own object"], answer: 2, explanation: "Masking paints a protected region. Masked vertices are locked — you can sculpt freely on the unmasked face without any risk of accidentally affecting the body." },
+      {
+        q: "What is Dyntopo (Dynamic Topology) best used for?",
+        options: [
+          "Final production sculpts with clean topology",
+          "Early exploration — it adds/removes geometry on the fly so you can pull out details without pre-subdividing",
+          "Retopologising a sculpt for animation",
+          "Baking normal maps",
+        ],
+        answer: 1,
+        explanation:
+          "Dyntopo is for messy exploration. It keeps adding triangles wherever you sculpt. The downside is chaotic topology — use it early, then Remesh before fine detail.",
+      },
+      {
+        q: "Which sculpt brush pulls out tendrils of geometry as you drag?",
+        options: ["Grab", "Inflate", "Snake Hook", "Elastic Deform"],
+        answer: 2,
+        explanation:
+          "Snake Hook pulls geometry out as you drag, leaving a trail. Ideal for tentacles, horns, tails, and hair locks. Grab moves a chunk of mesh but doesn't elongate it.",
+      },
+      {
+        q: "What does Remesh do to a sculpt?",
+        options: [
+          "Removes all geometry above a polygon limit",
+          "Rebuilds the entire mesh surface with clean, uniform topology",
+          "Applies all shape keys and resets the base mesh",
+          "Smooths the entire mesh by one level",
+        ],
+        answer: 1,
+        explanation:
+          "Remesh discards the existing topology and rebuilds it uniformly — either as voxels or quads. Use it to clean up chaotic Dyntopo topology before adding fine detail with Multires.",
+      },
+      {
+        q: "You want to sculpt fine detail on the face without affecting the body. What's the right tool?",
+        options: [
+          "Decrease brush size and be careful",
+          "Apply a Subdivision Surface modifier first",
+          "Paint a Mask on the body to protect it, then sculpt freely on the face",
+          "Separate the face into its own object",
+        ],
+        answer: 2,
+        explanation:
+          "Masking paints a protected region. Masked vertices are locked — you can sculpt freely on the unmasked face without any risk of accidentally affecting the body.",
+      },
     ],
     sections: [
       {
@@ -1909,7 +2293,7 @@ bpy.context.scene.tool_settings.sculpt.detail_size = 12  # lower = finer detail`
 
 **Remesh** — Rebuilds the entire mesh with uniform topology. In Sculpt Mode header: **Remesh** with a Voxel Size setting. Use this to re-even topology after Dyntopo gets too messy. Also available as the **Remesh modifier** for non-destructive use.
 
-Typical workflow: rough form with Dyntopo → Remesh to clean topology → Multires for fine detail.`
+Typical workflow: rough form with Dyntopo → Remesh to clean topology → Multires for fine detail.`,
       },
       {
         title: "Core Sculpt Brushes",
@@ -1953,7 +2337,7 @@ brush.direction     = 'ADD'  # 'ADD' = push out, 'SUBTRACT' = push in (Ctrl inve
 
 **F** — Resize brush (drag)
 **Shift+F** — Change strength (drag)
-**Ctrl+drag** — Invert brush direction (push → pull)`
+**Ctrl+drag** — Invert brush direction (push → pull)`,
       },
       {
         title: "Masks & Face Sets",
@@ -1992,7 +2376,7 @@ if ".sculpt_face_set" in mesh.attributes:
 - **Alt+H** — Reveal all hidden face sets
 - Right-click on a face set color to rename/select
 
-Use Face Sets to: isolate a head from a body for sculpting, protect finished areas while working on others, drive procedural effects in Geometry Nodes.`
+Use Face Sets to: isolate a head from a body for sculpting, protect finished areas while working on others, drive procedural effects in Geometry Nodes.`,
       },
       {
         title: "🔨 Mini Workshop: Sculpt a Rock",
@@ -2043,9 +2427,9 @@ bpy.ops.object.mode_set(mode='SCULPT')`,
 
 Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster.
 
-✅ Goal: Organic results in under 10 minutes. Sculpting is fast once you stop being precious.`
-      }
-    ]
+✅ Goal: Organic results in under 10 minutes. Sculpting is fast once you stop being precious.`,
+      },
+    ],
   },
   {
     id: 10,
@@ -2053,12 +2437,57 @@ Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster
     title: "Boolean & Hard Surface",
     tag: "PRECISION MODELING",
     color: "#60a5fa",
-    intro: "Hard surface modeling covers anything manufactured: machines, architecture, vehicles, electronics. The core technique is combining precise primitives using Boolean operations, then refining with bevels and subdivision.",
+    intro:
+      "Hard surface modeling covers anything manufactured: machines, architecture, vehicles, electronics. The core technique is combining precise primitives using Boolean operations, then refining with bevels and subdivision.",
     quiz: [
-      { q: "What does a Boolean Difference operation do?", options: ["Merges two objects into one combined shape", "Subtracts the cutter object's volume from the base object", "Keeps only the overlapping volume between two objects", "Smooths the intersection between two objects"], answer: 1, explanation: "Difference subtracts — like a cookie cutter. The cutter carves its shape out of the base. The cutter object is usually hidden after the operation, keeping the cut live and editable." },
-      { q: "Why add a Bevel modifier after Booleans on a hard surface object?", options: ["To fix the topology that Booleans break", "To add rounded edge highlights — without them, boolean cuts look unrealistically sharp", "To merge the cutter object permanently", "Bevel is required for Cycles to render hard edges correctly"], answer: 1, explanation: "Real manufactured objects have micro-bevels on their edges — they catch light and reveal form. A Bevel modifier with Angle Limit adds these highlights procedurally without touching the mesh." },
-      { q: "What is the purpose of the Weld modifier after a Boolean operation?", options: ["It merges the cutter and base into one object", "It cleans up near-zero-distance duplicate vertices left by the Boolean solver", "It smooths the mesh around the boolean cut", "It applies the boolean permanently"], answer: 1, explanation: "Boolean operations can leave coincident vertices (two verts in the exact same position) at cut edges. Weld merges vertices within a threshold distance, cleaning up the geometry." },
-      { q: "In the 'box cutter' hard surface workflow, why are boolean cutters kept hidden rather than deleted?", options: ["Hidden objects use less memory", "Keeping cutters alive means the boolean cut remains editable — move or reshape the cutter later to adjust the cut non-destructively", "Blender requires cutters to stay in the scene to render", "Deleted cutters would also delete the boolean modifier"], answer: 1, explanation: "This is the core of non-destructive hard surface work. H hides the cutter but the Boolean modifier still references it. You can unhide it later, reshape it, and the cut updates automatically." },
+      {
+        q: "What does a Boolean Difference operation do?",
+        options: [
+          "Merges two objects into one combined shape",
+          "Subtracts the cutter object's volume from the base object",
+          "Keeps only the overlapping volume between two objects",
+          "Smooths the intersection between two objects",
+        ],
+        answer: 1,
+        explanation:
+          "Difference subtracts — like a cookie cutter. The cutter carves its shape out of the base. The cutter object is usually hidden after the operation, keeping the cut live and editable.",
+      },
+      {
+        q: "Why add a Bevel modifier after Booleans on a hard surface object?",
+        options: [
+          "To fix the topology that Booleans break",
+          "To add rounded edge highlights — without them, boolean cuts look unrealistically sharp",
+          "To merge the cutter object permanently",
+          "Bevel is required for Cycles to render hard edges correctly",
+        ],
+        answer: 1,
+        explanation:
+          "Real manufactured objects have micro-bevels on their edges — they catch light and reveal form. A Bevel modifier with Angle Limit adds these highlights procedurally without touching the mesh.",
+      },
+      {
+        q: "What is the purpose of the Weld modifier after a Boolean operation?",
+        options: [
+          "It merges the cutter and base into one object",
+          "It cleans up near-zero-distance duplicate vertices left by the Boolean solver",
+          "It smooths the mesh around the boolean cut",
+          "It applies the boolean permanently",
+        ],
+        answer: 1,
+        explanation:
+          "Boolean operations can leave coincident vertices (two verts in the exact same position) at cut edges. Weld merges vertices within a threshold distance, cleaning up the geometry.",
+      },
+      {
+        q: "In the 'box cutter' hard surface workflow, why are boolean cutters kept hidden rather than deleted?",
+        options: [
+          "Hidden objects use less memory",
+          "Keeping cutters alive means the boolean cut remains editable — move or reshape the cutter later to adjust the cut non-destructively",
+          "Blender requires cutters to stay in the scene to render",
+          "Deleted cutters would also delete the boolean modifier",
+        ],
+        answer: 1,
+        explanation:
+          "This is the core of non-destructive hard surface work. H hides the cutter but the Boolean modifier still references it. You can unhide it later, reshape it, and the cut updates automatically.",
+      },
     ],
     sections: [
       {
@@ -2104,7 +2533,7 @@ After a Boolean, always add a **Weld modifier** to clean up near-zero-distance v
 
 **Exact solver** vs **Fast solver**: Exact is more accurate (use for complex overlapping cuts). Fast is quicker for simple operations.
 
-**Bool Tool addon** (enable in Preferences → Add-ons): adds Ctrl+Minus for quick difference boolean, Ctrl+Plus for union. Faster workflow.`
+**Bool Tool addon** (enable in Preferences → Add-ons): adds Ctrl+Minus for quick difference boolean, Ctrl+Plus for union. Faster workflow.`,
       },
       {
         title: "Hard Surface Shading Techniques",
@@ -2149,7 +2578,7 @@ bpy.ops.object.shade_smooth_by_angle(angle=0.523599)  # 30°`,
 
 **Bevel Weight** — Per-edge control over how much the Bevel modifier affects each edge. Mark via Ctrl+E → Edge Bevel Weight. Lets you have some edges fully beveled and others untouched.
 
-**Shade Auto Smooth** (Object right-click) — Set a degree threshold. Edges sharper than the threshold show as hard; gentler ones shade smooth. No geometry needed.`
+**Shade Auto Smooth** (Object right-click) — Set a degree threshold. Edges sharper than the threshold show as hard; gentler ones shade smooth. No geometry needed.`,
       },
       {
         title: "The Box Cutter Workflow",
@@ -2202,7 +2631,7 @@ The key insight: you never manually model the holes, recesses, or panel lines. T
 **Recommended addons** for professional hard surface work:
 - **HardOps** — Boolean management, shading tools, workflow shortcuts
 - **BoxCutter** — Interactive boolean drawing directly in the viewport
-- **MESHmachine** — Edge flow and bevel management after booleans`
+- **MESHmachine** — Edge flow and bevel management after booleans`,
       },
       {
         title: "🔨 Mini Workshop: Sci-Fi Wall Panel",
@@ -2261,9 +2690,9 @@ Now add cuts:
 
 Add an Area light at a low grazing angle to show the surface detail dramatically.
 
-✅ Goal: A complex-looking panel built entirely from primitive booleans`
-      }
-    ]
+✅ Goal: A complex-looking panel built entirely from primitive booleans`,
+      },
+    ],
   },
   {
     id: 11,
@@ -2271,12 +2700,57 @@ Add an Area light at a low grazing angle to show the surface detail dramatically
     title: "Physics & Simulation",
     tag: "DYNAMICS",
     color: "#fb923c",
-    intro: "Blender includes several simulation systems for dynamics, fabric, fluids, fire, smoke, and particles. Each is its own domain. Knowing which system handles which problem is the skill.",
+    intro:
+      "Blender includes several simulation systems for dynamics, fabric, fluids, fire, smoke, and particles. Each is its own domain. Knowing which system handles which problem is the skill.",
     quiz: [
-      { q: "In Rigid Body simulation, what is a Passive object?", options: ["An object that moves slowly due to high mass", "A static collider — it doesn't move but other active objects bounce off it", "An object that absorbs simulation forces without responding", "An object that has been baked and can't be changed"], answer: 1, explanation: "Passive rigid bodies are immovable colliders — floors, walls, ramps. Active rigid bodies are dynamically simulated. Every simulation needs at least one passive collider or objects fall forever." },
-      { q: "What does a Pin Group do in Cloth simulation?", options: ["Pins the entire cloth to a fixed position", "Marks vertices that stay fixed during simulation while the rest simulates freely", "Prevents the cloth from self-colliding", "Locks the cloth modifier so it can't be changed"], answer: 1, explanation: "Create a vertex group, assign the verts you want fixed (e.g. the top of a tablecloth), then set it as the Pin Group. Those verts won't move — everything else drapes naturally." },
-      { q: "In Mantaflow, what is the Domain object?", options: ["The object that emits fluid or smoke", "The bounding box that defines where the simulation exists — fluid/smoke cannot leave it", "The collision object that fluid bounces off", "The camera through which the simulation is rendered"], answer: 1, explanation: "The Domain is the simulation volume. Everything inside it can participate in the sim. Make it large enough to contain the full effect — fluid that reaches the boundary gets clipped." },
-      { q: "You want fire and smoke. Which Mantaflow domain type and flow type do you use?", options: ["Domain: Liquid, Flow: Inflow", "Domain: Gas, Flow: Fire+Smoke or Fire", "Domain: Gas, Flow: Liquid", "Domain: Rigid, Flow: Smoke"], answer: 1, explanation: "Gas domain handles volumetric effects — smoke, fire, explosions. Set the Flow object's type to Fire, Smoke, or Fire+Smoke. Liquid domain is for water-like simulations." },
+      {
+        q: "In Rigid Body simulation, what is a Passive object?",
+        options: [
+          "An object that moves slowly due to high mass",
+          "A static collider — it doesn't move but other active objects bounce off it",
+          "An object that absorbs simulation forces without responding",
+          "An object that has been baked and can't be changed",
+        ],
+        answer: 1,
+        explanation:
+          "Passive rigid bodies are immovable colliders — floors, walls, ramps. Active rigid bodies are dynamically simulated. Every simulation needs at least one passive collider or objects fall forever.",
+      },
+      {
+        q: "What does a Pin Group do in Cloth simulation?",
+        options: [
+          "Pins the entire cloth to a fixed position",
+          "Marks vertices that stay fixed during simulation while the rest simulates freely",
+          "Prevents the cloth from self-colliding",
+          "Locks the cloth modifier so it can't be changed",
+        ],
+        answer: 1,
+        explanation:
+          "Create a vertex group, assign the verts you want fixed (e.g. the top of a tablecloth), then set it as the Pin Group. Those verts won't move — everything else drapes naturally.",
+      },
+      {
+        q: "In Mantaflow, what is the Domain object?",
+        options: [
+          "The object that emits fluid or smoke",
+          "The bounding box that defines where the simulation exists — fluid/smoke cannot leave it",
+          "The collision object that fluid bounces off",
+          "The camera through which the simulation is rendered",
+        ],
+        answer: 1,
+        explanation:
+          "The Domain is the simulation volume. Everything inside it can participate in the sim. Make it large enough to contain the full effect — fluid that reaches the boundary gets clipped.",
+      },
+      {
+        q: "You want fire and smoke. Which Mantaflow domain type and flow type do you use?",
+        options: [
+          "Domain: Liquid, Flow: Inflow",
+          "Domain: Gas, Flow: Fire+Smoke or Fire",
+          "Domain: Gas, Flow: Liquid",
+          "Domain: Rigid, Flow: Smoke",
+        ],
+        answer: 1,
+        explanation:
+          "Gas domain handles volumetric effects — smoke, fire, explosions. Set the Flow object's type to Fire, Smoke, or Fire+Smoke. Liquid domain is for water-like simulations.",
+      },
     ],
     sections: [
       {
@@ -2323,7 +2797,7 @@ Key settings:
 **Scene → Rigid Body World → Cache** — Bake the simulation to frames so it plays back reliably.
 **Ctrl+A** — Apply the simulation result as keyframes if you need to edit the baked motion.
 
-Use for: falling objects, breaking things, stacking simulations, pinball physics, dominos.`
+Use for: falling objects, breaking things, stacking simulations, pinball physics, dominos.`,
       },
       {
         title: "Cloth Simulation",
@@ -2369,7 +2843,7 @@ Key settings:
 
 Use for: draped tablecloths, clothing on a character, flags, curtains, falling fabric.
 
-**Bake**: Properties → Physics → Cloth → Cache → Bake. Always bake before rendering.`
+**Bake**: Properties → Physics → Cloth → Cache → Bake. Always bake before rendering.`,
       },
       {
         title: "Fluid & Gas Simulation (Mantaflow)",
@@ -2423,7 +2897,7 @@ Setup:
 
 **Effectors**: objects that redirect fluid flow (obstacles). Add them via Physics → Fluid → Effector.
 
-Cache and bake before rendering. Gas sims especially benefit from baking to disk.`
+Cache and bake before rendering. Gas sims especially benefit from baking to disk.`,
       },
       {
         title: "Particles, Hair & Force Fields",
@@ -2483,7 +2957,7 @@ turb.field.size     = 1.0`,
 
 Force fields affect particles, cloth, soft body, and rigid bodies. Layer multiple fields for complex motion.
 
-**Soft Body** (Physics → Soft Body): elastic, bouncy deformation. Objects squish and jiggle. Use for bouncy logos, jello, organic squash and stretch.`
+**Soft Body** (Physics → Soft Body): elastic, bouncy deformation. Objects squish and jiggle. Use for bouncy logos, jello, organic squash and stretch.`,
       },
       {
         title: "🔨 Mini Workshop: Falling Cubes",
@@ -2530,9 +3004,9 @@ wind.rotation_euler[0] = 1.5708  # point sideways`,
 5. Try: change Bounciness on a cube to 0.8 and watch it bounce.
 6. Add **Shift+A → Force Field → Wind** — point it sideways. The cubes now drift.
 
-✅ Goal: See that simulation is a system of parameters — not keyframes — and understand how to compose it`
-      }
-    ]
+✅ Goal: See that simulation is a system of parameters — not keyframes — and understand how to compose it`,
+      },
+    ],
   },
   {
     id: 12,
@@ -2540,12 +3014,57 @@ wind.rotation_euler[0] = 1.5708  # point sideways`,
     title: "Rendering",
     tag: "OUTPUT",
     color: "#a78bfa",
-    intro: "Rendering converts your 3D scene into a final image or animation. Blender 5.1 has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",
+    intro:
+      "Rendering converts your 3D scene into a final image or animation. Blender 5.1 has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",
     quiz: [
-      { q: "Your scene has light focusing through a glass lens creating a caustic pattern on the table. Which renderer handles this correctly?", options: ["EEVEE Next — it's faster so it can compute more effects", "Cycles — it physically traces light rays, including caustics", "Workbench — it's designed for optical effects", "Both render caustics identically"], answer: 1, explanation: "Caustics require physically tracing light rays through refractive/reflective surfaces — something only path tracers like Cycles do correctly. EEVEE Next approximates many effects but not true caustics." },
-      { q: "What does enabling Denoising in Cycles allow you to do?", options: ["Render at full quality with zero noise regardless of sample count", "Use far fewer samples while still getting a clean result — AI removes remaining noise", "Denoise the audio track of an animation", "Remove compression artifacts from imported image textures"], answer: 1, explanation: "Denoising (OIDN or OptiX) is a trained model that removes Monte Carlo noise from low-sample Cycles renders. 64 samples + denoising can rival 512 samples without it." },
-      { q: "You're rendering an animation of a motion graphic logo. Speed matters more than caustics. Which engine?", options: ["Cycles — it's the only production-quality renderer", "EEVEE Next — near-instant frames, still high quality for motion graphics", "Workbench — designed for animation", "They take the same time for animations"], answer: 1, explanation: "EEVEE Next is a real-time path-traced renderer — frame times are orders of magnitude faster than Cycles for animation. For motion graphics, stylised work, and non-caustics scenes, it's the right choice." },
-      { q: "What is the Compositor in Blender used for?", options: ["Compositing multiple .blend files into one scene", "A node-based post-processing graph that runs on 2D rendered images — color grading, glare, depth of field, combining render passes", "Real-time mixing of audio and video tracks", "Merging multiple materials into one shader"], answer: 1, explanation: "The Compositor processes rendered images as 2D data using nodes. It runs after the render and can apply color grading, bloom, lens effects, and combine separate render passes into a final image." },
+      {
+        q: "Your scene has light focusing through a glass lens creating a caustic pattern on the table. Which renderer handles this correctly?",
+        options: [
+          "EEVEE Next — it's faster so it can compute more effects",
+          "Cycles — it physically traces light rays, including caustics",
+          "Workbench — it's designed for optical effects",
+          "Both render caustics identically",
+        ],
+        answer: 1,
+        explanation:
+          "Caustics require physically tracing light rays through refractive/reflective surfaces — something only path tracers like Cycles do correctly. EEVEE Next approximates many effects but not true caustics.",
+      },
+      {
+        q: "What does enabling Denoising in Cycles allow you to do?",
+        options: [
+          "Render at full quality with zero noise regardless of sample count",
+          "Use far fewer samples while still getting a clean result — AI removes remaining noise",
+          "Denoise the audio track of an animation",
+          "Remove compression artifacts from imported image textures",
+        ],
+        answer: 1,
+        explanation:
+          "Denoising (OIDN or OptiX) is a trained model that removes Monte Carlo noise from low-sample Cycles renders. 64 samples + denoising can rival 512 samples without it.",
+      },
+      {
+        q: "You're rendering an animation of a motion graphic logo. Speed matters more than caustics. Which engine?",
+        options: [
+          "Cycles — it's the only production-quality renderer",
+          "EEVEE Next — near-instant frames, still high quality for motion graphics",
+          "Workbench — designed for animation",
+          "They take the same time for animations",
+        ],
+        answer: 1,
+        explanation:
+          "EEVEE Next is a real-time path-traced renderer — frame times are orders of magnitude faster than Cycles for animation. For motion graphics, stylised work, and non-caustics scenes, it's the right choice.",
+      },
+      {
+        q: "What is the Compositor in Blender used for?",
+        options: [
+          "Compositing multiple .blend files into one scene",
+          "A node-based post-processing graph that runs on 2D rendered images — color grading, glare, depth of field, combining render passes",
+          "Real-time mixing of audio and video tracks",
+          "Merging multiple materials into one shader",
+        ],
+        answer: 1,
+        explanation:
+          "The Compositor processes rendered images as 2D data using nodes. It runs after the render and can apply color grading, bloom, lens effects, and combine separate render passes into a final image.",
+      },
     ],
     sections: [
       {
@@ -2596,7 +3115,7 @@ print(f"Active engine: {scene.render.engine}")`,
 
 **Workbench** — Technical renderer for clay renders, studio presentation. No materials, just form.
 
-In Blender 5.1, for most non-caustics work, EEVEE Next produces competitive results to Cycles at a fraction of the time.`
+In Blender 5.1, for most non-caustics work, EEVEE Next produces competitive results to Cycles at a fraction of the time.`,
       },
       {
         title: "Key Render Settings",
@@ -2643,7 +3162,7 @@ bpy.ops.render.view_show()                  # F11 equivalent`,
 
 **F12** — Render current frame
 **Ctrl+F12** — Render animation (all frames in range)
-**F11** — Show last rendered image`
+**F11** — Show last rendered image`,
       },
       {
         title: "Render Passes & the Compositor",
@@ -2698,7 +3217,7 @@ Output to **OpenEXR Multilayer** format to preserve all passes in one file.
 
 **Viewport Compositor** (Blender 4.x+): apply compositor effects live in the 3D viewport. Instant visual feedback without a full render.
 
-The Compositor is what separates a raw render from a finished image.`
+The Compositor is what separates a raw render from a finished image.`,
       },
       {
         title: "Camera Settings That Matter",
@@ -2745,7 +3264,7 @@ bpy.context.scene.camera = cam_obj`,
 
 **Numpad 0** — Enter camera view
 **N → View → Lock Camera to View** — Navigate freely and the camera follows. Disable when done.
-**Ctrl+Alt+0** — Snap the camera to current viewport.`
+**Ctrl+Alt+0** — Snap the camera to current viewport.`,
       },
       {
         title: "🔨 Mini Workshop: First Beauty Render",
@@ -2795,9 +3314,9 @@ bpy.ops.render.render(write_still=True)`,
 
 Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
 
-✅ Goal: A render you'd show someone — with shadows, environment, proper camera`
-      }
-    ]
+✅ Goal: A render you'd show someone — with shadows, environment, proper camera`,
+      },
+    ],
   },
   {
     id: 13,
@@ -2805,12 +3324,57 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
     title: "Procedural Textures",
     tag: "ADVANCED SHADING",
     color: "#818cf8",
-    intro: "Procedural textures are generated mathematically — no image files, infinite resolution, no tiling, fully animatable. Combined with the Shader Editor, they can describe almost any surface.",
+    intro:
+      "Procedural textures are generated mathematically — no image files, infinite resolution, no tiling, fully animatable. Combined with the Shader Editor, they can describe almost any surface.",
     quiz: [
-      { q: "What does a ColorRamp node do?", options: ["Changes the hue of a texture by rotating the color wheel", "Remaps a grayscale 0–1 value to any set of colors or values you define", "Converts a color texture to black and white", "Blends two color inputs together equally"], answer: 1, explanation: "ColorRamp takes a single grayscale input (like Noise Texture's Fac output) and maps it to any gradient of colors you define. It's the bridge between procedural noise and meaningful color variation." },
-      { q: "Which texture node creates cell-like patterns — useful for cracked earth, skin pores, or ceramic tiles?", options: ["Noise Texture", "Wave Texture", "Voronoi Texture", "Magic Texture"], answer: 2, explanation: "Voronoi Texture creates cell-based patterns. 'Distance to Edge' mode gives sharp cracked lines between cells. Smooth F1 gives soft cellular blobs. Randomness controls how irregular the cells are." },
-      { q: "What is the difference between a Bump node and a Displacement node?", options: ["Bump is for organic surfaces, Displacement is for hard surfaces", "Bump fakes surface detail by changing how light hits without moving geometry; Displacement actually moves vertices", "Bump works in EEVEE, Displacement only in Cycles", "They are identical — just named differently for historical reasons"], answer: 1, explanation: "Bump is cheap — it tricks the lighting system into seeing detail that isn't geometrically there. Displacement is expensive and real — it requires enough geometry to actually move. Enable Displacement: Both in material settings for Cycles." },
-      { q: "You want a wood grain texture. Which node produces the underlying stripe/ring pattern?", options: ["Noise Texture with high Detail", "Voronoi in Distance to Edge mode", "Wave Texture in Rings or Bands mode, with Distortion added", "Musgrave with FBM type"], answer: 2, explanation: "Wave Texture creates concentric rings or parallel bands — the natural structure of wood grain. Add Distortion to break up the regularity, and a ColorRamp to map it to realistic wood colours." },
+      {
+        q: "What does a ColorRamp node do?",
+        options: [
+          "Changes the hue of a texture by rotating the color wheel",
+          "Remaps a grayscale 0–1 value to any set of colors or values you define",
+          "Converts a color texture to black and white",
+          "Blends two color inputs together equally",
+        ],
+        answer: 1,
+        explanation:
+          "ColorRamp takes a single grayscale input (like Noise Texture's Fac output) and maps it to any gradient of colors you define. It's the bridge between procedural noise and meaningful color variation.",
+      },
+      {
+        q: "Which texture node creates cell-like patterns — useful for cracked earth, skin pores, or ceramic tiles?",
+        options: [
+          "Noise Texture",
+          "Wave Texture",
+          "Voronoi Texture",
+          "Magic Texture",
+        ],
+        answer: 2,
+        explanation:
+          "Voronoi Texture creates cell-based patterns. 'Distance to Edge' mode gives sharp cracked lines between cells. Smooth F1 gives soft cellular blobs. Randomness controls how irregular the cells are.",
+      },
+      {
+        q: "What is the difference between a Bump node and a Displacement node?",
+        options: [
+          "Bump is for organic surfaces, Displacement is for hard surfaces",
+          "Bump fakes surface detail by changing how light hits without moving geometry; Displacement actually moves vertices",
+          "Bump works in EEVEE, Displacement only in Cycles",
+          "They are identical — just named differently for historical reasons",
+        ],
+        answer: 1,
+        explanation:
+          "Bump is cheap — it tricks the lighting system into seeing detail that isn't geometrically there. Displacement is expensive and real — it requires enough geometry to actually move. Enable Displacement: Both in material settings for Cycles.",
+      },
+      {
+        q: "You want a wood grain texture. Which node produces the underlying stripe/ring pattern?",
+        options: [
+          "Noise Texture with high Detail",
+          "Voronoi in Distance to Edge mode",
+          "Wave Texture in Rings or Bands mode, with Distortion added",
+          "Musgrave with FBM type",
+        ],
+        answer: 2,
+        explanation:
+          "Wave Texture creates concentric rings or parallel bands — the natural structure of wood grain. Add Distortion to break up the regularity, and a ColorRamp to map it to realistic wood colours.",
+      },
     ],
     sections: [
       {
@@ -2864,7 +3428,7 @@ musg.inputs["Detail"].default_value = 8.0`,
 
 **Brick Texture** — Procedural bricks with mortar. Control width, height, offset, mortar size. Can mix with other textures for realistic variation.
 
-**Gradient Texture** — Simple linear/radial/spherical gradient. Often used as a factor for mixing or masking.`
+**Gradient Texture** — Simple linear/radial/spherical gradient. Often used as a factor for mixing or masking.`,
       },
       {
         title: "Connecting Textures to Materials",
@@ -2918,7 +3482,7 @@ l.new(mp.outputs["Vector"], noise.inputs["Vector"])`,
 
 **Texture Coordinate + Mapping** — Always pair these when using procedural textures. Texture Coordinate (Object) + Mapping (translate/rotate/scale) controls how the texture maps to the surface. Object coordinates mean the texture moves with the object — useful for predictable results.
 
-**Math / Map Range** — Transform the 0–1 output of a texture into any numeric range. Essential for routing texture outputs to non-color inputs like Roughness, Metallic, Emission Strength.`
+**Math / Map Range** — Transform the 0–1 output of a texture into any numeric range. Essential for routing texture outputs to non-color inputs like Roughness, Metallic, Emission Strength.`,
       },
       {
         title: "Procedural Material Recipes",
@@ -2985,7 +3549,7 @@ l.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
 
 **Stylized water**:
 → Wave Texture → Bump for ripples
-→ Transmission 1, Roughness 0.1, IOR 1.33, blue-tinted Base Color`
+→ Transmission 1, Roughness 0.1, IOR 1.33, blue-tinted Base Color`,
       },
       {
         title: "🔨 Mini Workshop: Procedural Planet",
@@ -3061,9 +3625,9 @@ For an atmosphere rim:
 
 Animate: right-click the **W offset** on the Noise Texture → Insert Keyframe at frame 1 and frame 250 with different values. Planet rotates procedurally.
 
-✅ Goal: A convincing planet with atmosphere, zero image files, and an animated surface`
-      }
-    ]
+✅ Goal: A convincing planet with atmosphere, zero image files, and an animated surface`,
+      },
+    ],
   },
   {
     id: 14,
@@ -3071,12 +3635,57 @@ Animate: right-click the **W offset** on the Noise Texture → Insert Keyframe a
     title: "bpy Setup & Vibe-Coding",
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
-    intro: "Blender has a full Python API called bpy — every action you take in the UI has a Python equivalent. This module covers how to set up the environment, write and run scripts, debug them, and how this directly enables a vibe-coding workflow where you prompt an AI to generate Blender scripts.",
+    intro:
+      "Blender has a full Python API called bpy — every action you take in the UI has a Python equivalent. This module covers how to set up the environment, write and run scripts, debug them, and how this directly enables a vibe-coding workflow where you prompt an AI to generate Blender scripts.",
     quiz: [
-      { q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?", options: ["Search the bpy documentation online", "Check the Info Editor — it logs every operator call as a Python statement in real time", "Hover over the menu item and read the tooltip", "Look in Preferences → Add-ons"], answer: 1, explanation: "The Info Editor records every action as executable Python. Perform the action manually, then copy the operator call from Info — this is the fastest way to discover operator names." },
-      { q: "You want to run a Python script that modifies your scene. Where do you run it inside Blender?", options: ["The Terminal / System Console only", "The Scripting workspace → Text Editor → Run Script (or the Python Console for one-liners)", "The Graph Editor's driver expression field", "You must install a Blender add-on first"], answer: 1, explanation: "The Scripting workspace has a Text Editor (for full scripts) and a Python Console (for interactive one-liners). Both have access to the full bpy API and run in Blender's embedded Python interpreter." },
-      { q: "What is the Python Console's main advantage over the Text Editor for vibe-coding workflows?", options: ["It's faster to render from", "It supports auto-complete — type bpy.data. and Tab shows all available attributes interactively", "It runs scripts 10x faster", "It has syntax highlighting"], answer: 1, explanation: "The Python Console has Tab auto-complete for the full bpy API. It's the fastest way to explore what's available on any bpy object without reading documentation." },
-      { q: "When an AI generates a bpy script for you, what's the most important first debugging step if it errors?", options: ["Re-prompt the AI immediately", "Read the full error in the Blender System Console or Info Editor — it gives the exact line and error type", "Restart Blender", "Delete the script and start over"], answer: 1, explanation: "Blender's System Console (Window → Toggle System Console on Windows, launch from Terminal on Mac) shows the full Python traceback. The line number and error message are usually enough to identify the fix — or to give the AI precise feedback for a correction." },
+      {
+        q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",
+        options: [
+          "Search the bpy documentation online",
+          "Check the Info Editor — it logs every operator call as a Python statement in real time",
+          "Hover over the menu item and read the tooltip",
+          "Look in Preferences → Add-ons",
+        ],
+        answer: 1,
+        explanation:
+          "The Info Editor records every action as executable Python. Perform the action manually, then copy the operator call from Info — this is the fastest way to discover operator names.",
+      },
+      {
+        q: "You want to run a Python script that modifies your scene. Where do you run it inside Blender?",
+        options: [
+          "The Terminal / System Console only",
+          "The Scripting workspace → Text Editor → Run Script (or the Python Console for one-liners)",
+          "The Graph Editor's driver expression field",
+          "You must install a Blender add-on first",
+        ],
+        answer: 1,
+        explanation:
+          "The Scripting workspace has a Text Editor (for full scripts) and a Python Console (for interactive one-liners). Both have access to the full bpy API and run in Blender's embedded Python interpreter.",
+      },
+      {
+        q: "What is the Python Console's main advantage over the Text Editor for vibe-coding workflows?",
+        options: [
+          "It's faster to render from",
+          "It supports auto-complete — type bpy.data. and Tab shows all available attributes interactively",
+          "It runs scripts 10x faster",
+          "It has syntax highlighting",
+        ],
+        answer: 1,
+        explanation:
+          "The Python Console has Tab auto-complete for the full bpy API. It's the fastest way to explore what's available on any bpy object without reading documentation.",
+      },
+      {
+        q: "When an AI generates a bpy script for you, what's the most important first debugging step if it errors?",
+        options: [
+          "Re-prompt the AI immediately",
+          "Read the full error in the Blender System Console or Info Editor — it gives the exact line and error type",
+          "Restart Blender",
+          "Delete the script and start over",
+        ],
+        answer: 1,
+        explanation:
+          "Blender's System Console (Window → Toggle System Console on Windows, launch from Terminal on Mac) shows the full Python traceback. The line number and error message are usually enough to identify the fix — or to give the AI precise feedback for a correction.",
+      },
     ],
     sections: [
       {
@@ -3113,7 +3722,7 @@ Access Python from:
 - **Python Console** — interactive, with Tab auto-complete
 - **Text Editor** — write full scripts, click Run Script (or Alt+P)
 - **Driver expressions** — Python expressions inside animation drivers
-- **Add-on scripts** — Python files Blender loads as plugins`
+- **Add-on scripts** — Python files Blender loads as plugins`,
       },
       {
         title: "The Scripting Workspace Layout",
@@ -3143,7 +3752,7 @@ import bpy
 
 **The Info Editor is your most important learning tool.** Do anything in Blender's UI — add an object, change a modifier value, run a menu command — and the Info Editor records the exact Python statement that performed it. This is how you discover operator names without reading documentation.
 
-To open the Info Editor: change any editor's type to **Info** via the editor type icon.`
+To open the Info Editor: change any editor's type to **Info** via the editor type icon.`,
       },
       {
         title: "Finding Operator Names (The Info Method)",
@@ -3177,7 +3786,7 @@ This means you never need to guess operator names. Perform the action once in th
 - **Hover tooltips** — hover over any UI button or property field. The tooltip shows the Python data path (e.g. \`bpy.context.object.modifiers["Subdiv"].levels\`).
 - **Right-click → Copy Data Path** — right-click any property → copies its full Python path to clipboard. Paste directly into a script.
 
-Together these three methods mean you can discover the bpy path to any UI control in under 30 seconds — without reading the API documentation.`
+Together these three methods mean you can discover the bpy path to any UI control in under 30 seconds — without reading the API documentation.`,
       },
       {
         title: "Debugging Scripts",
@@ -3220,7 +3829,7 @@ with bpy.context.temp_override(active_object=obj):
 - **System Console** — the full Python traceback with line numbers. On Mac: launch Blender from Terminal (\`/Applications/Blender.app/Contents/MacOS/Blender\`). This is where serious debugging happens.
 - **Text Editor** — errors highlight the failing line after running
 
-**The single most useful debug line:** \`print(dir(obj))\` — prints every attribute and method on any bpy object. Use it when you don't know what's available.`
+**The single most useful debug line:** \`print(dir(obj))\` — prints every attribute and method on any bpy object. Use it when you don't know what's available.`,
       },
       {
         title: "Rendering from the Command Line",
@@ -3260,7 +3869,7 @@ bpy.ops.render.render(animation=True)     # render full animation`,
 2. You run it headlessly: \`blender -b -P scene_builder.py -o /renders/ -f 1\`
 3. No need to open Blender's UI at all
 
-This is how automated 3D content generation works at scale — parametric scene scripts + headless renders, driven from any external system.`
+This is how automated 3D content generation works at scale — parametric scene scripts + headless renders, driven from any external system.`,
       },
       {
         title: "VS Code as an External Editor",
@@ -3301,7 +3910,7 @@ obj.modifiers.new(  # → auto-completes name, type parameters`,
 - Real-time error highlighting
 - Edit the script in VS Code, run it in Blender instantly — much faster iteration than copy-pasting into Blender's Text Editor
 
-**For vibe-coding:** VS Code is where you receive the AI-generated script, review it, make small edits, then run it into Blender with one command. The auto-complete also helps you understand what the generated code is doing.`
+**For vibe-coding:** VS Code is where you receive the AI-generated script, review it, make small edits, then run it into Blender with one command. The auto-complete also helps you understand what the generated code is doing.`,
       },
       {
         title: "The Vibe-Coding Loop",
@@ -3348,7 +3957,7 @@ error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created 
 - You know enough to describe any outcome in Blender vocabulary → better prompts
 - You can read the generated script and understand what it's doing → spot obvious errors before running
 - You know what context errors mean → fix or explain them to the AI quickly
-- You understand the non-destructive stack → you can modify the generated scene sensibly`
+- You understand the non-destructive stack → you can modify the generated scene sensibly`,
       },
       {
         title: "🔨 Mini Workshop: Your First bpy Script",
@@ -3410,73 +4019,246 @@ print("Scene built. Press F12 to render.")`,
 2. Change \`"ProcMat"\` to an existing material name — see what happens.
 3. Add \`print(dir(obj))\` anywhere — see every attribute available on the object.
 
-✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code`
-      }
-    ]
-  }
+✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code`,
+      },
+    ],
+  },
 ];
 
 const outcomes = [
   {
     category: "Shape & Form",
     items: [
-      { goal: "Organic creature or character", approach: "Sculpt Mode (Dyntopo for exploration → Remesh → Multires for detail). Retopologize with Shrinkwrap modifier.", tools: ["Sculpt Mode", "Multiresolution", "Remesh", "Shrinkwrap modifier"] },
-      { goal: "Hard surface / mechanical object", approach: "Edit Mode box-modeling + Boolean modifier for cuts + Bevel modifier for edge highlights + Subdivision Surface.", tools: ["Edit Mode", "Boolean modifier", "Bevel modifier", "Subdivision Surface"] },
-      { goal: "Terrain or landscape", approach: "Grid + Displace modifier with Musgrave/Noise texture. Or Geometry Nodes with noise-driven height.", tools: ["Grid", "Displace modifier", "Geometry Nodes", "Musgrave Texture"] },
-      { goal: "Repeated / instanced objects (forest, crowd, bricks)", approach: "Geometry Nodes: Distribute Points on Faces → Instance on Points. Near-zero memory cost.", tools: ["Geometry Nodes", "Instance on Points", "Distribute Points on Faces"] },
-      { goal: "Rope, cable, pipe following a path", approach: "Bezier curve for the path + cylinder with Curve modifier following it. Or GN with Curve to Mesh.", tools: ["Bezier Curve", "Curve modifier", "Geometry Nodes"] },
-      { goal: "Symmetrical model", approach: "Model one half in Edit Mode with Mirror modifier (Clipping on). Apply modifier to merge when done.", tools: ["Mirror modifier", "Edit Mode"] },
-      { goal: "Vase, bottle, column (revolved profile)", approach: "Draw the profile as a curve or mesh → Screw modifier revolves it around an axis.", tools: ["Screw modifier", "Curve"] },
-      { goal: "Hair, fur, feathers", approach: "New Hair system (Geometry Nodes based): Add → Curve → Empty Hair. Style with hair sculpt brushes.", tools: ["Hair Curves", "Geometry Nodes", "Particle Edit"] },
-    ]
+      {
+        goal: "Organic creature or character",
+        approach:
+          "Sculpt Mode (Dyntopo for exploration → Remesh → Multires for detail). Retopologize with Shrinkwrap modifier.",
+        tools: [
+          "Sculpt Mode",
+          "Multiresolution",
+          "Remesh",
+          "Shrinkwrap modifier",
+        ],
+      },
+      {
+        goal: "Hard surface / mechanical object",
+        approach:
+          "Edit Mode box-modeling + Boolean modifier for cuts + Bevel modifier for edge highlights + Subdivision Surface.",
+        tools: [
+          "Edit Mode",
+          "Boolean modifier",
+          "Bevel modifier",
+          "Subdivision Surface",
+        ],
+      },
+      {
+        goal: "Terrain or landscape",
+        approach:
+          "Grid + Displace modifier with Musgrave/Noise texture. Or Geometry Nodes with noise-driven height.",
+        tools: [
+          "Grid",
+          "Displace modifier",
+          "Geometry Nodes",
+          "Musgrave Texture",
+        ],
+      },
+      {
+        goal: "Repeated / instanced objects (forest, crowd, bricks)",
+        approach:
+          "Geometry Nodes: Distribute Points on Faces → Instance on Points. Near-zero memory cost.",
+        tools: [
+          "Geometry Nodes",
+          "Instance on Points",
+          "Distribute Points on Faces",
+        ],
+      },
+      {
+        goal: "Rope, cable, pipe following a path",
+        approach:
+          "Bezier curve for the path + cylinder with Curve modifier following it. Or GN with Curve to Mesh.",
+        tools: ["Bezier Curve", "Curve modifier", "Geometry Nodes"],
+      },
+      {
+        goal: "Symmetrical model",
+        approach:
+          "Model one half in Edit Mode with Mirror modifier (Clipping on). Apply modifier to merge when done.",
+        tools: ["Mirror modifier", "Edit Mode"],
+      },
+      {
+        goal: "Vase, bottle, column (revolved profile)",
+        approach:
+          "Draw the profile as a curve or mesh → Screw modifier revolves it around an axis.",
+        tools: ["Screw modifier", "Curve"],
+      },
+      {
+        goal: "Hair, fur, feathers",
+        approach:
+          "New Hair system (Geometry Nodes based): Add → Curve → Empty Hair. Style with hair sculpt brushes.",
+        tools: ["Hair Curves", "Geometry Nodes", "Particle Edit"],
+      },
+    ],
   },
   {
     category: "Surface & Appearance",
     items: [
-      { goal: "Photorealistic material (metal, glass, skin)", approach: "Principled BSDF with correct Metallic/Roughness/IOR values. Add Noise-driven Roughness variation for realism.", tools: ["Principled BSDF", "Shader Editor", "Noise Texture"] },
-      { goal: "Procedural texture (no image files)", approach: "Shader Editor: Noise/Voronoi/Wave → ColorRamp → Principled BSDF inputs.", tools: ["Noise Texture", "Voronoi Texture", "ColorRamp"] },
-      { goal: "Worn, aged, or dirt-layered surface", approach: "Two material layers (clean + worn) mixed by a procedural mask. Pointiness from Geometry node for edge wear.", tools: ["Shader Editor", "Mix Shader", "Geometry node (Pointiness)"] },
-      { goal: "Animated texture / dissolve effect", approach: "Drive a ColorRamp or Mix Factor with a Noise Texture that animates over time (keyframe the W offset).", tools: ["ColorRamp", "Noise Texture", "Drivers"] },
-    ]
+      {
+        goal: "Photorealistic material (metal, glass, skin)",
+        approach:
+          "Principled BSDF with correct Metallic/Roughness/IOR values. Add Noise-driven Roughness variation for realism.",
+        tools: ["Principled BSDF", "Shader Editor", "Noise Texture"],
+      },
+      {
+        goal: "Procedural texture (no image files)",
+        approach:
+          "Shader Editor: Noise/Voronoi/Wave → ColorRamp → Principled BSDF inputs.",
+        tools: ["Noise Texture", "Voronoi Texture", "ColorRamp"],
+      },
+      {
+        goal: "Worn, aged, or dirt-layered surface",
+        approach:
+          "Two material layers (clean + worn) mixed by a procedural mask. Pointiness from Geometry node for edge wear.",
+        tools: ["Shader Editor", "Mix Shader", "Geometry node (Pointiness)"],
+      },
+      {
+        goal: "Animated texture / dissolve effect",
+        approach:
+          "Drive a ColorRamp or Mix Factor with a Noise Texture that animates over time (keyframe the W offset).",
+        tools: ["ColorRamp", "Noise Texture", "Drivers"],
+      },
+    ],
   },
   {
     category: "Environment & Lighting",
     items: [
-      { goal: "Outdoor daylight scene", approach: "Sun light for directional shadows + HDRI environment for sky color. Rotate HDRI to match sun direction.", tools: ["Sun Light", "HDRI (World)"] },
-      { goal: "Indoor studio / product lighting", approach: "3-point area light setup (key + fill + rim). Shadow Catcher plane for ground shadow.", tools: ["Area Light", "Shadow Catcher", "Light Linking"] },
-      { goal: "Cinematic mood lighting", approach: "One strong warm key (orange/amber), one soft cool fill (blue), HDRI for ambient. Strong contrast.", tools: ["Area Light", "HDRI", "Light Linking"] },
-      { goal: "Neon / glowing light in EEVEE", approach: "Emissive material on object + EEVEE Bloom (Render Properties → Bloom). Adjust Bloom Threshold and Intensity.", tools: ["Emission shader", "EEVEE Bloom", "Compositor Glare node"] },
-    ]
+      {
+        goal: "Outdoor daylight scene",
+        approach:
+          "Sun light for directional shadows + HDRI environment for sky color. Rotate HDRI to match sun direction.",
+        tools: ["Sun Light", "HDRI (World)"],
+      },
+      {
+        goal: "Indoor studio / product lighting",
+        approach:
+          "3-point area light setup (key + fill + rim). Shadow Catcher plane for ground shadow.",
+        tools: ["Area Light", "Shadow Catcher", "Light Linking"],
+      },
+      {
+        goal: "Cinematic mood lighting",
+        approach:
+          "One strong warm key (orange/amber), one soft cool fill (blue), HDRI for ambient. Strong contrast.",
+        tools: ["Area Light", "HDRI", "Light Linking"],
+      },
+      {
+        goal: "Neon / glowing light in EEVEE",
+        approach:
+          "Emissive material on object + EEVEE Bloom (Render Properties → Bloom). Adjust Bloom Threshold and Intensity.",
+        tools: ["Emission shader", "EEVEE Bloom", "Compositor Glare node"],
+      },
+    ],
   },
   {
     category: "Animation & Motion",
     items: [
-      { goal: "Object animation (position, rotation, scale)", approach: "Insert keyframes (I key) in Object Mode. Edit curves in Graph Editor. Non-linear blending in NLA Editor.", tools: ["Keyframes", "Graph Editor", "NLA Editor"] },
-      { goal: "Character animation with a skeleton", approach: "Armature object → rigging (parent mesh to armature with automatic weights) → pose in Pose Mode → keyframe.", tools: ["Armature", "Weight Paint", "Pose Mode", "Graph Editor"] },
-      { goal: "Procedural / parametric animation", approach: "Geometry Nodes with frame-driven inputs. Or Drivers linking object properties to time/other values.", tools: ["Geometry Nodes", "Drivers", "Graph Editor"] },
-      { goal: "Camera fly-through or orbit", approach: "Keyframe camera transforms. Or: Follow Path constraint (camera follows a Bezier curve). Or: camera shake with Noise modifier in Graph Editor.", tools: ["Camera keyframes", "Follow Path constraint", "Graph Editor Noise modifier"] },
-    ]
+      {
+        goal: "Object animation (position, rotation, scale)",
+        approach:
+          "Insert keyframes (I key) in Object Mode. Edit curves in Graph Editor. Non-linear blending in NLA Editor.",
+        tools: ["Keyframes", "Graph Editor", "NLA Editor"],
+      },
+      {
+        goal: "Character animation with a skeleton",
+        approach:
+          "Armature object → rigging (parent mesh to armature with automatic weights) → pose in Pose Mode → keyframe.",
+        tools: ["Armature", "Weight Paint", "Pose Mode", "Graph Editor"],
+      },
+      {
+        goal: "Procedural / parametric animation",
+        approach:
+          "Geometry Nodes with frame-driven inputs. Or Drivers linking object properties to time/other values.",
+        tools: ["Geometry Nodes", "Drivers", "Graph Editor"],
+      },
+      {
+        goal: "Camera fly-through or orbit",
+        approach:
+          "Keyframe camera transforms. Or: Follow Path constraint (camera follows a Bezier curve). Or: camera shake with Noise modifier in Graph Editor.",
+        tools: [
+          "Camera keyframes",
+          "Follow Path constraint",
+          "Graph Editor Noise modifier",
+        ],
+      },
+    ],
   },
   {
     category: "VFX & Simulation",
     items: [
-      { goal: "Falling, stacking, or breaking objects", approach: "Rigid Body simulation. Active objects = dynamic. Passive = static colliders. Fracture with Cell Fracture addon.", tools: ["Rigid Body", "Cell Fracture addon"] },
-      { goal: "Cloth, fabric, flags", approach: "Cloth simulation. Pin vertex groups keep parts fixed. Add Collision physics to surrounding objects.", tools: ["Cloth simulation", "Vertex Groups", "Collision physics"] },
-      { goal: "Water or liquid", approach: "Mantaflow fluid simulation. Domain object (Liquid type) + Flow emitter object. Mesh the domain for visible water surface.", tools: ["Mantaflow Fluid", "Domain", "Flow object"] },
-      { goal: "Fire and smoke", approach: "Mantaflow Gas simulation (Domain: Gas type). Flow type: Fire+Smoke. Add Noise modifier to domain for detail. Render with Cycles.", tools: ["Mantaflow Gas", "Volumetric rendering", "Cycles"] },
-      { goal: "Particle explosion or spray", approach: "Emitter particle system: emit many particles with short lifetime, high initial velocity, Force Field for wind/turbulence.", tools: ["Particle system", "Force Fields", "Emitter"] },
-    ]
+      {
+        goal: "Falling, stacking, or breaking objects",
+        approach:
+          "Rigid Body simulation. Active objects = dynamic. Passive = static colliders. Fracture with Cell Fracture addon.",
+        tools: ["Rigid Body", "Cell Fracture addon"],
+      },
+      {
+        goal: "Cloth, fabric, flags",
+        approach:
+          "Cloth simulation. Pin vertex groups keep parts fixed. Add Collision physics to surrounding objects.",
+        tools: ["Cloth simulation", "Vertex Groups", "Collision physics"],
+      },
+      {
+        goal: "Water or liquid",
+        approach:
+          "Mantaflow fluid simulation. Domain object (Liquid type) + Flow emitter object. Mesh the domain for visible water surface.",
+        tools: ["Mantaflow Fluid", "Domain", "Flow object"],
+      },
+      {
+        goal: "Fire and smoke",
+        approach:
+          "Mantaflow Gas simulation (Domain: Gas type). Flow type: Fire+Smoke. Add Noise modifier to domain for detail. Render with Cycles.",
+        tools: ["Mantaflow Gas", "Volumetric rendering", "Cycles"],
+      },
+      {
+        goal: "Particle explosion or spray",
+        approach:
+          "Emitter particle system: emit many particles with short lifetime, high initial velocity, Force Field for wind/turbulence.",
+        tools: ["Particle system", "Force Fields", "Emitter"],
+      },
+    ],
   },
   {
     category: "Rendering & Output",
     items: [
-      { goal: "Photorealistic still image", approach: "Cycles renderer. High samples (512+) + OIDN denoising. Area lights or HDRI. Compositor for color grade.", tools: ["Cycles", "Denoising", "Compositor"] },
-      { goal: "Fast animation render", approach: "EEVEE Next. Bake lighting where needed. Lower samples with EEVEE's near-instant frame times.", tools: ["EEVEE Next", "Light Probes"] },
-      { goal: "Stylized / non-photorealistic render", approach: "EEVEE Next with Toon shader or custom shader. Or Grease Pencil (2D lines in 3D space). Or Freestyle (line rendering).", tools: ["EEVEE Next", "Shader Editor", "Grease Pencil", "Freestyle"] },
-      { goal: "Compositing / color grading after render", approach: "Render to OpenEXR Multilayer. Use Compositor: Render Layers → Color Balance → Glare → Output.", tools: ["Compositor", "OpenEXR", "Color Balance node", "Glare node"] },
-      { goal: "360° / VR render", approach: "Camera Type: Panoramic → Equirectangular. Resolution: 4096×2048 or higher. Render with Cycles.", tools: ["Panoramic Camera", "Cycles", "Equirectangular"] },
-    ]
-  }
+      {
+        goal: "Photorealistic still image",
+        approach:
+          "Cycles renderer. High samples (512+) + OIDN denoising. Area lights or HDRI. Compositor for color grade.",
+        tools: ["Cycles", "Denoising", "Compositor"],
+      },
+      {
+        goal: "Fast animation render",
+        approach:
+          "EEVEE Next. Bake lighting where needed. Lower samples with EEVEE's near-instant frame times.",
+        tools: ["EEVEE Next", "Light Probes"],
+      },
+      {
+        goal: "Stylized / non-photorealistic render",
+        approach:
+          "EEVEE Next with Toon shader or custom shader. Or Grease Pencil (2D lines in 3D space). Or Freestyle (line rendering).",
+        tools: ["EEVEE Next", "Shader Editor", "Grease Pencil", "Freestyle"],
+      },
+      {
+        goal: "Compositing / color grading after render",
+        approach:
+          "Render to OpenEXR Multilayer. Use Compositor: Render Layers → Color Balance → Glare → Output.",
+        tools: ["Compositor", "OpenEXR", "Color Balance node", "Glare node"],
+      },
+      {
+        goal: "360° / VR render",
+        approach:
+          "Camera Type: Panoramic → Equirectangular. Resolution: 4096×2048 or higher. Render with Cycles.",
+        tools: ["Panoramic Camera", "Cycles", "Equirectangular"],
+      },
+    ],
+  },
 ];
 
 const quickRefs = [
@@ -3524,24 +4306,42 @@ const quickRefs = [
 ];
 
 const KeybindChip = ({ keys, desc }) => (
-  <div style={{
-    display: "flex", alignItems: "center", gap: 10,
-    padding: "6px 0", borderBottom: "1px solid rgba(255,255,255,0.05)"
-  }}>
-    <div style={{ display: "flex", gap: 4, flexShrink: 0, flexWrap: "wrap", maxWidth: 180 }}>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      padding: "6px 0",
+      borderBottom: "1px solid rgba(255,255,255,0.05)",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        gap: 4,
+        flexShrink: 0,
+        flexWrap: "wrap",
+        maxWidth: 180,
+      }}
+    >
       {keys.map((k, i) => (
-        <span key={i} style={{
-          background: "rgba(255,255,255,0.08)",
-          border: "1px solid rgba(255,255,255,0.15)",
-          borderRadius: 4,
-          padding: "2px 7px",
-          fontFamily: "monospace",
-          fontSize: 11,
-          color: "#e8e8f0",
-          fontWeight: 700,
-          boxShadow: "0 2px 0 rgba(0,0,0,0.4)",
-          whiteSpace: "nowrap"
-        }}>{k}</span>
+        <span
+          key={i}
+          style={{
+            background: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            borderRadius: 4,
+            padding: "2px 7px",
+            fontFamily: "monospace",
+            fontSize: 11,
+            color: "#e8e8f0",
+            fontWeight: 700,
+            boxShadow: "0 2px 0 rgba(0,0,0,0.4)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {k}
+        </span>
       ))}
     </div>
     <span style={{ fontSize: 12, color: "#9999bb" }}>{desc}</span>
@@ -3559,17 +4359,22 @@ const renderContent = (text) => {
   const flushList = (key) => {
     if (listBuffer.length === 0) return;
     elements.push(
-      <ul key={`ul-${key}`} style={{ margin: "4px 0", padding: 0, listStyle: "none" }}>
+      <ul
+        key={`ul-${key}`}
+        style={{ margin: "4px 0", padding: 0, listStyle: "none" }}
+      >
         {listBuffer.map((item, idx) => (
           <li key={idx} style={{ display: "flex", gap: 8, marginBottom: 3 }}>
-            <span style={{ color: "#555577", flexShrink: 0, fontWeight: 700 }}>›</span>
+            <span style={{ color: "#555577", flexShrink: 0, fontWeight: 700 }}>
+              ›
+            </span>
             <span
               style={{ fontSize: 13.5, lineHeight: 1.7, color: "#9999bb" }}
               dangerouslySetInnerHTML={{ __html: applyBold(item) }}
             />
           </li>
         ))}
-      </ul>
+      </ul>,
     );
     listBuffer = [];
   };
@@ -3585,9 +4390,14 @@ const renderContent = (text) => {
       elements.push(
         <p
           key={i}
-          style={{ fontSize: 13.5, lineHeight: 1.7, color: "#9999bb", marginBottom: 2 }}
+          style={{
+            fontSize: 13.5,
+            lineHeight: 1.7,
+            color: "#9999bb",
+            marginBottom: 2,
+          }}
           dangerouslySetInnerHTML={{ __html: applyBold(line) }}
-        />
+        />,
       );
     }
   });
@@ -3605,28 +4415,79 @@ const Quiz = ({ questions, moduleId }) => {
 
   const pick = (qi, oi) => {
     if (answers[qi] !== undefined) return;
-    setAnswers(prev => ({ ...prev, [qi]: oi }));
-    setRevealed(prev => ({ ...prev, [qi]: true }));
+    setAnswers((prev) => ({ ...prev, [qi]: oi }));
+    setRevealed((prev) => ({ ...prev, [qi]: true }));
   };
 
-  const reset = () => { setAnswers({}); setRevealed({}); };
+  const reset = () => {
+    setAnswers({});
+    setRevealed({});
+  };
 
   const answered = Object.keys(answers).length;
-  const correct  = questions.filter((q, i) => answers[i] === q.answer).length;
+  const correct = questions.filter((q, i) => answers[i] === q.answer).length;
 
   return (
-    <div style={{ marginTop: 32, borderTop: "1px solid #1e1e2e", paddingTop: 24 }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+    <div
+      style={{ marginTop: 32, borderTop: "1px solid #1e1e2e", paddingTop: 24 }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 20,
+        }}
+      >
         <div>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 4 }}>SELF-ASSESSMENT</div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#e8e8f0" }}>Quick Check</div>
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 10,
+              color: "#555577",
+              letterSpacing: 2,
+              marginBottom: 4,
+            }}
+          >
+            SELF-ASSESSMENT
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#e8e8f0" }}>
+            Quick Check
+          </div>
         </div>
         {answered > 0 && (
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: answered === questions.length ? (correct === questions.length ? "#44d9a2" : "#fbbf24") : "#666688" }}>
-              {answered === questions.length ? `${correct}/${questions.length} correct` : `${answered}/${questions.length} answered`}
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 12,
+                color:
+                  answered === questions.length
+                    ? correct === questions.length
+                      ? "#44d9a2"
+                      : "#fbbf24"
+                    : "#666688",
+              }}
+            >
+              {answered === questions.length
+                ? `${correct}/${questions.length} correct`
+                : `${answered}/${questions.length} answered`}
             </span>
-            <button onClick={reset} style={{ background: "transparent", border: "1px solid #2a2a3a", borderRadius: 6, padding: "4px 10px", color: "#555577", cursor: "pointer", fontSize: 11, fontFamily: "'JetBrains Mono', monospace" }}>reset</button>
+            <button
+              onClick={reset}
+              style={{
+                background: "transparent",
+                border: "1px solid #2a2a3a",
+                borderRadius: 6,
+                padding: "4px 10px",
+                color: "#555577",
+                cursor: "pointer",
+                fontSize: 11,
+                fontFamily: "'JetBrains Mono', monospace",
+              }}
+            >
+              reset
+            </button>
           </div>
         )}
       </div>
@@ -3634,38 +4495,89 @@ const Quiz = ({ questions, moduleId }) => {
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {questions.map((q, qi) => {
           const picked = answers[qi];
-          const done   = picked !== undefined;
+          const done = picked !== undefined;
           const isRight = picked === q.answer;
           return (
-            <div key={qi} style={{ background: "#111118", border: `1px solid ${done ? (isRight ? "#44d9a240" : "#f4727240") : "#1e1e2e"}`, borderRadius: 10, padding: "14px 16px" }}>
-              <div style={{ fontSize: 13, color: "#e8e8f0", fontWeight: 600, marginBottom: 12, lineHeight: 1.5 }}>
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#444466", marginRight: 8 }}>Q{qi + 1}</span>
+            <div
+              key={qi}
+              style={{
+                background: "#111118",
+                border: `1px solid ${done ? (isRight ? "#44d9a240" : "#f4727240") : "#1e1e2e"}`,
+                borderRadius: 10,
+                padding: "14px 16px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 13,
+                  color: "#e8e8f0",
+                  fontWeight: 600,
+                  marginBottom: 12,
+                  lineHeight: 1.5,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#444466",
+                    marginRight: 8,
+                  }}
+                >
+                  Q{qi + 1}
+                </span>
                 {q.q}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {q.options.map((opt, oi) => {
                   const isSelected = picked === oi;
-                  const isCorrect  = oi === q.answer;
-                  let bg = "transparent", border = "#2a2a3a", color = "#888899";
+                  const isCorrect = oi === q.answer;
+                  let bg = "transparent",
+                    border = "#2a2a3a",
+                    color = "#888899";
                   if (done) {
-                    if (isCorrect)       { bg = "rgba(68,217,162,0.08)";  border = "#44d9a240"; color = "#44d9a2"; }
-                    else if (isSelected) { bg = "rgba(244,114,114,0.08)"; border = "#f4727240"; color = "#f47272"; }
+                    if (isCorrect) {
+                      bg = "rgba(68,217,162,0.08)";
+                      border = "#44d9a240";
+                      color = "#44d9a2";
+                    } else if (isSelected) {
+                      bg = "rgba(244,114,114,0.08)";
+                      border = "#f4727240";
+                      color = "#f47272";
+                    }
                   } else {
-                    if (isSelected)      { bg = "rgba(91,141,238,0.1)";   border = "#5b8dee40"; color = "#e8e8f0"; }
+                    if (isSelected) {
+                      bg = "rgba(91,141,238,0.1)";
+                      border = "#5b8dee40";
+                      color = "#e8e8f0";
+                    }
                   }
                   return (
                     <button
                       key={oi}
                       onClick={() => pick(qi, oi)}
                       style={{
-                        textAlign: "left", padding: "8px 12px", borderRadius: 7,
-                        border: `1px solid ${border}`, background: bg, color,
+                        textAlign: "left",
+                        padding: "8px 12px",
+                        borderRadius: 7,
+                        border: `1px solid ${border}`,
+                        background: bg,
+                        color,
                         cursor: done ? "default" : "pointer",
-                        fontSize: 12.5, fontFamily: "'Inter', sans-serif", lineHeight: 1.5,
-                        transition: "all 0.12s"
+                        fontSize: 12.5,
+                        fontFamily: "'Inter', sans-serif",
+                        lineHeight: 1.5,
+                        transition: "all 0.12s",
                       }}
                     >
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, marginRight: 8, opacity: 0.5 }}>
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: 10,
+                          marginRight: 8,
+                          opacity: 0.5,
+                        }}
+                      >
                         {String.fromCharCode(65 + oi)}
                       </span>
                       {opt}
@@ -3674,8 +4586,19 @@ const Quiz = ({ questions, moduleId }) => {
                 })}
               </div>
               {done && !isRight && q.explanation && (
-                <div style={{ marginTop: 10, padding: "8px 12px", background: "rgba(68,217,162,0.05)", borderRadius: 6, fontSize: 12, color: "#666688", lineHeight: 1.6 }}>
-                  <span style={{ color: "#44d9a2", fontWeight: 700 }}>→ </span>{q.explanation}
+                <div
+                  style={{
+                    marginTop: 10,
+                    padding: "8px 12px",
+                    background: "rgba(68,217,162,0.05)",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    color: "#666688",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <span style={{ color: "#44d9a2", fontWeight: 700 }}>→ </span>
+                  {q.explanation}
                 </div>
               )}
             </div>
@@ -3689,52 +4612,127 @@ const Quiz = ({ questions, moduleId }) => {
 const CodeBlock = ({ code }) => {
   const highlight = (line) => {
     // comment
-    if (/^\s*#/.test(line)) return <span style={{ color: "#555577", fontStyle: "italic" }}>{line}</span>;
+    if (/^\s*#/.test(line))
+      return (
+        <span style={{ color: "#555577", fontStyle: "italic" }}>{line}</span>
+      );
     // apply token coloring
     const tokens = [];
-    const re = /("""[\s\S]*?"""|'[^']*'|"[^"]*")|(bpy\.\w+(?:\.\w+)*)|(import\s+\w+|for\s|if\s|in\s|return\s|True|False|None)|(\b\d+\.?\d*\b)|(\b\w+\s*(?=\())|([=,\[\]{}():])/g;
-    let last = 0, m;
+    const re =
+      /("""[\s\S]*?"""|'[^']*'|"[^"]*")|(bpy\.\w+(?:\.\w+)*)|(import\s+\w+|for\s|if\s|in\s|return\s|True|False|None)|(\b\d+\.?\d*\b)|(\b\w+\s*(?=\())|([=,\[\]{}():])/g;
+    let last = 0,
+      m;
     while ((m = re.exec(line)) !== null) {
-      if (m.index > last) tokens.push(<span key={last} style={{ color: "#9999bb" }}>{line.slice(last, m.index)}</span>);
-      if (m[1]) tokens.push(<span key={m.index} style={{ color: "#fbbf24" }}>{m[1]}</span>);       // strings
-      else if (m[2]) tokens.push(<span key={m.index} style={{ color: "#38bdf8" }}>{m[2]}</span>);  // bpy.*
-      else if (m[3]) tokens.push(<span key={m.index} style={{ color: "#c084fc" }}>{m[3]}</span>);  // keywords
-      else if (m[4]) tokens.push(<span key={m.index} style={{ color: "#fb923c" }}>{m[4]}</span>);  // numbers
-      else if (m[5]) tokens.push(<span key={m.index} style={{ color: "#44d9a2" }}>{m[5]}</span>);  // function calls
-      else tokens.push(<span key={m.index} style={{ color: "#666688" }}>{m[0]}</span>);            // punctuation
+      if (m.index > last)
+        tokens.push(
+          <span key={last} style={{ color: "#9999bb" }}>
+            {line.slice(last, m.index)}
+          </span>,
+        );
+      if (m[1])
+        tokens.push(
+          <span key={m.index} style={{ color: "#fbbf24" }}>
+            {m[1]}
+          </span>,
+        ); // strings
+      else if (m[2])
+        tokens.push(
+          <span key={m.index} style={{ color: "#38bdf8" }}>
+            {m[2]}
+          </span>,
+        ); // bpy.*
+      else if (m[3])
+        tokens.push(
+          <span key={m.index} style={{ color: "#c084fc" }}>
+            {m[3]}
+          </span>,
+        ); // keywords
+      else if (m[4])
+        tokens.push(
+          <span key={m.index} style={{ color: "#fb923c" }}>
+            {m[4]}
+          </span>,
+        ); // numbers
+      else if (m[5])
+        tokens.push(
+          <span key={m.index} style={{ color: "#44d9a2" }}>
+            {m[5]}
+          </span>,
+        ); // function calls
+      else
+        tokens.push(
+          <span key={m.index} style={{ color: "#666688" }}>
+            {m[0]}
+          </span>,
+        ); // punctuation
       last = m.index + m[0].length;
     }
-    if (last < line.length) tokens.push(<span key={last} style={{ color: "#9999bb" }}>{line.slice(last)}</span>);
+    if (last < line.length)
+      tokens.push(
+        <span key={last} style={{ color: "#9999bb" }}>
+          {line.slice(last)}
+        </span>,
+      );
     return tokens;
   };
 
   return (
-    <div style={{
-      marginTop: 12,
-      background: "#0d0d16",
-      border: "1px solid #2a2a4a",
-      borderRadius: 8,
-      overflow: "hidden"
-    }}>
-      <div style={{
-        padding: "6px 14px",
-        background: "#111128",
-        borderBottom: "1px solid #2a2a4a",
-        display: "flex", alignItems: "center", gap: 8
-      }}>
-        <span style={{ fontSize: 10, color: "#38bdf8", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1 }}>🐍 bpy</span>
-        <span style={{ fontSize: 10, color: "#444466", fontFamily: "'JetBrains Mono', monospace" }}>Python API equivalent</span>
+    <div
+      style={{
+        marginTop: 12,
+        background: "#0d0d16",
+        border: "1px solid #2a2a4a",
+        borderRadius: 8,
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          padding: "6px 14px",
+          background: "#111128",
+          borderBottom: "1px solid #2a2a4a",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <span
+          style={{
+            fontSize: 10,
+            color: "#38bdf8",
+            fontFamily: "'JetBrains Mono', monospace",
+            letterSpacing: 1,
+          }}
+        >
+          🐍 bpy
+        </span>
+        <span
+          style={{
+            fontSize: 10,
+            color: "#444466",
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
+          Python API equivalent
+        </span>
       </div>
-      <pre style={{
-        margin: 0, padding: "14px 16px",
-        fontFamily: "'JetBrains Mono', monospace",
-        fontSize: 12, lineHeight: 1.7,
-        overflowX: "auto",
-        whiteSpace: "pre"
-      }}>
-        {code.trim().split("\n").map((line, i) => (
-          <div key={i}>{highlight(line) }</div>
-        ))}
+      <pre
+        style={{
+          margin: 0,
+          padding: "14px 16px",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 12,
+          lineHeight: 1.7,
+          overflowX: "auto",
+          whiteSpace: "pre",
+        }}
+      >
+        {code
+          .trim()
+          .split("\n")
+          .map((line, i) => (
+            <div key={i}>{highlight(line)}</div>
+          ))}
       </pre>
     </div>
   );
@@ -3762,7 +4760,10 @@ export default function BlenderWorkshop() {
     }
   };
 
-  const goHome = () => { setActiveModule(null); setActiveTab("content"); };
+  const goHome = () => {
+    setActiveModule(null);
+    setActiveTab("content");
+  };
 
   const tabs = [
     { id: "content", label: "📖 Lessons" },
@@ -3771,10 +4772,16 @@ export default function BlenderWorkshop() {
   ];
 
   return (
-    <div style={{
-      display: "flex", height: "100vh", fontFamily: "'Inter', sans-serif",
-      background: "#0a0a0f", color: "#e8e8f0", overflow: "hidden"
-    }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        fontFamily: "'Inter', sans-serif",
+        background: "#0a0a0f",
+        color: "#e8e8f0",
+        overflow: "hidden",
+      }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
         ::-webkit-scrollbar { width: 4px; }
@@ -3784,27 +4791,93 @@ export default function BlenderWorkshop() {
       `}</style>
 
       {/* Sidebar */}
-      <div style={{
-        width: 260, flexShrink: 0,
-        background: "rgba(13,13,20,0.98)",
-        borderRight: "1px solid #1e1e2e",
-        display: "flex", flexDirection: "column",
-        overflowY: "auto"
-      }}>
+      <div
+        style={{
+          width: 260,
+          flexShrink: 0,
+          background: "rgba(13,13,20,0.98)",
+          borderRight: "1px solid #1e1e2e",
+          display: "flex",
+          flexDirection: "column",
+          overflowY: "auto",
+        }}
+      >
         {/* Logo */}
-        <div onClick={goHome} style={{ padding: "24px 20px 16px", borderBottom: "1px solid #1e1e2e", cursor: "pointer" }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 4 }}>WORKSHOP</div>
-          <div style={{ fontSize: 20, fontWeight: 800 }}>Blender <span style={{ color: "#e8622a" }}>5.1</span></div>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", marginTop: 2 }}>Mac Trackpad · Vibe-Code Ready</div>
+        <div
+          onClick={goHome}
+          style={{
+            padding: "24px 20px 16px",
+            borderBottom: "1px solid #1e1e2e",
+            cursor: "pointer",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 10,
+              color: "#e8622a",
+              letterSpacing: 3,
+              marginBottom: 4,
+            }}
+          >
+            WORKSHOP
+          </div>
+          <div style={{ fontSize: 20, fontWeight: 800 }}>
+            Blender <span style={{ color: "#e8622a" }}>5.1</span>
+          </div>
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 10,
+              color: "#555577",
+              marginTop: 2,
+            }}
+          >
+            Mac Trackpad · Vibe-Code Ready
+          </div>
         </div>
 
         {/* Progress */}
-        <div style={{ padding: "12px 20px", borderBottom: "1px solid #1e1e2e" }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#555577", letterSpacing: 2, marginBottom: 6 }}>PROGRESS</div>
-          <div style={{ height: 3, background: "#1e1e2e", borderRadius: 2, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, #e8622a, #5b8dee)", borderRadius: 2, transition: "width 0.5s" }} />
+        <div
+          style={{ padding: "12px 20px", borderBottom: "1px solid #1e1e2e" }}
+        >
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 9,
+              color: "#555577",
+              letterSpacing: 2,
+              marginBottom: 6,
+            }}
+          >
+            PROGRESS
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#e8622a", marginTop: 5 }}>
+          <div
+            style={{
+              height: 3,
+              background: "#1e1e2e",
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                height: "100%",
+                width: `${progress}%`,
+                background: "linear-gradient(90deg, #e8622a, #5b8dee)",
+                borderRadius: 2,
+                transition: "width 0.5s",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 11,
+              color: "#e8622a",
+              marginTop: 5,
+            }}
+          >
             {completedModules.size}/{modules.length} modules · {progress}%
           </div>
         </div>
@@ -3815,45 +4888,113 @@ export default function BlenderWorkshop() {
           <div
             onClick={goHome}
             style={{
-              display: "flex", alignItems: "center", gap: 10,
-              padding: "9px 20px", cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "9px 20px",
+              cursor: "pointer",
               borderLeft: `3px solid ${activeModule === null ? "#e8622a" : "transparent"}`,
-              background: activeModule === null ? "rgba(232,98,42,0.08)" : "transparent",
-              transition: "all 0.15s", marginBottom: 4
+              background:
+                activeModule === null ? "rgba(232,98,42,0.08)" : "transparent",
+              transition: "all 0.15s",
+              marginBottom: 4,
             }}
           >
-            <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>🏠</span>
+            <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>
+              🏠
+            </span>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: activeModule === null ? "#e8e8f0" : "#888899" }}>Overview</div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 1 }}>START HERE</div>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: activeModule === null ? "#e8e8f0" : "#888899",
+                }}
+              >
+                Overview
+              </div>
+              <div
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 9,
+                  color: "#444466",
+                  letterSpacing: 1,
+                }}
+              >
+                START HERE
+              </div>
             </div>
           </div>
-          <div style={{ height: 1, background: "#1e1e2e", margin: "4px 20px 8px" }} />
+          <div
+            style={{ height: 1, background: "#1e1e2e", margin: "4px 20px 8px" }}
+          />
           {modules.map((m, i) => (
             <div
               key={m.id}
-              onClick={() => { setActiveModule(i); setExpandedSections({ 0: true }); setActiveTab("content"); }}
+              onClick={() => {
+                setActiveModule(i);
+                setExpandedSections({ 0: true });
+                setActiveTab("content");
+              }}
               style={{
-                display: "flex", alignItems: "center", gap: 10,
-                padding: "9px 20px", cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "9px 20px",
+                cursor: "pointer",
                 borderLeft: `3px solid ${i === activeModule ? m.color : "transparent"}`,
-                background: i === activeModule ? `rgba(${hexToRgb(m.color)},0.08)` : "transparent",
-                transition: "all 0.15s"
+                background:
+                  i === activeModule
+                    ? `rgba(${hexToRgb(m.color)},0.08)`
+                    : "transparent",
+                transition: "all 0.15s",
               }}
             >
-              <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>{m.emoji}</span>
+              <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>
+                {m.emoji}
+              </span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: i === activeModule ? "#e8e8f0" : "#888899", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: i === activeModule ? "#e8e8f0" : "#888899",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
                   {m.title}
                 </div>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 1 }}>{m.tag}</div>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 9,
+                    color: "#444466",
+                    letterSpacing: 1,
+                  }}
+                >
+                  {m.tag}
+                </div>
               </div>
               {completedModules.has(i) && (
-                <div style={{
-                  width: 16, height: 16, borderRadius: "50%",
-                  background: "#44d9a2", display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 9, color: "#0a0a0f", fontWeight: 700, flexShrink: 0
-                }}>✓</div>
+                <div
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: "50%",
+                    background: "#44d9a2",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 9,
+                    color: "#0a0a0f",
+                    fontWeight: 700,
+                    flexShrink: 0,
+                  }}
+                >
+                  ✓
+                </div>
               )}
             </div>
           ))}
@@ -3861,15 +5002,26 @@ export default function BlenderWorkshop() {
       </div>
 
       {/* Main */}
-      <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          flex: 1,
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         {/* Top bar */}
-        <div style={{
-          padding: "0 32px",
-          borderBottom: "1px solid #1e1e2e",
-          display: "flex", alignItems: "center", gap: 0,
-          flexShrink: 0
-        }}>
-          {tabs.map(tab => (
+        <div
+          style={{
+            padding: "0 32px",
+            borderBottom: "1px solid #1e1e2e",
+            display: "flex",
+            alignItems: "center",
+            gap: 0,
+            flexShrink: 0,
+          }}
+        >
+          {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -3885,37 +5037,74 @@ export default function BlenderWorkshop() {
                 fontFamily: "'Inter', sans-serif",
                 letterSpacing: 1,
                 transition: "all 0.15s",
-                textTransform: "uppercase"
+                textTransform: "uppercase",
               }}
             >
               {tab.label}
             </button>
           ))}
-          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10, paddingRight: 4 }}>
+          <div
+            style={{
+              marginLeft: "auto",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              paddingRight: 4,
+            }}
+          >
             <div
-              onClick={() => setShowPython(p => !p)}
+              onClick={() => setShowPython((p) => !p)}
               style={{
-                display: "flex", alignItems: "center", gap: 8,
-                background: showPython ? "rgba(56,189,248,0.12)" : "rgba(255,255,255,0.05)",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                background: showPython
+                  ? "rgba(56,189,248,0.12)"
+                  : "rgba(255,255,255,0.05)",
                 border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
-                borderRadius: 8, padding: "4px 10px 4px 8px",
-                cursor: "pointer", transition: "all 0.2s"
+                borderRadius: 8,
+                padding: "4px 10px 4px 8px",
+                cursor: "pointer",
+                transition: "all 0.2s",
               }}
             >
               <span style={{ fontSize: 13 }}>🐍</span>
-              <span style={{ fontSize: 12, color: showPython ? "#38bdf8" : "#aaaacc", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1, transition: "color 0.2s", fontWeight: showPython ? 700 : 400 }}>bpy</span>
-              <div style={{
-                width: 40, height: 22, borderRadius: 11,
-                background: showPython ? "rgba(56,189,248,0.25)" : "#2a2a3a",
-                border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
-                position: "relative", transition: "all 0.2s", flexShrink: 0
-              }}>
-                <div style={{
-                  position: "absolute", top: 3, left: showPython ? 20 : 3,
-                  width: 14, height: 14, borderRadius: "50%",
-                  background: showPython ? "#38bdf8" : "#666688",
-                  transition: "all 0.2s"
-                }} />
+              <span
+                style={{
+                  fontSize: 12,
+                  color: showPython ? "#38bdf8" : "#aaaacc",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  letterSpacing: 1,
+                  transition: "color 0.2s",
+                  fontWeight: showPython ? 700 : 400,
+                }}
+              >
+                bpy
+              </span>
+              <div
+                style={{
+                  width: 40,
+                  height: 22,
+                  borderRadius: 11,
+                  background: showPython ? "rgba(56,189,248,0.25)" : "#2a2a3a",
+                  border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
+                  position: "relative",
+                  transition: "all 0.2s",
+                  flexShrink: 0,
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 3,
+                    left: showPython ? 20 : 3,
+                    width: 14,
+                    height: 14,
+                    borderRadius: "50%",
+                    background: showPython ? "#38bdf8" : "#666688",
+                    transition: "all 0.2s",
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -3923,49 +5112,104 @@ export default function BlenderWorkshop() {
 
         {/* Scrollable content */}
         <div style={{ flex: 1, overflowY: "auto", padding: "32px" }}>
-
           {/* ── OUTCOMES TAB ── */}
           {activeTab === "outcomes" && (
             <div>
               <div style={{ marginBottom: 28 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>DECISION GUIDE</div>
-                <div style={{ fontSize: 24, fontWeight: 800 }}>What Do You Want to Make?</div>
-                <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>Find your goal → learn which Blender tools and workflow apply</div>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#e8622a",
+                    letterSpacing: 3,
+                    marginBottom: 6,
+                  }}
+                >
+                  DECISION GUIDE
+                </div>
+                <div style={{ fontSize: 24, fontWeight: 800 }}>
+                  What Do You Want to Make?
+                </div>
+                <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>
+                  Find your goal → learn which Blender tools and workflow apply
+                </div>
               </div>
 
               {outcomes.map((group) => (
                 <div key={group.category} style={{ marginBottom: 32 }}>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 12 }}>
+                  <div
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: 10,
+                      color: "#555577",
+                      letterSpacing: 2,
+                      marginBottom: 12,
+                    }}
+                  >
                     {group.category.toUpperCase()}
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div
+                    style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                  >
                     {group.items.map((item, i) => (
-                      <div key={i} style={{
-                        background: "#111118",
-                        border: "1px solid #1e1e2e",
-                        borderRadius: 10,
-                        padding: "14px 18px",
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1.4fr auto",
-                        gap: 16,
-                        alignItems: "start"
-                      }}>
+                      <div
+                        key={i}
+                        style={{
+                          background: "#111118",
+                          border: "1px solid #1e1e2e",
+                          borderRadius: 10,
+                          padding: "14px 18px",
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1.4fr auto",
+                          gap: 16,
+                          alignItems: "start",
+                        }}
+                      >
                         <div>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: "#e8e8f0", marginBottom: 2 }}>{item.goal}</div>
+                          <div
+                            style={{
+                              fontSize: 13,
+                              fontWeight: 700,
+                              color: "#e8e8f0",
+                              marginBottom: 2,
+                            }}
+                          >
+                            {item.goal}
+                          </div>
                         </div>
-                        <div style={{ fontSize: 12, color: "#9999bb", lineHeight: 1.6 }}>{item.approach}</div>
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, justifyContent: "flex-end" }}>
+                        <div
+                          style={{
+                            fontSize: 12,
+                            color: "#9999bb",
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          {item.approach}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: 4,
+                            justifyContent: "flex-end",
+                          }}
+                        >
                           {item.tools.map((tool, j) => (
-                            <span key={j} style={{
-                              background: "rgba(91,141,238,0.12)",
-                              border: "1px solid rgba(91,141,238,0.2)",
-                              borderRadius: 4,
-                              padding: "2px 8px",
-                              fontSize: 10,
-                              color: "#5b8dee",
-                              fontFamily: "'JetBrains Mono', monospace",
-                              whiteSpace: "nowrap"
-                            }}>{tool}</span>
+                            <span
+                              key={j}
+                              style={{
+                                background: "rgba(91,141,238,0.12)",
+                                border: "1px solid rgba(91,141,238,0.2)",
+                                borderRadius: 4,
+                                padding: "2px 8px",
+                                fontSize: 10,
+                                color: "#5b8dee",
+                                fontFamily: "'JetBrains Mono', monospace",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {tool}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -3980,31 +5224,76 @@ export default function BlenderWorkshop() {
           {activeTab === "quickref" && (
             <div>
               <div style={{ marginBottom: 24 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>REFERENCE</div>
-                <div style={{ fontSize: 24, fontWeight: 800 }}>Shortcuts & Controls</div>
-                <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>Mac trackpad primary. Keyboard wherever possible.</div>
-              </div>
-
-              {/* Mac trackpad callout */}
-              <div style={{
-                marginBottom: 24, padding: 16,
-                background: "rgba(91,141,238,0.08)",
-                border: "1px solid rgba(91,141,238,0.2)",
-                borderRadius: 10
-              }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#5b8dee", marginBottom: 8 }}>Mac Trackpad Setup (do this first)</div>
-                <div style={{ fontSize: 12, color: "#888899", lineHeight: 1.7 }}>
-                  Edit → Preferences → Input:<br />
-                  ✅ <strong style={{ color: "#e8e8f0" }}>Emulate 3 Button Mouse</strong> → Option+drag = orbit<br />
-                  ✅ <strong style={{ color: "#e8e8f0" }}>Emulate Numpad</strong> → number row = view shortcuts<br />
-                  ✅ <strong style={{ color: "#e8e8f0" }}>Use Multi-Touch Trackpad</strong> → pinch = zoom, 2-finger drag = pan
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#e8622a",
+                    letterSpacing: 3,
+                    marginBottom: 6,
+                  }}
+                >
+                  REFERENCE
+                </div>
+                <div style={{ fontSize: 24, fontWeight: 800 }}>
+                  Shortcuts & Controls
+                </div>
+                <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>
+                  Mac trackpad primary. Keyboard wherever possible.
                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              {/* Mac trackpad callout */}
+              <div
+                style={{
+                  marginBottom: 24,
+                  padding: 16,
+                  background: "rgba(91,141,238,0.08)",
+                  border: "1px solid rgba(91,141,238,0.2)",
+                  borderRadius: 10,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: "#5b8dee",
+                    marginBottom: 8,
+                  }}
+                >
+                  Mac Trackpad Setup (do this first)
+                </div>
+                <div
+                  style={{ fontSize: 12, color: "#888899", lineHeight: 1.7 }}
+                >
+                  Edit → Preferences → Input:
+                  <br />✅{" "}
+                  <strong style={{ color: "#e8e8f0" }}>
+                    Emulate 3 Button Mouse
+                  </strong>{" "}
+                  → Option+drag = orbit
+                  <br />✅{" "}
+                  <strong style={{ color: "#e8e8f0" }}>Emulate Numpad</strong> →
+                  number row = view shortcuts
+                  <br />✅{" "}
+                  <strong style={{ color: "#e8e8f0" }}>
+                    Use Multi-Touch Trackpad
+                  </strong>{" "}
+                  → pinch = zoom, 2-finger drag = pan
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
                 {[
                   {
-                    title: "Viewport (Trackpad)", keys: [
+                    title: "Viewport (Trackpad)",
+                    keys: [
                       { keys: ["Option", "drag"], desc: "Orbit" },
                       { keys: ["2-finger drag"], desc: "Pan" },
                       { keys: ["Pinch"], desc: "Zoom" },
@@ -4015,13 +5304,17 @@ export default function BlenderWorkshop() {
                       { keys: ["~"], desc: "View pie menu" },
                       { keys: ["Z"], desc: "Shading pie menu" },
                       { keys: ["Alt", "Z"], desc: "X-Ray toggle" },
-                    ]
+                    ],
                   },
                   {
-                    title: "Object Mode", keys: [
+                    title: "Object Mode",
+                    keys: [
                       { keys: ["Shift", "A"], desc: "Add object" },
                       { keys: ["G / R / S"], desc: "Grab / Rotate / Scale" },
-                      { keys: ["X / Y / Z"], desc: "Constrain to axis (after G/R/S)" },
+                      {
+                        keys: ["X / Y / Z"],
+                        desc: "Constrain to axis (after G/R/S)",
+                      },
                       { keys: ["Shift", "D"], desc: "Duplicate (own copy)" },
                       { keys: ["Alt", "D"], desc: "Linked duplicate" },
                       { keys: ["Ctrl", "J"], desc: "Join objects" },
@@ -4029,12 +5322,16 @@ export default function BlenderWorkshop() {
                       { keys: ["Alt", "H"], desc: "Unhide all" },
                       { keys: ["X"], desc: "Delete menu" },
                       { keys: ["F3"], desc: "Search any operator" },
-                    ]
+                    ],
                   },
                   {
-                    title: "Edit Mode", keys: [
+                    title: "Edit Mode",
+                    keys: [
                       { keys: ["Tab"], desc: "Enter / exit Edit Mode" },
-                      { keys: ["1 / 2 / 3"], desc: "Vertex / Edge / Face select" },
+                      {
+                        keys: ["1 / 2 / 3"],
+                        desc: "Vertex / Edge / Face select",
+                      },
                       { keys: ["Alt", "Click"], desc: "Select edge/face loop" },
                       { keys: ["O"], desc: "Proportional Editing" },
                       { keys: ["E"], desc: "Extrude" },
@@ -4043,12 +5340,16 @@ export default function BlenderWorkshop() {
                       { keys: ["Ctrl", "B"], desc: "Bevel" },
                       { keys: ["K"], desc: "Knife tool" },
                       { keys: ["M"], desc: "Merge vertices" },
-                    ]
+                    ],
                   },
                   {
-                    title: "General", keys: [
+                    title: "General",
+                    keys: [
                       { keys: ["Ctrl", "Z"], desc: "Undo (Cmd+Z)" },
-                      { keys: ["Ctrl", "Shift", "Z"], desc: "Redo (Cmd+Shift+Z)" },
+                      {
+                        keys: ["Ctrl", "Shift", "Z"],
+                        desc: "Redo (Cmd+Shift+Z)",
+                      },
                       { keys: ["N"], desc: "Sidebar panel" },
                       { keys: ["Ctrl", "Space"], desc: "Maximize editor" },
                       { keys: ["F12"], desc: "Render" },
@@ -4057,30 +5358,63 @@ export default function BlenderWorkshop() {
                       { keys: ["Ctrl", "Shift", "S"], desc: "Save As" },
                       { keys: ["F4"], desc: "File menu" },
                       { keys: ["Ctrl", "Alt", "Q"], desc: "Quad view" },
-                    ]
+                    ],
                   },
-                ].map(group => (
-                  <div key={group.title} style={{
-                    background: "#111118",
-                    border: "1px solid #1e1e2e",
-                    borderRadius: 10,
-                    padding: 18
-                  }}>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 10 }}>{group.title.toUpperCase()}</div>
-                    {group.keys.map((k, i) => <KeybindChip key={i} {...k} />)}
+                ].map((group) => (
+                  <div
+                    key={group.title}
+                    style={{
+                      background: "#111118",
+                      border: "1px solid #1e1e2e",
+                      borderRadius: 10,
+                      padding: 18,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 10,
+                        color: "#555577",
+                        letterSpacing: 2,
+                        marginBottom: 10,
+                      }}
+                    >
+                      {group.title.toUpperCase()}
+                    </div>
+                    {group.keys.map((k, i) => (
+                      <KeybindChip key={i} {...k} />
+                    ))}
                   </div>
                 ))}
               </div>
 
-              <div style={{
-                marginTop: 16, padding: 16,
-                background: "rgba(232,98,42,0.08)",
-                border: "1px solid rgba(232,98,42,0.2)",
-                borderRadius: 10
-              }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#e8622a", marginBottom: 6 }}>F3 — Your Most Important Shortcut</div>
-                <div style={{ fontSize: 12, color: "#888899", lineHeight: 1.6 }}>
-                  Press <strong style={{ color: "#e8e8f0" }}>F3</strong> anywhere in Blender to search every operator by name. If you know what you want but not where it lives — F3 finds it. This is how you navigate Blender when vibe-coding: describe what you want, search for it.
+              <div
+                style={{
+                  marginTop: 16,
+                  padding: 16,
+                  background: "rgba(232,98,42,0.08)",
+                  border: "1px solid rgba(232,98,42,0.2)",
+                  borderRadius: 10,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: "#e8622a",
+                    marginBottom: 6,
+                  }}
+                >
+                  F3 — Your Most Important Shortcut
+                </div>
+                <div
+                  style={{ fontSize: 12, color: "#888899", lineHeight: 1.6 }}
+                >
+                  Press <strong style={{ color: "#e8e8f0" }}>F3</strong>{" "}
+                  anywhere in Blender to search every operator by name. If you
+                  know what you want but not where it lives — F3 finds it. This
+                  is how you navigate Blender when vibe-coding: describe what
+                  you want, search for it.
                 </div>
               </div>
             </div>
@@ -4089,54 +5423,221 @@ export default function BlenderWorkshop() {
           {/* ── HOME / LANDING PAGE ── */}
           {activeModule === null && (
             <div style={{ maxWidth: 760, margin: "0 auto" }}>
-
               {/* Hero */}
-              <div style={{ marginBottom: 48, paddingBottom: 40, borderBottom: "1px solid #1e1e2e" }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#e8622a", letterSpacing: 4, marginBottom: 16 }}>BLENDER 5.1 WORKSHOP</div>
-                <div style={{ fontSize: 36, fontWeight: 800, lineHeight: 1.15, marginBottom: 16 }}>
-                  Learn to navigate<br />
-                  <span style={{ color: "#e8622a" }}>the possibility space.</span>
+              <div
+                style={{
+                  marginBottom: 48,
+                  paddingBottom: 40,
+                  borderBottom: "1px solid #1e1e2e",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 14,
+                    color: "#e8622a",
+                    letterSpacing: 4,
+                    marginBottom: 16,
+                  }}
+                >
+                  BLENDER 5.1 WORKSHOP
                 </div>
-                <div style={{ fontSize: 15, color: "#888899", lineHeight: 1.8, maxWidth: 600 }}>
-                  This workshop teaches you <strong style={{ color: "#e8e8f0" }}>Blender's vocabulary, architecture, and tool landscape</strong> — not how to click every button. The goal is to build the mental model you need to direct an AI agent (or yourself) toward any 3D outcome with confidence.
+                <div
+                  style={{
+                    fontSize: 36,
+                    fontWeight: 800,
+                    lineHeight: 1.15,
+                    marginBottom: 16,
+                  }}
+                >
+                  Learn to navigate
+                  <br />
+                  <span style={{ color: "#e8622a" }}>
+                    the possibility space.
+                  </span>
+                </div>
+                <div
+                  style={{
+                    fontSize: 15,
+                    color: "#888899",
+                    lineHeight: 1.8,
+                    maxWidth: 600,
+                  }}
+                >
+                  This workshop teaches you{" "}
+                  <strong style={{ color: "#e8e8f0" }}>
+                    Blender's vocabulary, architecture, and tool landscape
+                  </strong>
+                  . The goal is to build the mental model you need to direct an
+                  AI agent (or yourself) toward any 3D outcome with confidence.
                 </div>
               </div>
 
               {/* POV */}
               <div style={{ marginBottom: 40 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 16 }}>THE LEARNING METHOD</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#555577",
+                    letterSpacing: 2,
+                    marginBottom: 16,
+                  }}
+                >
+                  THE LEARNING METHOD
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 12,
+                  }}
+                >
                   {[
-                    { icon: "🗺️", title: "Possibility space first", body: "Each module maps what exists and what it's for — before drilling into how to use it. You learn the territory before you learn the roads." },
-                    { icon: "🎯", title: "Outcome → tool thinking", body: "The Outcomes tab inverts the learning: start from what you want to make, then find which Blender system applies. That's how vibe-coding works in practice." },
-                    { icon: "🐍", title: "UI maps to code", body: "Every section has a Python/bpy equivalent. Toggle it on to see how each knob in Blender's interface maps to a line of code you can generate or modify." },
-                    { icon: "🧠", title: "Self-assessment, not grades", body: "Each module ends with a short quiz. No gates, no scores that persist — just a mirror to see how the concepts landed before moving on." },
-                  ].map(card => (
-                    <div key={card.title} style={{ background: "#111118", border: "1px solid #1e1e2e", borderRadius: 10, padding: "16px 18px" }}>
-                      <div style={{ fontSize: 22, marginBottom: 8 }}>{card.icon}</div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: "#e8e8f0", marginBottom: 6 }}>{card.title}</div>
-                      <div style={{ fontSize: 12.5, color: "#777799", lineHeight: 1.65 }}>{card.body}</div>
+                    {
+                      icon: "🗺️",
+                      title: "Possibility space first",
+                      body: "Each module maps what exists and what it's for before drilling into how to use it. You learn the territory before you learn the roads.",
+                    },
+                    {
+                      icon: "🎯",
+                      title: "Outcome → tool thinking",
+                      body: "The Outcomes tab inverts the learning: start from what you want to make, then find which Blender system applies. That's how vibe-coding works in practice.",
+                    },
+                    {
+                      icon: "🐍",
+                      title: "UI maps to code",
+                      body: "Every section has a Python/bpy equivalent. Toggle it on (top right of page) to see how each knob in Blender's interface maps to a line of code you can generate or modify.",
+                    },
+                    {
+                      icon: "🧠",
+                      title: "Self-assessment, not grades",
+                      body: "Each module ends with a short quiz. This quiz is not about gates or scores, but simply a motivated self-learner's recall assist.",
+                    },
+                  ].map((card) => (
+                    <div
+                      key={card.title}
+                      style={{
+                        background: "#111118",
+                        border: "1px solid #1e1e2e",
+                        borderRadius: 10,
+                        padding: "16px 18px",
+                      }}
+                    >
+                      <div style={{ fontSize: 22, marginBottom: 8 }}>
+                        {card.icon}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 700,
+                          color: "#e8e8f0",
+                          marginBottom: 6,
+                        }}
+                      >
+                        {card.title}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 12.5,
+                          color: "#777799",
+                          lineHeight: 1.65,
+                        }}
+                      >
+                        {card.body}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* How to use */}
-              <div style={{ marginBottom: 40, background: "#111118", border: "1px solid #1e1e2e", borderRadius: 10, padding: "22px 24px" }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 16 }}>HOW TO USE THIS WORKSHOP</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div
+                style={{
+                  marginBottom: 40,
+                  background: "#111118",
+                  border: "1px solid #1e1e2e",
+                  borderRadius: 10,
+                  padding: "22px 24px",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#555577",
+                    letterSpacing: 2,
+                    marginBottom: 16,
+                  }}
+                >
+                  HOW TO USE THIS WORKSHOP
+                </div>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 14 }}
+                >
                   {[
-                    { step: "01", label: "Start each module with the Lessons tab", desc: "Read the intro framing, then expand each section in order. The intro tells you why this domain matters — read it before the details." },
-                    { step: "02", label: "Allocate 30–60 minutes per module", desc: "Concept-only pass (just reading): ~30 min. With the workshop exercise in Blender: ~60 min. Geometry Nodes (Module 6) and Physics (Module 11) each deserve a dedicated session." },
-                    { step: "03", label: "Toggle the 🐍 bpy switch", desc: "Once you've read a section, turn on the bpy toggle and trace how the UI concepts map to Python. This is the bridge to vibe-coding — you learn to describe what you want in Blender's terms." },
-                    { step: "04", label: "Take the quiz before moving on", desc: "Answer the questions at the bottom of each module. If something surprises you, re-read the relevant section — not the whole module." },
-                    { step: "05", label: "Use the Outcomes tab as a reference", desc: "After finishing all modules, the Outcomes tab becomes your primary tool. It's an index of Blender's possibility space: goal → workflow → tool names." },
-                  ].map(s => (
-                    <div key={s.step} style={{ display: "flex", gap: 16, alignItems: "start" }}>
-                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#e8622a", flexShrink: 0, paddingTop: 1, width: 24 }}>{s.step}</div>
+                    {
+                      step: "01",
+                      label: "Start each module with the Lessons tab",
+                      desc: "Read the intro framing, then expand each section in order. The intro tells you why this domain matters. Read this before the details.",
+                    },
+                    {
+                      step: "02",
+                      label: "Allocate 30–60 minutes per module",
+                      desc: "Concept-only pass (just reading): ~30 min. With the workshop exercise in Blender: ~60 min. Geometry Nodes (Module 6) and Physics (Module 11) each deserve a dedicated session.",
+                    },
+                    {
+                      step: "03",
+                      label: "Toggle the 🐍 bpy switch",
+                      desc: "Once you've read a section, turn on the bpy toggle and trace how the UI concepts map to Python. This is the bridge to vibe-coding as you learn to describe what you want in Blender's terms.",
+                    },
+                    {
+                      step: "04",
+                      label: "Take the quiz before moving on",
+                      desc: "Answer the questions at the bottom of each module. If something surprises you, re-read the relevant section.",
+                    },
+                    {
+                      step: "05",
+                      label: "Use the Outcomes tab as a reference",
+                      desc: "After finishing all modules, the Outcomes tab becomes your primary tool. It's an index of Blender's possibility space: goal → workflow → tool names.",
+                    },
+                  ].map((s) => (
+                    <div
+                      key={s.step}
+                      style={{ display: "flex", gap: 16, alignItems: "start" }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: 11,
+                          color: "#e8622a",
+                          flexShrink: 0,
+                          paddingTop: 1,
+                          width: 24,
+                        }}
+                      >
+                        {s.step}
+                      </div>
                       <div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: "#e8e8f0", marginBottom: 3 }}>{s.label}</div>
-                        <div style={{ fontSize: 12.5, color: "#777799", lineHeight: 1.65 }}>{s.desc}</div>
+                        <div
+                          style={{
+                            fontSize: 13,
+                            fontWeight: 600,
+                            color: "#e8e8f0",
+                            marginBottom: 3,
+                          }}
+                        >
+                          {s.label}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 12.5,
+                            color: "#777799",
+                            lineHeight: 1.65,
+                          }}
+                        >
+                          {s.desc}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -4145,61 +5646,184 @@ export default function BlenderWorkshop() {
 
               {/* Time table */}
               <div style={{ marginBottom: 40 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 16 }}>TIME ALLOCATION</div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 14 }}>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#555577",
+                    letterSpacing: 2,
+                    marginBottom: 16,
+                  }}
+                >
+                  TIME ALLOCATION
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: 10,
+                    marginBottom: 14,
+                  }}
+                >
                   {[
-                    { label: "Concept pass", time: "~5.5 hrs", note: "Reading only, all 14 modules", color: "#5b8dee" },
-                    { label: "With exercises", time: "~11 hrs", note: "Doing the workshops in Blender", color: "#c084fc" },
-                    { label: "Per session", time: "1–2 modules", note: "Recommended pace", color: "#e8622a" },
-                  ].map(t => (
-                    <div key={t.label} style={{ background: "#111118", border: `1px solid ${t.color}30`, borderRadius: 10, padding: "16px", textAlign: "center" }}>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: t.color, marginBottom: 4 }}>{t.time}</div>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: "#e8e8f0", marginBottom: 4 }}>{t.label}</div>
-                      <div style={{ fontSize: 11, color: "#555577" }}>{t.note}</div>
+                    {
+                      label: "Concept pass",
+                      time: "~5.5 hrs",
+                      note: "Reading only, all 14 modules",
+                      color: "#5b8dee",
+                    },
+                    {
+                      label: "With exercises",
+                      time: "~11 hrs",
+                      note: "Doing the workshops in Blender",
+                      color: "#c084fc",
+                    },
+                    {
+                      label: "Per session",
+                      time: "1–2 modules",
+                      note: "Recommended pace",
+                      color: "#e8622a",
+                    },
+                  ].map((t) => (
+                    <div
+                      key={t.label}
+                      style={{
+                        background: "#111118",
+                        border: `1px solid ${t.color}30`,
+                        borderRadius: 10,
+                        padding: "16px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: 22,
+                          fontWeight: 800,
+                          color: t.color,
+                          marginBottom: 4,
+                        }}
+                      >
+                        {t.time}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 600,
+                          color: "#e8e8f0",
+                          marginBottom: 4,
+                        }}
+                      >
+                        {t.label}
+                      </div>
+                      <div style={{ fontSize: 11, color: "#555577" }}>
+                        {t.note}
+                      </div>
                     </div>
                   ))}
                 </div>
-                <div style={{ fontSize: 12, color: "#555577", lineHeight: 1.6, padding: "0 4px" }}>
-                  Modules 6 (Geometry Nodes) and 11 (Physics) are the most conceptually dense — each deserves its own session. Module 14 (bpy Setup) is short but high-value if you plan to vibe-code.
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "#555577",
+                    lineHeight: 1.6,
+                    padding: "0 4px",
+                  }}
+                >
+                  Modules 6 (Geometry Nodes) and 11 (Physics) are the most
+                  conceptually dense — each deserves its own session. Module 14
+                  (bpy Setup) is short but high-value if you plan to vibe-code.
                 </div>
               </div>
 
               {/* Capabilities */}
-              <div style={{ marginBottom: 40, background: "rgba(68,217,162,0.04)", border: "1px solid rgba(68,217,162,0.15)", borderRadius: 10, padding: "22px 24px" }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#44d9a2", letterSpacing: 2, marginBottom: 16 }}>AFTER COMPLETING ALL MODULES</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div
+                style={{
+                  marginBottom: 40,
+                  background: "rgba(68,217,162,0.04)",
+                  border: "1px solid rgba(68,217,162,0.15)",
+                  borderRadius: 10,
+                  padding: "22px 24px",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 10,
+                    color: "#44d9a2",
+                    letterSpacing: 2,
+                    marginBottom: 16,
+                  }}
+                >
+                  AFTER COMPLETING ALL MODULES
+                </div>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 10 }}
+                >
                   {[
-                    "Fluent in Blender's vocabulary — you can read documentation, watch tutorials, and follow technical discussions without getting lost in terminology",
+                    "Fluent in Blender's vocabulary - you can read documentation, watch tutorials, and follow technical discussions without getting lost in terminology",
                     "Able to look at any 3D scene, render, or effect and name the systems involved: which modifiers, shaders, light types, and simulation domains produced it",
-                    "Know which Blender tool or system to reach for given any creative goal — without having to try every option by hand",
+                    "Know which Blender tool or system to reach for given any creative goal without having to try every option by hand",
                     "Understand the non-destructive workflow: when to stay live, when to apply, and how to structure a scene for future editability",
                     "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using the bpy knowledge from Module 14",
-                    "Equipped to self-direct further learning — because you have a map of the territory, you know exactly which gaps remain to fill",
+                    "Equipped to self-direct further learning because you have a map of the territory, you know exactly which gaps remain to fill",
                   ].map((cap, i) => (
-                    <div key={i} style={{ display: "flex", gap: 12, alignItems: "start" }}>
-                      <span style={{ color: "#44d9a2", flexShrink: 0, fontSize: 13, paddingTop: 1 }}>✓</span>
-                      <span style={{ fontSize: 13, color: "#9999bb", lineHeight: 1.6 }}>{cap}</span>
+                    <div
+                      key={i}
+                      style={{ display: "flex", gap: 12, alignItems: "start" }}
+                    >
+                      <span
+                        style={{
+                          color: "#44d9a2",
+                          flexShrink: 0,
+                          fontSize: 13,
+                          paddingTop: 1,
+                        }}
+                      >
+                        ✓
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 13,
+                          color: "#9999bb",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {cap}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* CTA */}
-              <div style={{ display: "flex", justifyContent: "center", paddingBottom: 40 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingBottom: 40,
+                }}
+              >
                 <button
-                  onClick={() => { setActiveModule(0); setExpandedSections({ 0: true }); }}
+                  onClick={() => {
+                    setActiveModule(0);
+                    setExpandedSections({ 0: true });
+                  }}
                   style={{
-                    padding: "14px 36px", borderRadius: 10, border: "none",
+                    padding: "14px 36px",
+                    borderRadius: 10,
+                    border: "none",
                     background: "linear-gradient(135deg, #e8622a, #c84a1a)",
-                    color: "#fff", fontSize: 15, fontWeight: 700,
-                    fontFamily: "'Inter', sans-serif", cursor: "pointer",
-                    boxShadow: "0 4px 24px rgba(232,98,42,0.35)"
+                    color: "#fff",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    fontFamily: "'Inter', sans-serif",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 24px rgba(232,98,42,0.35)",
                   }}
                 >
                   Start Module 1 — Mental Model →
                 </button>
               </div>
-
             </div>
           )}
 
@@ -4208,50 +5832,106 @@ export default function BlenderWorkshop() {
             <div>
               {/* Module header */}
               <div style={{ marginBottom: 28 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    marginBottom: 10,
+                  }}
+                >
                   <span style={{ fontSize: 36 }}>{mod.emoji}</span>
                   <div>
-                    <div style={{
-                      fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
-                      color: mod.color, letterSpacing: 3, marginBottom: 4
-                    }}>{mod.tag} · MODULE {mod.id}/{modules.length}</div>
-                    <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}>{mod.title}</div>
+                    <div
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 9,
+                        color: mod.color,
+                        letterSpacing: 3,
+                        marginBottom: 4,
+                      }}
+                    >
+                      {mod.tag} · MODULE {mod.id}/{modules.length}
+                    </div>
+                    <div
+                      style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}
+                    >
+                      {mod.title}
+                    </div>
                   </div>
                 </div>
-                <div style={{
-                  fontSize: 14, color: "#888899", lineHeight: 1.6,
-                  borderLeft: `3px solid ${mod.color}`,
-                  paddingLeft: 14, marginLeft: 2
-                }}>{mod.intro}</div>
+                <div
+                  style={{
+                    fontSize: 14,
+                    color: "#888899",
+                    lineHeight: 1.6,
+                    borderLeft: `3px solid ${mod.color}`,
+                    paddingLeft: 14,
+                    marginLeft: 2,
+                  }}
+                >
+                  {mod.intro}
+                </div>
               </div>
 
               {/* Sections */}
               {mod.sections.map((section, i) => (
-                <div key={i} style={{
-                  marginBottom: 12,
-                  background: section.isWorkshop ? `rgba(${hexToRgb(mod.color)},0.05)` : "#111118",
-                  border: `1px solid ${section.isWorkshop ? mod.color + "40" : "#1e1e2e"}`,
-                  borderRadius: 10,
-                  overflow: "hidden"
-                }}>
+                <div
+                  key={i}
+                  style={{
+                    marginBottom: 12,
+                    background: section.isWorkshop
+                      ? `rgba(${hexToRgb(mod.color)},0.05)`
+                      : "#111118",
+                    border: `1px solid ${section.isWorkshop ? mod.color + "40" : "#1e1e2e"}`,
+                    borderRadius: 10,
+                    overflow: "hidden",
+                  }}
+                >
                   <div
                     onClick={() => toggleSection(i)}
                     style={{
                       padding: "14px 18px",
-                      display: "flex", alignItems: "center", justifyContent: "space-between",
-                      cursor: "pointer"
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      cursor: "pointer",
                     }}
                   >
-                    <div style={{ fontSize: 14, fontWeight: 700, color: section.isWorkshop ? mod.color : "#e8e8f0" }}>
+                    <div
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 700,
+                        color: section.isWorkshop ? mod.color : "#e8e8f0",
+                      }}
+                    >
                       {section.title}
                     </div>
-                    <div style={{ color: "#555577", fontSize: 16, transition: "transform 0.2s", transform: expandedSections[i] ? "rotate(180deg)" : "none" }}>▾</div>
+                    <div
+                      style={{
+                        color: "#555577",
+                        fontSize: 16,
+                        transition: "transform 0.2s",
+                        transform: expandedSections[i]
+                          ? "rotate(180deg)"
+                          : "none",
+                      }}
+                    >
+                      ▾
+                    </div>
                   </div>
 
                   {expandedSections[i] && (
-                    <div style={{ padding: "4px 18px 18px", borderTop: "1px solid #1e1e2e" }}>
+                    <div
+                      style={{
+                        padding: "4px 18px 18px",
+                        borderTop: "1px solid #1e1e2e",
+                      }}
+                    >
                       {renderContent(section.content)}
-                      {showPython && section.pythonCode && <CodeBlock code={section.pythonCode} />}
+                      {showPython && section.pythonCode && (
+                        <CodeBlock code={section.pythonCode} />
+                      )}
                     </div>
                   )}
                 </div>
@@ -4259,44 +5939,73 @@ export default function BlenderWorkshop() {
 
               {/* Quiz */}
               {mod.quiz && mod.quiz.length > 0 && (
-                <Quiz key={activeModule} questions={mod.quiz} moduleId={activeModule} />
+                <Quiz
+                  key={activeModule}
+                  questions={mod.quiz}
+                  moduleId={activeModule}
+                />
               )}
 
               {/* Navigation buttons */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, paddingTop: 20, borderTop: "1px solid #1e1e2e" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: 24,
+                  paddingTop: 20,
+                  borderTop: "1px solid #1e1e2e",
+                }}
+              >
                 <button
-                  onClick={() => { if (activeModule > 0) { setActiveModule(activeModule - 1); setExpandedSections({ 0: true }); } }}
+                  onClick={() => {
+                    if (activeModule > 0) {
+                      setActiveModule(activeModule - 1);
+                      setExpandedSections({ 0: true });
+                    }
+                  }}
                   disabled={activeModule === 0}
                   style={{
-                    padding: "10px 20px", borderRadius: 8,
+                    padding: "10px 20px",
+                    borderRadius: 8,
                     border: "1px solid #2a2a3a",
                     background: "transparent",
                     color: activeModule === 0 ? "#333344" : "#888899",
                     cursor: activeModule === 0 ? "not-allowed" : "pointer",
-                    fontSize: 13, fontFamily: "'Inter', sans-serif", fontWeight: 600
+                    fontSize: 13,
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 600,
                   }}
-                >← Previous</button>
+                >
+                  ← Previous
+                </button>
 
                 <button
                   onClick={markComplete}
                   style={{
-                    padding: "10px 24px", borderRadius: 8,
+                    padding: "10px 24px",
+                    borderRadius: 8,
                     border: "none",
                     background: completedModules.has(activeModule)
                       ? "rgba(68,217,162,0.15)"
                       : `linear-gradient(135deg, ${mod.color}, ${mod.color}cc)`,
-                    color: completedModules.has(activeModule) ? "#44d9a2" : "#fff",
+                    color: completedModules.has(activeModule)
+                      ? "#44d9a2"
+                      : "#fff",
                     cursor: "pointer",
-                    fontSize: 13, fontFamily: "'Inter', sans-serif", fontWeight: 700,
-                    boxShadow: completedModules.has(activeModule) ? "none" : `0 4px 20px ${mod.color}40`
+                    fontSize: 13,
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 700,
+                    boxShadow: completedModules.has(activeModule)
+                      ? "none"
+                      : `0 4px 20px ${mod.color}40`,
                   }}
                 >
                   {completedModules.has(activeModule)
                     ? "✓ Completed"
                     : activeModule === modules.length - 1
                       ? "🎉 Complete Course!"
-                      : "Mark Complete & Continue →"
-                  }
+                      : "Mark Complete & Continue →"}
                 </button>
               </div>
             </div>
