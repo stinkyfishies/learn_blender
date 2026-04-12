@@ -3064,6 +3064,355 @@ Animate: right-click the **W offset** on the Noise Texture → Insert Keyframe a
 ✅ Goal: A convincing planet with atmosphere, zero image files, and an animated surface`
       }
     ]
+  },
+  {
+    id: 14,
+    emoji: "🐍",
+    title: "bpy Setup & Vibe-Coding",
+    tag: "PYTHON + WORKFLOW",
+    color: "#38bdf8",
+    intro: "Blender has a full Python API called bpy — every action you take in the UI has a Python equivalent. This module covers how to set up the environment, write and run scripts, debug them, and how this directly enables a vibe-coding workflow where you prompt an AI to generate Blender scripts.",
+    quiz: [
+      { q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?", options: ["Search the bpy documentation online", "Check the Info Editor — it logs every operator call as a Python statement in real time", "Hover over the menu item and read the tooltip", "Look in Preferences → Add-ons"], answer: 1, explanation: "The Info Editor records every action as executable Python. Perform the action manually, then copy the operator call from Info — this is the fastest way to discover operator names." },
+      { q: "You want to run a Python script that modifies your scene. Where do you run it inside Blender?", options: ["The Terminal / System Console only", "The Scripting workspace → Text Editor → Run Script (or the Python Console for one-liners)", "The Graph Editor's driver expression field", "You must install a Blender add-on first"], answer: 1, explanation: "The Scripting workspace has a Text Editor (for full scripts) and a Python Console (for interactive one-liners). Both have access to the full bpy API and run in Blender's embedded Python interpreter." },
+      { q: "What is the Python Console's main advantage over the Text Editor for vibe-coding workflows?", options: ["It's faster to render from", "It supports auto-complete — type bpy.data. and Tab shows all available attributes interactively", "It runs scripts 10x faster", "It has syntax highlighting"], answer: 1, explanation: "The Python Console has Tab auto-complete for the full bpy API. It's the fastest way to explore what's available on any bpy object without reading documentation." },
+      { q: "When an AI generates a bpy script for you, what's the most important first debugging step if it errors?", options: ["Re-prompt the AI immediately", "Read the full error in the Blender System Console or Info Editor — it gives the exact line and error type", "Restart Blender", "Delete the script and start over"], answer: 1, explanation: "Blender's System Console (Window → Toggle System Console on Windows, launch from Terminal on Mac) shows the full Python traceback. The line number and error message are usually enough to identify the fix — or to give the AI precise feedback for a correction." },
+    ],
+    sections: [
+      {
+        title: "Blender's Python Environment",
+        pythonCode: `# Blender ships with its own Python interpreter — you don't install anything.
+# Access it from: Scripting workspace (top workspace tabs)
+
+import bpy
+import sys
+
+# See which Python version Blender is running
+print(sys.version)
+
+# bpy is always available — no import needed in the Python Console,
+# but you do need 'import bpy' at the top of scripts in the Text Editor.
+
+# The three main bpy namespaces you'll use constantly:
+bpy.context   # what's currently selected/active in the UI
+bpy.data      # all datablocks in the .blend file (objects, meshes, materials, etc.)
+bpy.ops       # operators — the same actions as menu items and shortcuts
+
+# Example: what is currently selected?
+print(bpy.context.active_object)
+print(bpy.context.selected_objects)`,
+        content: `Blender ships with a **built-in Python 3 interpreter** — no separate installation required. The bpy module is always available and gives you programmatic access to everything in Blender.
+
+The three namespaces you'll use constantly:
+- **bpy.context** — What's currently selected, active, or visible. Changes as you click in the UI.
+- **bpy.data** — All datablocks in the file: objects, meshes, materials, textures, node trees.
+- **bpy.ops** — Operators. Every action in Blender's interface has an ops equivalent.
+
+Access Python from:
+- **Scripting workspace** (top tab bar) — opens a Text Editor + Python Console layout
+- **Python Console** — interactive, with Tab auto-complete
+- **Text Editor** — write full scripts, click Run Script (or Alt+P)
+- **Driver expressions** — Python expressions inside animation drivers
+- **Add-on scripts** — Python files Blender loads as plugins`
+      },
+      {
+        title: "The Scripting Workspace Layout",
+        pythonCode: `# In the Python Console (interactive, one-liners):
+# Type any bpy expression and press Enter — result shows immediately
+
+>>> bpy.context.active_object
+>>> bpy.context.active_object.location
+>>> bpy.context.active_object.location.x = 5.0  # move it
+
+# Tab auto-complete: type bpy.data. then press Tab
+# → shows: actions, armatures, brushes, cameras, collections,
+#           curves, fonts, grease_pencils, images, lights,
+#           materials, meshes, node_groups, objects, scenes...
+
+# In the Text Editor (full scripts):
+import bpy
+
+# Write your script, then: Text menu → Run Script, or Alt+P
+# Errors appear in the Info Editor and System Console`,
+        content: `The Scripting workspace (click the **Scripting** tab at the top of Blender) opens a pre-arranged layout:
+
+- **Text Editor** (left) — write multi-line scripts. Alt+P to run. Has basic syntax highlighting.
+- **Python Console** (bottom-left) — interactive REPL. Tab auto-complete on any bpy object. Best for exploration.
+- **Info Editor** (top-right) — logs every UI action as a Python operator call in real time.
+- **Properties + Outliner** — context for whatever you're scripting.
+
+**The Info Editor is your most important learning tool.** Do anything in Blender's UI — add an object, change a modifier value, run a menu command — and the Info Editor records the exact Python statement that performed it. This is how you discover operator names without reading documentation.
+
+To open the Info Editor: change any editor's type to **Info** via the editor type icon.`
+      },
+      {
+        title: "Finding Operator Names (The Info Method)",
+        pythonCode: `# Step 1: Do the action manually in Blender's UI
+# Step 2: Open the Info Editor
+# Step 3: Copy the logged Python statement
+
+# Example — you manually added a UV Sphere via Shift+A → Mesh → UV Sphere
+# Info logs:
+bpy.ops.mesh.primitive_uv_sphere_add(radius=1, enter_editmode=False,
+    align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
+
+# Example — you applied a Subdivision Surface modifier
+bpy.ops.object.modifier_apply(modifier="Subdivision")
+
+# Example — you set a material's roughness to 0.3
+bpy.context.object.active_material.node_tree.nodes["Principled BSDF"].inputs[2].default_value = 0.3
+
+# Hover method: hover over any UI element → tooltip shows the data path
+# e.g. hover over Roughness slider: bpy.data.materials["Mat"].node_tree...
+# Right-click any property → "Copy Data Path" → paste directly into a script`,
+        content: `The fastest way to learn bpy operator names is the **Info Method**:
+
+1. Do the action manually in Blender (add an object, apply a modifier, change a setting)
+2. Open the **Info Editor** — it shows the exact Python call that just ran
+3. Copy it into your script
+
+This means you never need to guess operator names. Perform the action once in the UI, then automate it.
+
+**Two other methods:**
+- **Hover tooltips** — hover over any UI button or property field. The tooltip shows the Python data path (e.g. \`bpy.context.object.modifiers["Subdiv"].levels\`).
+- **Right-click → Copy Data Path** — right-click any property → copies its full Python path to clipboard. Paste directly into a script.
+
+Together these three methods mean you can discover the bpy path to any UI control in under 30 seconds — without reading the API documentation.`
+      },
+      {
+        title: "Debugging Scripts",
+        pythonCode: `import bpy
+
+# 1. Print debugging — the simplest approach
+obj = bpy.context.active_object
+print(f"Active object: {obj}")          # None if nothing selected
+print(f"Type: {obj.type if obj else 'N/A'}")
+
+# 2. Context guards — most errors are context failures
+if bpy.context.active_object is None:
+    raise RuntimeError("No active object — select something first")
+if bpy.context.active_object.type != 'MESH':
+    raise TypeError(f"Expected MESH, got {bpy.context.active_object.type}")
+if bpy.context.mode != 'OBJECT':
+    bpy.ops.object.mode_set(mode='OBJECT')  # auto-correct mode
+
+# 3. Check operator context overrides (some ops need specific context)
+# If you get "context is incorrect" error:
+with bpy.context.temp_override(active_object=obj):
+    bpy.ops.object.shade_smooth()
+
+# 4. See the full traceback — run from System Console:
+# Mac: open Terminal → /Applications/Blender.app/Contents/MacOS/Blender
+# Windows: Window → Toggle System Console
+# The full Python traceback prints there, not inside Blender's UI`,
+        content: `Scripts fail for predictable reasons. Learn the patterns and you'll fix most errors in under a minute.
+
+**Common error types:**
+
+- **AttributeError: 'NoneType' has no attribute...** — you're operating on \`bpy.context.active_object\` but nothing is selected. Add a selection guard.
+- **RuntimeError: Operator bpy.ops.X.y() context is incorrect** — the operator needs to be run in a specific mode or with specific context. Check what mode you're in.
+- **KeyError: 'NodeName'** — a node with that name doesn't exist. Print \`tree.nodes.keys()\` to see what's actually there.
+- **TypeError: expected MESH, got CURVE** — wrong object type. Check \`obj.type\` before operating.
+
+**Where errors appear:**
+
+- **Info Editor** — shows the error type but not always the full traceback
+- **System Console** — the full Python traceback with line numbers. On Mac: launch Blender from Terminal (\`/Applications/Blender.app/Contents/MacOS/Blender\`). This is where serious debugging happens.
+- **Text Editor** — errors highlight the failing line after running
+
+**The single most useful debug line:** \`print(dir(obj))\` — prints every attribute and method on any bpy object. Use it when you don't know what's available.`
+      },
+      {
+        title: "Rendering from the Command Line",
+        pythonCode: `# Run Blender headlessly from Terminal (no UI) — ideal for automation
+
+# Render a single frame (frame 1) and save to /renders/
+/Applications/Blender.app/Contents/MacOS/Blender -b scene.blend -o /renders/frame_ -f 1
+
+# Render animation (frames 1–250)
+/Applications/Blender.app/Contents/MacOS/Blender -b scene.blend -o /renders/frame_ -a
+
+# Run a Python script on a .blend file without opening the UI
+/Applications/Blender.app/Contents/MacOS/Blender -b scene.blend --python my_script.py
+
+# Run a script that modifies the scene, then renders
+/Applications/Blender.app/Contents/MacOS/Blender -b scene.blend --python setup.py -o /renders/ -f 1
+
+# In the script, trigger render programmatically:
+import bpy
+bpy.context.scene.render.filepath = "/renders/output_"
+bpy.context.scene.render.image_settings.file_format = 'PNG'
+bpy.ops.render.render(write_still=True)   # render current frame
+bpy.ops.render.render(animation=True)     # render full animation`,
+        content: `Blender can run entirely **without a GUI** — useful for batch rendering, automated scene generation, and CI/CD-style pipelines.
+
+**Key flags:**
+- \`-b\` or \`--background\` — headless mode (no window)
+- \`-f N\` — render frame N
+- \`-a\` — render full animation
+- \`-o /path/\` — output directory
+- \`--python script.py\` — run a Python script on the loaded scene
+- \`-E ENGINE\` — set render engine (\`CYCLES\`, \`BLENDER_EEVEE_NEXT\`)
+- \`-t N\` — use N threads for CPU rendering
+
+**The vibe-coding pipeline this enables:**
+1. AI generates a Python script that builds a scene
+2. You run it headlessly: \`blender -b -P scene_builder.py -o /renders/ -f 1\`
+3. No need to open Blender's UI at all
+
+This is how automated 3D content generation works at scale — parametric scene scripts + headless renders, driven from any external system.`
+      },
+      {
+        title: "VS Code as an External Editor",
+        pythonCode: `# Install the "Blender Development" extension by Jacques Lucke in VS Code
+# It connects VS Code directly to a running Blender instance
+
+# In VS Code: Cmd+Shift+P → "Blender: Start" → picks a Blender executable
+# Then: Cmd+Shift+P → "Blender: Run Script" → runs current file in Blender
+
+# The extension also provides:
+# - bpy auto-complete in VS Code (via fake-bpy-module)
+# - Real-time error feedback
+# - Add-on development with hot-reload
+
+# Install fake-bpy-module for auto-complete in VS Code (without running Blender):
+# pip install fake-bpy-module-latest
+
+# In your project: create a .vscode/settings.json
+# {
+#   "python.analysis.extraPaths": ["path/to/fake-bpy-module"]
+# }
+
+# Now VS Code knows the full bpy type hierarchy and auto-completes:
+import bpy
+obj = bpy.context.active_object  # VS Code knows this is bpy.types.Object
+obj.modifiers.new(  # → auto-completes name, type parameters`,
+        content: `For serious scripting, VS Code gives you a much better experience than Blender's built-in Text Editor.
+
+**Setup:**
+1. Install the **Blender Development** extension in VS Code (by Jacques Lucke)
+2. Install **fake-bpy-module**: \`pip install fake-bpy-module-latest\` — gives VS Code full bpy type info and auto-complete without needing Blender running
+3. Connect VS Code to a running Blender: **Cmd+Shift+P → Blender: Start**
+4. Run any script into Blender: **Cmd+Shift+P → Blender: Run Script**
+
+**What this gets you:**
+- Full bpy auto-complete in VS Code (the entire API, typed)
+- Inline documentation on hover for any bpy class or method
+- Real-time error highlighting
+- Edit the script in VS Code, run it in Blender instantly — much faster iteration than copy-pasting into Blender's Text Editor
+
+**For vibe-coding:** VS Code is where you receive the AI-generated script, review it, make small edits, then run it into Blender with one command. The auto-complete also helps you understand what the generated code is doing.`
+      },
+      {
+        title: "The Vibe-Coding Loop",
+        pythonCode: `# The complete vibe-coding workflow for Blender:
+
+# 1. Know what you want (this workshop gives you the vocabulary)
+goal = "Create a procedural rocky terrain with Cycles lighting and an HDRI"
+
+# 2. Prompt an AI with precise Blender terminology
+prompt = """
+Write a bpy Python script that:
+- Creates a Grid mesh (50x50 subdivisions, 20 units wide)
+- Adds a Displace modifier with a Musgrave texture (scale 3.0, strength 2.0)
+- Adds a Principled BSDF material with Noise-driven Base Color (grey/brown tones)
+  and Roughness variation (0.4-0.8 range via Map Range node)
+- Adds a 3-point Area light setup (key 800W warm, fill 200W cool, rim 300W)
+- Sets the World to an HDRI environment (placeholder path)
+- Sets the render engine to Cycles, 128 samples, OIDN denoising
+- Renders to //render_output.png
+"""
+
+# 3. Receive the script — review for obvious issues
+# 4. Run it: paste into Blender Text Editor → Alt+P
+#    OR: blender -b -P generated_script.py
+
+# 5. Read errors in System Console — feed back to AI with exact error message
+error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created with use_nodes=True but nodes weren't cleared first"
+
+# 6. Iterate — usually 1-3 rounds to a working scene
+# 7. Tweak parameters directly in bpy or via the UI`,
+        content: `The vibe-coding loop with Blender has a specific shape, and this workshop is designed to make each step effective.
+
+**The loop:**
+
+1. **Describe what you want** — in precise Blender terms. "A procedural rocky terrain" is vague. "A Grid mesh with a Displace modifier driven by a Musgrave texture at scale 3, feeding into a Subdivision Surface at level 2, with a noise-driven roughness variation between 0.4 and 0.8" is a prompt that generates working code.
+
+2. **Prompt with tool names** — the vocabulary from this workshop (modifier types, node names, bpy paths) is exactly what makes prompts accurate. The AI knows Blender's API precisely; your job is to give it the right terms.
+
+3. **Run and read errors** — most generated scripts fail on first run due to context issues or API version differences. Copy the error from the System Console and feed it back to the AI with the exact message and line number.
+
+4. **Iterate** — typically 1–3 rounds. After that, the scene is live in Blender and you can tweak parameters directly in the UI or in the script.
+
+**What makes this workshop directly useful:**
+- You know enough to describe any outcome in Blender vocabulary → better prompts
+- You can read the generated script and understand what it's doing → spot obvious errors before running
+- You know what context errors mean → fix or explain them to the AI quickly
+- You understand the non-destructive stack → you can modify the generated scene sensibly`
+      },
+      {
+        title: "🔨 Mini Workshop: Your First bpy Script",
+        isWorkshop: true,
+        pythonCode: `import bpy
+
+# This script builds a simple shaded sphere entirely from Python.
+# Run it in: Scripting workspace → Text Editor → Alt+P
+
+# Clear the default scene
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
+
+# Add a sphere
+bpy.ops.mesh.primitive_uv_sphere_add(segments=32, ring_count=16, radius=1)
+obj = bpy.context.active_object
+obj.name = "MyFirstSphere"
+bpy.ops.object.shade_smooth()
+
+# Create a simple material
+mat = bpy.data.materials.new("ProcMat")
+mat.use_nodes = True
+obj.data.materials.append(mat)
+bsdf = mat.node_tree.nodes["Principled BSDF"]
+bsdf.inputs["Base Color"].default_value = (0.2, 0.5, 0.9, 1.0)
+bsdf.inputs["Roughness"].default_value  = 0.3
+bsdf.inputs["Metallic"].default_value   = 0.0
+
+# Add a key light
+bpy.ops.object.light_add(type='AREA', location=(3, -2, 4))
+light = bpy.context.active_object
+light.data.energy = 500
+light.data.size   = 1.5
+
+# Set Cycles, 64 samples, denoise
+scene = bpy.context.scene
+scene.render.engine  = 'CYCLES'
+scene.cycles.samples = 64
+scene.cycles.use_denoising = True
+
+print("Scene built. Press F12 to render.")`,
+        content: `Get your first bpy script running end-to-end:
+
+**Part 1 — Use the Info Method**
+1. Open the **Scripting workspace** (top tab)
+2. Open the **Info Editor** (change one of the panels to Info type)
+3. Add a UV Sphere via Shift+A → Mesh → UV Sphere
+4. Change its Roughness in the material to 0.4
+5. Look at what the Info Editor logged — that's the Python equivalent
+
+**Part 2 — Run the Python script**
+1. In the **Text Editor** (left panel of Scripting workspace), click **New**
+2. Paste in the bpy code shown in the Python panel (toggle the 🐍 switch above)
+3. Press **Alt+P** to run it
+4. Watch the sphere appear in the viewport
+
+**Part 3 — Deliberately break it and debug**
+1. Remove the \`import bpy\` line — run it. Read the error.
+2. Change \`"ProcMat"\` to an existing material name — see what happens.
+3. Add \`print(dir(obj))\` anywhere — see every attribute available on the object.
+
+✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code`
+      }
+    ]
   }
 ];
 
@@ -3392,13 +3741,13 @@ const CodeBlock = ({ code }) => {
 };
 
 export default function BlenderWorkshop() {
-  const [activeModule, setActiveModule] = useState(0);
+  const [activeModule, setActiveModule] = useState(null); // null = home
   const [completedModules, setCompletedModules] = useState(new Set());
   const [expandedSections, setExpandedSections] = useState({ 0: true });
   const [activeTab, setActiveTab] = useState("content");
   const [showPython, setShowPython] = useState(false);
 
-  const mod = modules[activeModule];
+  const mod = activeModule !== null ? modules[activeModule] : null;
   const progress = Math.round((completedModules.size / modules.length) * 100);
 
   const toggleSection = (i) => {
@@ -3412,6 +3761,8 @@ export default function BlenderWorkshop() {
       setExpandedSections({ 0: true });
     }
   };
+
+  const goHome = () => { setActiveModule(null); setActiveTab("content"); };
 
   const tabs = [
     { id: "content", label: "📖 Lessons" },
@@ -3441,7 +3792,7 @@ export default function BlenderWorkshop() {
         overflowY: "auto"
       }}>
         {/* Logo */}
-        <div style={{ padding: "24px 20px 16px", borderBottom: "1px solid #1e1e2e" }}>
+        <div onClick={goHome} style={{ padding: "24px 20px 16px", borderBottom: "1px solid #1e1e2e", cursor: "pointer" }}>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 4 }}>WORKSHOP</div>
           <div style={{ fontSize: 20, fontWeight: 800 }}>Blender <span style={{ color: "#e8622a" }}>5.1</span></div>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", marginTop: 2 }}>Mac Trackpad · Vibe-Code Ready</div>
@@ -3460,6 +3811,24 @@ export default function BlenderWorkshop() {
 
         {/* Nav */}
         <div style={{ flex: 1, padding: "8px 0" }}>
+          {/* Home */}
+          <div
+            onClick={goHome}
+            style={{
+              display: "flex", alignItems: "center", gap: 10,
+              padding: "9px 20px", cursor: "pointer",
+              borderLeft: `3px solid ${activeModule === null ? "#e8622a" : "transparent"}`,
+              background: activeModule === null ? "rgba(232,98,42,0.08)" : "transparent",
+              transition: "all 0.15s", marginBottom: 4
+            }}
+          >
+            <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>🏠</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: activeModule === null ? "#e8e8f0" : "#888899" }}>Overview</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 1 }}>START HERE</div>
+            </div>
+          </div>
+          <div style={{ height: 1, background: "#1e1e2e", margin: "4px 20px 8px" }} />
           {modules.map((m, i) => (
             <div
               key={m.id}
@@ -3508,7 +3877,7 @@ export default function BlenderWorkshop() {
                 padding: "14px 20px",
                 background: "transparent",
                 border: "none",
-                borderBottom: `2px solid ${activeTab === tab.id ? mod.color : "transparent"}`,
+                borderBottom: `2px solid ${activeTab === tab.id ? (mod ? mod.color : "#e8622a") : "transparent"}`,
                 color: activeTab === tab.id ? "#e8e8f0" : "#555577",
                 cursor: "pointer",
                 fontSize: 12,
@@ -3708,8 +4077,125 @@ export default function BlenderWorkshop() {
             </div>
           )}
 
+          {/* ── HOME / LANDING PAGE ── */}
+          {activeModule === null && (
+            <div style={{ maxWidth: 760, margin: "0 auto" }}>
+
+              {/* Hero */}
+              <div style={{ marginBottom: 48, paddingBottom: 40, borderBottom: "1px solid #1e1e2e" }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 12 }}>BLENDER 5.1 WORKSHOP</div>
+                <div style={{ fontSize: 36, fontWeight: 800, lineHeight: 1.15, marginBottom: 16 }}>
+                  Learn to navigate<br />
+                  <span style={{ color: "#e8622a" }}>the possibility space.</span>
+                </div>
+                <div style={{ fontSize: 15, color: "#888899", lineHeight: 1.8, maxWidth: 600 }}>
+                  This workshop teaches you <strong style={{ color: "#e8e8f0" }}>Blender's vocabulary, architecture, and tool landscape</strong> — not how to click every button. The goal is to build the mental model you need to direct an AI agent (or yourself) toward any 3D outcome with confidence.
+                </div>
+              </div>
+
+              {/* POV */}
+              <div style={{ marginBottom: 40 }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 16 }}>THE LEARNING METHOD</div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  {[
+                    { icon: "🗺️", title: "Possibility space first", body: "Each module maps what exists and what it's for — before drilling into how to use it. You learn the territory before you learn the roads." },
+                    { icon: "🎯", title: "Outcome → tool thinking", body: "The Outcomes tab inverts the learning: start from what you want to make, then find which Blender system applies. That's how vibe-coding works in practice." },
+                    { icon: "🐍", title: "UI maps to code", body: "Every section has a Python/bpy equivalent. Toggle it on to see how each knob in Blender's interface maps to a line of code you can generate or modify." },
+                    { icon: "🧠", title: "Self-assessment, not grades", body: "Each module ends with a short quiz. No gates, no scores that persist — just a mirror to see how the concepts landed before moving on." },
+                  ].map(card => (
+                    <div key={card.title} style={{ background: "#111118", border: "1px solid #1e1e2e", borderRadius: 10, padding: "16px 18px" }}>
+                      <div style={{ fontSize: 22, marginBottom: 8 }}>{card.icon}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: "#e8e8f0", marginBottom: 6 }}>{card.title}</div>
+                      <div style={{ fontSize: 12.5, color: "#777799", lineHeight: 1.65 }}>{card.body}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* How to use */}
+              <div style={{ marginBottom: 40, background: "#111118", border: "1px solid #1e1e2e", borderRadius: 10, padding: "22px 24px" }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 16 }}>HOW TO USE THIS WORKSHOP</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  {[
+                    { step: "01", label: "Start each module with the Lessons tab", desc: "Read the intro framing, then expand each section in order. The intro tells you why this domain matters — read it before the details." },
+                    { step: "02", label: "Allocate 30–60 minutes per module", desc: "Concept-only pass (just reading): ~30 min. With the workshop exercise in Blender: ~60 min. Geometry Nodes (Module 6) and Physics (Module 11) each deserve a dedicated session." },
+                    { step: "03", label: "Toggle the 🐍 bpy switch", desc: "Once you've read a section, turn on the bpy toggle and trace how the UI concepts map to Python. This is the bridge to vibe-coding — you learn to describe what you want in Blender's terms." },
+                    { step: "04", label: "Take the quiz before moving on", desc: "Answer the questions at the bottom of each module. If something surprises you, re-read the relevant section — not the whole module." },
+                    { step: "05", label: "Use the Outcomes tab as a reference", desc: "After finishing all modules, the Outcomes tab becomes your primary tool. It's an index of Blender's possibility space: goal → workflow → tool names." },
+                  ].map(s => (
+                    <div key={s.step} style={{ display: "flex", gap: 16, alignItems: "start" }}>
+                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#e8622a", flexShrink: 0, paddingTop: 1, width: 24 }}>{s.step}</div>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "#e8e8f0", marginBottom: 3 }}>{s.label}</div>
+                        <div style={{ fontSize: 12.5, color: "#777799", lineHeight: 1.65 }}>{s.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Time table */}
+              <div style={{ marginBottom: 40 }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 16 }}>TIME ALLOCATION</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 14 }}>
+                  {[
+                    { label: "Concept pass", time: "~5.5 hrs", note: "Reading only, all 14 modules", color: "#5b8dee" },
+                    { label: "With exercises", time: "~11 hrs", note: "Doing the workshops in Blender", color: "#c084fc" },
+                    { label: "Per session", time: "1–2 modules", note: "Recommended pace", color: "#e8622a" },
+                  ].map(t => (
+                    <div key={t.label} style={{ background: "#111118", border: `1px solid ${t.color}30`, borderRadius: 10, padding: "16px", textAlign: "center" }}>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: t.color, marginBottom: 4 }}>{t.time}</div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: "#e8e8f0", marginBottom: 4 }}>{t.label}</div>
+                      <div style={{ fontSize: 11, color: "#555577" }}>{t.note}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ fontSize: 12, color: "#555577", lineHeight: 1.6, padding: "0 4px" }}>
+                  Modules 6 (Geometry Nodes) and 11 (Physics) are the most conceptually dense — each deserves its own session. Module 14 (bpy Setup) is short but high-value if you plan to vibe-code.
+                </div>
+              </div>
+
+              {/* Capabilities */}
+              <div style={{ marginBottom: 40, background: "rgba(68,217,162,0.04)", border: "1px solid rgba(68,217,162,0.15)", borderRadius: 10, padding: "22px 24px" }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#44d9a2", letterSpacing: 2, marginBottom: 16 }}>AFTER COMPLETING ALL MODULES</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {[
+                    "Fluent in Blender's vocabulary — you can read documentation, watch tutorials, and follow technical discussions without getting lost in terminology",
+                    "Able to look at any 3D scene, render, or effect and name the systems involved: which modifiers, shaders, light types, and simulation domains produced it",
+                    "Know which Blender tool or system to reach for given any creative goal — without having to try every option by hand",
+                    "Understand the non-destructive workflow: when to stay live, when to apply, and how to structure a scene for future editability",
+                    "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using the bpy knowledge from Module 14",
+                    "Equipped to self-direct further learning — because you have a map of the territory, you know exactly which gaps remain to fill",
+                  ].map((cap, i) => (
+                    <div key={i} style={{ display: "flex", gap: 12, alignItems: "start" }}>
+                      <span style={{ color: "#44d9a2", flexShrink: 0, fontSize: 13, paddingTop: 1 }}>✓</span>
+                      <span style={{ fontSize: 13, color: "#9999bb", lineHeight: 1.6 }}>{cap}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div style={{ display: "flex", justifyContent: "center", paddingBottom: 40 }}>
+                <button
+                  onClick={() => { setActiveModule(0); setExpandedSections({ 0: true }); }}
+                  style={{
+                    padding: "14px 36px", borderRadius: 10, border: "none",
+                    background: "linear-gradient(135deg, #e8622a, #c84a1a)",
+                    color: "#fff", fontSize: 15, fontWeight: 700,
+                    fontFamily: "'Inter', sans-serif", cursor: "pointer",
+                    boxShadow: "0 4px 24px rgba(232,98,42,0.35)"
+                  }}
+                >
+                  Start Module 1 — Mental Model →
+                </button>
+              </div>
+
+            </div>
+          )}
+
           {/* ── CONTENT TAB ── */}
-          {activeTab === "content" && (
+          {activeTab === "content" && activeModule !== null && (
             <div>
               {/* Module header */}
               <div style={{ marginBottom: 28 }}>
