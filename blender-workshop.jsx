@@ -4775,16 +4775,16 @@ export default function BlenderWorkshop() {
   };
 
   const tabs = [
-    { id: "content", label: "📖 Lessons" },
-    { id: "outcomes", label: "🎯 Outcomes" },
-    { id: "quickref", label: "⌨️ Quick Ref" },
+    { id: "content", label: "📖 Lessons", mobileLabel: "📖" },
+    { id: "outcomes", label: "🎯 Outcomes", mobileLabel: "🎯" },
+    { id: "quickref", label: "⌨️ Quick Ref", mobileLabel: "⌨️" },
   ];
 
   return (
     <div
       style={{
         display: "flex",
-        height: "100vh",
+        height: "100%",
         fontFamily: "'Inter', sans-serif",
         background: "#0a0a0f",
         color: "#e8e8f0",
@@ -5064,21 +5064,22 @@ export default function BlenderWorkshop() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
-                padding: "14px 20px",
+                padding: isMobile ? "12px 10px" : "14px 20px",
                 background: "transparent",
                 border: "none",
                 borderBottom: `2px solid ${activeTab === tab.id ? (mod ? mod.color : "#e8622a") : "transparent"}`,
                 color: activeTab === tab.id ? "#e8e8f0" : "#555577",
                 cursor: "pointer",
-                fontSize: 12,
+                fontSize: isMobile ? 18 : 12,
                 fontWeight: 600,
                 fontFamily: "'Inter', sans-serif",
-                letterSpacing: 1,
+                letterSpacing: isMobile ? 0 : 1,
                 transition: "all 0.15s",
                 textTransform: "uppercase",
+                flexShrink: 0,
               }}
             >
-              {tab.label}
+              {isMobile ? tab.mobileLabel : tab.label}
             </button>
           ))}
           <div
@@ -5107,18 +5108,20 @@ export default function BlenderWorkshop() {
               }}
             >
               <span style={{ fontSize: 13 }}>🐍</span>
-              <span
-                style={{
-                  fontSize: 12,
-                  color: showPython ? "#38bdf8" : "#aaaacc",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  letterSpacing: 1,
-                  transition: "color 0.2s",
-                  fontWeight: showPython ? 700 : 400,
-                }}
-              >
-                bpy
-              </span>
+              {!isMobile && (
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: showPython ? "#38bdf8" : "#aaaacc",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    letterSpacing: 1,
+                    transition: "color 0.2s",
+                    fontWeight: showPython ? 700 : 400,
+                  }}
+                >
+                  bpy
+                </span>
+              )}
               <div
                 style={{
                   width: 40,
