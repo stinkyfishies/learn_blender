@@ -16,6 +16,12 @@ const modules = [
     tag: "FOUNDATION",
     color: "#e8622a",
     intro: "Before touching anything: understand how Blender thinks. Its architecture shapes every decision — why modes exist, why nothing is 'just a file', and how to reason about what's possible.",
+    quiz: [
+      { q: "An Object and its Mesh are separate datablocks. What does this allow you to do?", options: ["Change the mesh's color independently of the object", "Have multiple objects share the same mesh data with zero extra memory cost", "Apply modifiers to the mesh without affecting the object", "Move the mesh without moving the object"], answer: 1, explanation: "Alt+D (linked duplicate) creates a new Object that references the same Mesh datablock. Thousands of instances, one mesh in memory." },
+      { q: "Which of these is NON-destructive in Blender?", options: ["Applying a Subdivision Surface modifier", "Sculpting directly on a mesh", "Adding a Mirror modifier to a mesh", "Using the Knife tool to cut geometry"], answer: 2, explanation: "Adding a modifier leaves the original mesh data unchanged. Applying it, sculpting, or using the Knife permanently modifies the mesh." },
+      { q: "You're in Sculpt Mode and want to switch to the Shader Editor. What's the most direct path?", options: ["You must return to Object Mode first", "Change the editor type via the icon in the top-left of any panel", "Close and reopen Blender", "Use File → Open New Editor"], answer: 1, explanation: "Any panel can become any editor type at any time — click the editor type icon in the panel's top-left corner." },
+      { q: "What is a Collection in Blender?", options: ["A group of materials applied to one object", "A set of modifier presets", "A named group of objects that can be toggled, instanced, and linked", "A folder that stores .blend files on disk"], answer: 2, explanation: "Collections are scene-level organisational containers. Objects can belong to multiple collections, and collections can be instanced as lightweight objects." },
+    ],
     sections: [
       {
         title: "Blender's Data Architecture",
@@ -241,6 +247,12 @@ for obj in scene.objects:
     tag: "MAC TRACKPAD",
     color: "#5b8dee",
     intro: "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything — do these first.",
+    quiz: [
+      { q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?", options: ["Two-finger drag", "Three-finger swipe", "Option + drag", "Cmd + drag"], answer: 2, explanation: "Option+drag emulates the middle mouse button, which Blender uses for orbiting the viewport." },
+      { q: "You want to run a Blender feature but can't find it in any menu. What's the fastest way?", options: ["Search the Blender documentation online", "Press F3 to open the operator search", "Check Preferences → Add-ons", "Right-click in the viewport"], answer: 1, explanation: "F3 searches every available operator by name. Type what you want and run it directly — the core vibe-coding shortcut." },
+      { q: "What does pressing the Period (.) key do in the 3D viewport?", options: ["Opens the decimal input for precise transforms", "Frames the selected object(s) in the viewport", "Toggles orthographic mode", "Opens the pivot point menu"], answer: 1, explanation: "Period frames/zooms to the selected object. Essential for quickly re-centering your view on what you're working on." },
+      { q: "What does the Z key open in the 3D viewport?", options: ["The zoom controls", "The undo history", "The shading pie menu (Wireframe, Solid, Material, Rendered)", "The scale tool"], answer: 2, explanation: "Z opens the shading pie menu — a quick way to switch between how the scene looks without going to the toolbar." },
+    ],
     sections: [
       {
         title: "First: Configure Blender for Mac Trackpad",
@@ -431,6 +443,11 @@ In Edit Mode, selection works on whichever element type is active:
     tag: "OBJECT MODE",
     color: "#60a5fa",
     intro: "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically — not just what it looks like.",
+    quiz: [
+      { q: "You want to sculpt a creature head. Which sphere primitive is the better starting point, and why?", options: ["UV Sphere — more vertices means more sculpting detail", "Ico Sphere — more uniform triangle distribution across the surface, better for subdivision and sculpting", "Plane — you can extrude into any shape", "Torus — ring topology works well for necks"], answer: 1, explanation: "UV Sphere has messy pole pinching at the top/bottom which deforms badly under subdivision. Ico Sphere distributes geometry evenly — ideal for organic sculpting." },
+      { q: "You add a Cylinder and immediately want to change it to 6 sides (hexagonal). Where do you do this?", options: ["Properties → Object Data → Vertices", "The F9 operator panel that appears bottom-left after adding", "Edit Mode → Mesh → Change Vertices", "Modifier → Decimate"], answer: 1, explanation: "The F9 operator panel (or click the bottom-left panel) lets you change the vertex count right after adding. It disappears the moment you do anything else." },
+      { q: "What data type does Shift+A → Curve → Bezier give you, and how does it differ from a Mesh?", options: ["A mesh made of curved edges — same as a mesh but pre-smoothed", "A mathematically smooth path defined by control points and handles, not polygons", "A modifier that curves an existing mesh", "A texture that creates a curved gradient"], answer: 1, explanation: "Curves are a separate data type — defined by handles and control points, not vertices/edges/faces. They can be converted to mesh, or used directly (for pipes, paths, etc.) via the Curve modifier." },
+    ],
     sections: [
       {
         title: "What Primitives Give You",
@@ -581,6 +598,12 @@ print(f"Triangles: {len(tris)}")`,
     tag: "CORE MODELING",
     color: "#44d9a2",
     intro: "Edit Mode is where real modeling happens. You're operating on the mesh's actual geometry — vertices, edges, faces. Topology (how geometry is connected) determines everything: how the mesh deforms, subdivides, and renders.",
+    quiz: [
+      { q: "What does Alt+Click do on an edge in Edit Mode?", options: ["Deletes the edge", "Selects the entire edge loop running around the mesh", "Adds a new edge loop", "Bevels the edge"], answer: 1, explanation: "Alt+Click selects an edge loop — a ring of connected edges that runs around the mesh. One of the most powerful selection shortcuts in modeling." },
+      { q: "Why are quads (4-sided faces) preferred over triangles for most modeling?", options: ["Quads render faster in Cycles", "Quads subdivide predictably and shade cleanly; triangles cause shading artifacts on curved surfaces", "Blender can only import quad meshes", "Triangles use more memory than quads"], answer: 1, explanation: "Quads subdivide cleanly and deform predictably for animation. Triangles on curved, subdivided surfaces produce visible shading artifacts." },
+      { q: "What does Proportional Editing (O) do when you move a vertex?", options: ["Moves only the selected vertex, nothing else", "Locks the transform to a proportional axis", "Makes the transform fall off smoothly to nearby unselected vertices within a radius", "Snaps the vertex to the nearest surface"], answer: 2, explanation: "Proportional Editing creates a smooth falloff — like pulling fabric. Essential for organic shaping without selecting every vert individually." },
+      { q: "An object's faces are shading dark and look inside-out. What's most likely wrong?", options: ["The material is set to transparent", "The normals are flipped — faces are pointing inward instead of outward", "The object needs a Subdivision Surface modifier", "The viewport is in Wireframe mode"], answer: 1, explanation: "Flipped normals make faces look dark because light isn't hitting the 'outside'. Fix with Mesh → Normals → Recalculate Outside (Shift+N in Edit Mode)." },
+    ],
     sections: [
       {
         title: "Selection Modes & Essential Navigation",
@@ -820,6 +843,12 @@ The goal isn't a perfect mug. The goal is to use I, E, Ctrl+R, and Ctrl+J in con
     tag: "NON-DESTRUCTIVE",
     color: "#c084fc",
     intro: "Modifiers are Blender's superpower — non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",
+    quiz: [
+      { q: "You add a Bevel modifier, then a Subdivision Surface modifier. The result looks different than Subdivision then Bevel. Why?", options: ["The modifiers have conflicting settings", "Modifier order matters — the stack processes top to bottom, so each modifier receives the output of the one above it", "Only one modifier can be active at a time", "You need to Apply the first modifier before adding the second"], answer: 1, explanation: "Order is everything. Bevel → Subdivision means subdivision smooths the already-beveled edges. Subdivision → Bevel means the beveler operates on subdivided geometry. Completely different results." },
+      { q: "You want to model only the right half of a character and have the left appear automatically. Which modifier?", options: ["Array", "Mirror", "Solidify", "Screw"], answer: 1, explanation: "Mirror modifier reflects geometry across a chosen axis. Enable Clipping so vertices snap cleanly at the center seam. Model half, get the full mesh." },
+      { q: "What does the Displace modifier do?", options: ["Moves the entire object to a new location", "Uses a texture to push vertices outward along their normals", "Displaces the modifier stack order", "Creates a copy of the object at an offset"], answer: 1, explanation: "Displace reads a grayscale texture and pushes vertices along their normals by the texture's value. The fastest way to make terrain, wrinkles, or surface detail." },
+      { q: "When should you Apply a modifier rather than leaving it in the stack?", options: ["Always apply immediately — live modifiers are slow", "Only when you need to sculpt on the result, export, or manually edit the modified geometry", "Whenever you save the file", "After rendering, to save memory"], answer: 1, explanation: "Keep modifiers live as long as possible. Apply only when you need to do something the modifier stack can't support — like sculpting at the subdivided resolution." },
+    ],
     sections: [
       {
         title: "The Modifier Stack",
@@ -1078,6 +1107,12 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
     tag: "PROCEDURAL GENERATION",
     color: "#38bdf8",
     intro: "Geometry Nodes is Blender's procedural modeling system — a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",
+    quiz: [
+      { q: "What is a Field in Geometry Nodes?", options: ["A named input parameter on a node group", "A value that is evaluated per-element (per vertex, face, instance) rather than as a single constant", "A 2D texture used to drive geometry", "A node that stores multiple geometry outputs"], answer: 1, explanation: "Fields are functions, not values. A Position field doesn't return one point — it returns the position of each element individually. This is what makes 'distribute across a surface' possible." },
+      { q: "You want to scatter 5,000 rocks across a terrain with near-zero memory cost. What's the GN approach?", options: ["Duplicate the rock object 5,000 times manually", "Use Array modifier with count 5000", "Distribute Points on Faces → Instance on Points, with the rock as the instance", "Export and reimport as a particle system"], answer: 2, explanation: "Instances are lightweight references — 5,000 instances point to one rock mesh. Near-zero memory overhead vs 5,000 duplicates which would copy all geometry." },
+      { q: "What do Simulation Zones in Geometry Nodes allow you to do?", options: ["Simulate rendering performance before a final render", "Run per-frame iterative logic where each frame can read the previous frame's state", "Preview physics simulations faster", "Run geometry nodes only during simulation playback"], answer: 1, explanation: "Simulation Zones pass state from frame to frame — the output of frame N becomes the input of frame N+1. This enables custom physics, growth algorithms, and any iterative process." },
+      { q: "What's the key difference between using GN for hair vs the legacy particle hair system?", options: ["GN hair is slower and only works in Cycles", "GN hair is Curves-based, fully procedural, and integrated with the node graph — the legacy system uses particles and is being phased out", "GN hair requires a GPU", "There is no difference — they produce identical results"], answer: 1, explanation: "The new hair system (Blender 4.x+) treats each strand as a Curves object, which can be driven and styled procedurally in GN. Legacy particle hair is deprecated." },
+    ],
     sections: [
       {
         title: "What Geometry Nodes Is For",
@@ -1361,6 +1396,12 @@ You now have hundreds of spheres scattered on the grid — procedurally.
     tag: "SURFACE APPEARANCE",
     color: "#f472b6",
     intro: "Materials define what an object is made of — metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender 5.1 uses both Cycles and EEVEE Next, each with full Principled BSDF support.",
+    quiz: [
+      { q: "What does setting Metallic to 0.5 on the Principled BSDF produce?", options: ["A semi-metallic alloy material", "An unrealistic result — Metallic should almost always be 0 or 1, not in-between", "A brushed metal appearance", "A material halfway between plastic and chrome"], answer: 1, explanation: "Real-world materials are either conductors (metals, Metallic=1) or dielectrics (everything else, Metallic=0). Values in between don't correspond to real materials and look wrong." },
+      { q: "What does the Roughness parameter control on Principled BSDF?", options: ["How rough the geometry surface is", "Whether the surface reflects light as a sharp mirror (0) or as a blurry matte (1)", "The amount of surface displacement", "How transparent the material is"], answer: 1, explanation: "Roughness controls microsurface scattering. 0 = perfect mirror, 1 = completely diffuse matte. Most real surfaces fall between 0.3–0.8." },
+      { q: "You want rock-coloured variation that's organic and non-repeating, with no image texture. Which node combination works?", options: ["Image Texture → Color Mix", "Noise Texture → ColorRamp → Base Color", "Voronoi Texture → Bump → Normal", "Wave Texture → Fresnel → Emission"], answer: 1, explanation: "Noise Texture generates infinite organic variation. ColorRamp remaps the 0–1 output to any set of colours. Connect to Base Color for instant procedural surface variation." },
+      { q: "What is the Fresnel node used for in a shader?", options: ["Controlling how transparent glass is at different angles", "Making surfaces more reflective at grazing angles — the physical phenomenon of edge highlights", "Generating a rainbow spectrum effect", "Setting the index of refraction for transmission"], answer: 1, explanation: "Fresnel models how reflectivity increases at grazing angles — exactly what makes real surfaces like plastic and water look realistic. Use as a Mix Shader factor for physically correct blending." },
+    ],
     sections: [
       {
         title: "Principled BSDF — The Universal Shader",
@@ -1612,6 +1653,12 @@ Then experiment:
     tag: "ILLUMINATION",
     color: "#fbbf24",
     intro: "Lighting is half the art. The same object in bad lighting looks terrible. Blender 5.1 with EEVEE Next gives you cinema-grade lighting in real time.",
+    quiz: [
+      { q: "Which light type produces the softest shadows, and why?", options: ["Point — because it emits in all directions", "Sun — because it's infinitely far away", "Area — because it's a large surface emitter; larger size = softer shadows", "Spot — because of the Blend parameter"], answer: 2, explanation: "Shadow softness is determined by apparent light source size. Area lights are physical surfaces — a 2m area light produces much softer shadows than a 0.1m point." },
+      { q: "An HDRI in the World settings does what?", options: ["Adds a background image that doesn't affect lighting", "Acts as both environment background and light source — a 360° photograph that illuminates the scene", "Only affects viewport display, not renders", "Creates a dome mesh around the scene"], answer: 1, explanation: "HDRI (High Dynamic Range Image) provides realistic omnidirectional lighting from a real-world photograph. It's both the background you see and the light that hits your objects." },
+      { q: "In a 3-point lighting setup, what is the Fill Light for?", options: ["It fills the frame with light uniformly", "It's the primary key light, positioned in front", "It softens the harsh shadows created by the key light from the opposite side", "It creates a rim highlight on the back edge of the subject"], answer: 2, explanation: "Fill light reduces contrast from the key light. It's placed on the opposite side at lower intensity — typically cool-toned vs a warm key. Without it, shadow areas go completely dark." },
+      { q: "You rotate a Sun light object in the scene. Its position is 100 units away from the subject. How does this affect the lighting?", options: ["Moving the sun closer makes it brighter", "Position has no effect — only rotation matters for Sun lights", "Moving it further makes shadows softer", "The sun must be within 10 units to cast shadows"], answer: 1, explanation: "Sun lights simulate a light source at infinite distance. Their rays are perfectly parallel regardless of the object's position in the scene — only rotation determines the light direction." },
+    ],
     sections: [
       {
         title: "Light Types and When to Use Each",
@@ -1821,6 +1868,12 @@ Observe: how does shadow softness change with light size? How does light color t
     tag: "ORGANIC MODELING",
     color: "#34d399",
     intro: "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms — characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",
+    quiz: [
+      { q: "What is Dyntopo (Dynamic Topology) best used for?", options: ["Final production sculpts with clean topology", "Early exploration — it adds/removes geometry on the fly so you can pull out details without pre-subdividing", "Retopologising a sculpt for animation", "Baking normal maps"], answer: 1, explanation: "Dyntopo is for messy exploration. It keeps adding triangles wherever you sculpt. The downside is chaotic topology — use it early, then Remesh before fine detail." },
+      { q: "Which sculpt brush pulls out tendrils of geometry as you drag?", options: ["Grab", "Inflate", "Snake Hook", "Elastic Deform"], answer: 2, explanation: "Snake Hook pulls geometry out as you drag, leaving a trail. Ideal for tentacles, horns, tails, and hair locks. Grab moves a chunk of mesh but doesn't elongate it." },
+      { q: "What does Remesh do to a sculpt?", options: ["Removes all geometry above a polygon limit", "Rebuilds the entire mesh surface with clean, uniform topology", "Applies all shape keys and resets the base mesh", "Smooths the entire mesh by one level"], answer: 1, explanation: "Remesh discards the existing topology and rebuilds it uniformly — either as voxels or quads. Use it to clean up chaotic Dyntopo topology before adding fine detail with Multires." },
+      { q: "You want to sculpt fine detail on the face without affecting the body. What's the right tool?", options: ["Decrease brush size and be careful", "Apply a Subdivision Surface modifier first", "Paint a Mask on the body to protect it, then sculpt freely on the face", "Separate the face into its own object"], answer: 2, explanation: "Masking paints a protected region. Masked vertices are locked — you can sculpt freely on the unmasked face without any risk of accidentally affecting the body." },
+    ],
     sections: [
       {
         title: "Topology Approaches for Sculpting",
@@ -2001,6 +2054,12 @@ Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster
     tag: "PRECISION MODELING",
     color: "#60a5fa",
     intro: "Hard surface modeling covers anything manufactured: machines, architecture, vehicles, electronics. The core technique is combining precise primitives using Boolean operations, then refining with bevels and subdivision.",
+    quiz: [
+      { q: "What does a Boolean Difference operation do?", options: ["Merges two objects into one combined shape", "Subtracts the cutter object's volume from the base object", "Keeps only the overlapping volume between two objects", "Smooths the intersection between two objects"], answer: 1, explanation: "Difference subtracts — like a cookie cutter. The cutter carves its shape out of the base. The cutter object is usually hidden after the operation, keeping the cut live and editable." },
+      { q: "Why add a Bevel modifier after Booleans on a hard surface object?", options: ["To fix the topology that Booleans break", "To add rounded edge highlights — without them, boolean cuts look unrealistically sharp", "To merge the cutter object permanently", "Bevel is required for Cycles to render hard edges correctly"], answer: 1, explanation: "Real manufactured objects have micro-bevels on their edges — they catch light and reveal form. A Bevel modifier with Angle Limit adds these highlights procedurally without touching the mesh." },
+      { q: "What is the purpose of the Weld modifier after a Boolean operation?", options: ["It merges the cutter and base into one object", "It cleans up near-zero-distance duplicate vertices left by the Boolean solver", "It smooths the mesh around the boolean cut", "It applies the boolean permanently"], answer: 1, explanation: "Boolean operations can leave coincident vertices (two verts in the exact same position) at cut edges. Weld merges vertices within a threshold distance, cleaning up the geometry." },
+      { q: "In the 'box cutter' hard surface workflow, why are boolean cutters kept hidden rather than deleted?", options: ["Hidden objects use less memory", "Keeping cutters alive means the boolean cut remains editable — move or reshape the cutter later to adjust the cut non-destructively", "Blender requires cutters to stay in the scene to render", "Deleted cutters would also delete the boolean modifier"], answer: 1, explanation: "This is the core of non-destructive hard surface work. H hides the cutter but the Boolean modifier still references it. You can unhide it later, reshape it, and the cut updates automatically." },
+    ],
     sections: [
       {
         title: "Boolean Operations",
@@ -2213,6 +2272,12 @@ Add an Area light at a low grazing angle to show the surface detail dramatically
     tag: "DYNAMICS",
     color: "#fb923c",
     intro: "Blender includes several simulation systems for dynamics, fabric, fluids, fire, smoke, and particles. Each is its own domain. Knowing which system handles which problem is the skill.",
+    quiz: [
+      { q: "In Rigid Body simulation, what is a Passive object?", options: ["An object that moves slowly due to high mass", "A static collider — it doesn't move but other active objects bounce off it", "An object that absorbs simulation forces without responding", "An object that has been baked and can't be changed"], answer: 1, explanation: "Passive rigid bodies are immovable colliders — floors, walls, ramps. Active rigid bodies are dynamically simulated. Every simulation needs at least one passive collider or objects fall forever." },
+      { q: "What does a Pin Group do in Cloth simulation?", options: ["Pins the entire cloth to a fixed position", "Marks vertices that stay fixed during simulation while the rest simulates freely", "Prevents the cloth from self-colliding", "Locks the cloth modifier so it can't be changed"], answer: 1, explanation: "Create a vertex group, assign the verts you want fixed (e.g. the top of a tablecloth), then set it as the Pin Group. Those verts won't move — everything else drapes naturally." },
+      { q: "In Mantaflow, what is the Domain object?", options: ["The object that emits fluid or smoke", "The bounding box that defines where the simulation exists — fluid/smoke cannot leave it", "The collision object that fluid bounces off", "The camera through which the simulation is rendered"], answer: 1, explanation: "The Domain is the simulation volume. Everything inside it can participate in the sim. Make it large enough to contain the full effect — fluid that reaches the boundary gets clipped." },
+      { q: "You want fire and smoke. Which Mantaflow domain type and flow type do you use?", options: ["Domain: Liquid, Flow: Inflow", "Domain: Gas, Flow: Fire+Smoke or Fire", "Domain: Gas, Flow: Liquid", "Domain: Rigid, Flow: Smoke"], answer: 1, explanation: "Gas domain handles volumetric effects — smoke, fire, explosions. Set the Flow object's type to Fire, Smoke, or Fire+Smoke. Liquid domain is for water-like simulations." },
+    ],
     sections: [
       {
         title: "Rigid Body Simulation",
@@ -2476,6 +2541,12 @@ wind.rotation_euler[0] = 1.5708  # point sideways`,
     tag: "OUTPUT",
     color: "#a78bfa",
     intro: "Rendering converts your 3D scene into a final image or animation. Blender 5.1 has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",
+    quiz: [
+      { q: "Your scene has light focusing through a glass lens creating a caustic pattern on the table. Which renderer handles this correctly?", options: ["EEVEE Next — it's faster so it can compute more effects", "Cycles — it physically traces light rays, including caustics", "Workbench — it's designed for optical effects", "Both render caustics identically"], answer: 1, explanation: "Caustics require physically tracing light rays through refractive/reflective surfaces — something only path tracers like Cycles do correctly. EEVEE Next approximates many effects but not true caustics." },
+      { q: "What does enabling Denoising in Cycles allow you to do?", options: ["Render at full quality with zero noise regardless of sample count", "Use far fewer samples while still getting a clean result — AI removes remaining noise", "Denoise the audio track of an animation", "Remove compression artifacts from imported image textures"], answer: 1, explanation: "Denoising (OIDN or OptiX) is a trained model that removes Monte Carlo noise from low-sample Cycles renders. 64 samples + denoising can rival 512 samples without it." },
+      { q: "You're rendering an animation of a motion graphic logo. Speed matters more than caustics. Which engine?", options: ["Cycles — it's the only production-quality renderer", "EEVEE Next — near-instant frames, still high quality for motion graphics", "Workbench — designed for animation", "They take the same time for animations"], answer: 1, explanation: "EEVEE Next is a real-time path-traced renderer — frame times are orders of magnitude faster than Cycles for animation. For motion graphics, stylised work, and non-caustics scenes, it's the right choice." },
+      { q: "What is the Compositor in Blender used for?", options: ["Compositing multiple .blend files into one scene", "A node-based post-processing graph that runs on 2D rendered images — color grading, glare, depth of field, combining render passes", "Real-time mixing of audio and video tracks", "Merging multiple materials into one shader"], answer: 1, explanation: "The Compositor processes rendered images as 2D data using nodes. It runs after the render and can apply color grading, bloom, lens effects, and combine separate render passes into a final image." },
+    ],
     sections: [
       {
         title: "Cycles vs EEVEE Next — When to Use Each",
@@ -2735,6 +2806,12 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
     tag: "ADVANCED SHADING",
     color: "#818cf8",
     intro: "Procedural textures are generated mathematically — no image files, infinite resolution, no tiling, fully animatable. Combined with the Shader Editor, they can describe almost any surface.",
+    quiz: [
+      { q: "What does a ColorRamp node do?", options: ["Changes the hue of a texture by rotating the color wheel", "Remaps a grayscale 0–1 value to any set of colors or values you define", "Converts a color texture to black and white", "Blends two color inputs together equally"], answer: 1, explanation: "ColorRamp takes a single grayscale input (like Noise Texture's Fac output) and maps it to any gradient of colors you define. It's the bridge between procedural noise and meaningful color variation." },
+      { q: "Which texture node creates cell-like patterns — useful for cracked earth, skin pores, or ceramic tiles?", options: ["Noise Texture", "Wave Texture", "Voronoi Texture", "Magic Texture"], answer: 2, explanation: "Voronoi Texture creates cell-based patterns. 'Distance to Edge' mode gives sharp cracked lines between cells. Smooth F1 gives soft cellular blobs. Randomness controls how irregular the cells are." },
+      { q: "What is the difference between a Bump node and a Displacement node?", options: ["Bump is for organic surfaces, Displacement is for hard surfaces", "Bump fakes surface detail by changing how light hits without moving geometry; Displacement actually moves vertices", "Bump works in EEVEE, Displacement only in Cycles", "They are identical — just named differently for historical reasons"], answer: 1, explanation: "Bump is cheap — it tricks the lighting system into seeing detail that isn't geometrically there. Displacement is expensive and real — it requires enough geometry to actually move. Enable Displacement: Both in material settings for Cycles." },
+      { q: "You want a wood grain texture. Which node produces the underlying stripe/ring pattern?", options: ["Noise Texture with high Detail", "Voronoi in Distance to Edge mode", "Wave Texture in Rings or Bands mode, with Distortion added", "Musgrave with FBM type"], answer: 2, explanation: "Wave Texture creates concentric rings or parallel bands — the natural structure of wood grain. Add Distortion to break up the regularity, and a ColorRamp to map it to realistic wood colours." },
+    ],
     sections: [
       {
         title: "Core Texture Nodes",
@@ -3170,6 +3247,96 @@ const renderContent = (text) => {
   return elements;
 };
 
+const Quiz = ({ questions, moduleId }) => {
+  const [answers, setAnswers] = useState({});
+  const [revealed, setRevealed] = useState({});
+
+  // Reset when module changes
+  const key = moduleId;
+
+  const pick = (qi, oi) => {
+    if (answers[qi] !== undefined) return;
+    setAnswers(prev => ({ ...prev, [qi]: oi }));
+    setRevealed(prev => ({ ...prev, [qi]: true }));
+  };
+
+  const reset = () => { setAnswers({}); setRevealed({}); };
+
+  const answered = Object.keys(answers).length;
+  const correct  = questions.filter((q, i) => answers[i] === q.answer).length;
+
+  return (
+    <div style={{ marginTop: 32, borderTop: "1px solid #1e1e2e", paddingTop: 24 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+        <div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 4 }}>SELF-ASSESSMENT</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#e8e8f0" }}>Quick Check</div>
+        </div>
+        {answered > 0 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: answered === questions.length ? (correct === questions.length ? "#44d9a2" : "#fbbf24") : "#666688" }}>
+              {answered === questions.length ? `${correct}/${questions.length} correct` : `${answered}/${questions.length} answered`}
+            </span>
+            <button onClick={reset} style={{ background: "transparent", border: "1px solid #2a2a3a", borderRadius: 6, padding: "4px 10px", color: "#555577", cursor: "pointer", fontSize: 11, fontFamily: "'JetBrains Mono', monospace" }}>reset</button>
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {questions.map((q, qi) => {
+          const picked = answers[qi];
+          const done   = picked !== undefined;
+          const isRight = picked === q.answer;
+          return (
+            <div key={qi} style={{ background: "#111118", border: `1px solid ${done ? (isRight ? "#44d9a240" : "#f4727240") : "#1e1e2e"}`, borderRadius: 10, padding: "14px 16px" }}>
+              <div style={{ fontSize: 13, color: "#e8e8f0", fontWeight: 600, marginBottom: 12, lineHeight: 1.5 }}>
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#444466", marginRight: 8 }}>Q{qi + 1}</span>
+                {q.q}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {q.options.map((opt, oi) => {
+                  const isSelected = picked === oi;
+                  const isCorrect  = oi === q.answer;
+                  let bg = "transparent", border = "#2a2a3a", color = "#888899";
+                  if (done) {
+                    if (isCorrect)       { bg = "rgba(68,217,162,0.08)";  border = "#44d9a240"; color = "#44d9a2"; }
+                    else if (isSelected) { bg = "rgba(244,114,114,0.08)"; border = "#f4727240"; color = "#f47272"; }
+                  } else {
+                    if (isSelected)      { bg = "rgba(91,141,238,0.1)";   border = "#5b8dee40"; color = "#e8e8f0"; }
+                  }
+                  return (
+                    <button
+                      key={oi}
+                      onClick={() => pick(qi, oi)}
+                      style={{
+                        textAlign: "left", padding: "8px 12px", borderRadius: 7,
+                        border: `1px solid ${border}`, background: bg, color,
+                        cursor: done ? "default" : "pointer",
+                        fontSize: 12.5, fontFamily: "'Inter', sans-serif", lineHeight: 1.5,
+                        transition: "all 0.12s"
+                      }}
+                    >
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, marginRight: 8, opacity: 0.5 }}>
+                        {String.fromCharCode(65 + oi)}
+                      </span>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              {done && !isRight && q.explanation && (
+                <div style={{ marginTop: 10, padding: "8px 12px", background: "rgba(68,217,162,0.05)", borderRadius: 6, fontSize: 12, color: "#666688", lineHeight: 1.6 }}>
+                  <span style={{ color: "#44d9a2", fontWeight: 700 }}>→ </span>{q.explanation}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 const CodeBlock = ({ code }) => {
   const highlight = (line) => {
     // comment
@@ -3594,6 +3761,11 @@ export default function BlenderWorkshop() {
                   )}
                 </div>
               ))}
+
+              {/* Quiz */}
+              {mod.quiz && mod.quiz.length > 0 && (
+                <Quiz key={activeModule} questions={mod.quiz} moduleId={activeModule} />
+              )}
 
               {/* Navigation buttons */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, paddingTop: 20, borderTop: "1px solid #1e1e2e" }}>
