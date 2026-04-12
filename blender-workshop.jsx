@@ -3892,22 +3892,31 @@ export default function BlenderWorkshop() {
             </button>
           ))}
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10, paddingRight: 4 }}>
-            <span style={{ fontSize: 11, color: showPython ? "#38bdf8" : "#444466", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1, transition: "color 0.2s" }}>🐍 bpy</span>
             <div
               onClick={() => setShowPython(p => !p)}
               style={{
-                width: 40, height: 22, borderRadius: 11,
-                background: showPython ? "rgba(56,189,248,0.25)" : "#1e1e2e",
-                border: `1px solid ${showPython ? "#38bdf8" : "#2a2a3a"}`,
-                cursor: "pointer", position: "relative", transition: "all 0.2s"
+                display: "flex", alignItems: "center", gap: 8,
+                background: showPython ? "rgba(56,189,248,0.12)" : "rgba(255,255,255,0.05)",
+                border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
+                borderRadius: 8, padding: "4px 10px 4px 8px",
+                cursor: "pointer", transition: "all 0.2s"
               }}
             >
+              <span style={{ fontSize: 13 }}>🐍</span>
+              <span style={{ fontSize: 12, color: showPython ? "#38bdf8" : "#aaaacc", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1, transition: "color 0.2s", fontWeight: showPython ? 700 : 400 }}>bpy</span>
               <div style={{
-                position: "absolute", top: 3, left: showPython ? 20 : 3,
-                width: 14, height: 14, borderRadius: "50%",
-                background: showPython ? "#38bdf8" : "#444466",
-                transition: "all 0.2s"
-              }} />
+                width: 40, height: 22, borderRadius: 11,
+                background: showPython ? "rgba(56,189,248,0.25)" : "#2a2a3a",
+                border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
+                position: "relative", transition: "all 0.2s", flexShrink: 0
+              }}>
+                <div style={{
+                  position: "absolute", top: 3, left: showPython ? 20 : 3,
+                  width: 14, height: 14, borderRadius: "50%",
+                  background: showPython ? "#38bdf8" : "#666688",
+                  transition: "all 0.2s"
+                }} />
+              </div>
             </div>
           </div>
         </div>
@@ -4083,7 +4092,7 @@ export default function BlenderWorkshop() {
 
               {/* Hero */}
               <div style={{ marginBottom: 48, paddingBottom: 40, borderBottom: "1px solid #1e1e2e" }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 12 }}>BLENDER 5.1 WORKSHOP</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#e8622a", letterSpacing: 4, marginBottom: 16 }}>BLENDER 5.1 WORKSHOP</div>
                 <div style={{ fontSize: 36, fontWeight: 800, lineHeight: 1.15, marginBottom: 16 }}>
                   Learn to navigate<br />
                   <span style={{ color: "#e8622a" }}>the possibility space.</span>
