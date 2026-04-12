@@ -1549,7 +1549,7 @@ bl.solver = 'EXACT'`,
 
 **Screw** — Revolve a profile around an axis: bottles, vases, springs, columns.
 
-**Boolean** — Use one object to cut/join/intersect another. See Module 9 for detail.
+**Boolean** — Use one object to cut/join/intersect another. See Module 11 for detail.
 
 **Weld** — Merge vertices within a distance threshold. Essential after Booleans.
 
@@ -3340,7 +3340,7 @@ turb.field.size     = 1.0`,
 - **Physics**: Newtonian (gravity, drag), Keyed (follow another particle), Boids (flocking AI)
 - **Render**: render as Object, Collection, or geometry (dots, halos)
 
-**Hair particles** (legacy): generate strands from a surface. Controlled with Particle Edit mode. The **new hair system** uses Geometry Nodes (see Module 6) and is preferred in Blender 4.x+.
+**Hair particles** (legacy): generate strands from a surface. Controlled with Particle Edit mode. The **new hair system** uses Geometry Nodes (see Module 7) and is preferred in Blender 4.x+.
 
 **Force Fields** (Shift+A → Force Field):
 - **Wind** — Constant directional push
@@ -4634,31 +4634,36 @@ const CodeBlock = ({ code }) => {
           <span key={m.index} style={{ color: "#fbbf24" }}>
             {m[1]}
           </span>,
-        ); // strings
+        );
+      // strings
       else if (m[2])
         tokens.push(
           <span key={m.index} style={{ color: "#38bdf8" }}>
             {m[2]}
           </span>,
-        ); // bpy.*
+        );
+      // bpy.*
       else if (m[3])
         tokens.push(
           <span key={m.index} style={{ color: "#c084fc" }}>
             {m[3]}
           </span>,
-        ); // keywords
+        );
+      // keywords
       else if (m[4])
         tokens.push(
           <span key={m.index} style={{ color: "#fb923c" }}>
             {m[4]}
           </span>,
-        ); // numbers
+        );
+      // numbers
       else if (m[5])
         tokens.push(
           <span key={m.index} style={{ color: "#44d9a2" }}>
             {m[5]}
           </span>,
-        ); // function calls
+        );
+      // function calls
       else
         tokens.push(
           <span key={m.index} style={{ color: "#666688" }}>
@@ -4804,7 +4809,9 @@ export default function BlenderWorkshop() {
         <div
           onClick={() => setSidebarOpen(false)}
           style={{
-            position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.6)",
             zIndex: 10,
           }}
         />
@@ -4820,11 +4827,17 @@ export default function BlenderWorkshop() {
           display: "flex",
           flexDirection: "column",
           overflowY: "auto",
-          ...(isMobile ? {
-            position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 20,
-            transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
-            transition: "transform 0.25s ease",
-          } : {}),
+          ...(isMobile
+            ? {
+                position: "fixed",
+                top: 0,
+                left: 0,
+                bottom: 0,
+                zIndex: 20,
+                transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
+                transition: "transform 0.25s ease",
+              }
+            : {}),
         }}
       >
         {/* Logo */}
@@ -5051,9 +5064,14 @@ export default function BlenderWorkshop() {
             <button
               onClick={() => setSidebarOpen(true)}
               style={{
-                background: "transparent", border: "none", color: "#888899",
-                fontSize: 20, cursor: "pointer", padding: "12px 12px 12px 0",
-                lineHeight: 1, flexShrink: 0,
+                background: "transparent",
+                border: "none",
+                color: "#888899",
+                fontSize: 20,
+                cursor: "pointer",
+                padding: "12px 12px 12px 0",
+                lineHeight: 1,
+                flexShrink: 0,
               }}
             >
               ☰
@@ -5152,7 +5170,13 @@ export default function BlenderWorkshop() {
         </div>
 
         {/* Scrollable content */}
-        <div style={{ flex: 1, overflowY: "auto", padding: isMobile ? "20px 16px" : "32px" }}>
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: isMobile ? "20px 16px" : "32px",
+          }}
+        >
           {/* ── OUTCOMES TAB ── */}
           {activeTab === "outcomes" && (
             <div>
@@ -5625,7 +5649,7 @@ export default function BlenderWorkshop() {
                     {
                       step: "02",
                       label: "Allocate 30–60 minutes per module",
-                      desc: "Concept-only pass (just reading): ~30 min. With the workshop exercise in Blender: ~60 min. Geometry Nodes (Module 6) and Physics (Module 11) each deserve a dedicated session.",
+                      desc: "Concept-only pass (just reading): ~30 min. With the workshop exercise in Blender: ~60 min. Geometry Nodes (Module 7) and Physics (Module 12) each deserve a dedicated session.",
                     },
                     {
                       step: "03",
@@ -5770,8 +5794,8 @@ export default function BlenderWorkshop() {
                     padding: "0 4px",
                   }}
                 >
-                  Modules 6 (Geometry Nodes) and 11 (Physics) are the most
-                  conceptually dense — each deserves its own session. Module 14
+                  Modules 7 (Geometry Nodes) and 12 (Physics) are the most
+                  conceptually dense — each deserves its own session. Module 2
                   (bpy Setup) is short but high-value if you plan to vibe-code.
                 </div>
               </div>
@@ -5805,7 +5829,7 @@ export default function BlenderWorkshop() {
                     "Able to look at any 3D scene, render, or effect and name the systems involved: which modifiers, shaders, light types, and simulation domains produced it",
                     "Know which Blender tool or system to reach for given any creative goal without having to try every option by hand",
                     "Understand the non-destructive workflow: when to stay live, when to apply, and how to structure a scene for future editability",
-                    "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using the bpy knowledge from Module 14",
+                    "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using the bpy knowledge.",
                     "Equipped to self-direct further learning because you have a map of the territory, you know exactly which gaps remain to fill",
                   ].map((cap, i) => (
                     <div
