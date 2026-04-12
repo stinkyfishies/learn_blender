@@ -1441,11 +1441,11 @@ export default function BlenderWorkshop() {
 
   return (
     <div style={{
-      display: "flex", height: "100vh", fontFamily: "'Syne', sans-serif",
+      display: "flex", height: "100vh", fontFamily: "'Inter', sans-serif",
       background: "#0a0a0f", color: "#e8e8f0", overflow: "hidden"
     }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 2px; }
@@ -1462,18 +1462,18 @@ export default function BlenderWorkshop() {
       }}>
         {/* Logo */}
         <div style={{ padding: "24px 20px 16px", borderBottom: "1px solid #1e1e2e" }}>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 4 }}>WORKSHOP</div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 4 }}>WORKSHOP</div>
           <div style={{ fontSize: 20, fontWeight: 800 }}>Blender <span style={{ color: "#e8622a" }}>5.1</span></div>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#555577", marginTop: 2 }}>Mac Trackpad · Vibe-Code Ready</div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", marginTop: 2 }}>Mac Trackpad · Vibe-Code Ready</div>
         </div>
 
         {/* Progress */}
         <div style={{ padding: "12px 20px", borderBottom: "1px solid #1e1e2e" }}>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 9, color: "#555577", letterSpacing: 2, marginBottom: 6 }}>PROGRESS</div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#555577", letterSpacing: 2, marginBottom: 6 }}>PROGRESS</div>
           <div style={{ height: 3, background: "#1e1e2e", borderRadius: 2, overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, #e8622a, #5b8dee)", borderRadius: 2, transition: "width 0.5s" }} />
           </div>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, color: "#e8622a", marginTop: 5 }}>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: "#e8622a", marginTop: 5 }}>
             {completedModules.size}/{modules.length} modules · {progress}%
           </div>
         </div>
@@ -1497,7 +1497,7 @@ export default function BlenderWorkshop() {
                 <div style={{ fontSize: 12, fontWeight: 600, color: i === activeModule ? "#e8e8f0" : "#888899", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {m.title}
                 </div>
-                <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 1 }}>{m.tag}</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 1 }}>{m.tag}</div>
               </div>
               {completedModules.has(i) && (
                 <div style={{
@@ -1533,7 +1533,7 @@ export default function BlenderWorkshop() {
                 cursor: "pointer",
                 fontSize: 12,
                 fontWeight: 600,
-                fontFamily: "'Syne', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 letterSpacing: 1,
                 transition: "all 0.15s",
                 textTransform: "uppercase"
@@ -1551,14 +1551,14 @@ export default function BlenderWorkshop() {
           {activeTab === "outcomes" && (
             <div>
               <div style={{ marginBottom: 28 }}>
-                <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>DECISION GUIDE</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>DECISION GUIDE</div>
                 <div style={{ fontSize: 24, fontWeight: 800 }}>What Do You Want to Make?</div>
                 <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>Find your goal → learn which Blender tools and workflow apply</div>
               </div>
 
               {outcomes.map((group) => (
                 <div key={group.category} style={{ marginBottom: 32 }}>
-                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 12 }}>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 12 }}>
                     {group.category.toUpperCase()}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -1586,7 +1586,7 @@ export default function BlenderWorkshop() {
                               padding: "2px 8px",
                               fontSize: 10,
                               color: "#5b8dee",
-                              fontFamily: "'Space Mono', monospace",
+                              fontFamily: "'JetBrains Mono', monospace",
                               whiteSpace: "nowrap"
                             }}>{tool}</span>
                           ))}
@@ -1603,7 +1603,7 @@ export default function BlenderWorkshop() {
           {activeTab === "quickref" && (
             <div>
               <div style={{ marginBottom: 24 }}>
-                <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>REFERENCE</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>REFERENCE</div>
                 <div style={{ fontSize: 24, fontWeight: 800 }}>Shortcuts & Controls</div>
                 <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>Mac trackpad primary. Keyboard wherever possible.</div>
               </div>
@@ -1689,7 +1689,7 @@ export default function BlenderWorkshop() {
                     borderRadius: 10,
                     padding: 18
                   }}>
-                    <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 10 }}>{group.title.toUpperCase()}</div>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 10 }}>{group.title.toUpperCase()}</div>
                     {group.keys.map((k, i) => <KeybindChip key={i} {...k} />)}
                   </div>
                 ))}
@@ -1718,7 +1718,7 @@ export default function BlenderWorkshop() {
                   <span style={{ fontSize: 36 }}>{mod.emoji}</span>
                   <div>
                     <div style={{
-                      fontFamily: "'Space Mono', monospace", fontSize: 9,
+                      fontFamily: "'JetBrains Mono', monospace", fontSize: 9,
                       color: mod.color, letterSpacing: 3, marginBottom: 4
                     }}>{mod.tag} · MODULE {mod.id}/{modules.length}</div>
                     <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}>{mod.title}</div>
@@ -1773,7 +1773,7 @@ export default function BlenderWorkshop() {
                     background: "transparent",
                     color: activeModule === 0 ? "#333344" : "#888899",
                     cursor: activeModule === 0 ? "not-allowed" : "pointer",
-                    fontSize: 13, fontFamily: "'Syne', sans-serif", fontWeight: 600
+                    fontSize: 13, fontFamily: "'Inter', sans-serif", fontWeight: 600
                   }}
                 >← Previous</button>
 
@@ -1787,7 +1787,7 @@ export default function BlenderWorkshop() {
                       : `linear-gradient(135deg, ${mod.color}, ${mod.color}cc)`,
                     color: completedModules.has(activeModule) ? "#44d9a2" : "#fff",
                     cursor: "pointer",
-                    fontSize: 13, fontFamily: "'Syne', sans-serif", fontWeight: 700,
+                    fontSize: 13, fontFamily: "'Inter', sans-serif", fontWeight: 700,
                     boxShadow: completedModules.has(activeModule) ? "none" : `0 4px 20px ${mod.color}40`
                   }}
                 >
