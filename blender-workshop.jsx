@@ -5829,7 +5829,7 @@ export default function BlenderWorkshop() {
                     "Able to look at any 3D scene, render, or effect and name the systems involved: which modifiers, shaders, light types, and simulation domains produced it",
                     "Know which Blender tool or system to reach for given any creative goal without having to try every option by hand",
                     "Understand the non-destructive workflow: when to stay live, when to apply, and how to structure a scene for future editability",
-                    "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using the bpy knowledge.",
+                    "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using bpy knowledge",
                     "Equipped to self-direct further learning because you have a map of the territory, you know exactly which gaps remain to fill",
                   ].map((cap, i) => (
                     <div
