@@ -19,6 +19,30 @@ const modules = [
     sections: [
       {
         title: "Blender's Data Architecture",
+        pythonCode: `import bpy
+
+# Access the active scene
+scene = bpy.context.scene
+
+# All objects in the scene
+for obj in bpy.data.objects:
+    print(obj.name, obj.type)  # type: MESH, CURVE, ARMATURE, etc.
+
+# An object and the mesh data it references
+obj = bpy.context.active_object
+mesh = obj.data  # bpy.types.Mesh — separate from the object
+
+# Multiple objects sharing one mesh (linked duplicate)
+bpy.ops.object.duplicate(linked=True)   # Alt+D equivalent
+bpy.ops.object.duplicate(linked=False)  # Shift+D equivalent
+
+# Access materials on an object
+for slot in obj.material_slots:
+    print(slot.material.name)
+
+# Collections
+for col in bpy.data.collections:
+    print(col.name, [o.name for o in col.objects])`,
         content: `Blender organizes everything as **datablocks** — reusable, linkable chunks of data. Understanding this unlocks how the whole system fits together.
 
 - **Object** — A container in 3D space with position, rotation, scale. Does not hold geometry itself.
@@ -32,6 +56,22 @@ Key insight: because objects and meshes are separate, you can duplicate an objec
       },
       {
         title: "Modes: Why They Exist",
+        pythonCode: `import bpy
+
+# Switch the active object to a mode
+bpy.ops.object.mode_set(mode='OBJECT')   # Object Mode
+bpy.ops.object.mode_set(mode='EDIT')     # Edit Mode
+bpy.ops.object.mode_set(mode='SCULPT')   # Sculpt Mode
+bpy.ops.object.mode_set(mode='WEIGHT_PAINT')
+bpy.ops.object.mode_set(mode='VERTEX_PAINT')
+bpy.ops.object.mode_set(mode='TEXTURE_PAINT')
+
+# Read the current mode
+print(bpy.context.object.mode)  # returns e.g. 'OBJECT', 'EDIT'
+
+# Context-safe check before switching
+if bpy.context.object and bpy.context.object.type == 'MESH':
+    bpy.ops.object.mode_set(mode='EDIT')`,
         content: `Blender uses **modes** to expose different toolsets on the same object. You're always in one mode at a time:
 
 - **Object Mode** — Manage the scene: move, duplicate, link, organize. The default mode.
@@ -47,6 +87,30 @@ The same object looks completely different depending on which mode you're in —
       },
       {
         title: "Non-Destructive vs Destructive Workflow",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# NON-DESTRUCTIVE: add a modifier (doesn't change mesh data)
+mod = obj.modifiers.new(name="Subdivision", type='SUBSURF')
+mod.levels = 2
+mod.render_levels = 3
+
+# Toggle modifier visibility
+mod.show_viewport = True
+mod.show_render = True
+
+# DESTRUCTIVE: apply the modifier (bakes into mesh permanently)
+bpy.ops.object.modifier_apply(modifier=mod.name)
+
+# Non-destructive: add a shape key
+obj.shape_key_add(name="Basis")
+key = obj.shape_key_add(name="Smile")
+key.value = 0.0  # 0.0 = off, 1.0 = fully applied
+
+# Non-destructive: add a constraint
+con = obj.constraints.new(type='COPY_LOCATION')
+con.target = bpy.data.objects["Target"]`,
         content: `**Non-destructive**: changes are instructions layered on top of the original — fully reversible, tweakable, removable.
 **Destructive**: permanently modifies the underlying mesh data.
 
@@ -64,6 +128,35 @@ Destructive: applying a modifier, sculpting directly, manual vertex editing, app
       },
       {
         title: "The Properties Panel — Your Control Center",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# 📐 Object properties (transform)
+obj.location = (1.0, 0.0, 2.5)
+obj.rotation_euler = (0, 0, 1.5708)  # 90° in radians
+obj.scale = (1.0, 1.0, 1.0)
+
+# 🔧 Modifier stack
+for mod in obj.modifiers:
+    print(mod.name, mod.type)
+
+# 🎨 Material slots
+for slot in obj.material_slots:
+    print(slot.material.name if slot.material else "empty")
+
+# 🌍 World settings
+world = bpy.context.scene.world
+world.use_nodes = True
+bg = world.node_tree.nodes["Background"]
+bg.inputs[1].default_value = 1.0  # Strength
+
+# 🎬 Render engine
+bpy.context.scene.render.engine = 'CYCLES'  # or 'BLENDER_EEVEE_NEXT'
+
+# 🖼️ Output resolution
+bpy.context.scene.render.resolution_x = 1920
+bpy.context.scene.render.resolution_y = 1080`,
         content: `The right-side Properties Editor contains all settings, organized by icon. Knowing which icon = what domain is essential:
 
 - 🎬 **Render** — Engine (Cycles/EEVEE), sampling, denoising
@@ -82,6 +175,27 @@ Destructive: applying a modifier, sculpting directly, manual vertex editing, app
       },
       {
         title: "Collections & Scene Organization",
+        pythonCode: `import bpy
+
+# Create a new collection and link to scene
+col = bpy.data.collections.new("MyCollection")
+bpy.context.scene.collection.children.link(col)
+
+# Move an object into a collection
+obj = bpy.context.active_object
+col.objects.link(obj)
+# Remove from previous collection (scene root)
+bpy.context.scene.collection.objects.unlink(obj)
+
+# Toggle collection visibility
+bpy.context.layer_collection.children["MyCollection"].hide_viewport = True
+
+# Instance a collection as an object (Collection Instance)
+bpy.ops.object.collection_instance_add(collection="MyCollection")
+
+# List all objects in a collection
+for obj in bpy.data.collections["MyCollection"].objects:
+    print(obj.name)`,
         content: `**Collections** are Blender's folder system, visible in the Outliner (top-right by default).
 
 - Objects can belong to multiple collections simultaneously
@@ -95,6 +209,18 @@ The Outliner also shows the full datablock tree. Right-click any item for option
       {
         title: "🔨 Mini Workshop: Read the Scene",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+# Print a full scene inventory — run this in Blender's Script editor
+scene = bpy.context.scene
+print(f"Scene: {scene.name}")
+print(f"Frame range: {scene.frame_start} – {scene.frame_end}")
+print(f"Engine: {scene.render.engine}")
+
+for obj in scene.objects:
+    mods = [m.type for m in obj.modifiers]
+    mats = [s.material.name for s in obj.material_slots if s.material]
+    print(f"  {obj.name} [{obj.type}] | mods: {mods} | mats: {mats}")`,
         content: `Open any Blender scene (default or downloaded) and map it to what you now know:
 
 1. Open the **Outliner** — identify which Collections exist, which Objects are in them
@@ -118,6 +244,19 @@ The Outliner also shows the full datablock tree. Right-click any item for option
     sections: [
       {
         title: "First: Configure Blender for Mac Trackpad",
+        pythonCode: `import bpy
+
+# Read/write Blender preferences via Python
+prefs = bpy.context.preferences
+inputs = prefs.inputs
+
+# The three essential Mac trackpad settings
+inputs.use_mouse_emulate_3_button = True   # Option+click = MMB (orbit)
+inputs.use_numpad_as_ndof = False
+inputs.use_emulate_numpad = True           # Number row = numpad views
+
+# Save preferences so they persist
+bpy.ops.wm.save_userpref()`,
         content: `**Edit → Preferences → Input** — enable these three settings:
 
 1. ✅ **Emulate 3 Button Mouse** — Maps Option+click to middle mouse button (orbit). Essential.
@@ -131,6 +270,26 @@ Save these preferences: **Hamburger menu (☰) → Save Preferences** so they pe
       },
       {
         title: "Viewport Navigation (Trackpad-First)",
+        pythonCode: `import bpy
+
+# Set the viewport to a specific view angle via Python
+# (useful in scripts that set up a scene for the user)
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        region = area.spaces[0].region_3d
+        # Look from front (same as Numpad 1)
+        region.view_rotation.identity()
+
+# Frame all objects (same as Home key)
+bpy.ops.view3d.view_all(use_all_regions=False)
+
+# Frame selected object (same as . key)
+bpy.ops.view3d.view_selected()
+
+# Set orthographic vs perspective
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
         content: `Once configured, your primary navigation controls:
 
 **Option+drag** — Orbit (rotate the view around the scene)
@@ -150,6 +309,24 @@ Keyboard view shortcuts (with Emulate Numpad ON):
       },
       {
         title: "Editor Layout & Workspaces",
+        pythonCode: `import bpy
+
+# List all editor types in the current screen
+for area in bpy.context.screen.areas:
+    print(area.type)
+# Common types: VIEW_3D, NODE_EDITOR, PROPERTIES, OUTLINER,
+#   IMAGE_EDITOR, NLA_EDITOR, GRAPH_EDITOR, DOPESHEET_EDITOR
+
+# Change an area to a different editor type
+area = bpy.context.screen.areas[0]
+area.type = 'NODE_EDITOR'
+
+# Access the Shader Editor's node tree for active object
+obj = bpy.context.active_object
+if obj and obj.active_material:
+    tree = obj.active_material.node_tree
+    for node in tree.nodes:
+        print(node.name, node.type)`,
         content: `Every panel in Blender is an **editor** — any area can be any editor type. Change it via the icon at the top-left corner of any panel.
 
 Most important editors:
@@ -168,6 +345,23 @@ Most important editors:
       },
       {
         title: "The Most Useful Navigation Shortcuts",
+        pythonCode: `import bpy
+
+# F3 equivalent: run any operator by its Python ID
+# Find operator IDs by hovering over menu items and reading the tooltip
+bpy.ops.mesh.subdivide(number_cuts=2)
+bpy.ops.object.shade_smooth()
+bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY')
+
+# Toggle X-Ray (Alt+Z) via Python
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        area.spaces[0].shading.show_xray = True
+
+# Set shading mode (Z pie menu equivalent)
+area.spaces[0].shading.type = 'SOLID'      # Solid
+area.spaces[0].shading.type = 'MATERIAL'   # Material Preview
+area.spaces[0].shading.type = 'RENDERED'   # Rendered`,
         content: `**F3** — Operator search. Type any Blender feature by name and run it. The single most powerful shortcut — if you know what you want but not where it lives, F3 finds it.
 
 **Ctrl+Space** — Maximize the hovered editor (full screen). Press again to restore.
@@ -185,6 +379,32 @@ Most important editors:
       },
       {
         title: "Selection on Mac",
+        pythonCode: `import bpy
+
+# Select objects by name
+bpy.data.objects["Cube"].select_set(True)
+bpy.context.view_layer.objects.active = bpy.data.objects["Cube"]
+
+# Deselect all
+bpy.ops.object.select_all(action='DESELECT')
+
+# Select all
+bpy.ops.object.select_all(action='SELECT')
+
+# Select by type
+bpy.ops.object.select_by_type(type='MESH')
+
+# In Edit Mode — select all vertices
+bpy.ops.mesh.select_all(action='SELECT')
+
+# Select edge loops (Alt+Click equivalent — must be in EDGE select mode)
+bpy.ops.mesh.loop_select(extend=False)
+
+# Invert selection
+bpy.ops.mesh.select_all(action='INVERT')
+
+# Box select (programmatic, by location range)
+bpy.ops.mesh.select_random(ratio=0.5)  # random % for procedural selection`,
         content: `Blender 5.1 defaults to **left-click select** (matches Mac conventions).
 
 **Click** — Select single item
@@ -214,6 +434,20 @@ In Edit Mode, selection works on whichever element type is active:
     sections: [
       {
         title: "What Primitives Give You",
+        pythonCode: `import bpy
+
+# Add primitives via Python (equivalent to Shift+A → Mesh)
+bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, 0))
+bpy.ops.mesh.primitive_uv_sphere_add(radius=1, segments=32, ring_count=16)
+bpy.ops.mesh.primitive_ico_sphere_add(radius=1, subdivisions=4)
+bpy.ops.mesh.primitive_cylinder_add(radius=1, depth=2, vertices=32)
+bpy.ops.mesh.primitive_cone_add(radius1=1, radius2=0, depth=2)
+bpy.ops.mesh.primitive_torus_add(major_radius=1, minor_radius=0.25,
+                                   major_segments=48, minor_segments=12)
+bpy.ops.mesh.primitive_plane_add(size=2)
+bpy.ops.mesh.primitive_circle_add(radius=1, vertices=32, fill_type='NOTHING')
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=10, y_subdivisions=10, size=2)
+bpy.ops.mesh.primitive_monkey_add(size=2)  # Suzanne`,
         content: `**Shift+A → Mesh** — The add menu. Every object in your scene starts here.
 
 Primitives and their structural value:
@@ -230,6 +464,36 @@ Primitives and their structural value:
       },
       {
         title: "The Operator Panel (F9)",
+        pythonCode: `import bpy
+
+# The F9 panel settings are just keyword args on the operator.
+# Pass them directly — no need to open F9 at all in scripting.
+
+# UV Sphere with custom segment counts
+bpy.ops.mesh.primitive_uv_sphere_add(
+    segments=8,        # longitude divisions (low = faceted)
+    ring_count=6,      # latitude divisions
+    radius=1.0,
+    calc_uvs=True,     # Generate UVs checkbox
+    location=(0, 0, 0),
+    rotation=(0, 0, 0)
+)
+
+# Cylinder with hexagonal cross-section
+bpy.ops.mesh.primitive_cylinder_add(
+    vertices=6,        # 6 = hexagonal prism
+    radius=1.0,
+    depth=2.0,
+    calc_uvs=True
+)
+
+# Torus with custom radii and segments
+bpy.ops.mesh.primitive_torus_add(
+    major_radius=1.5,
+    minor_radius=0.3,
+    major_segments=32,
+    minor_segments=8
+)`,
         content: `When you add a primitive, a panel appears at the **bottom-left** of the viewport. This is your one chance to set initial parameters before the operator locks in.
 
 **Click the panel or press F9** to expand it:
@@ -243,6 +507,26 @@ Primitives and their structural value:
       },
       {
         title: "Curves & Surfaces (Non-Mesh Primitives)",
+        pythonCode: `import bpy
+
+# Add curve primitives
+bpy.ops.curve.primitive_bezier_curve_add(radius=1, location=(0, 0, 0))
+bpy.ops.curve.primitive_bezier_circle_add(radius=1)
+bpy.ops.curve.primitive_nurbs_path_add(radius=1)
+
+# Give a curve a round cross-section (instant pipe/tube)
+obj = bpy.context.active_object
+curve = obj.data  # bpy.types.Curve
+curve.bevel_depth = 0.05        # thickness of the tube
+curve.bevel_resolution = 4      # smoothness of the bevel circle
+curve.fill_mode = 'FULL'        # cap the ends
+
+# Use a custom object as the cross-section profile
+curve.bevel_mode = 'OBJECT'
+curve.bevel_object = bpy.data.objects["ProfileCurve"]
+
+# Convert curve to mesh (destructive)
+bpy.ops.object.convert(target='MESH')`,
         content: `**Shift+A → Curve** gives you a different data type — mathematically smooth paths, not polygon meshes.
 
 - **Bezier** — Handles for smooth curves. Great for paths, logos, cables, motion paths.
@@ -261,6 +545,23 @@ Key curve settings (Properties → Object Data → Geometry):
       {
         title: "🔨 Mini Workshop: Know Your Topology",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+# Inspect topology of any mesh in Python
+obj = bpy.context.active_object
+mesh = obj.data
+
+print(f"Vertices: {len(mesh.vertices)}")
+print(f"Edges:    {len(mesh.edges)}")
+print(f"Polygons: {len(mesh.polygons)}")
+
+# Check for n-gons (faces with more than 4 verts — shading risk)
+ngons = [p for p in mesh.polygons if len(p.vertices) > 4]
+print(f"N-gons: {len(ngons)}")
+
+# Check for triangles
+tris = [p for p in mesh.polygons if len(p.vertices) == 3]
+print(f"Triangles: {len(tris)}")`,
         content: `Add one of each primitive and turn on **Edit Mode (Tab)** to inspect its geometry. What you're learning: what you get before you do anything.
 
 1. Add a **UV Sphere** → Tab → see the pole pinching at top/bottom
@@ -283,6 +584,28 @@ Key curve settings (Properties → Object Data → Geometry):
     sections: [
       {
         title: "Selection Modes & Essential Navigation",
+        pythonCode: `import bpy
+import bmesh
+
+# Switch select mode (vertex=0, edge=1, face=2)
+bpy.context.tool_settings.mesh_select_mode = (True, False, False)   # vertex
+bpy.context.tool_settings.mesh_select_mode = (False, True, False)   # edge
+bpy.context.tool_settings.mesh_select_mode = (False, False, True)   # face
+
+# Toggle proportional editing
+bpy.context.tool_settings.use_proportional_edit = True
+bpy.context.tool_settings.proportional_edit_falloff = 'SMOOTH'
+bpy.context.tool_settings.proportional_size = 1.0
+
+# Work with mesh data directly via bmesh (the Edit Mode API)
+obj = bpy.context.active_object
+bm = bmesh.from_edit_mesh(obj.data)  # get bmesh from edit mode
+
+# Select all vertices
+for v in bm.verts:
+    v.select = True
+
+bmesh.update_edit_mesh(obj.data)  # push changes back`,
         content: `In Edit Mode press Tab (or Ctrl+Tab) to enter from Object Mode.
 
 Switch selection type:
@@ -305,6 +628,39 @@ Proportional Editing:
       },
       {
         title: "Core Transform Tools",
+        pythonCode: `import bpy
+import bmesh
+
+obj = bpy.context.active_object
+bm = bmesh.from_edit_mesh(obj.data)
+
+# Move selected verts by a vector (G → Z → 2 equivalent)
+import mathutils
+for v in bm.verts:
+    if v.select:
+        v.co += mathutils.Vector((0, 0, 2.0))
+
+# Extrude selected faces and move up (E then Z)
+bpy.ops.mesh.extrude_region_move(
+    TRANSFORM_OT_translate={"value": (0, 0, 1.0)}
+)
+
+# Inset faces (I key)
+bpy.ops.mesh.inset(thickness=0.1, depth=0.0)
+
+# Loop cut (Ctrl+R) — adds edge loop with n cuts
+bpy.ops.mesh.loopcut_slide(
+    MESH_OT_loopcut={"number_cuts": 1},
+    TRANSFORM_OT_edge_slide={"value": 0.0}
+)
+
+# Bevel edges (Ctrl+B)
+bpy.ops.mesh.bevel(offset=0.1, segments=2, affect='EDGES')
+
+# Merge vertices by distance (removes doubles)
+bpy.ops.mesh.remove_doubles(threshold=0.001)
+
+bmesh.update_edit_mesh(obj.data)`,
         content: `**G** — Grab (move). Then X/Y/Z to constrain to an axis. Type a number for exact distance.
 **R** — Rotate. Then X/Y/Z to constrain. Type a number for exact degrees.
 **S** — Scale. Then X/Y/Z to constrain. Type a number for exact factor.
@@ -326,6 +682,32 @@ The most important modeling operations:
       },
       {
         title: "Topology Concepts That Matter",
+        pythonCode: `import bpy
+import bmesh
+
+obj = bpy.context.active_object
+bm = bmesh.from_edit_mesh(obj.data)
+
+# Check valence (number of edges per vertex) — find poles
+for v in bm.verts:
+    valence = len(v.link_edges)
+    if valence != 4:
+        print(f"Pole at vertex {v.index}: valence={valence}")
+        v.select = True  # highlight poles
+
+# Find non-manifold geometry (holes, flipped normals)
+bpy.ops.mesh.select_non_manifold()
+
+# Recalculate normals (fix flipped faces)
+bpy.ops.mesh.normals_make_consistent(inside=False)
+
+# Check for n-gons
+for f in bm.faces:
+    if len(f.verts) > 4:
+        f.select = True  # highlight n-gons
+        print(f"N-gon: face {f.index} has {len(f.verts)} verts")
+
+bmesh.update_edit_mesh(obj.data)`,
         content: `**Topology** = how geometry is connected. Good topology:
 - Deforms cleanly for animation
 - Subdivides smoothly with Subdivision Surface modifier
@@ -343,6 +725,28 @@ Key concepts:
       },
       {
         title: "Normals & Shading",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Set smooth shading on entire object (right-click → Shade Smooth)
+bpy.ops.object.shade_smooth()
+
+# Set flat shading
+bpy.ops.object.shade_flat()
+
+# Auto smooth: smooth edges below angle threshold
+bpy.ops.object.shade_smooth_by_angle(angle=0.523599)  # 30° in radians
+
+# Add Weighted Normals modifier (keeps hard-surface shading clean)
+mod = obj.modifiers.new("WeightedNormal", type='WEIGHTED_NORMAL')
+mod.keep_sharp = True
+
+# Read face normals from mesh data
+mesh = obj.data
+mesh.calc_normals_split()
+for poly in mesh.polygons:
+    print(f"Face {poly.index} normal: {poly.normal}")`,
         content: `**Normals** are vectors pointing outward from each face, telling Blender which direction is "outside." They control shading.
 
 Common normal issues and fixes:
@@ -356,6 +760,42 @@ Overlay: **Viewport Overlays → Face Orientation** — Blue = outward-facing, R
       {
         title: "🔨 Mini Workshop: Box-Model a Mug",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+# Full mug creation via Python
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()  # clear scene
+
+# Add cylinder (the mug body)
+bpy.ops.mesh.primitive_cylinder_add(vertices=32, radius=0.5, depth=1.2)
+mug = bpy.context.active_object
+mug.name = "Mug"
+
+# Enter edit mode and hollow it out
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='DESELECT')
+bpy.context.tool_settings.mesh_select_mode = (False, False, True)
+
+# Select top face, inset, then extrude down
+bpy.ops.mesh.select_all(action='SELECT')
+bpy.ops.mesh.inset(thickness=0.05)
+bpy.ops.mesh.extrude_region_move(
+    TRANSFORM_OT_translate={"value": (0, 0, -1.1)}
+)
+
+bpy.ops.object.mode_set(mode='OBJECT')
+
+# Add torus handle
+bpy.ops.mesh.primitive_torus_add(
+    major_radius=0.35, minor_radius=0.05,
+    location=(0.55, 0, 0), rotation=(1.5708, 0, 0)
+)
+handle = bpy.context.active_object
+
+# Join mug + handle
+mug.select_set(True)
+bpy.context.view_layer.objects.active = mug
+bpy.ops.object.join()`,
         content: `A classic that exercises most core Edit Mode tools:
 
 1. **Shift+A → Cylinder** (32 vertices in F9)
@@ -383,6 +823,32 @@ The goal isn't a perfect mug. The goal is to use I, E, Ctrl+R, and Ctrl+J in con
     sections: [
       {
         title: "The Modifier Stack",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Add a modifier
+mod = obj.modifiers.new(name="MySub", type='SUBSURF')
+
+# Reorder modifiers (move to top)
+bpy.ops.object.modifier_move_to_index(modifier=mod.name, index=0)
+
+# Toggle visibility
+mod.show_viewport = True
+mod.show_render = False
+
+# Duplicate a modifier
+bpy.ops.object.modifier_copy(modifier=mod.name)
+
+# Apply a modifier (destructive — burns into mesh)
+bpy.ops.object.modifier_apply(modifier=mod.name)
+
+# Remove a modifier without applying
+obj.modifiers.remove(mod)
+
+# List all modifiers in stack order
+for m in obj.modifiers:
+    print(m.name, m.type, "viewport:", m.show_viewport)`,
         content: `**Properties → 🔧 Modifier tab** — Add and manage modifiers here.
 
 The stack processes **top to bottom**. Order matters dramatically:
@@ -399,6 +865,41 @@ Keep modifiers unapplied until: you need to sculpt on the subdivided mesh, you'r
       },
       {
         title: "Generate Modifiers — Shape Creators",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Subdivision Surface
+sub = obj.modifiers.new("Subdiv", 'SUBSURF')
+sub.levels = 2
+sub.render_levels = 3
+sub.subdivision_type = 'CATMULL_CLARK'  # or 'SIMPLE'
+
+# Mirror
+mir = obj.modifiers.new("Mirror", 'MIRROR')
+mir.use_axis[0] = True   # mirror on X
+mir.use_clip = True      # clipping (verts snap at seam)
+
+# Array
+arr = obj.modifiers.new("Array", 'ARRAY')
+arr.count = 5
+arr.relative_offset_displace[0] = 1.1  # X spacing
+
+# Solidify (add thickness to flat surface)
+sol = obj.modifiers.new("Solidify", 'SOLIDIFY')
+sol.thickness = 0.05
+
+# Screw (revolve profile around axis)
+scr = obj.modifiers.new("Screw", 'SCREW')
+scr.angle = 6.2832   # 360° in radians (full revolution)
+scr.steps = 32
+scr.axis = 'Y'
+
+# Boolean (cut/join/intersect with another object)
+bl = obj.modifiers.new("Bool", 'BOOLEAN')
+bl.operation = 'DIFFERENCE'  # 'UNION', 'DIFFERENCE', 'INTERSECT'
+bl.object = bpy.data.objects["Cutter"]
+bl.solver = 'EXACT'`,
         content: `These modifiers create or grow geometry:
 
 **Subdivision Surface** — The most-used modifier. Smooths by subdividing geometry.
@@ -424,6 +925,37 @@ Keep modifiers unapplied until: you need to sculpt on the subdivided mesh, you'r
       },
       {
         title: "Deform Modifiers — Shape Changers",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Simple Deform (twist, bend, taper, stretch)
+sd = obj.modifiers.new("SimpleDeform", 'SIMPLE_DEFORM')
+sd.deform_method = 'TWIST'   # 'BEND', 'TAPER', 'STRETCH'
+sd.angle = 1.5708            # 90° in radians
+sd.deform_axis = 'Z'
+
+# Curve deform (follow a path)
+cd = obj.modifiers.new("Curve", 'CURVE')
+cd.object = bpy.data.objects["BezierCurve"]
+cd.deform_axis = 'POS_Y'
+
+# Displace (push verts by a texture)
+disp = obj.modifiers.new("Displace", 'DISPLACE')
+tex = bpy.data.textures.new("DisplaceTex", type='NOISE')
+disp.texture = tex
+disp.strength = 0.5
+disp.direction = 'NORMAL'
+
+# Shrinkwrap (snap mesh to another surface)
+sw = obj.modifiers.new("Shrinkwrap", 'SHRINKWRAP')
+sw.target = bpy.data.objects["TargetMesh"]
+sw.wrap_method = 'NEAREST_SURFACEPOINT'
+
+# Smooth
+sm = obj.modifiers.new("Smooth", 'SMOOTH')
+sm.factor = 0.5
+sm.iterations = 3`,
         content: `These modify existing geometry without adding or removing it:
 
 **Simple Deform** — Twist, Bend, Taper, or Stretch along an axis. Controlled by an angle or factor. Great for stylized shapes.
@@ -444,6 +976,37 @@ Keep modifiers unapplied until: you need to sculpt on the subdivided mesh, you'r
       },
       {
         title: "Modifier Recipes for Common Goals",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Recipe: hard surface with rounded edges
+bev = obj.modifiers.new("Bevel", 'BEVEL')
+bev.limit_method = 'ANGLE'
+bev.angle_limit = 0.5236  # 30°
+bev.width = 0.02
+bev.segments = 2
+sub = obj.modifiers.new("Subdiv", 'SUBSURF')
+sub.levels = 2
+
+# Recipe: terrain from a grid
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=50, y_subdivisions=50, size=10)
+terrain = bpy.context.active_object
+disp = terrain.modifiers.new("Displace", 'DISPLACE')
+tex = bpy.data.textures.new("TerrainNoise", type='MUSGRAVE')
+tex.musgrave_type = 'FBM'
+tex.noise_scale = 2.0
+disp.texture = tex
+disp.strength = 1.5
+
+# Recipe: array along a curve
+bpy.ops.mesh.primitive_cube_add(size=0.2)
+link_obj = bpy.context.active_object
+arr = link_obj.modifiers.new("Array", 'ARRAY')
+arr.fit_type = 'FIT_CURVE'
+arr.curve = bpy.data.objects["PathCurve"]
+cur = link_obj.modifiers.new("Curve", 'CURVE')
+cur.object = bpy.data.objects["PathCurve"]`,
         content: `Hard surface object with rounded edges:
 → Model base mesh → Bevel modifier (Angle limit ~30°) → Subdivision Surface (level 2)
 
@@ -465,6 +1028,34 @@ Procedural pipe/cable following a path:
       {
         title: "🔨 Mini Workshop: Procedural Vase",
         isWorkshop: true,
+        pythonCode: `import bpy
+import math
+
+# Build the entire procedural vase in Python
+bpy.ops.mesh.primitive_circle_add(vertices=16, radius=0.5, fill_type='NOTHING')
+vase = bpy.context.active_object
+vase.name = "Vase"
+
+# Add Screw modifier — revolves the circle profile
+scr = vase.modifiers.new("Screw", 'SCREW')
+scr.angle = math.radians(360)
+scr.steps = 32
+scr.axis = 'Z'
+
+# Add Solidify for wall thickness
+sol = vase.modifiers.new("Solidify", 'SOLIDIFY')
+sol.thickness = 0.03
+
+# Smooth with Subdivision Surface
+sub = vase.modifiers.new("Subdiv", 'SUBSURF')
+sub.levels = 2
+sub.subdivision_type = 'CATMULL_CLARK'
+
+# Optional: twist the body
+sd = vase.modifiers.new("Twist", 'SIMPLE_DEFORM')
+sd.deform_method = 'TWIST'
+sd.angle = math.radians(45)
+sd.deform_axis = 'Z'`,
         content: `Build a vase using zero manual sculpting — pure modifiers:
 
 1. **Shift+A → Mesh → Circle** (16 vertices)
@@ -490,6 +1081,27 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
     sections: [
       {
         title: "What Geometry Nodes Is For",
+        pythonCode: `import bpy
+
+# Add a Geometry Nodes modifier to an object
+obj = bpy.context.active_object
+mod = obj.modifiers.new("GeoNodes", 'NODES')
+
+# Create a new node group and assign it
+ng = bpy.data.node_groups.new("MyGeoNodes", 'GeometryNodeTree')
+mod.node_group = ng
+
+# Add Group Input and Group Output (the minimum valid graph)
+ng.interface.new_socket("Geometry", in_out='INPUT',  socket_type='NodeSocketGeometry')
+ng.interface.new_socket("Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
+
+input_node  = ng.nodes.new('NodeGroupInput')
+output_node = ng.nodes.new('NodeGroupOutput')
+input_node.location  = (-300, 0)
+output_node.location = (300, 0)
+
+# Connect input → output (pass-through, no changes yet)
+ng.links.new(input_node.outputs[0], output_node.inputs[0])`,
         content: `Geometry Nodes (GN) lets you define geometry through rules rather than by hand. The results are:
 - Fully non-destructive — the node graph is always editable
 - Instantly animatable — any value can be driven by time, a driver, or another node
@@ -507,6 +1119,30 @@ Access: Select an object → **Properties → Modifier → Add → Geometry Node
       },
       {
         title: "Core Concepts: Fields, Instances, Attributes",
+        pythonCode: `import bpy
+
+# Read a named attribute from a mesh via Python
+obj = bpy.context.active_object
+mesh = obj.data
+
+# Access built-in attributes
+mesh.attributes["position"]       # vertex positions (FLOAT_VECTOR on POINT domain)
+mesh.attributes[".edge_verts"]    # edge connectivity
+
+# Create a custom attribute
+attr = mesh.attributes.new(name="my_weight", type='FLOAT', domain='POINT')
+# domain options: 'POINT' (vertex), 'EDGE', 'FACE', 'CORNER', 'CURVE', 'INSTANCE'
+
+# Write values to it
+for i, val in enumerate(attr.data):
+    val.value = i / len(attr.data)  # 0.0 → 1.0 gradient
+
+# Read attribute values
+for val in mesh.attributes["my_weight"].data:
+    print(val.value)
+
+# Geometry Nodes exposes attributes as named inputs/outputs
+# Use "Named Attribute" node in GN to read "my_weight" as a field`,
         content: `**Fields** — Values that vary per-element. Instead of one number, a field is a function evaluated at each vertex/edge/face/instance. This is what makes "distribute across a surface" possible — the position field gives each point's location.
 
 **Instances** — Lightweight references to geometry placed at many locations. An instance doesn't copy the mesh — it points to the original. 10,000 trees as instances use almost no extra memory. Key nodes:
@@ -519,6 +1155,37 @@ Access: Select an object → **Properties → Modifier → Add → Geometry Node
       },
       {
         title: "Key Node Categories",
+        pythonCode: `import bpy
+
+ng = bpy.data.node_groups["MyGeoNodes"]
+nodes = ng.nodes
+links = ng.links
+
+# Helper to add and position a node
+def add_node(type_name, x=0, y=0):
+    n = nodes.new(type_name)
+    n.location = (x, y)
+    return n
+
+# Key node type names (use these strings with nodes.new())
+# Geometry
+join        = add_node('GeometryNodeJoinGeometry',         200,  0)
+transform   = add_node('GeometryNodeTransform',            200, -200)
+merge_dist  = add_node('GeometryNodeMergeByDistance',      200, -400)
+
+# Points & Instances
+distribute  = add_node('GeometryNodeDistributePointsOnFaces', -200, 100)
+instance_on = add_node('GeometryNodeInstanceOnPoints',        0,   100)
+rand_val    = add_node('FunctionNodeRandomValue',             -200, -100)
+col_info    = add_node('GeometryNodeCollectionInfo',          -400, 100)
+
+# Mesh primitives (create inside the graph, no scene object needed)
+cube_prim   = add_node('GeometryNodeMeshCube',             -400, 200)
+
+# Utilities
+math_node   = add_node('ShaderNodeMath',                   0, -200)
+map_range   = add_node('ShaderNodeMapRange',               0, -400)
+mix_node    = add_node('ShaderNodeMix',                    0, -600)`,
         content: `All accessed via **Shift+A** in the Geometry Node Editor:
 
 **Geometry**:
@@ -552,6 +1219,32 @@ Access: Select an object → **Properties → Modifier → Add → Geometry Node
       },
       {
         title: "Simulation Zones (Blender 4.1+)",
+        pythonCode: `import bpy
+
+# Simulation zones are defined by two paired nodes in the graph:
+# GeometryNodeSimulationInput and GeometryNodeSimulationOutput
+# Everything wired between them runs per-frame, retaining state.
+
+ng = bpy.data.node_groups["MyGeoNodes"]
+
+sim_in  = ng.nodes.new('GeometryNodeSimulationInput')
+sim_out = ng.nodes.new('GeometryNodeSimulationOutput')
+sim_in.location  = (-100, 0)
+sim_out.location = (300, 0)
+
+# The simulation zone pair is linked automatically on creation.
+# Wire geometry through: Group Input → Sim Input → [process] → Sim Output → Group Output
+
+# Bake simulation from Python
+bpy.ops.object.simulation_nodes_cache_bake(override={"selected_editable_objects": [bpy.context.active_object]})
+
+# Clear baked simulation
+bpy.ops.object.simulation_nodes_cache_delete()
+
+# Set bake path
+obj = bpy.context.active_object
+mod = obj.modifiers["GeoNodes"]
+# Bake path is set per modifier in the UI (Properties → Modifier → Bake)`,
         content: `**Simulation Zones** let you run iterative (frame-by-frame) simulation logic inside Geometry Nodes. This means you can write custom physics, growth algorithms, or state machines — entirely in nodes.
 
 Structure:
@@ -570,6 +1263,27 @@ This is advanced but understanding it exists changes what you think is possible.
       },
       {
         title: "Hair System (Geometry Nodes Based)",
+        pythonCode: `import bpy
+
+# Add a hair curves object parented to a mesh
+surface = bpy.data.objects["Character_Head"]
+bpy.ops.object.curves_empty_hair_add(surface_object=surface.name)
+hair = bpy.context.active_object  # bpy.types.Curves object
+
+# Read hair strand data
+curves = hair.data  # bpy.types.Curves
+print(f"Strands: {len(curves.curves)}")
+print(f"Total points: {len(curves.points)}")
+
+# Each strand has a slice of points
+for curve in curves.curves:
+    pts = curves.points[curve.first_point_index : curve.first_point_index + curve.points_length]
+    for pt in pts:
+        print(pt.position)
+
+# Add a Geometry Nodes modifier to procedurally style hair
+mod = hair.modifiers.new("HairGeoNodes", 'NODES')
+# Then build the node graph to scatter, grow, and style strands`,
         content: `As of Blender 4.x, the new hair system is built on Geometry Nodes. Hair is a **Curves** object — each strand is a spline.
 
 **Object → Add → Curve → Empty Hair** — starts a hair object parented to a mesh (the mesh acts as the base surface).
@@ -588,6 +1302,41 @@ Key nodes for hair: **Distribute Points on Faces**, **Curve Line**, **Set Curve 
       {
         title: "🔨 Mini Workshop: Scatter Objects on a Surface",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+# Build the full scatter graph in Python
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=1, y_subdivisions=1, size=10)
+ground = bpy.context.active_object
+
+bpy.ops.mesh.primitive_ico_sphere_add(radius=0.1)
+sphere = bpy.context.active_object
+sphere.hide_set(True)  # hide from viewport (still available to GN)
+
+# Add GN modifier to ground
+mod = ground.modifiers.new("Scatter", 'NODES')
+ng = bpy.data.node_groups.new("ScatterNodes", 'GeometryNodeTree')
+mod.node_group = ng
+
+# Setup interface
+ng.interface.new_socket("Geometry", in_out='INPUT',  socket_type='NodeSocketGeometry')
+ng.interface.new_socket("Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
+
+n = ng.nodes
+l = ng.links
+
+inp  = n.new('NodeGroupInput');  inp.location  = (-600, 0)
+out  = n.new('NodeGroupOutput'); out.location  = (600,  0)
+dist = n.new('GeometryNodeDistributePointsOnFaces'); dist.location = (-300, 0)
+inst = n.new('GeometryNodeInstanceOnPoints');        inst.location = (0,    0)
+info = n.new('GeometryNodeObjectInfo');              info.location = (-300, -200)
+info.inputs["Object"].default_value = sphere
+
+dist.inputs["Density"].default_value = 5.0  # instances per m²
+
+l.new(inp.outputs[0],  dist.inputs["Mesh"])
+l.new(dist.outputs[0], inst.inputs["Points"])
+l.new(info.outputs["Geometry"], inst.inputs["Instance"])
+l.new(inst.outputs[0], out.inputs[0])`,
         content: `The foundational GN workflow — place objects procedurally on a mesh:
 
 1. **Shift+A → Mesh → Grid** — your ground plane (scale it up: S → 5)
@@ -615,6 +1364,30 @@ You now have hundreds of spheres scattered on the grid — procedurally.
     sections: [
       {
         title: "Principled BSDF — The Universal Shader",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Create and assign a new material
+mat = bpy.data.materials.new(name="MyMaterial")
+mat.use_nodes = True
+obj.data.materials.append(mat)
+
+# Get the Principled BSDF node
+bsdf = mat.node_tree.nodes["Principled BSDF"]
+
+# Key inputs — set via default_value on the input socket
+bsdf.inputs["Base Color"].default_value        = (0.8, 0.2, 0.1, 1.0)  # RGBA
+bsdf.inputs["Metallic"].default_value          = 0.0    # 0=dielectric, 1=metal
+bsdf.inputs["Roughness"].default_value         = 0.5    # 0=mirror, 1=matte
+bsdf.inputs["IOR"].default_value               = 1.45   # glass=1.45, water=1.33
+bsdf.inputs["Transmission Weight"].default_value = 0.0  # 1.0 = fully transparent
+bsdf.inputs["Emission Color"].default_value    = (1.0, 0.5, 0.0, 1.0)
+bsdf.inputs["Emission Strength"].default_value = 0.0    # 0=off, >0=glowing
+bsdf.inputs["Alpha"].default_value             = 1.0    # 0=transparent
+bsdf.inputs["Coat Weight"].default_value       = 0.0    # clearcoat layer
+bsdf.inputs["Sheen Weight"].default_value      = 0.0    # fabric/velvet retroreflection
+bsdf.inputs["Subsurface Weight"].default_value = 0.0    # skin/wax light scatter`,
         content: `The **Principled BSDF** node handles nearly every real-world material in one node. Key parameters:
 
 **Base Color** — The fundamental color or texture of the surface.
@@ -630,6 +1403,45 @@ You now have hundreds of spheres scattered on the grid — procedurally.
       },
       {
         title: "The Shader Editor",
+        pythonCode: `import bpy
+
+mat = bpy.context.active_object.active_material
+mat.use_nodes = True
+tree = mat.node_tree
+nodes = tree.nodes
+links = tree.links
+
+bsdf = nodes["Principled BSDF"]
+out  = nodes["Material Output"]
+
+# Add an Image Texture node and connect to Base Color
+img_node = nodes.new('ShaderNodeTexImage')
+img_node.location = (-300, 200)
+img_node.image = bpy.data.images.load("/path/to/texture.png")
+links.new(img_node.outputs["Color"], bsdf.inputs["Base Color"])
+
+# Add a Noise Texture → drive Roughness variation
+noise = nodes.new('ShaderNodeTexNoise')
+noise.location = (-500, -100)
+noise.inputs["Scale"].default_value   = 5.0
+noise.inputs["Detail"].default_value  = 8.0
+ramp = nodes.new('ShaderNodeValToRGB')   # ColorRamp
+ramp.location = (-200, -100)
+links.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+links.new(ramp.outputs["Color"], bsdf.inputs["Roughness"])
+
+# Add a Bump node for surface detail
+bump = nodes.new('ShaderNodeBump')
+bump.location = (-100, -300)
+bump.inputs["Strength"].default_value = 0.5
+links.new(noise.outputs["Fac"], bump.inputs["Height"])
+links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+
+# Texture Coordinate + Mapping (control UV projection)
+tex_coord = nodes.new('ShaderNodeTexCoord'); tex_coord.location = (-800, 0)
+mapping    = nodes.new('ShaderNodeMapping');  mapping.location    = (-600, 0)
+links.new(tex_coord.outputs["UV"], mapping.inputs["Vector"])
+links.new(mapping.outputs["Vector"], noise.inputs["Vector"])`,
         content: `Open: **Workspace → Shading tab** or split any panel → Shader Editor.
 
 Every material is a node graph. The minimum: **Principled BSDF → Material Output (Surface)**.
@@ -648,6 +1460,38 @@ Essential utility nodes:
       },
       {
         title: "EEVEE Next vs Cycles — Material Considerations",
+        pythonCode: `import bpy
+
+scene = bpy.context.scene
+
+# Switch render engine
+scene.render.engine = 'CYCLES'            # path-traced, accurate
+scene.render.engine = 'BLENDER_EEVEE_NEXT'  # real-time path-traced
+
+# Cycles: enable GPU rendering
+prefs = bpy.context.preferences
+cycles_prefs = prefs.addons['cycles'].preferences
+cycles_prefs.compute_device_type = 'METAL'  # Mac GPU (or 'CUDA', 'OPTIX' on NVIDIA)
+cycles_prefs.get_devices()
+for device in cycles_prefs.devices:
+    device.use = True  # enable all available devices
+scene.cycles.device = 'GPU'
+
+# Cycles sample settings
+scene.cycles.samples = 256
+scene.cycles.use_denoising = True
+scene.cycles.denoiser = 'OPENIMAGEDENOISE'  # or 'OPTIX' on NVIDIA
+
+# EEVEE Next settings
+eevee = scene.eevee
+eevee.taa_render_samples = 64
+eevee.use_gtao = True          # ambient occlusion
+eevee.use_bloom = True         # bloom/glow effect
+
+# Material: enable screen-space refraction (EEVEE glass)
+mat = bpy.context.active_object.active_material
+mat.use_screen_refraction = True
+mat.blend_method = 'HASHED'    # for transparency: 'OPAQUE','CLIP','HASHED','BLEND'`,
         content: `**Cycles** (path-traced) renders materials with physically accurate light simulation. All Principled BSDF features work. Slower but ground-truth accurate.
 
 **EEVEE Next** (real-time path-traced, default in Blender 4.2+) is dramatically improved over classic EEVEE:
@@ -668,6 +1512,38 @@ Shader nodes that are Cycles-only: some advanced volume shaders, true caustics p
       },
       {
         title: "Material Recipes for Common Surfaces",
+        pythonCode: `import bpy
+
+def make_material(name):
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    bsdf = mat.node_tree.nodes["Principled BSDF"]
+    return mat, mat.node_tree, bsdf
+
+# Polished chrome
+mat, tree, bsdf = make_material("Chrome")
+bsdf.inputs["Base Color"].default_value  = (0.8, 0.8, 0.8, 1)
+bsdf.inputs["Metallic"].default_value    = 1.0
+bsdf.inputs["Roughness"].default_value   = 0.05
+
+# Glass
+mat, tree, bsdf = make_material("Glass")
+bsdf.inputs["Transmission Weight"].default_value = 1.0
+bsdf.inputs["Roughness"].default_value = 0.0
+bsdf.inputs["IOR"].default_value = 1.45
+mat.blend_method = 'HASHED'
+
+# Emissive neon
+mat, tree, bsdf = make_material("Neon")
+bsdf.inputs["Emission Color"].default_value   = (0.0, 1.0, 0.8, 1)
+bsdf.inputs["Emission Strength"].default_value = 10.0
+
+# Skin (subsurface)
+mat, tree, bsdf = make_material("Skin")
+bsdf.inputs["Base Color"].default_value          = (0.9, 0.7, 0.6, 1)
+bsdf.inputs["Subsurface Weight"].default_value   = 0.3
+bsdf.inputs["Subsurface Radius"].default_value   = (1.0, 0.2, 0.1)
+bsdf.inputs["Roughness"].default_value           = 0.5`,
         content: `**Brushed metal**:
 → Metallic: 1.0 | Roughness: 0.4 | Base Color: medium grey
 → Add Noise Texture → Map Range (0.3–0.5) → Roughness for variation
@@ -695,6 +1571,25 @@ Shader nodes that are Cycles-only: some advanced volume shaders, true caustics p
       {
         title: "🔨 Mini Workshop: 3 Materials, 3 Surfaces",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+def add_sphere_with_mat(x, name, metallic, roughness, transmission=0, base_color=(0.8,0.8,0.8,1)):
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=0.8, location=(x, 0, 0))
+    obj = bpy.context.active_object
+    obj.name = name
+    bpy.ops.object.shade_smooth()
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    bsdf = mat.node_tree.nodes["Principled BSDF"]
+    bsdf.inputs["Base Color"].default_value          = base_color
+    bsdf.inputs["Metallic"].default_value            = metallic
+    bsdf.inputs["Roughness"].default_value           = roughness
+    bsdf.inputs["Transmission Weight"].default_value = transmission
+    obj.data.materials.append(mat)
+
+add_sphere_with_mat(-3, "Metal",  metallic=1.0, roughness=0.1, base_color=(0.3,0.3,0.3,1))
+add_sphere_with_mat( 0, "Rubber", metallic=0.0, roughness=0.9, base_color=(0.9,0.4,0.1,1))
+add_sphere_with_mat( 3, "Glass",  metallic=0.0, roughness=0.0, transmission=1.0)`,
         content: `Create three spheres. Apply one material each. Your goal: see how 2–3 parameters completely define material identity.
 
 **Polished metal sphere**: Metallic 1.0, Roughness 0.1, Base Color dark grey
@@ -720,6 +1615,37 @@ Then experiment:
     sections: [
       {
         title: "Light Types and When to Use Each",
+        pythonCode: `import bpy
+import math
+
+# Add lights via Python
+def add_light(name, type, location, energy, color=(1,1,1), size=0.5):
+    bpy.ops.object.light_add(type=type, location=location)
+    light = bpy.context.active_object
+    light.name = name
+    light.data.energy = energy
+    light.data.color  = color
+    if hasattr(light.data, 'shadow_soft_size'):
+        light.data.shadow_soft_size = size
+    return light
+
+# Point light — omnidirectional bulb
+add_light("KeyPoint", 'POINT', (3, -3, 5), energy=500)
+
+# Sun light — parallel rays, position irrelevant, only rotation matters
+sun = add_light("Sun", 'SUN', (0, 0, 10), energy=5)
+sun.rotation_euler = (math.radians(45), 0, math.radians(30))
+
+# Spot light — cone
+spot = add_light("Spot", 'SPOT', (0, -5, 8), energy=1000)
+spot.data.spot_size  = math.radians(45)   # cone angle
+spot.data.spot_blend = 0.15               # soft edge (0=hard, 1=very soft)
+
+# Area light — rectangular, softest shadows
+area = add_light("KeyArea", 'AREA', (4, -2, 6), energy=800, size=2.0)
+area.data.shape = 'RECTANGLE'  # 'SQUARE', 'RECTANGLE', 'DISK', 'ELLIPSE'
+area.data.size  = 2.0
+area.data.size_y = 1.0`,
         content: `**Point Light** — Omnidirectional bulb. Light radiates in all directions from a single point. Candles, bulbs, glowing orbs.
 
 **Sun** — Parallel rays from an infinite distance. Consistent across the entire scene; position doesn't matter, only rotation. Outdoor daylight, large directional light sources. Casts parallel shadows.
@@ -732,6 +1658,45 @@ Then experiment:
       },
       {
         title: "Key Light Settings",
+        pythonCode: `import bpy
+import math
+
+light = bpy.context.active_object  # must be a light object
+ld = light.data  # bpy.types.Light
+
+# Universal settings
+ld.energy = 500               # Watts (area lights need much higher)
+ld.color  = (1.0, 0.85, 0.7) # warm key light
+ld.shadow_soft_size = 1.0    # larger = softer shadows (Point/Sun/Spot)
+
+# 3-point lighting setup via Python
+import math
+
+def three_point(subject_location=(0,0,0)):
+    # Key light: bright, 45° upper-left
+    bpy.ops.object.light_add(type='AREA', location=(4, -3, 5))
+    key = bpy.context.active_object
+    key.name = "Key"
+    key.data.energy = 600
+    key.data.size   = 1.5
+    key.data.color  = (1.0, 0.9, 0.8)  # warm
+    key.rotation_euler = (math.radians(50), 0, math.radians(45))
+
+    # Fill light: soft, opposite side
+    bpy.ops.object.light_add(type='AREA', location=(-4, -2, 3))
+    fill = bpy.context.active_object
+    fill.name = "Fill"
+    fill.data.energy = 150
+    fill.data.size   = 2.0
+    fill.data.color  = (0.8, 0.9, 1.0)  # cool
+
+    # Rim light: behind subject
+    bpy.ops.object.light_add(type='AREA', location=(0, 4, 4))
+    rim = bpy.context.active_object
+    rim.name = "Rim"
+    rim.data.energy = 300
+
+three_point()`,
         content: `For any light object:
 - **Power (W)** — Intensity. Area lights need much higher values than Point lights for equivalent brightness.
 - **Color** — Warm (3200K orange) key + cool (7000K blue) fill = cinematic look.
@@ -748,6 +1713,42 @@ In the **Light Properties → Light Linking panel**, specify exactly which objec
       },
       {
         title: "HDRI Lighting Setup",
+        pythonCode: `import bpy
+
+world = bpy.context.scene.world
+world.use_nodes = True
+tree = world.node_tree
+nodes = tree.nodes
+links = tree.links
+
+# Clear default nodes
+nodes.clear()
+
+# Build HDRI node graph
+bg     = nodes.new('ShaderNodeBackground')
+env    = nodes.new('ShaderNodeTexEnvironment')
+tex_co = nodes.new('ShaderNodeTexCoord')
+mapping = nodes.new('ShaderNodeMapping')
+out    = nodes.new('ShaderNodeOutputWorld')
+
+bg.location      = (200,  0)
+env.location     = (-100, 0)
+mapping.location = (-350, 0)
+tex_co.location  = (-550, 0)
+out.location     = (400,  0)
+
+# Load HDRI file
+env.image = bpy.data.images.load("/path/to/environment.hdr")
+
+# Connect: TexCoord → Mapping → EnvTexture → Background → Output
+links.new(tex_co.outputs["Generated"], mapping.inputs["Vector"])
+links.new(mapping.outputs["Vector"],   env.inputs["Vector"])
+links.new(env.outputs["Color"],        bg.inputs["Color"])
+links.new(bg.outputs["Background"],   out.inputs["Surface"])
+
+# Adjust brightness and rotation
+bg.inputs["Strength"].default_value = 1.5
+mapping.inputs["Rotation"].default_value[2] = 1.5708  # rotate HDRI 90°`,
         content: `HDRI is the fastest path to realistic environment lighting:
 
 1. **World Properties → Surface → Background**
@@ -766,6 +1767,34 @@ Combining HDRI + additional lights: the HDRI provides ambient/fill, your placed 
       {
         title: "🔨 Mini Workshop: Light Your Subject",
         isWorkshop: true,
+        pythonCode: `import bpy, math
+
+# Delete all existing lights
+bpy.ops.object.select_by_type(type='LIGHT')
+bpy.ops.object.delete()
+
+# Key area light
+bpy.ops.object.light_add(type='AREA', location=(3, -2, 4))
+key = bpy.context.active_object
+key.data.energy = 500
+key.data.size   = 1.0
+key.rotation_euler = (math.radians(55), 0, math.radians(30))
+
+# Fill area light
+bpy.ops.object.light_add(type='AREA', location=(-3, -1, 2))
+fill = bpy.context.active_object
+fill.data.energy = 150
+fill.data.size   = 2.0
+
+# Rim light
+bpy.ops.object.light_add(type='AREA', location=(0, 3, 3))
+rim = bpy.context.active_object
+rim.data.energy = 300
+
+# Switch viewport to rendered mode
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        area.spaces[0].shading.type = 'RENDERED'`,
         content: `Using any object (your mug, Suzanne, or a simple sphere):
 
 1. Delete the default light
@@ -795,6 +1824,30 @@ Observe: how does shadow softness change with light size? How does light color t
     sections: [
       {
         title: "Topology Approaches for Sculpting",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Add Multiresolution modifier (non-destructive subdivision levels)
+mod = obj.modifiers.new("Multires", 'MULTIRES')
+# Subdivide 4 times (adds geometry for sculpting)
+for _ in range(4):
+    bpy.ops.object.multires_subdivide(modifier="Multires", mode='CATMULL_CLARK')
+
+# Check current sculpt level
+print(mod.sculpt_levels)   # current sculpt level
+print(mod.total_levels)    # total available levels
+# Change sculpt level (like moving the slider)
+mod.sculpt_levels = 3
+
+# Remesh — rebuild with uniform voxel topology
+bpy.ops.object.voxel_remesh()  # uses scene remesh voxel size
+obj.data.remesh_voxel_size = 0.01  # smaller = more detail, heavier
+
+# Enable Dyntopo (dynamic topology) in Sculpt Mode
+bpy.ops.object.mode_set(mode='SCULPT')
+bpy.ops.sculpt.dynamic_topology_toggle()
+bpy.context.scene.tool_settings.sculpt.detail_size = 12  # lower = finer detail`,
         content: `Before sculpting, you need enough geometry to work with. Three approaches:
 
 **Dyntopo (Dynamic Topology)** — Blender adds and removes geometry on-the-fly as you sculpt. Enable in the Sculpt header or N panel. Great for early exploration — you can pull out a horn or ear without pre-subdividing. Downsides: chaotic topology, slow at high detail.
@@ -807,6 +1860,33 @@ Typical workflow: rough form with Dyntopo → Remesh to clean topology → Multi
       },
       {
         title: "Core Sculpt Brushes",
+        pythonCode: `import bpy
+
+# Set the active sculpt brush by name
+tool_settings = bpy.context.scene.tool_settings
+sculpt = tool_settings.sculpt
+
+# Switch brush (must be in Sculpt Mode)
+bpy.ops.object.mode_set(mode='SCULPT')
+
+# Set brush via name — all built-in brushes
+bpy.ops.paint.brush_select(sculpt_tool='DRAW')       # Draw
+bpy.ops.paint.brush_select(sculpt_tool='CLAY')       # Clay
+bpy.ops.paint.brush_select(sculpt_tool='CLAY_STRIPS')
+bpy.ops.paint.brush_select(sculpt_tool='SMOOTH')     # Smooth
+bpy.ops.paint.brush_select(sculpt_tool='INFLATE')
+bpy.ops.paint.brush_select(sculpt_tool='CREASE')
+bpy.ops.paint.brush_select(sculpt_tool='PINCH')
+bpy.ops.paint.brush_select(sculpt_tool='FLATTEN')
+bpy.ops.paint.brush_select(sculpt_tool='GRAB')
+bpy.ops.paint.brush_select(sculpt_tool='SNAKE_HOOK')
+bpy.ops.paint.brush_select(sculpt_tool='ELASTIC_DEFORM')
+
+# Adjust brush settings on the active brush
+brush = tool_settings.sculpt.brush
+brush.size          = 50     # radius in pixels (F key drags this)
+brush.strength      = 0.5   # 0.0–1.0 (Shift+F drags this)
+brush.direction     = 'ADD'  # 'ADD' = push out, 'SUBTRACT' = push in (Ctrl inverts)`,
         content: `**Draw** — Push geometry outward (Ctrl = inward). The basic brush. Use for adding volume anywhere.
 **Clay / Clay Strips** — Build material up like adding clay slabs. Flatter stroke than Draw. Great for primary forms.
 **Smooth** — Hold **Shift** with any brush to smooth instantly. The most used secondary action.
@@ -824,6 +1904,28 @@ Typical workflow: rough form with Dyntopo → Remesh to clean topology → Multi
       },
       {
         title: "Masks & Face Sets",
+        pythonCode: `import bpy
+
+bpy.ops.object.mode_set(mode='SCULPT')
+obj = bpy.context.active_object
+mesh = obj.data
+
+# Read sculpt mask values (per vertex, 0=unmasked, 1=fully masked)
+if ".sculpt_mask" in mesh.attributes:
+    mask_attr = mesh.attributes[".sculpt_mask"]
+    for i, val in enumerate(mask_attr.data):
+        print(f"vert {i}: mask={val.value:.2f}")
+
+# Flood fill mask operations
+bpy.ops.paint.mask_flood_fill(mode='VALUE', value=0.0)   # clear all mask
+bpy.ops.paint.mask_flood_fill(mode='VALUE', value=1.0)   # mask everything
+bpy.ops.paint.mask_flood_fill(mode='INVERT')             # invert mask
+
+# Face sets — stored as integer attribute ".sculpt_face_set"
+if ".sculpt_face_set" in mesh.attributes:
+    fs_attr = mesh.attributes[".sculpt_face_set"]
+    unique_sets = set(v.value for v in fs_attr.data)
+    print(f"Face sets: {unique_sets}")`,
         content: `**Masking** — Paint areas you want to protect from sculpting.
 
 **M** — Mask brush (paint mask onto surface)
@@ -842,6 +1944,38 @@ Use Face Sets to: isolate a head from a body for sculpting, protect finished are
       {
         title: "🔨 Mini Workshop: Sculpt a Rock",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+# Set up a rock sculpting base
+bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=1)
+rock = bpy.context.active_object
+rock.name = "Rock"
+
+# Add Multiresolution and subdivide for sculpting
+mod = rock.modifiers.new("Multires", 'MULTIRES')
+for _ in range(3):
+    bpy.ops.object.multires_subdivide(modifier="Multires", mode='CATMULL_CLARK')
+
+# Enter sculpt mode
+bpy.ops.object.mode_set(mode='SCULPT')
+
+# Set brush to Grab for rough shaping
+bpy.ops.paint.brush_select(sculpt_tool='GRAB')
+brush = bpy.context.scene.tool_settings.sculpt.brush
+brush.size     = 120
+brush.strength = 0.8
+
+# Programmatic sculpting is limited in Python — most sculpting
+# is interactive. What you CAN do: drive mesh shape via vertex positions
+# before entering sculpt mode.
+bpy.ops.object.mode_set(mode='OBJECT')
+import random, mathutils
+mesh = rock.data
+for v in mesh.vertices:
+    noise = mathutils.noise.noise(v.co * 2.0)  # built-in Blender noise
+    v.co += v.normal * noise * 0.3  # displace along normal
+
+bpy.ops.object.mode_set(mode='SCULPT')`,
         content: `Rocks are ideal first sculpts — they're irregular by nature, so mistakes look intentional:
 
 1. **Shift+A → Ico Sphere** (subdivisions: 3 in F9)
@@ -870,6 +2004,29 @@ Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster
     sections: [
       {
         title: "Boolean Operations",
+        pythonCode: `import bpy
+
+# Boolean: cut a hole in a base object using a cutter
+base   = bpy.data.objects["Base"]
+cutter = bpy.data.objects["Cutter"]
+
+# Add Boolean modifier to the base
+bool_mod = base.modifiers.new("Bool", 'BOOLEAN')
+bool_mod.operation = 'DIFFERENCE'   # 'UNION', 'DIFFERENCE', 'INTERSECT'
+bool_mod.object    = cutter
+bool_mod.solver    = 'EXACT'        # 'EXACT' (accurate) or 'FAST'
+
+# Hide cutter from viewport (cut stays live/non-destructive)
+cutter.hide_set(True)
+cutter.hide_render = True
+
+# Apply (destructive — burns cut into mesh permanently)
+bpy.context.view_layer.objects.active = base
+bpy.ops.object.modifier_apply(modifier="Bool")
+
+# After boolean: add Weld to clean up near-zero-distance verts
+weld = base.modifiers.new("Weld", 'WELD')
+weld.merge_threshold = 0.001`,
         content: `The **Boolean modifier** uses one object (the cutter) to modify another (the target):
 
 - **Union** — Combine two objects into one merged solid
@@ -892,6 +2049,35 @@ After a Boolean, always add a **Weld modifier** to clean up near-zero-distance v
       },
       {
         title: "Hard Surface Shading Techniques",
+        pythonCode: `import bpy
+import bmesh
+
+obj = bpy.context.active_object
+
+# Standard hard surface modifier stack
+bev = obj.modifiers.new("Bevel", 'BEVEL')
+bev.limit_method  = 'ANGLE'
+bev.angle_limit   = 0.5236   # 30° — only bevel sharp edges
+bev.width         = 0.02
+bev.segments      = 2
+bev.profile       = 0.7      # roundness of the bevel profile
+
+sub = obj.modifiers.new("Subdiv", 'SUBSURF')
+sub.levels = 2
+
+wn = obj.modifiers.new("WeightedNormal", 'WEIGHTED_NORMAL')
+wn.keep_sharp = True
+
+# Mark specific edges with crease (keep sharp through subdivision)
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
+# Apply crease to selected edges
+bpy.ops.transform.edge_crease(value=1.0)  # 1.0 = fully sharp
+
+bpy.ops.object.mode_set(mode='OBJECT')
+
+# Auto Smooth shading (angle threshold)
+bpy.ops.object.shade_smooth_by_angle(angle=0.523599)  # 30°`,
         content: `The challenge: subdivision smooths everything, but hard surface objects need both smooth curved areas and sharp mechanical edges.
 
 **The standard hard surface stack:**
@@ -908,6 +2094,41 @@ After a Boolean, always add a **Weld modifier** to clean up near-zero-distance v
       },
       {
         title: "The Box Cutter Workflow",
+        pythonCode: `import bpy
+
+def add_bool_cut(base, cutter_obj, operation='DIFFERENCE'):
+    """Add a live boolean cut. Cutter stays hidden and editable."""
+    mod = base.modifiers.new(f"Cut_{cutter_obj.name}", 'BOOLEAN')
+    mod.operation = operation
+    mod.object    = cutter_obj
+    mod.solver    = 'EXACT'
+    cutter_obj.hide_set(True)
+    cutter_obj.hide_render = True
+    return mod
+
+# Build a sci-fi panel via box-cutter approach
+bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, 0))
+panel = bpy.context.active_object
+panel.scale = (2, 1.5, 0.08)
+bpy.ops.object.transform_apply(scale=True)
+
+# Add a recessed panel cut
+bpy.ops.mesh.primitive_cube_add(size=0.5, location=(0.3, 0, 0.08))
+cut1 = bpy.context.active_object
+cut1.scale = (1.2, 0.6, 0.3)
+bpy.ops.object.transform_apply(scale=True)
+bpy.context.view_layer.objects.active = panel
+add_bool_cut(panel, cut1)
+
+# Add circular hole cuts
+bpy.ops.mesh.primitive_cylinder_add(radius=0.05, depth=0.5, location=(-0.6, 0.4, 0))
+cut2 = bpy.context.active_object
+bpy.context.view_layer.objects.active = panel
+add_bool_cut(panel, cut2)
+
+# Add surface modifier stack
+panel.modifiers.new("Bevel", 'BEVEL').limit_method = 'ANGLE'
+panel.modifiers.new("Subdiv", 'SUBSURF').levels = 1`,
         content: `The dominant hard surface approach for industrial/sci-fi assets:
 
 1. Start with a **Cube** — your base panel, hull, or body
@@ -927,6 +2148,46 @@ The key insight: you never manually model the holes, recesses, or panel lines. T
       {
         title: "🔨 Mini Workshop: Sci-Fi Wall Panel",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
+
+# Base panel
+bpy.ops.mesh.primitive_plane_add(size=3)
+panel = bpy.context.active_object
+panel.name = "SciFiPanel"
+
+sol = panel.modifiers.new("Solidify", 'SOLIDIFY')
+sol.thickness = 0.05
+
+bev = panel.modifiers.new("Bevel", 'BEVEL')
+bev.limit_method = 'ANGLE'
+bev.width = 0.02; bev.segments = 2
+
+panel.modifiers.new("Subdiv", 'SUBSURF').levels = 1
+
+# Indent cut
+bpy.ops.mesh.primitive_cube_add(size=0.8, location=(0, 0, 0.03))
+indent = bpy.context.active_object
+indent.scale = (2.0, 1.2, 0.1)
+bpy.ops.object.transform_apply(scale=True)
+
+bool_mod = panel.modifiers.new("Indent", 'BOOLEAN')
+bool_mod.operation = 'DIFFERENCE'
+bool_mod.object = indent
+indent.hide_set(True)
+
+# Screw hole
+bpy.ops.mesh.primitive_cylinder_add(radius=0.04, depth=0.3, location=(1.1, 0.6, 0))
+screw = bpy.context.active_object
+for x, y in [(-1.1, 0.6), (1.1, -0.6), (-1.1, -0.6)]:
+    bpy.ops.mesh.primitive_cylinder_add(radius=0.04, depth=0.3, location=(x, y, 0))
+    s = bpy.context.active_object
+    bool_s = panel.modifiers.new(f"Hole_{x}", 'BOOLEAN')
+    bool_s.operation = 'DIFFERENCE'
+    bool_s.object = s
+    s.hide_set(True)`,
         content: `Create a wall panel like you'd see on a spaceship — using only booleans:
 
 1. **Shift+A → Plane** → scale up (S → 3) → **Solidify modifier** (thickness 0.05)
@@ -955,6 +2216,33 @@ Add an Area light at a low grazing angle to show the surface detail dramatically
     sections: [
       {
         title: "Rigid Body Simulation",
+        pythonCode: `import bpy
+
+# Make an object a Rigid Body — Active (simulated)
+obj = bpy.context.active_object
+bpy.ops.rigidbody.object_add()
+rb = obj.rigid_body
+rb.type         = 'ACTIVE'   # 'ACTIVE' = simulated, 'PASSIVE' = static collider
+rb.mass         = 1.0
+rb.friction     = 0.5        # 0=frictionless, 1=grippy
+rb.restitution  = 0.1        # bounciness (0=dead, 1=perfect bounce)
+rb.collision_shape = 'CONVEX_HULL'  # 'BOX','SPHERE','CONVEX_HULL','MESH'
+
+# Make a floor a Passive rigid body (static collider)
+bpy.ops.mesh.primitive_plane_add(size=10)
+floor = bpy.context.active_object
+bpy.ops.rigidbody.object_add()
+floor.rigid_body.type = 'PASSIVE'
+floor.rigid_body.collision_shape = 'BOX'
+
+# Set up the Rigid Body World
+scene = bpy.context.scene
+scene.rigidbody_world.enabled = True
+scene.rigidbody_world.substeps_per_frame = 10  # accuracy
+scene.rigidbody_world.solver_iterations   = 10
+
+# Bake the simulation (cache it)
+bpy.ops.ptcache.bake_all(bake=True)`,
         content: `**Properties → Physics → Rigid Body** — Makes objects fall, collide, bounce, and stack under simulated gravity.
 
 Two roles:
@@ -974,6 +2262,35 @@ Use for: falling objects, breaking things, stacking simulations, pinball physics
       },
       {
         title: "Cloth Simulation",
+        pythonCode: `import bpy
+
+cloth_obj = bpy.context.active_object
+
+# Add cloth physics
+bpy.ops.object.modifier_add(type='CLOTH')
+cloth = cloth_obj.modifiers["Cloth"].settings
+
+# Key cloth settings
+cloth.mass              = 0.3     # vertex mass (light=floaty, heavy=stiff)
+cloth.tension_stiffness = 15.0   # resist stretching
+cloth.compression_stiffness = 15.0
+cloth.shear_stiffness   = 5.0    # resist shearing
+cloth.bending_stiffness = 0.5    # resist folding (low=silk, high=cardboard)
+cloth.use_self_collision = True  # prevent cloth passing through itself
+
+# Pin a vertex group (those verts stay fixed during sim)
+# First create a vertex group in Edit Mode and assign top verts to it
+cloth.vertex_group_mass = "PinGroup"  # name of the vertex group
+
+# Add Collision physics to objects the cloth should interact with
+collider = bpy.data.objects["TableSurface"]
+bpy.context.view_layer.objects.active = collider
+bpy.ops.object.modifier_add(type='COLLISION')
+collider.collision.thickness_outer = 0.01
+
+# Bake
+bpy.context.view_layer.objects.active = cloth_obj
+bpy.ops.ptcache.bake_all(bake=True)`,
         content: `**Properties → Physics → Cloth** — Simulates fabric: draping, colliding with objects, responding to wind.
 
 Key settings:
@@ -991,6 +2308,43 @@ Use for: draped tablecloths, clothing on a character, flags, curtains, falling f
       },
       {
         title: "Fluid & Gas Simulation (Mantaflow)",
+        pythonCode: `import bpy
+
+# ── LIQUID SETUP ──
+# 1. Domain object (the simulation volume)
+bpy.ops.mesh.primitive_cube_add(size=3)
+domain_obj = bpy.context.active_object
+domain_obj.name = "FluidDomain"
+bpy.ops.object.modifier_add(type='FLUID')
+domain = domain_obj.modifiers["Fluid"].domain_settings
+domain.domain_type       = 'LIQUID'
+domain.resolution_max    = 64       # higher = more detail, much slower
+domain.use_mesh          = True     # generate smooth liquid surface mesh
+domain.use_spray         = True     # spray/foam particles
+
+# 2. Flow object (the emitter)
+bpy.ops.mesh.primitive_uv_sphere_add(radius=0.3, location=(0, 0, 1.2))
+emitter = bpy.context.active_object
+bpy.ops.object.modifier_add(type='FLUID')
+flow = emitter.modifiers["Fluid"].flow_settings
+flow.flow_type     = 'LIQUID'
+flow.flow_behavior = 'INFLOW'  # continuous source ('INFLOW','OUTFLOW','GEOMETRY')
+
+# ── GAS SETUP ──
+bpy.ops.mesh.primitive_cube_add(size=3)
+gas_domain = bpy.context.active_object
+bpy.ops.object.modifier_add(type='FLUID')
+gd = gas_domain.modifiers["Fluid"].domain_settings
+gd.domain_type  = 'GAS'
+gd.vorticity    = 0.1    # turbulence/swirling
+gd.use_noise    = True   # high-detail noise
+
+bpy.ops.mesh.primitive_uv_sphere_add(radius=0.2, location=(0,0,0))
+gas_src = bpy.context.active_object
+bpy.ops.object.modifier_add(type='FLUID')
+gf = gas_src.modifiers["Fluid"].flow_settings
+gf.flow_type     = 'FIRE'  # 'SMOKE','FIRE','BOTH','LIQUID'
+gf.flow_behavior = 'INFLOW'`,
         content: `Blender uses **Mantaflow** for both liquid and gas (smoke/fire) simulations. Both use a **Domain** object + **Flow** objects + optional **Effectors**.
 
 Setup:
@@ -1008,6 +2362,44 @@ Cache and bake before rendering. Gas sims especially benefit from baking to disk
       },
       {
         title: "Particles, Hair & Force Fields",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Add a particle system
+bpy.ops.object.particle_system_add()
+ps = obj.particle_systems[-1]
+settings = ps.settings
+
+# Emitter particle settings
+settings.type            = 'EMITTER'  # or 'HAIR'
+settings.count           = 1000
+settings.frame_start     = 1
+settings.frame_end       = 50
+settings.lifetime        = 80        # frames each particle lives
+settings.normal_factor   = 2.0       # initial velocity along normal
+settings.factor_random   = 0.5       # velocity randomness
+
+# Physics
+settings.physics_type    = 'NEWTON'  # 'NEWTON','KEYED','BOIDS','FLUID'
+settings.use_self_effect = False
+settings.drag_factor     = 0.0
+
+# Render particles as an instanced object
+settings.render_type  = 'OBJECT'
+settings.instance_object = bpy.data.objects["Debris"]
+
+# Force Fields — create wind
+bpy.ops.object.effector_add(type='WIND', location=(0, -3, 1))
+wind = bpy.context.active_object
+wind.field.strength   = 5.0
+wind.field.flow       = 1.0
+
+# Turbulence
+bpy.ops.object.effector_add(type='TURBULENCE', location=(0, 0, 2))
+turb = bpy.context.active_object
+turb.field.strength = 2.0
+turb.field.size     = 1.0`,
         content: `**Properties → Particles → Add** — Particle systems for emission and hair.
 
 **Emitter particles**: Objects born at a surface, move through space, die.
@@ -1031,6 +2423,39 @@ Force fields affect particles, cloth, soft body, and rigid bodies. Layer multipl
       {
         title: "🔨 Mini Workshop: Falling Cubes",
         isWorkshop: true,
+        pythonCode: `import bpy
+import random
+
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
+
+# Floor (passive)
+bpy.ops.mesh.primitive_plane_add(size=8)
+floor = bpy.context.active_object
+bpy.ops.rigidbody.object_add()
+floor.rigid_body.type = 'PASSIVE'
+
+# Spawn cubes with random positions
+for i in range(10):
+    x = random.uniform(-1.5, 1.5)
+    y = random.uniform(-1.5, 1.5)
+    z = random.uniform(2.0, 6.0)
+    bpy.ops.mesh.primitive_cube_add(size=0.4, location=(x, y, z))
+    cube = bpy.context.active_object
+    cube.name = f"FallingCube_{i}"
+    bpy.ops.rigidbody.object_add()
+    cube.rigid_body.type        = 'ACTIVE'
+    cube.rigid_body.restitution = 0.3
+    cube.rigid_body.friction    = 0.6
+
+# Ensure rigid body world exists
+bpy.context.scene.rigidbody_world.enabled = True
+
+# Add wind field
+bpy.ops.object.effector_add(type='WIND', location=(0, -4, 2))
+wind = bpy.context.active_object
+wind.field.strength = 3.0
+wind.rotation_euler[0] = 1.5708  # point sideways`,
         content: `The quickest way to see simulation working:
 
 1. **Shift+A → Plane** — scale large (S → 5). **Properties → Physics → Rigid Body → Passive** (this is the floor).
@@ -1054,6 +2479,37 @@ Force fields affect particles, cloth, soft body, and rigid bodies. Layer multipl
     sections: [
       {
         title: "Cycles vs EEVEE Next — When to Use Each",
+        pythonCode: `import bpy
+
+scene = bpy.context.scene
+
+# Switch engine
+scene.render.engine = 'CYCLES'             # path-traced
+scene.render.engine = 'BLENDER_EEVEE_NEXT' # real-time path-traced
+scene.render.engine = 'BLENDER_WORKBENCH'  # clay/technical
+
+# Cycles: GPU on Apple Metal (Mac)
+prefs = bpy.context.preferences
+cprefs = prefs.addons['cycles'].preferences
+cprefs.compute_device_type = 'METAL'
+cprefs.get_devices()
+for d in cprefs.devices: d.use = True
+scene.cycles.device = 'GPU'
+
+# Cycles: samples + denoising
+scene.cycles.samples = 256
+scene.cycles.use_denoising = True
+scene.cycles.denoiser = 'OPENIMAGEDENOISE'
+
+# EEVEE Next
+eevee = scene.eevee
+eevee.taa_render_samples = 64
+eevee.use_gtao            = True  # ambient occlusion
+eevee.use_bloom           = True  # glow/bloom effect
+eevee.use_ssr             = True  # screen space reflections
+
+# Print current engine
+print(f"Active engine: {scene.render.engine}")`,
         content: `**Cycles** — Physically accurate path tracing.
 - Simulates true light: reflections, refractions, caustics (light through glass), subsurface scattering, volumetrics
 - Slower: seconds to minutes per frame on GPU, much longer on CPU
@@ -1073,6 +2529,34 @@ In Blender 5.1, for most non-caustics work, EEVEE Next produces competitive resu
       },
       {
         title: "Key Render Settings",
+        pythonCode: `import bpy
+
+scene = bpy.context.scene
+render = scene.render
+
+# Resolution
+render.resolution_x          = 1920
+render.resolution_y          = 1080
+render.resolution_percentage = 100   # 50% = half resolution (fast preview)
+
+# Frame range and FPS
+scene.frame_start = 1
+scene.frame_end   = 250
+render.fps        = 24   # 24=film, 30=NTSC/web, 60=game
+
+# Output
+render.filepath      = "//renders/frame_"   # // = relative to .blend file
+render.image_settings.file_format = 'PNG'   # 'PNG','JPEG','OPEN_EXR_MULTILAYER'
+render.image_settings.color_depth = '16'    # bit depth for PNG/EXR
+
+# Render a single frame
+bpy.ops.render.render(write_still=True)     # F12 equivalent
+
+# Render animation (all frames in range)
+bpy.ops.render.render(animation=True)       # Ctrl+F12 equivalent
+
+# Open last render in Image Editor
+bpy.ops.render.view_show()                  # F11 equivalent`,
         content: `**Render Properties (🎬 icon)**:
 - **Render Engine** — Cycles / EEVEE Next / Workbench
 - **Samples** — How many light paths to trace per pixel (Cycles). More = less noise, more time. 128–256 for preview, 512–2048 for final.
@@ -1092,6 +2576,43 @@ In Blender 5.1, for most non-caustics work, EEVEE Next produces competitive resu
       },
       {
         title: "Render Passes & the Compositor",
+        pythonCode: `import bpy
+
+# Enable render passes on the View Layer
+vl = bpy.context.scene.view_layers["ViewLayer"]
+vl.use_pass_diffuse_color   = True
+vl.use_pass_shadow          = True
+vl.use_pass_z               = True    # depth pass
+vl.use_pass_normal          = True
+vl.use_pass_combined        = True    # always on (the final beauty)
+
+# Output to OpenEXR Multilayer (preserves all passes in one file)
+render = bpy.context.scene.render
+render.image_settings.file_format  = 'OPEN_EXR_MULTILAYER'
+render.image_settings.color_depth  = '32'
+render.image_settings.exr_codec    = 'ZIP'
+
+# Access compositor nodes via Python
+scene = bpy.context.scene
+scene.use_nodes = True
+tree  = scene.node_tree
+nodes = tree.nodes
+links = tree.links
+
+nodes.clear()
+
+rl  = nodes.new('CompositorNodeRLayers');    rl.location  = (-400, 0)
+cb  = nodes.new('CompositorNodeColorBalance'); cb.location = (0,   0)
+glare = nodes.new('CompositorNodeGlare');    glare.location = (250, 0)
+comp = nodes.new('CompositorNodeComposite'); comp.location  = (500, 0)
+
+glare.glare_type = 'BLOOM'
+glare.threshold  = 0.8
+glare.size       = 6
+
+links.new(rl.outputs["Image"], cb.inputs["Image"])
+links.new(cb.outputs["Image"], glare.inputs["Image"])
+links.new(glare.outputs["Image"], comp.inputs["Image"])`,
         content: `Instead of rendering a single flat image, Blender can output **render passes**: separate layers for shadows, reflections, diffuse, specular, depth, normals, etc.
 
 Enable passes: **View Layer Properties → Passes** — check what you need.
@@ -1110,6 +2631,39 @@ The Compositor is what separates a raw render from a finished image.`
       },
       {
         title: "Camera Settings That Matter",
+        pythonCode: `import bpy
+
+if "Camera" not in bpy.data.objects:
+    bpy.ops.object.camera_add(location=(7, -7, 5))
+cam_obj  = bpy.data.objects["Camera"]
+cam_data = cam_obj.data  # bpy.types.Camera
+
+# Focal length — controls zoom and perspective distortion
+cam_data.lens      = 85.0    # mm: 24=wide, 50=normal, 85=portrait, 135=telephoto
+cam_data.lens_unit = 'MILLIMETERS'  # or 'FOV'
+
+# Sensor size (full frame = 36mm, affects DoF and perspective)
+cam_data.sensor_width = 36.0
+cam_data.sensor_fit   = 'AUTO'
+
+# Depth of Field
+cam_data.dof.use_dof        = True
+cam_data.dof.focus_object   = bpy.data.objects["Subject"]
+cam_data.dof.aperture_fstop = 2.8   # lower = shallower DoF / more blur
+
+# Camera type
+cam_data.type = 'PERSP'    # 'PERSP', 'ORTHO', 'PANO'
+
+# Panoramic (360° VR render)
+cam_data.type = 'PANO'
+cam_data.panorama_type = 'EQUIRECTANGULAR'
+
+# Clip range (relevant for very large/small scenes)
+cam_data.clip_start = 0.1
+cam_data.clip_end   = 1000.0
+
+# Set as active scene camera
+bpy.context.scene.camera = cam_obj`,
         content: `Select the camera → **Object Data Properties (🎬 camera icon)**:
 
 - **Focal Length** — Longer = telephoto (compressed perspective, good for portraits). Shorter = wide angle (distorted, dramatic). 50mm ≈ human eye. 85–135mm = portrait. 24mm = wide architectural.
@@ -1125,6 +2679,40 @@ The Compositor is what separates a raw render from a finished image.`
       {
         title: "🔨 Mini Workshop: First Beauty Render",
         isWorkshop: true,
+        pythonCode: `import bpy, math
+
+scene = bpy.context.scene
+scene.render.engine = 'CYCLES'
+scene.cycles.samples       = 128
+scene.cycles.use_denoising = True
+scene.cycles.denoiser      = 'OPENIMAGEDENOISE'
+
+# HDRI world
+world = scene.world
+world.use_nodes = True
+tree  = world.node_tree
+tree.nodes.clear()
+bg  = tree.nodes.new('ShaderNodeBackground')
+env = tree.nodes.new('ShaderNodeTexEnvironment')
+out = tree.nodes.new('ShaderNodeOutputWorld')
+env.image = bpy.data.images.load("/path/to/studio.hdr")
+bg.inputs["Strength"].default_value = 1.2
+tree.links.new(env.outputs["Color"], bg.inputs["Color"])
+tree.links.new(bg.outputs["Background"], out.inputs["Surface"])
+
+# Shadow catcher floor
+bpy.ops.mesh.primitive_plane_add(size=10)
+floor = bpy.context.active_object
+mat   = bpy.data.materials.new("ShadowCatcher")
+mat.use_nodes       = True
+mat.shadow_method   = 'OPAQUE'
+floor.data.materials.append(mat)
+floor.is_shadow_catcher = True  # Cycles shadow catcher
+
+# Render
+scene.render.filepath = "//beauty_render"
+scene.render.image_settings.file_format = 'PNG'
+bpy.ops.render.render(write_still=True)`,
         content: `Take any object and render it in a way you'd actually want to show someone:
 
 1. Switch to **Cycles** in Render Properties
@@ -1150,6 +2738,41 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
     sections: [
       {
         title: "Core Texture Nodes",
+        pythonCode: `import bpy
+
+mat  = bpy.context.active_object.active_material
+tree = mat.node_tree
+n    = tree.nodes
+
+# Noise Texture
+noise = n.new('ShaderNodeTexNoise')
+noise.inputs["Scale"].default_value      = 5.0
+noise.inputs["Detail"].default_value     = 8.0
+noise.inputs["Roughness"].default_value  = 0.6
+noise.inputs["Distortion"].default_value = 0.0
+# Outputs: "Fac" (0-1 grayscale), "Color"
+
+# Voronoi Texture
+vor = n.new('ShaderNodeTexVoronoi')
+vor.voronoi_dimensions = '3D'
+vor.feature            = 'F1'         # 'F1','F2','SMOOTH_F1','DISTANCE_TO_EDGE','N_SPHERE_RADIUS'
+vor.distance           = 'EUCLIDEAN'  # 'EUCLIDEAN','MANHATTAN','CHEBYCHEV','MINKOWSKI'
+vor.inputs["Scale"].default_value      = 10.0
+vor.inputs["Randomness"].default_value = 1.0
+
+# Wave Texture
+wave = n.new('ShaderNodeTexWave')
+wave.wave_type       = 'RINGS'    # 'BANDS' or 'RINGS'
+wave.bands_direction = 'X'
+wave.inputs["Scale"].default_value      = 5.0
+wave.inputs["Distortion"].default_value = 2.0  # wood grain effect
+
+# Musgrave Texture
+musg = n.new('ShaderNodeTexMusgrave')
+musg.musgrave_dimensions = '3D'
+musg.musgrave_type       = 'FBM'   # 'FBM','MULTIFRACTAL','HYBRID_MULTIFRACTAL',etc.
+musg.inputs["Scale"].default_value  = 3.0
+musg.inputs["Detail"].default_value = 8.0`,
         content: `All found via **Shift+A → Texture** in the Shader Editor:
 
 **Noise Texture** — The fundamental organic texture. Parameters: Scale (zoom level), Detail (complexity layers), Roughness (sharpness of detail), Distortion (warp the noise itself). The foundation of most procedural materials.
@@ -1168,6 +2791,44 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
       },
       {
         title: "Connecting Textures to Materials",
+        pythonCode: `import bpy
+
+mat  = bpy.context.active_object.active_material
+tree = mat.node_tree
+n, l = tree.nodes, tree.links
+bsdf = n["Principled BSDF"]
+
+# ColorRamp — remap noise (0-1) to any colors
+noise = n.new('ShaderNodeTexNoise'); noise.location = (-500, 200)
+noise.inputs["Scale"].default_value = 6.0
+ramp  = n.new('ShaderNodeValToRGB'); ramp.location  = (-200, 200)
+# Set ramp colors (rock: grey/brown)
+ramp.color_ramp.elements[0].color = (0.15, 0.12, 0.10, 1)
+ramp.color_ramp.elements[1].color = (0.55, 0.50, 0.45, 1)
+l.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+l.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
+
+# Bump node — fake surface detail without moving geometry
+bump = n.new('ShaderNodeBump'); bump.location = (-200, -100)
+bump.inputs["Strength"].default_value = 0.5
+l.new(noise.outputs["Fac"], bump.inputs["Height"])
+l.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+
+# Map Range — remap texture output to a numeric input range
+mr = n.new('ShaderNodeMapRange'); mr.location = (-200, 0)
+mr.inputs["From Min"].default_value = 0.0
+mr.inputs["From Max"].default_value = 1.0
+mr.inputs["To Min"].default_value   = 0.3   # roughness min
+mr.inputs["To Max"].default_value   = 0.9   # roughness max
+l.new(noise.outputs["Fac"], mr.inputs["Value"])
+l.new(mr.outputs["Result"], bsdf.inputs["Roughness"])
+
+# Texture Coordinate + Mapping (control how texture projects)
+tc  = n.new('ShaderNodeTexCoord'); tc.location  = (-900, 0)
+mp  = n.new('ShaderNodeMapping');  mp.location  = (-700, 0)
+mp.inputs["Scale"].default_value = (2.0, 2.0, 2.0)
+l.new(tc.outputs["Object"], mp.inputs["Vector"])
+l.new(mp.outputs["Vector"], noise.inputs["Vector"])`,
         content: `The key connectors between textures and the Principled BSDF:
 
 **ColorRamp** — Remap any grayscale value (0–1) to any set of colors. The most versatile node. Plug Noise → ColorRamp → Base Color for instant rock/lava/organic color.
@@ -1184,6 +2845,49 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
       },
       {
         title: "Procedural Material Recipes",
+        pythonCode: `import bpy
+
+def new_mat(name, obj):
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    obj.data.materials.append(mat)
+    return mat, mat.node_tree
+
+obj  = bpy.context.active_object
+mat, tree = new_mat("Rock", obj)
+n, l = tree.nodes, tree.links
+bsdf = n["Principled BSDF"]
+
+# ── ROCK ──
+noise = n.new('ShaderNodeTexNoise')
+noise.inputs["Scale"].default_value = 6.0; noise.inputs["Detail"].default_value = 8.0
+ramp  = n.new('ShaderNodeValToRGB')
+ramp.color_ramp.elements[0].color = (0.15, 0.12, 0.10, 1)
+ramp.color_ramp.elements[1].color = (0.55, 0.50, 0.45, 1)
+bump  = n.new('ShaderNodeBump'); bump.inputs["Strength"].default_value = 0.4
+l.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+l.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
+l.new(noise.outputs["Fac"], bump.inputs["Height"])
+l.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+
+# ── WOOD GRAIN ──
+# wave = n.new('ShaderNodeTexWave')
+# wave.wave_type = 'RINGS'; wave.inputs["Distortion"].default_value = 2.0
+# ramp2 = n.new('ShaderNodeValToRGB')
+# ramp2.color_ramp.elements[0].color = (0.35, 0.18, 0.06, 1)  # dark wood
+# ramp2.color_ramp.elements[1].color = (0.75, 0.50, 0.25, 1)  # light wood
+# l.new(wave.outputs["Fac"], ramp2.inputs["Fac"])
+# l.new(ramp2.outputs["Color"], bsdf.inputs["Base Color"])
+
+# ── LAVA ──
+# noise2 = n.new('ShaderNodeTexNoise'); noise2.inputs["Scale"].default_value = 4.0
+# ramp3  = n.new('ShaderNodeValToRGB')
+# ramp3.color_ramp.elements[0].color = (0.0, 0.0, 0.0, 1)     # cooled
+# ramp3.color_ramp.elements[1].color = (1.0, 0.3, 0.0, 1)     # molten crack
+# emit   = n.new('ShaderNodeEmission'); emit.inputs["Strength"].default_value = 5.0
+# l.new(noise2.outputs["Fac"], ramp3.inputs["Fac"])
+# l.new(ramp3.outputs["Color"], bsdf.inputs["Base Color"])
+# l.new(ramp3.outputs["Color"], emit.inputs["Color"])`,
         content: `**Rock / Stone**:
 → Noise (Scale 6, Detail 8) → ColorRamp (greys with brown) → Base Color
 → Same Noise → Bump → Normal (for surface detail)
@@ -1209,6 +2913,60 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
       {
         title: "🔨 Mini Workshop: Procedural Planet",
         isWorkshop: true,
+        pythonCode: `import bpy
+
+# Create planet mesh
+bpy.ops.mesh.primitive_uv_sphere_add(segments=64, ring_count=32, radius=1)
+planet = bpy.context.active_object
+planet.name = "Planet"
+bpy.ops.object.shade_smooth()
+
+# Create material
+mat = bpy.data.materials.new("PlanetMat")
+mat.use_nodes = True
+planet.data.materials.append(mat)
+tree = mat.node_tree
+n, l = tree.nodes, tree.links
+n.clear()
+
+bsdf = n.new('ShaderNodeBsdfPrincipled'); bsdf.location = (0, 0)
+out  = n.new('ShaderNodeOutputMaterial'); out.location  = (300, 0)
+l.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
+
+# Noise → ColorRamp → Base Color (ocean/land/mountain bands)
+noise = n.new('ShaderNodeTexNoise'); noise.location = (-700, 100)
+noise.inputs["Scale"].default_value     = 5.0
+noise.inputs["Detail"].default_value    = 8.0
+noise.inputs["Roughness"].default_value = 0.6
+
+ramp = n.new('ShaderNodeValToRGB'); ramp.location = (-400, 100)
+cr   = ramp.color_ramp
+cr.elements[0].position = 0.0;  cr.elements[0].color = (0.0, 0.1, 0.6, 1)   # deep ocean
+cr.elements.new(0.45);          cr.color_ramp.elements[1].color = (0.1, 0.4, 0.8, 1) # shallow
+cr.elements.new(0.5);           cr.color_ramp.elements[2].color = (0.8, 0.7, 0.4, 1) # sand
+cr.elements.new(0.6);           cr.color_ramp.elements[3].color = (0.2, 0.5, 0.1, 1) # land
+cr.elements[1].position = 1.0;  cr.color_ramp.elements[-1].color = (1.0, 1.0, 1.0, 1) # snow
+
+l.new(noise.outputs["Fac"],    ramp.inputs["Fac"])
+l.new(ramp.outputs["Color"],   bsdf.inputs["Base Color"])
+
+# Atmosphere: Fresnel-driven emission rim
+fres = n.new('ShaderNodeFresnel');   fres.location  = (-400, -200)
+fres.inputs["IOR"].default_value = 1.3
+emit = n.new('ShaderNodeEmission');  emit.location  = (-100, -200)
+emit.inputs["Color"].default_value   = (0.4, 0.7, 1.0, 1)
+emit.inputs["Strength"].default_value = 2.0
+mix  = n.new('ShaderNodeMixShader'); mix.location   = (200, -100)
+l.new(fres.outputs["Fac"],  mix.inputs["Fac"])
+l.new(bsdf.outputs["BSDF"], mix.inputs[1])
+l.new(emit.outputs["Emission"], mix.inputs[2])
+l.new(mix.outputs["Shader"], out.inputs["Surface"])
+
+# Animate surface: keyframe noise W offset
+noise.inputs["W"].default_value = 0.0
+noise.inputs["W"].keyframe_insert("default_value", frame=1)
+noise.inputs["W"].default_value = 5.0
+noise.inputs["W"].keyframe_insert("default_value", frame=250)`,
         content: `Build a planet with zero image textures — everything procedural:
 
 1. **Shift+A → UV Sphere** (64 segments in F9)
@@ -1412,11 +3170,66 @@ const renderContent = (text) => {
   return elements;
 };
 
+const CodeBlock = ({ code }) => {
+  const highlight = (line) => {
+    // comment
+    if (/^\s*#/.test(line)) return <span style={{ color: "#555577", fontStyle: "italic" }}>{line}</span>;
+    // apply token coloring
+    const tokens = [];
+    const re = /("""[\s\S]*?"""|'[^']*'|"[^"]*")|(bpy\.\w+(?:\.\w+)*)|(import\s+\w+|for\s|if\s|in\s|return\s|True|False|None)|(\b\d+\.?\d*\b)|(\b\w+\s*(?=\())|([=,\[\]{}():])/g;
+    let last = 0, m;
+    while ((m = re.exec(line)) !== null) {
+      if (m.index > last) tokens.push(<span key={last} style={{ color: "#9999bb" }}>{line.slice(last, m.index)}</span>);
+      if (m[1]) tokens.push(<span key={m.index} style={{ color: "#fbbf24" }}>{m[1]}</span>);       // strings
+      else if (m[2]) tokens.push(<span key={m.index} style={{ color: "#38bdf8" }}>{m[2]}</span>);  // bpy.*
+      else if (m[3]) tokens.push(<span key={m.index} style={{ color: "#c084fc" }}>{m[3]}</span>);  // keywords
+      else if (m[4]) tokens.push(<span key={m.index} style={{ color: "#fb923c" }}>{m[4]}</span>);  // numbers
+      else if (m[5]) tokens.push(<span key={m.index} style={{ color: "#44d9a2" }}>{m[5]}</span>);  // function calls
+      else tokens.push(<span key={m.index} style={{ color: "#666688" }}>{m[0]}</span>);            // punctuation
+      last = m.index + m[0].length;
+    }
+    if (last < line.length) tokens.push(<span key={last} style={{ color: "#9999bb" }}>{line.slice(last)}</span>);
+    return tokens;
+  };
+
+  return (
+    <div style={{
+      marginTop: 12,
+      background: "#0d0d16",
+      border: "1px solid #2a2a4a",
+      borderRadius: 8,
+      overflow: "hidden"
+    }}>
+      <div style={{
+        padding: "6px 14px",
+        background: "#111128",
+        borderBottom: "1px solid #2a2a4a",
+        display: "flex", alignItems: "center", gap: 8
+      }}>
+        <span style={{ fontSize: 10, color: "#38bdf8", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1 }}>🐍 bpy</span>
+        <span style={{ fontSize: 10, color: "#444466", fontFamily: "'JetBrains Mono', monospace" }}>Python API equivalent</span>
+      </div>
+      <pre style={{
+        margin: 0, padding: "14px 16px",
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: 12, lineHeight: 1.7,
+        overflowX: "auto",
+        whiteSpace: "pre"
+      }}>
+        {code.trim().split("\n").map((line, i) => (
+          <div key={i}>{highlight(line) }</div>
+        ))}
+      </pre>
+    </div>
+  );
+};
+
 export default function BlenderWorkshop() {
   const [activeModule, setActiveModule] = useState(0);
   const [completedModules, setCompletedModules] = useState(new Set());
   const [expandedSections, setExpandedSections] = useState({ 0: true });
   const [activeTab, setActiveTab] = useState("content");
+  const [showPython, setShowPython] = useState(false);
 
   const mod = modules[activeModule];
   const progress = Math.round((completedModules.size / modules.length) * 100);
@@ -1542,6 +3355,25 @@ export default function BlenderWorkshop() {
               {tab.label}
             </button>
           ))}
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10, paddingRight: 4 }}>
+            <span style={{ fontSize: 11, color: showPython ? "#38bdf8" : "#444466", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1, transition: "color 0.2s" }}>🐍 bpy</span>
+            <div
+              onClick={() => setShowPython(p => !p)}
+              style={{
+                width: 40, height: 22, borderRadius: 11,
+                background: showPython ? "rgba(56,189,248,0.25)" : "#1e1e2e",
+                border: `1px solid ${showPython ? "#38bdf8" : "#2a2a3a"}`,
+                cursor: "pointer", position: "relative", transition: "all 0.2s"
+              }}
+            >
+              <div style={{
+                position: "absolute", top: 3, left: showPython ? 20 : 3,
+                width: 14, height: 14, borderRadius: "50%",
+                background: showPython ? "#38bdf8" : "#444466",
+                transition: "all 0.2s"
+              }} />
+            </div>
+          </div>
         </div>
 
         {/* Scrollable content */}
@@ -1757,6 +3589,7 @@ export default function BlenderWorkshop() {
                   {expandedSections[i] && (
                     <div style={{ padding: "4px 18px 18px", borderTop: "1px solid #1e1e2e" }}>
                       {renderContent(section.content)}
+                      {showPython && section.pythonCode && <CodeBlock code={section.pythonCode} />}
                     </div>
                   )}
                 </div>
