@@ -5486,7 +5486,7 @@ export default function BlenderWorkshop() {
           )}
 
           {/* ── HOME / LANDING PAGE ── */}
-          {activeModule === null && (
+          {activeModule === null && activeTab === "content" && (
             <div style={{ maxWidth: 760, margin: "0 auto" }}>
               {/* Hero */}
               <div
