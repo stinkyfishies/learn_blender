@@ -5549,13 +5549,37 @@ export default function BlenderWorkshop() {
                 </div>
                 <div
                   style={{
-                    fontSize: 15,
-                    color: "#888899",
-                    lineHeight: 1.8,
-                    maxWidth: 600,
+                    fontSize: 36,
+                    fontWeight: 800,
+                    lineHeight: 1.15,
+                    marginBottom: 20,
                   }}
                 >
-                  Learn the language, not the controls. Know what's possible, describe what you want, and let AI write the script.
+                  Learn the language,
+                  <br />
+                  <span style={{ color: "#e8622a" }}>know what's possible.</span>
+                </div>
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: "#666688",
+                    lineHeight: 1.7,
+                    maxWidth: 560,
+                    marginBottom: 8,
+                    fontWeight: 600,
+                  }}
+                >
+                  You don't need to master Blender. You need to think in it.
+                </div>
+                <div
+                  style={{
+                    fontSize: 14,
+                    color: "#888899",
+                    lineHeight: 1.8,
+                    maxWidth: 560,
+                  }}
+                >
+                  This workshop gives you the vocabulary, the mental model, the outcome→tool map and everything else you need to direct AI and get extraordinary results.
                 </div>
               </div>
 
