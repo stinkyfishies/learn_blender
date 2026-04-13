@@ -4863,16 +4863,6 @@ export default function BlenderWorkshop() {
           <div style={{ fontSize: 20, fontWeight: 800 }}>
             Blender <span style={{ color: "#e8622a" }}>5.1</span>
           </div>
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 10,
-              color: "#555577",
-              marginTop: 2,
-            }}
-          >
-            Mac Trackpad · Vibe-Code Ready
-          </div>
         </div>
 
         {/* Progress */}
