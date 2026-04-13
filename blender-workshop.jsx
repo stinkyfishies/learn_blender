@@ -5085,37 +5085,21 @@ export default function BlenderWorkshop() {
           }}
         >
           {isMobile && (
-            <>
-              <button
-                onClick={() => setSidebarOpen(true)}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#888899",
-                  fontSize: 20,
-                  cursor: "pointer",
-                  padding: "12px 12px 12px 0",
-                  lineHeight: 1,
-                  flexShrink: 0,
-                }}
-              >
-                ☰
-              </button>
-              <a
-                href="https://ko-fi.com/stinkyfishies"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontSize: 18,
-                  textDecoration: "none",
-                  padding: "12px 4px 12px 12px",
-                  lineHeight: 1,
-                  flexShrink: 0,
-                }}
-              >
-                ☕
-              </a>
-            </>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "#888899",
+                fontSize: 20,
+                cursor: "pointer",
+                padding: "12px 12px 12px 0",
+                lineHeight: 1,
+                flexShrink: 0,
+              }}
+            >
+              ☰
+            </button>
           )}
           {tabs.map((tab) => (
             <button
@@ -5207,6 +5191,22 @@ export default function BlenderWorkshop() {
               </div>
             </div>
           </div>
+          {isMobile && (
+            <a
+              href="https://ko-fi.com/stinkyfishies"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: 18,
+                textDecoration: "none",
+                padding: "12px 4px 12px 8px",
+                lineHeight: 1,
+                flexShrink: 0,
+              }}
+            >
+              ☕
+            </a>
+          )}
         </div>
 
         {/* Scrollable content */}
