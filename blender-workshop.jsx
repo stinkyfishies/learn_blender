@@ -5889,6 +5889,30 @@ export default function BlenderWorkshop() {
                   Start Module 1 — Mental Model →
                 </button>
               </div>
+
+              {/* Ko-fi */}
+              <div style={{ textAlign: "center", paddingBottom: 48 }}>
+                <a
+                  href="https://ko-fi.com/stinkyfishies"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 8,
+                    padding: "10px 20px",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid #2a2a3a",
+                    borderRadius: 8,
+                    color: "#888899",
+                    fontSize: 13,
+                    textDecoration: "none",
+                    fontFamily: "'Inter', sans-serif",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  <span style={{ fontSize: 16 }}>☕</span>
+                  If this helped, buy me a coffee
+                </a>
+              </div>
             </div>
           )}
 
