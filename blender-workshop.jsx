@@ -5038,6 +5038,30 @@ export default function BlenderWorkshop() {
             </div>
           ))}
         </div>
+
+        {/* Ko-fi */}
+        <div style={{ padding: "16px 20px", borderTop: "1px solid #1e1e2e", marginTop: "auto" }}>
+          <a
+            href="https://ko-fi.com/stinkyfishies"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              padding: "9px 12px",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid #2a2a3a",
+              borderRadius: 8,
+              color: "#666688",
+              fontSize: 12,
+              textDecoration: "none",
+              fontFamily: "'Inter', sans-serif",
+              transition: "all 0.2s",
+            }}
+          >
+            <span style={{ fontSize: 15 }}>☕</span>
+            Buy me a coffee
+          </a>
+        </div>
       </div>
 
       {/* Main */}
@@ -5890,29 +5914,6 @@ export default function BlenderWorkshop() {
                 </button>
               </div>
 
-              {/* Ko-fi */}
-              <div style={{ textAlign: "center", paddingBottom: 48 }}>
-                <a
-                  href="https://ko-fi.com/stinkyfishies"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 8,
-                    padding: "10px 20px",
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid #2a2a3a",
-                    borderRadius: 8,
-                    color: "#888899",
-                    fontSize: 13,
-                    textDecoration: "none",
-                    fontFamily: "'Inter', sans-serif",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  <span style={{ fontSize: 16 }}>☕</span>
-                  If this helped, buy me a coffee
-                </a>
-              </div>
             </div>
           )}
 
