@@ -6100,6 +6100,23 @@ export default function BlenderWorkshop() {
             </div>
           )}
         </div>
+
+        {/* Footer */}
+        <div style={{
+          padding: "10px 24px",
+          borderTop: "1px solid #1a1a28",
+          textAlign: "center",
+          flexShrink: 0,
+        }}>
+          <span style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 10,
+            color: "#333355",
+            letterSpacing: 1,
+          }}>
+            © 2026 Dee Dee — All Rights Reserved
+          </span>
+        </div>
       </div>
     </div>
   );
