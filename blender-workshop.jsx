@@ -5539,27 +5539,13 @@ export default function BlenderWorkshop() {
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 14,
+                    fontSize: 18,
                     color: "#e8622a",
-                    letterSpacing: 4,
-                    marginBottom: 16,
+                    letterSpacing: 3,
+                    marginBottom: 20,
                   }}
                 >
-                  BLENDER 5.1 WORKSHOP
-                </div>
-                <div
-                  style={{
-                    fontSize: 36,
-                    fontWeight: 800,
-                    lineHeight: 1.15,
-                    marginBottom: 16,
-                  }}
-                >
-                  Learn to navigate
-                  <br />
-                  <span style={{ color: "#e8622a" }}>
-                    the possibility space.
-                  </span>
+                  BLENDER 5.1 WORKSHOP FOR VIBE CODERS
                 </div>
                 <div
                   style={{
@@ -5569,12 +5555,7 @@ export default function BlenderWorkshop() {
                     maxWidth: 600,
                   }}
                 >
-                  This workshop teaches you{" "}
-                  <strong style={{ color: "#e8e8f0" }}>
-                    Blender's vocabulary, architecture, and tool landscape
-                  </strong>
-                  . The goal is to build the mental model you need to direct an
-                  AI agent (or yourself) toward any 3D outcome with confidence.
+                  Learn the language, not the controls. Know what's possible, describe what you want, and let AI write the script.
                 </div>
               </div>
 
