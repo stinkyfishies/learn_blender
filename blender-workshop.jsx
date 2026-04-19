@@ -270,21 +270,50 @@ bpy.context.scene.render.engine = 'CYCLES'  # or 'BLENDER_EEVEE_NEXT'
 # 🖼️ Output resolution
 bpy.context.scene.render.resolution_x = 1920
 bpy.context.scene.render.resolution_y = 1080`,
-        content: `The right-side Properties Editor contains all settings, organized by icon. Knowing which icon = what domain is essential:
+        content: `The Properties Editor runs down the right side of the screen. It is organized into tabs by icon, each covering a distinct domain. Knowing which tab holds what saves a lot of hunting.
 
-- 🎬 **Render** — Engine (Cycles/EEVEE), sampling, denoising
-- 🖼️ **Output** — Resolution, frame range, output path, file format
-- 🌍 **World** — Background color, HDRI environment, ambient occlusion
-- 👁️ **View Layer** — Render passes, light groups
-- 📐 **Object** — Exact transform values, visibility, instancing
-- 🔧 **Modifier** — The modifier stack
-- ⚡ **Particles** — Particle/hair systems
-- 🔒 **Constraints** — Object constraints
-- 📊 **Object Data** — Mesh-specific: UV maps, vertex colors, normals
-- 🎨 **Material** — Material slots, shader assignment
-- 🖼️ **Texture** — Texture slots (legacy, mostly for displacement/brushes)
+🎬 **Render**
+Engine selection (Cycles or EEVEE Next), sampling quality, and denoising settings.
+> Example: switch from EEVEE to Cycles here when you need physically accurate light bounces.
 
-**N** (in viewport) — Toggle the sidebar panel (Item, Tool, View tabs). Shows exact transform of selected object.`,
+🖼️ **Output**
+Resolution, frame range, output folder, and file format for renders.
+> Example: set resolution to 1920x1080 and output path to a folder before hitting render.
+
+🌍 **World**
+Background color, HDRI environment lighting, and ambient occlusion.
+> Example: drop an HDRI image here to instantly light the whole scene with realistic reflections.
+
+👁️ **View Layer**
+Render passes and light groups. Used for compositing workflows.
+> Example: enable the Shadow pass to adjust shadows independently in post.
+
+📐 **Object**
+Exact transform values, visibility flags, and instancing options for the selected object.
+> Example: type a precise location value here instead of eyeballing it in the viewport.
+
+🔧 **Modifier**
+The modifier stack for the selected object. Add, reorder, and remove modifiers here.
+> Example: this is where you add a Subdivision Surface or a Boolean modifier.
+
+⚡ **Particles**
+Particle and hair systems attached to the selected object.
+
+🔒 **Constraints**
+Object constraints that control how an object moves or orients relative to others.
+
+📊 **Object Data**
+Mesh-specific settings: UV maps, vertex color layers, normals, and custom attributes.
+> Example: check UV maps here to see which ones exist before setting up a material.
+
+🎨 **Material**
+Material slots and shader assignment for the selected object.
+> Example: add a new slot here to apply a second material to specific faces.
+
+🖼️ **Texture**
+Legacy texture slots. Mostly used for displacement maps and sculpt/paint brushes.
+
+Press **N** in the viewport to open the sidebar panel. The Item tab shows the exact transform of whatever is selected.`,
       },
       {
         title: "Collections & Scene Organization",
