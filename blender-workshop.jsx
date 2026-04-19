@@ -120,7 +120,23 @@ Controls environment lighting, the background, and atmosphere.
 A named group of objects. Objects can belong to multiple collections at once.
 > Example: a Characters collection and a Props collection. Toggle the Props collection to hide everything in it in one click.
 
-**Alt+D** creates a linked duplicate: a new Object pointing to the same Mesh. **Shift+D** makes a full independent copy. For large scenes, linked duplicates are dramatically more efficient.`,
+**Alt+D** creates a linked duplicate: a new Object pointing to the same Mesh. **Shift+D** makes a full independent copy. For large scenes, linked duplicates are dramatically more efficient.
+
+##tree
+.blend file
+├── Scene
+│   ├── Collection: Characters
+│   │   └── Object: Hero
+│   │       ├── Mesh: HeroBody
+│   │       └── Material: RedPaint
+│   ├── Collection: Props
+│   │   └── Object: Table
+│   │       ├── Mesh: TableTop
+│   │       └── Material: WoodGrain
+│   └── Camera
+└── World
+    └── HDRI Environment
+##endtree`,
       },
       {
         title: "Modes: Why They Exist",
@@ -4372,6 +4388,8 @@ const renderContent = (text) => {
   const lines = text.split("\n");
   const elements = [];
   let listBuffer = [];
+  let treeBuffer = [];
+  let inTree = false;
 
   const flushList = (key) => {
     if (listBuffer.length === 0) return;
@@ -4396,7 +4414,46 @@ const renderContent = (text) => {
     listBuffer = [];
   };
 
+  const flushTree = (key) => {
+    if (treeBuffer.length === 0) return;
+    elements.push(
+      <pre
+        key={`tree-${key}`}
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 12,
+          lineHeight: 1.7,
+          color: "#7777aa",
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid #1e1e2e",
+          borderRadius: 6,
+          padding: "12px 16px",
+          margin: "12px 0",
+          overflowX: "auto",
+          whiteSpace: "pre",
+        }}
+      >
+        {treeBuffer.join("\n")}
+      </pre>
+    );
+    treeBuffer = [];
+  };
+
   lines.forEach((line, i) => {
+    if (line.trim() === "##tree") {
+      flushList(i);
+      inTree = true;
+      return;
+    }
+    if (line.trim() === "##endtree") {
+      flushTree(i);
+      inTree = false;
+      return;
+    }
+    if (inTree) {
+      treeBuffer.push(line);
+      return;
+    }
     if (!line.trim()) {
       flushList(i);
       elements.push(<div key={i} style={{ height: 6 }} />);
