@@ -96,8 +96,8 @@ for col in bpy.data.collections:
     print(col.name, [o.name for o in col.objects])`,
         content: `Blender organizes everything as **datablocks** — reusable, linkable chunks of data. Understanding this unlocks how the whole system fits together.
 
-- **Object** — The thing you select, move, rotate, and scale in the viewport. It has a position in the scene but no geometry of its own — it points to a Mesh (or camera, or light) that lives inside it.
-- **Mesh / Curve / Volume / Armature** — The actual data that an Object references. Multiple objects can share one mesh (instances).
+- **Object** — The thing you select, move, rotate, and scale in the viewport. It has a position in the scene but no geometry of its own — it points to a Mesh (or camera, or light) that lives inside it. *Example: when you click a cube and hit G to move it, you're moving the Object — not the geometry.*
+- **Mesh / Curve / Volume / Armature** — The actual data that an Object references. Multiple objects can share one mesh (instances). *Example: a forest of 1,000 trees where every tree is a separate Object but all point to the same Mesh — one tree in memory, 1,000 positions in the scene.*
 - **Material** — Applied to material slots on a mesh. One object can have many materials.
 - **Scene** — The stage: which objects exist, camera, frame range.
 - **World** — Environment lighting, background, atmosphere.
