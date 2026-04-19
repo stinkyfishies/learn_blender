@@ -281,8 +281,8 @@ Resolution, frame range, output folder, and file format for renders.
 > Example: set resolution to 1920x1080 and output path to a folder before hitting render.
 
 🌍 **World**
-Background color, HDRI environment lighting, and ambient occlusion.
-> Example: drop an HDRI image here to instantly light the whole scene with realistic reflections.
+The background of the scene and its contribution to lighting. You can use a solid color, a gradient, or an HDRI (a 360° photograph of a real environment that also casts light and reflections into the scene).
+> Example: drop an HDRI image here to instantly light the whole scene with realistic reflections, no lights required.
 
 👁️ **View Layer**
 Render passes and light groups. Used for compositing workflows.
