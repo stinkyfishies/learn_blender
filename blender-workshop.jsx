@@ -98,10 +98,10 @@ for col in bpy.data.collections:
 
 - **Object** — The thing you select, move, rotate, and scale in the viewport. It has a position in the scene but no geometry of its own — it points to a Mesh (or camera, or light) that lives inside it. *Example: when you click a cube and hit G to move it, you're moving the Object — not the geometry.*
 - **Mesh / Curve / Volume / Armature** — The actual data that an Object references. Multiple objects can share one mesh (instances). *Example: a forest of 1,000 trees where every tree is a separate Object but all point to the same Mesh — one tree in memory, 1,000 positions in the scene.*
-- **Material** — Applied to material slots on a mesh. One object can have many materials.
-- **Scene** — The stage: which objects exist, camera, frame range.
-- **World** — Environment lighting, background, atmosphere.
-- **Collection** — A folder/group of objects. Objects can belong to multiple collections.
+- **Material** — Applied to material slots on a mesh. One object can have many materials. *Example: a car body with a red paint material on the body and a black rubber material on the tyres — two material slots, one object.*
+- **Scene** — The stage: which objects exist, camera, frame range. *Example: "Scene 1" is your product shot setup, "Scene 2" is an exploded view — same .blend file, different arrangements.*
+- **World** — Environment lighting, background, atmosphere. *Example: swap the World shader to change from a sunny outdoor HDRI to a dark studio void without touching any lights.*
+- **Collection** — A folder/group of objects. Objects can belong to multiple collections. *Example: a "Characters" collection and a "Props" collection — you can hide all props in one click by toggling the collection.*
 
 Key insight: because objects and meshes are separate, you can duplicate an object with **Alt+D** (linked duplicate — same mesh data, different transform) vs **Shift+D** (full copy). This matters enormously for scene performance.`,
       },
