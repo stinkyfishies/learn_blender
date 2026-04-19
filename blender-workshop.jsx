@@ -237,7 +237,7 @@ Never baked into the mesh. Always swappable or adjustable after the fact.
 
 Destructive operations include: applying a modifier, sculpting directly on a mesh, manual vertex editing, and applying shape keys. Once done, there is no non-destructive path back.
 
-Stay non-destructive as long as possible. Apply only when exporting, hitting a performance limit, or when a step is truly final.`,
+Stay non-destructive as long as possible. Apply only when exporting, hitting a performance limit, or when a step is truly final. Throughout this workshop, each relevant module flags which operations are destructive and which are not, so you build the habit naturally as you go.`,
       },
       {
         title: "The Properties Panel — Your Control Center",
