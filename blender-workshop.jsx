@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // Utility: hex color → "r,g,b" string for rgba()
 const hexToRgb = (hex) => {
@@ -6032,6 +6032,120 @@ export default function BlenderWorkshop() {
                   ))}
                 </div>
               </div>
+
+              {/* Learning Paths */}
+              {(() => {
+                const paths = [
+                  {
+                    emoji: "🖼️",
+                    title: "Still Images & Product Viz",
+                    desc: "Model, light, and render compelling 3D images. No animation required.",
+                    modules: [
+                      { idx: 0, note: "Foundation" },
+                      { idx: 1, note: "Python setup" },
+                      { idx: 2, note: "Navigation basics" },
+                      { idx: 3, note: "Building geometry" },
+                      { idx: 4, note: "Editing topology" },
+                      { idx: 5, note: "Non-destructive ops" },
+                      { idx: 7, note: "Shading" },
+                      { idx: 8, note: "Lighting your scene" },
+                      { idx: 12, note: "Rendering" },
+                      { idx: 13, note: "Procedural textures" },
+                    ],
+                  },
+                  {
+                    emoji: "🎬",
+                    title: "Motion Graphics & Animation",
+                    desc: "Bring scenes to life with keyframes, physics, and procedural motion.",
+                    modules: [
+                      { idx: 0, note: "Foundation" },
+                      { idx: 1, note: "Python setup" },
+                      { idx: 2, note: "Navigation" },
+                      { idx: 3, note: "Geometry" },
+                      { idx: 4, note: "Topology" },
+                      { idx: 5, note: "Modifiers" },
+                      { idx: 6, note: "Procedural animation" },
+                      { idx: 7, note: "Shading" },
+                      { idx: 8, note: "Lighting" },
+                      { idx: 11, note: "Physics & simulation" },
+                      { idx: 12, note: "Rendering" },
+                    ],
+                  },
+                  {
+                    emoji: "🧬",
+                    title: "Procedural & Generative Art",
+                    desc: "Use Geometry Nodes and shaders to generate complex outputs from simple rules.",
+                    modules: [
+                      { idx: 0, note: "Foundation" },
+                      { idx: 1, note: "Python setup" },
+                      { idx: 5, note: "Modifiers" },
+                      { idx: 6, note: "Geometry Nodes — core tool" },
+                      { idx: 7, note: "Shading" },
+                      { idx: 8, note: "Lighting" },
+                      { idx: 12, note: "Rendering" },
+                      { idx: 13, note: "Procedural textures" },
+                    ],
+                  },
+                  {
+                    emoji: "🐍",
+                    title: "Scripting-First / Vibe-Coding",
+                    desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
+                    modules: [
+                      { idx: 0, note: "Mental model — start here" },
+                      { idx: 1, note: "bpy environment — do this second" },
+                      { idx: 5, note: "Modifiers via code" },
+                      { idx: 6, note: "Geometry Nodes via code" },
+                      { idx: 7, note: "Materials via code" },
+                      { idx: 12, note: "Headless rendering" },
+                      { idx: 13, note: "Procedural textures via code" },
+                    ],
+                  },
+                ];
+                const [openPath, setOpenPath] = React.useState(null);
+                return (
+                  <div style={{ marginBottom: 48 }}>
+                    <div style={{ marginBottom: 20 }}>
+                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>LEARNING PATHS</div>
+                      <div style={{ fontSize: 20, fontWeight: 800 }}>What do you want to make?</div>
+                      <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>Pick a path to see a recommended module sequence. You can still access all modules in any order.</div>
+                    </div>
+                    {paths.map((path, pi) => (
+                      <div key={pi} style={{ marginBottom: 8, border: `1px solid ${openPath === pi ? "#3a3a5a" : "#1e1e2e"}`, borderRadius: 10, overflow: "hidden", transition: "border-color 0.2s" }}>
+                        <div
+                          onClick={() => setOpenPath(openPath === pi ? null : pi)}
+                          style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", cursor: "pointer", background: openPath === pi ? "rgba(255,255,255,0.03)" : "transparent" }}
+                        >
+                          <span style={{ fontSize: 22 }}>{path.emoji}</span>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: "#e8e8f0" }}>{path.title}</div>
+                            <div style={{ fontSize: 12, color: "#666688", marginTop: 2 }}>{path.desc}</div>
+                          </div>
+                          <span style={{ color: "#444466", fontSize: 14, transition: "transform 0.2s", display: "inline-block", transform: openPath === pi ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
+                        </div>
+                        {openPath === pi && (
+                          <div style={{ padding: "4px 18px 16px 18px", borderTop: "1px solid #1e1e2e" }}>
+                            {path.modules.map((m, mi) => (
+                              <div
+                                key={mi}
+                                onClick={() => { setActiveModule(m.idx); setExpandedSections({ 0: true }); setActiveTab("content"); }}
+                                style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 0", borderBottom: mi < path.modules.length - 1 ? "1px solid #12121c" : "none", cursor: "pointer" }}
+                              >
+                                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#444466", width: 20, flexShrink: 0 }}>{String(mi + 1).padStart(2, "0")}</div>
+                                <span style={{ fontSize: 16, width: 22, textAlign: "center", flexShrink: 0 }}>{modules[m.idx].emoji}</span>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ fontSize: 13, fontWeight: 600, color: "#c8c8e0" }}>{modules[m.idx].title}</div>
+                                  <div style={{ fontSize: 11, color: "#555577", marginTop: 1 }}>{m.note}</div>
+                                </div>
+                                <span style={{ fontSize: 11, color: "#444466" }}>→</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
 
               {/* CTA */}
               <div
