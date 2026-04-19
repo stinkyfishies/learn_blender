@@ -156,18 +156,33 @@ print(bpy.context.object.mode)  # returns e.g. 'OBJECT', 'EDIT'
 # Context-safe check before switching
 if bpy.context.object and bpy.context.object.type == 'MESH':
     bpy.ops.object.mode_set(mode='EDIT')`,
-        content: `Blender uses **modes** to expose different toolsets on the same object. You're always in one mode at a time:
+        content: `Blender uses **modes** to expose different toolsets on the same object. You are always in exactly one mode at a time. Press **Ctrl+Tab** to open the mode pie menu from anywhere.
 
-- **Object Mode** — Manage the scene: move, duplicate, link, organize. The default mode.
-- **Edit Mode** — Reshape the mesh at vertex/edge/face level. Tab toggles here.
-- **Sculpt Mode** — Push/pull geometry like digital clay. High polygon counts.
-- **Weight Paint** — Define per-vertex bone influence (for rigging/animation).
-- **Vertex Paint / Texture Paint** — Paint color or texture directly onto the mesh surface.
-- **Particle Edit** — Comb, trim, and style hair/fur particles.
+**Object Mode**
+The default. Manage the scene: move, duplicate, link, and organize objects.
+> Example: selecting a cube and pressing G to drag it across the scene.
 
-**Ctrl+Tab** — Mode pie menu (access any mode from any mode)
+**Edit Mode**
+Reshape the mesh at the vertex, edge, or face level. Press Tab to toggle in and out.
+> Example: selecting a face on a cube and pressing E to extrude it into a new shape.
 
-The same object looks completely different depending on which mode you're in — this is intentional, not confusing. Each mode is a specialized lens.`,
+**Sculpt Mode**
+Push and pull geometry like digital clay. Works best at high polygon counts.
+> Example: smoothing a lumpy surface or adding a nose to a character head.
+
+**Weight Paint**
+Paint per-vertex bone influence. Used to control how a mesh bends when an armature moves.
+> Example: painting the shoulder area so it follows the arm bone when the character raises their arm.
+
+**Vertex Paint / Texture Paint**
+Paint color or texture directly onto the mesh surface.
+> Example: hand-painting rust patches onto a metal object without a separate image editor.
+
+**Particle Edit**
+Comb, trim, cut, and style hair or fur strands.
+> Example: grooming a character's hair direction after generating it with a particle system.
+
+Each mode is a specialized lens onto the same object. Switching modes does not change your geometry.`,
       },
       {
         title: "Non-Destructive vs Destructive Workflow",
