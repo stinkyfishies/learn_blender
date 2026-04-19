@@ -94,16 +94,33 @@ for slot in obj.material_slots:
 # Collections
 for col in bpy.data.collections:
     print(col.name, [o.name for o in col.objects])`,
-        content: `Blender organizes everything as **datablocks** — reusable, linkable chunks of data. Understanding this unlocks how the whole system fits together.
+        content: `Blender organizes everything as **datablocks**: reusable, linkable chunks of data. Understanding this unlocks how the whole system fits together.
 
-- **Object** — The thing you select, move, rotate, and scale in the viewport. It has a position in the scene but no geometry of its own — it points to a Mesh (or camera, or light) that lives inside it. *Example: when you click a cube and hit G to move it, you're moving the Object — not the geometry.*
-- **Mesh / Curve / Volume / Armature** — The actual data that an Object references. Multiple objects can share one mesh (instances). *Example: a forest of 1,000 trees where every tree is a separate Object but all point to the same Mesh — one tree in memory, 1,000 positions in the scene.*
-- **Material** — Applied to material slots on a mesh. One object can have many materials. *Example: a car body with a red paint material on the body and a black rubber material on the tyres — two material slots, one object.*
-- **Scene** — The stage: which objects exist, camera, frame range. *Example: "Scene 1" is your product shot setup, "Scene 2" is an exploded view — same .blend file, different arrangements.*
-- **World** — Environment lighting, background, atmosphere. *Example: swap the World shader to change from a sunny outdoor HDRI to a dark studio void without touching any lights.*
-- **Collection** — A folder/group of objects. Objects can belong to multiple collections. *Example: a "Characters" collection and a "Props" collection — you can hide all props in one click by toggling the collection.*
+**Object**
+The thing you select, move, rotate, and scale in the viewport. It has a position in the scene but no geometry of its own. It points to a Mesh, camera, or light that lives inside it.
+> Example: when you click a cube and press G to move it, you are moving the Object, not the geometry.
 
-Key insight: because objects and meshes are separate, you can duplicate an object with **Alt+D** (linked duplicate — same mesh data, different transform) vs **Shift+D** (full copy). This matters enormously for scene performance.`,
+**Mesh / Curve / Volume / Armature**
+The actual geometry data that an Object points to. Multiple objects can share one mesh, which is how instances work.
+> Example: a forest of 1,000 trees where every tree is a separate Object but all share the same Mesh. One tree in memory, 1,000 positions in the scene.
+
+**Material**
+Applied to slots on a mesh. One object can have many material slots, each covering different faces.
+> Example: a car with a red paint material on the body and a black rubber material on the tyres. Two slots, one object.
+
+**Scene**
+The stage: which objects exist, the active camera, and the frame range for animation.
+> Example: Scene 1 is your product shot setup, Scene 2 is an exploded view. Same .blend file, different arrangements.
+
+**World**
+Controls environment lighting, the background, and atmosphere.
+> Example: swap the World shader to go from a sunny outdoor HDRI to a dark studio void without touching any lights.
+
+**Collection**
+A named group of objects. Objects can belong to multiple collections at once.
+> Example: a Characters collection and a Props collection. Toggle the Props collection to hide everything in it in one click.
+
+**Alt+D** creates a linked duplicate: a new Object pointing to the same Mesh. **Shift+D** makes a full independent copy. For large scenes, linked duplicates are dramatically more efficient.`,
       },
       {
         title: "Modes: Why They Exist",
@@ -4385,6 +4402,24 @@ const renderContent = (text) => {
       elements.push(<div key={i} style={{ height: 6 }} />);
     } else if (/^[-•]\s+/.test(line)) {
       listBuffer.push(line.replace(/^[-•]\s+/, ""));
+    } else if (/^>\s+/.test(line)) {
+      flushList(i);
+      elements.push(
+        <div
+          key={i}
+          style={{
+            borderLeft: "2px solid #2a2a3a",
+            paddingLeft: 12,
+            marginTop: 4,
+            marginBottom: 6,
+            fontSize: 12.5,
+            lineHeight: 1.6,
+            color: "#666688",
+            fontStyle: "italic",
+          }}
+          dangerouslySetInnerHTML={{ __html: applyBold(line.replace(/^>\s+/, "")) }}
+        />,
+      );
     } else {
       flushList(i);
       elements.push(
