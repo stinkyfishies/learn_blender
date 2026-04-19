@@ -210,20 +210,34 @@ key.value = 0.0  # 0.0 = off, 1.0 = fully applied
 # Non-destructive: add a constraint
 con = obj.constraints.new(type='COPY_LOCATION')
 con.target = bpy.data.objects["Target"]`,
-        content: `**Non-destructive**: changes are instructions layered on top of the original — fully reversible, tweakable, removable.
-**Destructive**: permanently modifies the underlying mesh data.
+        content: `**Non-destructive** means your changes are instructions layered on top of the original geometry. You can remove, reorder, or tweak them at any point. **Destructive** means the underlying mesh data is permanently changed.
 
-Non-destructive tools:
-- **Modifier Stack** — Subdivision, Bevel, Boolean, Array, Mirror, etc. Remove or reorder any time.
-- **Geometry Nodes** — Procedural generation via a node graph. Always live, always editable.
-- **Shape Keys** — Store different mesh "poses" without destroying the base shape.
-- **Constraints** — Control object behavior (copy location, track to, limit rotation).
-- **Drivers** — Link any value to any other value via an expression or variable.
-- **Materials / Shaders** — Never burn into the mesh; always swappable.
+**Modifier Stack**
+Operations like Subdivision, Bevel, Boolean, Array, and Mirror sit in a stack. Remove or reorder any time with no consequence.
+> Example: add a Mirror modifier to model one half of a face, then remove it later to make the two sides independent.
 
-Destructive: applying a modifier, sculpting directly, manual vertex editing, applying shape keys.
+**Geometry Nodes**
+A node graph that generates or transforms geometry procedurally. Always live and always editable.
+> Example: scatter 500 rocks across a terrain with a single node setup, then adjust density or size at any time.
 
-**Golden rule**: stay non-destructive as long as possible. Apply modifiers only when exporting, hitting a technical limit, or when you're 100% done with that step.`,
+**Shape Keys**
+Store alternate mesh positions without touching the base shape. Blend between them with a slider.
+> Example: a character's neutral face is the base, a smile is a shape key at value 1.0.
+
+**Constraints**
+Control how an object behaves relative to another, without moving it manually.
+> Example: a camera that always points at a target object no matter where the target moves.
+
+**Drivers**
+Link any value to any other value using an expression.
+> Example: pupil size that automatically shrinks as a light gets brighter.
+
+**Materials and Shaders**
+Never baked into the mesh. Always swappable or adjustable after the fact.
+
+Destructive operations include: applying a modifier, sculpting directly on a mesh, manual vertex editing, and applying shape keys. Once done, there is no non-destructive path back.
+
+Stay non-destructive as long as possible. Apply only when exporting, hitting a performance limit, or when a step is truly final.`,
       },
       {
         title: "The Properties Panel — Your Control Center",
