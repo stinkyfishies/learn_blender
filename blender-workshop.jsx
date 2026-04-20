@@ -474,15 +474,21 @@ All datablocks in the file: objects, meshes, materials, textures, node trees.
 Operators. Every action in Blender's interface has an ops equivalent.
 
 Access Python from:
-- **Scripting workspace** (top tab bar): opens a Text Editor + Python Console layout
+
+**Scripting workspace** (top tab bar)
+Opens a Text Editor + Python Console layout.
+
 **Python Console**
-interactive, with Tab auto-complete
+Interactive, with Tab auto-complete.
+
 **Text Editor**
-write full scripts, click Run Script (or Alt+P)
+Write full scripts, click Run Script (or Alt+P).
+
 **Driver expressions**
-Python expressions inside animation drivers
+Python expressions inside animation drivers.
+
 **Add-on scripts**
-Python files Blender loads as plugins`,
+Python files Blender loads as plugins.`,
       },
       {
         title: "The Scripting Workspace Layout",
@@ -505,13 +511,19 @@ import bpy
 # Errors appear in the Info Editor and System Console`,
         content: `The Scripting workspace (click the **Scripting** tab at the top of Blender) opens a pre-arranged layout:
 
-- **Text Editor** (left): write multi-line scripts. Alt+P to run. Has basic syntax highlighting.
-- **Python Console** (bottom-left): interactive REPL. Tab auto-complete on any bpy object. Best for exploration.
-- **Info Editor** (top-right): logs every UI action as a Python operator call in real time.
-**Properties + Outliner**
-context for whatever you're scripting.
+**Text Editor** (left)
+Write multi-line scripts. Alt+P to run. Has basic syntax highlighting.
 
-**The Info Editor is your most important learning tool.** Do anything in Blender's UI: add an object, change a modifier value, run a menu command: and the Info Editor records the exact Python statement that performed it. This is how you discover operator names without reading documentation.
+**Python Console** (bottom-left)
+Interactive REPL. Tab auto-complete on any bpy object. Best for exploration.
+
+**Info Editor** (top-right)
+Logs every UI action as a Python operator call in real time.
+
+**Properties + Outliner**
+Context for whatever you're scripting.
+
+**The Info Editor is your most important learning tool.** Do anything in Blender's UI: add an object, change a modifier value, run a menu command. The Info Editor records the exact Python statement that performed it. This is how you discover operator names without reading documentation.
 
 To open the Info Editor: change any editor's type to **Info** via the editor type icon.`,
       },
@@ -545,11 +557,12 @@ This means you never need to guess operator names. Perform the action once in th
 
 **Two other methods:**
 **Hover tooltips**
-hover over any UI button or property field. The tooltip shows the Python data path (e.g. \`bpy.context.object.modifiers["Subdiv"].levels\`).
-**Right-click → Copy Data Path**
-right-click any property → copies its full Python path to clipboard. Paste directly into a script.
+Hover over any UI button or property field. The tooltip shows the Python data path (e.g. \`bpy.context.object.modifiers["Subdiv"].levels\`).
 
-Together these three methods mean you can discover the bpy path to any UI control in under 30 seconds: without reading the API documentation.`,
+**Right-click → Copy Data Path**
+Right-click any property and it copies its full Python path to clipboard. Paste directly into a script.
+
+Together these three methods let you discover the bpy path to any UI control in under 30 seconds, without reading the API documentation.`,
       },
       {
         title: "Debugging Scripts",
@@ -582,22 +595,27 @@ with bpy.context.temp_override(active_object=obj):
 **Common error types:**
 
 **AttributeError: 'NoneType' has no attribute...**
-you're operating on \`bpy.context.active_object\` but nothing is selected. Add a selection guard.
+You're operating on \`bpy.context.active_object\` but nothing is selected. Add a selection guard.
+
 **RuntimeError: Operator bpy.ops.X.y() context is incorrect**
-the operator needs to be run in a specific mode or with specific context. Check what mode you're in.
+The operator needs to run in a specific mode or with specific context. Check what mode you're in.
+
 **KeyError: 'NodeName'**
-a node with that name doesn't exist. Print \`tree.nodes.keys()\` to see what's actually there.
+A node with that name doesn't exist. Print \`tree.nodes.keys()\` to see what's actually there.
+
 **TypeError: expected MESH, got CURVE**
-wrong object type. Check \`obj.type\` before operating.
+Wrong object type. Check \`obj.type\` before operating.
 
 **Where errors appear:**
 
 **Info Editor**
-shows the error type but not always the full traceback
+Shows the error type but not always the full traceback.
+
 **System Console**
-the full Python traceback with line numbers. On Mac: launch Blender from Terminal (\`/Applications/Blender.app/Contents/MacOS/Blender\`). This is where serious debugging happens.
+The full Python traceback with line numbers. On Mac: launch Blender from Terminal (\`/Applications/Blender.app/Contents/MacOS/Blender\`). This is where serious debugging happens.
+
 **Text Editor**
-errors highlight the failing line after running
+Errors highlight the failing line after running.
 
 **The single most useful debug line:** \`print(dir(obj))\`: prints every attribute and method on any bpy object. Use it when you don't know what's available.`,
       },
@@ -623,7 +641,7 @@ bpy.context.scene.render.filepath = "/renders/output_"
 bpy.context.scene.render.image_settings.file_format = 'PNG'
 bpy.ops.render.render(write_still=True)   # render current frame
 bpy.ops.render.render(animation=True)     # render full animation`,
-        content: `Blender can run entirely **without a GUI**: useful for batch rendering, automated scene generation, and CI/CD-style pipelines.
+        content: `Blender can run entirely without a GUI. This is useful for batch rendering, automated scene generation, and CI/CD-style pipelines.
 
 **Key flags:**
 - \`-b\` or \`--background\`: headless mode (no window)
@@ -670,7 +688,7 @@ obj.modifiers.new(  # → auto-completes name, type parameters`,
 
 **Setup:**
 1. Install the **Blender Development** extension in VS Code (by Jacques Lucke)
-2. Install **fake-bpy-module**: \`pip install fake-bpy-module-latest\`: gives VS Code full bpy type info and auto-complete without needing Blender running
+2. Install **fake-bpy-module**: \`pip install fake-bpy-module-latest\`. This gives VS Code full bpy type info and auto-complete without needing Blender running.
 3. Connect VS Code to a running Blender: **Cmd+Shift+P → Blender: Start**
 4. Run any script into Blender: **Cmd+Shift+P → Blender: Run Script**
 
