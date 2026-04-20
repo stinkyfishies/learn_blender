@@ -338,15 +338,21 @@ bpy.ops.object.collection_instance_add(collection="MyCollection")
 # List all objects in a collection
 for obj in bpy.data.collections["MyCollection"].objects:
     print(obj.name)`,
-        content: `**Collections** are Blender's folder system, visible in the Outliner (top-right by default).
+        content: `**Collections** are Blender's folder system, visible in the Outliner in the top-right corner of the screen. They work like named groups: objects can belong to multiple collections at the same time, and you can toggle an entire collection visible, renderable, or selectable in one click.
 
-- Objects can belong to multiple collections simultaneously
-- Collections can be toggled visible/renderable/selectable as a group
-- **Instance Collections** — Drag a collection into the viewport as a single instanced object. Duplicate it with Alt+D for zero memory cost.
-- **File → Link** — Reference a collection from another .blend file, non-destructively. The foundation of production pipelines.
-- **File → Append** — Copy data from another .blend into your current file (destructive import).
+**Instance Collections**
+Drag a collection into the viewport as a single lightweight object. Duplicate it with Alt+D for zero extra memory cost.
+> Example: build one detailed tree collection, then scatter 200 instances of it across a terrain. One set of geometry, 200 positions.
 
-The Outliner also shows the full datablock tree. Right-click any item for options. Drag to reparent.`,
+**File: Link**
+Reference a collection from another .blend file without copying it. Changes in the source file propagate automatically.
+> Example: a character lives in character.blend. Link it into your scene file so the team can update the character without touching your scene.
+
+**File: Append**
+Copy data from another .blend into your current file. Unlike Link, appended data becomes independent.
+> Example: pull a material from a material library file to use and customize it in your own scene.
+
+The Outliner also shows the full datablock tree. Right-click any item for options. Drag objects between collections to reparent them.`,
       },
       {
         title: "🔨 Mini Workshop: Read the Scene",
@@ -363,14 +369,14 @@ for obj in scene.objects:
     mods = [m.type for m in obj.modifiers]
     mats = [s.material.name for s in obj.material_slots if s.material]
     print(f"  {obj.name} [{obj.type}] | mods: {mods} | mats: {mats}")`,
-        content: `Open any Blender scene (default or downloaded) and map it to what you now know:
+        content: `Open any Blender scene (the default startup or a downloaded .blend file) and map it to what you now know.
 
-1. Open the **Outliner** — identify which Collections exist, which Objects are in them
-2. Click an object → check the **Properties panel** → what Modifiers does it have? What Materials?
-3. Press **Tab** → you're in Edit Mode on that object's mesh. Press **Tab** again to return.
-4. Press **Ctrl+Tab** → browse through modes. Notice how the toolbar changes.
-5. Press **N** → look at the Item tab. See the exact location/rotation/scale.
-6. Click on a different icon in the Properties Editor — find the Modifier stack, the Material slots.
+1. Open the **Outliner**. Identify which Collections exist and which Objects are inside them.
+2. Click an object, then check the **Properties panel**. What Modifiers does it have? What Materials?
+3. Press **Tab** to enter Edit Mode on that object's mesh. Press **Tab** again to return to Object Mode.
+4. Press **Ctrl+Tab** to browse through available modes. Notice how the toolbar changes with each one.
+5. Press **N** to open the sidebar. Look at the Item tab to see the exact location, rotation, and scale.
+6. Click through the icons in the Properties Editor. Find the Modifier stack and the Material slots.
 
 ✅ Goal: Be able to answer "what is this scene made of?" for any .blend file`,
       },
