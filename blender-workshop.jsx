@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Utility: hex color → "r,g,b" string for rgba()
 const hexToRgb = (hex) => {
@@ -5191,6 +5191,11 @@ export default function BlenderWorkshop() {
   const [openPath, setOpenPath] = useState(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (contentRef.current) contentRef.current.scrollTop = 0;
+  }, [activeModule]);
 
   useEffect(() => {
     const handler = () => setIsMobile(window.innerWidth < 768);
@@ -5773,6 +5778,7 @@ export default function BlenderWorkshop() {
 
         {/* Scrollable content */}
         <div
+          ref={contentRef}
           style={{
             flex: 1,
             overflowY: "auto",
