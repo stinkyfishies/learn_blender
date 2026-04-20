@@ -16,7 +16,7 @@ const modules = [
     tag: "FOUNDATION",
     color: "#e8622a",
     intro:
-      "Before touching anything: understand how Blender thinks. Its architecture shapes every decision — why modes exist, why nothing is 'just a file', and how to reason about what's possible.",
+      "Before touching anything: understand how Blender thinks. Its architecture shapes every decision: why modes exist, why nothing is 'just a file', and how to reason about what's possible.",
     quiz: [
       {
         q: "An Object and its Mesh are separate datablocks. What does this allow you to do?",
@@ -52,7 +52,7 @@ const modules = [
         ],
         answer: 1,
         explanation:
-          "The wrench icon (🔧) in the Properties panel opens the Modifier tab — where you add, reorder, and remove modifiers like Subdivision Surface, Mirror, and Boolean.",
+          "The wrench icon (🔧) in the Properties panel opens the Modifier tab: where you add, reorder, and remove modifiers like Subdivision Surface, Mirror, and Boolean.",
       },
       {
         q: "What is a Collection in Blender?",
@@ -389,19 +389,19 @@ for obj in scene.objects:
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
     intro:
-      "Blender has a full Python API called bpy — every action you take in the UI has a Python equivalent. This module covers how to set up the environment, write and run scripts, debug them, and how this directly enables a vibe-coding workflow where you prompt an AI to generate Blender scripts.",
+      "Blender has a full Python API called bpy: every action you take in the UI has a Python equivalent. This module covers how to set up the environment, write and run scripts, debug them, and how this directly enables a vibe-coding workflow where you prompt an AI to generate Blender scripts.",
     quiz: [
       {
         q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",
         options: [
           "Search the bpy documentation online",
-          "Check the Info Editor — it logs every operator call as a Python statement in real time",
+          "Check the Info Editor: it logs every operator call as a Python statement in real time",
           "Hover over the menu item and read the tooltip",
           "Look in Preferences → Add-ons",
         ],
         answer: 1,
         explanation:
-          "The Info Editor records every action as executable Python. Perform the action manually, then copy the operator call from Info — this is the fastest way to discover operator names.",
+          "The Info Editor records every action as executable Python. Perform the action manually, then copy the operator call from Info: this is the fastest way to discover operator names.",
       },
       {
         q: "You want to run a Python script that modifies your scene. Where do you run it inside Blender?",
@@ -419,7 +419,7 @@ for obj in scene.objects:
         q: "What is the Python Console's main advantage over the Text Editor for vibe-coding workflows?",
         options: [
           "It's faster to render from",
-          "It supports auto-complete — type bpy.data. and Tab shows all available attributes interactively",
+          "It supports auto-complete: type bpy.data. and Tab shows all available attributes interactively",
           "It runs scripts 10x faster",
           "It has syntax highlighting",
         ],
@@ -431,19 +431,19 @@ for obj in scene.objects:
         q: "When an AI generates a bpy script for you, what's the most important first debugging step if it errors?",
         options: [
           "Re-prompt the AI immediately",
-          "Read the full error in the Blender System Console or Info Editor — it gives the exact line and error type",
+          "Read the full error in the Blender System Console or Info Editor: it gives the exact line and error type",
           "Restart Blender",
           "Delete the script and start over",
         ],
         answer: 1,
         explanation:
-          "Blender's System Console (Window → Toggle System Console on Windows, launch from Terminal on Mac) shows the full Python traceback. The line number and error message are usually enough to identify the fix — or to give the AI precise feedback for a correction.",
+          "Blender's System Console (Window → Toggle System Console on Windows, launch from Terminal on Mac) shows the full Python traceback. The line number and error message are usually enough to identify the fix: or to give the AI precise feedback for a correction.",
       },
     ],
     sections: [
       {
         title: "Blender's Python Environment",
-        pythonCode: `# Blender ships with its own Python interpreter — you don't install anything.
+        pythonCode: `# Blender ships with its own Python interpreter: you don't install anything.
 # Access it from: Scripting workspace (top workspace tabs)
 
 import bpy
@@ -463,19 +463,26 @@ bpy.ops       # operators — the same actions as menu items and shortcuts
 # Example: what is currently selected?
 print(bpy.context.active_object)
 print(bpy.context.selected_objects)`,
-        content: `Blender ships with a **built-in Python 3 interpreter** — no separate installation required. The bpy module is always available and gives you programmatic access to everything in Blender.
+        content: `Blender ships with a **built-in Python 3 interpreter**: no separate installation required. The bpy module is always available and gives you programmatic access to everything in Blender.
 
 The three namespaces you'll use constantly:
-- **bpy.context** — What's currently selected, active, or visible. Changes as you click in the UI.
-- **bpy.data** — All datablocks in the file: objects, meshes, materials, textures, node trees.
-- **bpy.ops** — Operators. Every action in Blender's interface has an ops equivalent.
+**bpy.context**
+What's currently selected, active, or visible. Changes as you click in the UI.
+**bpy.data**
+All datablocks in the file: objects, meshes, materials, textures, node trees.
+**bpy.ops**
+Operators. Every action in Blender's interface has an ops equivalent.
 
 Access Python from:
-- **Scripting workspace** (top tab bar) — opens a Text Editor + Python Console layout
-- **Python Console** — interactive, with Tab auto-complete
-- **Text Editor** — write full scripts, click Run Script (or Alt+P)
-- **Driver expressions** — Python expressions inside animation drivers
-- **Add-on scripts** — Python files Blender loads as plugins`,
+- **Scripting workspace** (top tab bar): opens a Text Editor + Python Console layout
+**Python Console**
+interactive, with Tab auto-complete
+**Text Editor**
+write full scripts, click Run Script (or Alt+P)
+**Driver expressions**
+Python expressions inside animation drivers
+**Add-on scripts**
+Python files Blender loads as plugins`,
       },
       {
         title: "The Scripting Workspace Layout",
@@ -498,12 +505,13 @@ import bpy
 # Errors appear in the Info Editor and System Console`,
         content: `The Scripting workspace (click the **Scripting** tab at the top of Blender) opens a pre-arranged layout:
 
-- **Text Editor** (left) — write multi-line scripts. Alt+P to run. Has basic syntax highlighting.
-- **Python Console** (bottom-left) — interactive REPL. Tab auto-complete on any bpy object. Best for exploration.
-- **Info Editor** (top-right) — logs every UI action as a Python operator call in real time.
-- **Properties + Outliner** — context for whatever you're scripting.
+- **Text Editor** (left): write multi-line scripts. Alt+P to run. Has basic syntax highlighting.
+- **Python Console** (bottom-left): interactive REPL. Tab auto-complete on any bpy object. Best for exploration.
+- **Info Editor** (top-right): logs every UI action as a Python operator call in real time.
+**Properties + Outliner**
+context for whatever you're scripting.
 
-**The Info Editor is your most important learning tool.** Do anything in Blender's UI — add an object, change a modifier value, run a menu command — and the Info Editor records the exact Python statement that performed it. This is how you discover operator names without reading documentation.
+**The Info Editor is your most important learning tool.** Do anything in Blender's UI: add an object, change a modifier value, run a menu command: and the Info Editor records the exact Python statement that performed it. This is how you discover operator names without reading documentation.
 
 To open the Info Editor: change any editor's type to **Info** via the editor type icon.`,
       },
@@ -530,16 +538,18 @@ bpy.context.object.active_material.node_tree.nodes["Principled BSDF"].inputs[2].
         content: `The fastest way to learn bpy operator names is the **Info Method**:
 
 1. Do the action manually in Blender (add an object, apply a modifier, change a setting)
-2. Open the **Info Editor** — it shows the exact Python call that just ran
+2. Open the **Info Editor**: it shows the exact Python call that just ran
 3. Copy it into your script
 
 This means you never need to guess operator names. Perform the action once in the UI, then automate it.
 
 **Two other methods:**
-- **Hover tooltips** — hover over any UI button or property field. The tooltip shows the Python data path (e.g. \`bpy.context.object.modifiers["Subdiv"].levels\`).
-- **Right-click → Copy Data Path** — right-click any property → copies its full Python path to clipboard. Paste directly into a script.
+**Hover tooltips**
+hover over any UI button or property field. The tooltip shows the Python data path (e.g. \`bpy.context.object.modifiers["Subdiv"].levels\`).
+**Right-click → Copy Data Path**
+right-click any property → copies its full Python path to clipboard. Paste directly into a script.
 
-Together these three methods mean you can discover the bpy path to any UI control in under 30 seconds — without reading the API documentation.`,
+Together these three methods mean you can discover the bpy path to any UI control in under 30 seconds: without reading the API documentation.`,
       },
       {
         title: "Debugging Scripts",
@@ -571,22 +581,29 @@ with bpy.context.temp_override(active_object=obj):
 
 **Common error types:**
 
-- **AttributeError: 'NoneType' has no attribute...** — you're operating on \`bpy.context.active_object\` but nothing is selected. Add a selection guard.
-- **RuntimeError: Operator bpy.ops.X.y() context is incorrect** — the operator needs to be run in a specific mode or with specific context. Check what mode you're in.
-- **KeyError: 'NodeName'** — a node with that name doesn't exist. Print \`tree.nodes.keys()\` to see what's actually there.
-- **TypeError: expected MESH, got CURVE** — wrong object type. Check \`obj.type\` before operating.
+**AttributeError: 'NoneType' has no attribute...**
+you're operating on \`bpy.context.active_object\` but nothing is selected. Add a selection guard.
+**RuntimeError: Operator bpy.ops.X.y() context is incorrect**
+the operator needs to be run in a specific mode or with specific context. Check what mode you're in.
+**KeyError: 'NodeName'**
+a node with that name doesn't exist. Print \`tree.nodes.keys()\` to see what's actually there.
+**TypeError: expected MESH, got CURVE**
+wrong object type. Check \`obj.type\` before operating.
 
 **Where errors appear:**
 
-- **Info Editor** — shows the error type but not always the full traceback
-- **System Console** — the full Python traceback with line numbers. On Mac: launch Blender from Terminal (\`/Applications/Blender.app/Contents/MacOS/Blender\`). This is where serious debugging happens.
-- **Text Editor** — errors highlight the failing line after running
+**Info Editor**
+shows the error type but not always the full traceback
+**System Console**
+the full Python traceback with line numbers. On Mac: launch Blender from Terminal (\`/Applications/Blender.app/Contents/MacOS/Blender\`). This is where serious debugging happens.
+**Text Editor**
+errors highlight the failing line after running
 
-**The single most useful debug line:** \`print(dir(obj))\` — prints every attribute and method on any bpy object. Use it when you don't know what's available.`,
+**The single most useful debug line:** \`print(dir(obj))\`: prints every attribute and method on any bpy object. Use it when you don't know what's available.`,
       },
       {
         title: "Rendering from the Command Line",
-        pythonCode: `# Run Blender headlessly from Terminal (no UI) — ideal for automation
+        pythonCode: `# Run Blender headlessly from Terminal (no UI): ideal for automation
 
 # Render a single frame (frame 1) and save to /renders/
 /Applications/Blender.app/Contents/MacOS/Blender -b scene.blend -o /renders/frame_ -f 1
@@ -606,23 +623,23 @@ bpy.context.scene.render.filepath = "/renders/output_"
 bpy.context.scene.render.image_settings.file_format = 'PNG'
 bpy.ops.render.render(write_still=True)   # render current frame
 bpy.ops.render.render(animation=True)     # render full animation`,
-        content: `Blender can run entirely **without a GUI** — useful for batch rendering, automated scene generation, and CI/CD-style pipelines.
+        content: `Blender can run entirely **without a GUI**: useful for batch rendering, automated scene generation, and CI/CD-style pipelines.
 
 **Key flags:**
-- \`-b\` or \`--background\` — headless mode (no window)
-- \`-f N\` — render frame N
-- \`-a\` — render full animation
-- \`-o /path/\` — output directory
-- \`--python script.py\` — run a Python script on the loaded scene
-- \`-E ENGINE\` — set render engine (\`CYCLES\`, \`BLENDER_EEVEE_NEXT\`)
-- \`-t N\` — use N threads for CPU rendering
+- \`-b\` or \`--background\`: headless mode (no window)
+- \`-f N\`: render frame N
+- \`-a\`: render full animation
+- \`-o /path/\`: output directory
+- \`--python script.py\`: run a Python script on the loaded scene
+- \`-E ENGINE\`: set render engine (\`CYCLES\`, \`BLENDER_EEVEE_NEXT\`)
+- \`-t N\`: use N threads for CPU rendering
 
 **The vibe-coding pipeline this enables:**
 1. AI generates a Python script that builds a scene
 2. You run it headlessly: \`blender -b -P scene_builder.py -o /renders/ -f 1\`
 3. No need to open Blender's UI at all
 
-This is how automated 3D content generation works at scale — parametric scene scripts + headless renders, driven from any external system.`,
+This is how automated 3D content generation works at scale: parametric scene scripts + headless renders, driven from any external system.`,
       },
       {
         title: "VS Code as an External Editor",
@@ -653,7 +670,7 @@ obj.modifiers.new(  # → auto-completes name, type parameters`,
 
 **Setup:**
 1. Install the **Blender Development** extension in VS Code (by Jacques Lucke)
-2. Install **fake-bpy-module**: \`pip install fake-bpy-module-latest\` — gives VS Code full bpy type info and auto-complete without needing Blender running
+2. Install **fake-bpy-module**: \`pip install fake-bpy-module-latest\`: gives VS Code full bpy type info and auto-complete without needing Blender running
 3. Connect VS Code to a running Blender: **Cmd+Shift+P → Blender: Start**
 4. Run any script into Blender: **Cmd+Shift+P → Blender: Run Script**
 
@@ -661,7 +678,7 @@ obj.modifiers.new(  # → auto-completes name, type parameters`,
 - Full bpy auto-complete in VS Code (the entire API, typed)
 - Inline documentation on hover for any bpy class or method
 - Real-time error highlighting
-- Edit the script in VS Code, run it in Blender instantly — much faster iteration than copy-pasting into Blender's Text Editor
+- Edit the script in VS Code, run it in Blender instantly: much faster iteration than copy-pasting into Blender's Text Editor
 
 **For vibe-coding:** VS Code is where you receive the AI-generated script, review it, make small edits, then run it into Blender with one command. The auto-complete also helps you understand what the generated code is doing.`,
       },
@@ -698,13 +715,13 @@ error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created 
 
 **The loop:**
 
-1. **Describe what you want** — in precise Blender terms. "A procedural rocky terrain" is vague. "A Grid mesh with a Displace modifier driven by a Musgrave texture at scale 3, feeding into a Subdivision Surface at level 2, with a noise-driven roughness variation between 0.4 and 0.8" is a prompt that generates working code.
+1. **Describe what you want**: in precise Blender terms. "A procedural rocky terrain" is vague. "A Grid mesh with a Displace modifier driven by a Musgrave texture at scale 3, feeding into a Subdivision Surface at level 2, with a noise-driven roughness variation between 0.4 and 0.8" is a prompt that generates working code.
 
-2. **Prompt with tool names** — the vocabulary from this workshop (modifier types, node names, bpy paths) is exactly what makes prompts accurate. The AI knows Blender's API precisely; your job is to give it the right terms.
+2. **Prompt with tool names**: the vocabulary from this workshop (modifier types, node names, bpy paths) is exactly what makes prompts accurate. The AI knows Blender's API precisely; your job is to give it the right terms.
 
-3. **Run and read errors** — most generated scripts fail on first run due to context issues or API version differences. Copy the error from the System Console and feed it back to the AI with the exact message and line number.
+3. **Run and read errors**: most generated scripts fail on first run due to context issues or API version differences. Copy the error from the System Console and feed it back to the AI with the exact message and line number.
 
-4. **Iterate** — typically 1–3 rounds. After that, the scene is live in Blender and you can tweak parameters directly in the UI or in the script.
+4. **Iterate**: typically 1–3 rounds. After that, the scene is live in Blender and you can tweak parameters directly in the UI or in the script.
 
 **What makes this workshop directly useful:**
 - You know enough to describe any outcome in Blender vocabulary → better prompts
@@ -754,23 +771,23 @@ scene.cycles.use_denoising = True
 print("Scene built. Press F12 to render.")`,
         content: `Get your first bpy script running end-to-end:
 
-**Part 1 — Use the Info Method**
+**Part 1: Use the Info Method**
 1. Open the **Scripting workspace** (top tab)
 2. Open the **Info Editor** (change one of the panels to Info type)
 3. Add a UV Sphere via Shift+A → Mesh → UV Sphere
 4. Change its Roughness in the material to 0.4
-5. Look at what the Info Editor logged — that's the Python equivalent
+5. Look at what the Info Editor logged: that's the Python equivalent
 
-**Part 2 — Run the Python script**
+**Part 2: Run the Python script**
 1. In the **Text Editor** (left panel of Scripting workspace), click **New**
 2. Paste in the bpy code shown in the Python panel (toggle the 🐍 switch above)
 3. Press **Alt+P** to run it
 4. Watch the sphere appear in the viewport
 
-**Part 3 — Deliberately break it and debug**
-1. Remove the \`import bpy\` line — run it. Read the error.
-2. Change \`"ProcMat"\` to an existing material name — see what happens.
-3. Add \`print(dir(obj))\` anywhere — see every attribute available on the object.
+**Part 3: Deliberately break it and debug**
+1. Remove the \`import bpy\` line: run it. Read the error.
+2. Change \`"ProcMat"\` to an existing material name: see what happens.
+3. Add \`print(dir(obj))\` anywhere: see every attribute available on the object.
 
 ✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code`,
       },
@@ -783,7 +800,7 @@ print("Scene built. Press F12 to render.")`,
     tag: "MAC TRACKPAD",
     color: "#5b8dee",
     intro:
-      "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything — do these first.",
+      "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything: do these first.",
     quiz: [
       {
         q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?",
@@ -807,7 +824,7 @@ print("Scene built. Press F12 to render.")`,
         ],
         answer: 1,
         explanation:
-          "F3 searches every available operator by name. Type what you want and run it directly — the core vibe-coding shortcut.",
+          "F3 searches every available operator by name. Type what you want and run it directly: the core vibe-coding shortcut.",
       },
       {
         q: "What does pressing the Period (.) key do in the 3D viewport?",
@@ -831,7 +848,7 @@ print("Scene built. Press F12 to render.")`,
         ],
         answer: 2,
         explanation:
-          "Z opens the shading pie menu — a quick way to switch between how the scene looks without going to the toolbar.",
+          "Z opens the shading pie menu: a quick way to switch between how the scene looks without going to the toolbar.",
       },
     ],
     sections: [
@@ -850,14 +867,14 @@ inputs.use_emulate_numpad = True           # Number row = numpad views
 
 # Save preferences so they persist
 bpy.ops.wm.save_userpref()`,
-        content: `**Edit → Preferences → Input** — enable these three settings:
+        content: `**Edit → Preferences → Input**: enable these three settings:
 
-1. ✅ **Emulate 3 Button Mouse** — Maps Option+click to middle mouse button (orbit). Essential.
-2. ✅ **Emulate Numpad** — Maps the top number row (1–0) to numpad view shortcuts. Essential if you don't have a numpad.
-3. ✅ **Allow Mouse Selection With Trackpad Gesture** (if shown) — gesture-aware selection
+1. ✅ **Emulate 3 Button Mouse**: Maps Option+click to middle mouse button (orbit). Essential.
+2. ✅ **Emulate Numpad**: Maps the top number row (1–0) to numpad view shortcuts. Essential if you don't have a numpad.
+3. ✅ **Allow Mouse Selection With Trackpad Gesture** (if shown): gesture-aware selection
 
 Then under the **Trackpad** section (same Preferences page):
-- ✅ **Use Multi-Touch Trackpad** — enables pinch-to-zoom and two-finger pan natively
+- ✅ **Use Multi-Touch Trackpad**: enables pinch-to-zoom and two-finger pan natively
 
 Save these preferences: **Hamburger menu (☰) → Save Preferences** so they persist across launches.`,
       },
@@ -885,20 +902,32 @@ for area in bpy.context.screen.areas:
         area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
         content: `Once configured, your primary navigation controls:
 
-**Option+drag** — Orbit (rotate the view around the scene)
-**Two-finger drag** — Pan (slide the view left/right/up/down)
-**Pinch (two-finger)** — Zoom in/out
-**Period (.)** — Frame the selected object(s) — instantly centers view on your selection
-**Home** — Frame everything in the scene
+**Option+drag**
+Orbit (rotate the view around the scene)
+**Two-finger drag**
+Pan (slide the view left/right/up/down)
+**Pinch (two-finger)**
+Zoom in/out
+**Period (.)**
+Frame the selected object(s): instantly centers view on your selection
+**Home**
+Frame everything in the scene
 
 Keyboard view shortcuts (with Emulate Numpad ON):
-**1** — Front view (looking down -Y axis)
-**3** — Right side view
-**7** — Top view (looking down -Z)
-**Ctrl+1 / 3 / 7** — Opposite views (Back, Left, Bottom)
-**5** — Toggle Perspective ↔ Orthographic
-**0** — Camera view (what your render will see)
-**~ (backtick)** — View pie menu: access all views at once`,
+**1**
+Front view (looking down -Y axis)
+**3**
+Right side view
+**7**
+Top view (looking down -Z)
+**Ctrl+1 / 3 / 7**
+Opposite views (Back, Left, Bottom)
+**5**
+Toggle Perspective ↔ Orthographic
+**0**
+Camera view (what your render will see)
+**~ (backtick)**
+View pie menu: access all views at once`,
       },
       {
         title: "Editor Layout & Workspaces",
@@ -920,17 +949,25 @@ if obj and obj.active_material:
     tree = obj.active_material.node_tree
     for node in tree.nodes:
         print(node.name, node.type)`,
-        content: `Every panel in Blender is an **editor** — any area can be any editor type. Change it via the icon at the top-left corner of any panel.
+        content: `Every panel in Blender is an **editor**: any area can be any editor type. Change it via the icon at the top-left corner of any panel.
 
 Most important editors:
-- **3D Viewport** — Your main working area
-- **Shader Editor** — Node-based material building
-- **Geometry Node Editor** — Procedural modeling/generation
-- **Compositor** — Post-process renders with nodes
-- **Timeline / Graph Editor / NLA Editor** — Animation
-- **UV Editor** — UV unwrapping
-- **Outliner** — Scene hierarchy and datablock tree
-- **Properties** — All settings organized by icon
+**3D Viewport**
+Your main working area
+**Shader Editor**
+Node-based material building
+**Geometry Node Editor**
+Procedural modeling/generation
+**Compositor**
+Post-process renders with nodes
+**Timeline / Graph Editor / NLA Editor**
+Animation
+**UV Editor**
+UV unwrapping
+**Outliner**
+Scene hierarchy and datablock tree
+**Properties**
+All settings organized by icon
 
 **Workspaces** (tabs along the top bar): Blender ships with Layout, Modeling, Sculpting, Shading, Animation, Rendering, Compositing. Each is a saved editor arrangement. Create your own with the + button.
 
@@ -955,20 +992,27 @@ for area in bpy.context.screen.areas:
 area.spaces[0].shading.type = 'SOLID'      # Solid
 area.spaces[0].shading.type = 'MATERIAL'   # Material Preview
 area.spaces[0].shading.type = 'RENDERED'   # Rendered`,
-        content: `**F3** — Operator search. Type any Blender feature by name and run it. The single most powerful shortcut — if you know what you want but not where it lives, F3 finds it.
+        content: `**F3**: Operator search. Type any Blender feature by name and run it. The single most powerful shortcut: if you know what you want but not where it lives, F3 finds it.
 
-**Ctrl+Space** — Maximize the hovered editor (full screen). Press again to restore.
+**Ctrl+Space**
+Maximize the hovered editor (full screen). Press again to restore.
 
-**N** — Toggle the N-Panel sidebar (Item, Tool, View, and addon panels)
-**T** — Toggle the left toolbar (tool icons)
+**N**
+Toggle the N-Panel sidebar (Item, Tool, View, and addon panels)
+**T**
+Toggle the left toolbar (tool icons)
 
-**Ctrl+Alt+Q** — Quad view (four viewports: top, front, right, perspective). Toggle off the same way.
+**Ctrl+Alt+Q**
+Quad view (four viewports: top, front, right, perspective). Toggle off the same way.
 
-**Z** — Shading pie menu: Wireframe, Solid, Material Preview, Rendered. Essential for quickly switching how you see the scene.
+**Z**
+Shading pie menu: Wireframe, Solid, Material Preview, Rendered. Essential for quickly switching how you see the scene.
 
-**Alt+Z** — Toggle X-Ray mode (see through the mesh — critical for selecting hidden geometry)
+**Alt+Z**
+Toggle X-Ray mode (see through the mesh: critical for selecting hidden geometry)
 
-**F11** — Show last render (if you've rendered anything)`,
+**F11**
+Show last render (if you've rendered anything)`,
       },
       {
         title: "Selection on Mac",
@@ -1000,20 +1044,32 @@ bpy.ops.mesh.select_all(action='INVERT')
 bpy.ops.mesh.select_random(ratio=0.5)  # random % for procedural selection`,
         content: `Blender 5.1 defaults to **left-click select** (matches Mac conventions).
 
-**Click** — Select single item
-**Shift+Click** — Add/remove from selection
-**Cmd+Click** — (same as Shift in most contexts)
-**B** — Box select: drag a rectangle
-**C** — Circle select: paint with a brush (scroll to resize, right-click to exit)
-**Ctrl+I** — Invert selection
-**A** — Select all / deselect all (toggle)
-**Alt+A** — Deselect all
+**Click**
+Select single item
+**Shift+Click**
+Add/remove from selection
+**Cmd+Click**
+(same as Shift in most contexts)
+**B**
+Box select: drag a rectangle
+**C**
+Circle select: paint with a brush (scroll to resize, right-click to exit)
+**Ctrl+I**
+Invert selection
+**A**
+Select all / deselect all (toggle)
+**Alt+A**
+Deselect all
 
 In Edit Mode, selection works on whichever element type is active:
-**1** — Vertex select mode
-**2** — Edge select mode
-**3** — Face select mode
-**Alt+Click** — Select an entire edge loop (one of the most important shortcuts in modeling)`,
+**1**
+Vertex select mode
+**2**
+Edge select mode
+**3**
+Face select mode
+**Alt+Click**
+Select an entire edge loop (one of the most important shortcuts in modeling)`,
       },
     ],
   },
@@ -1024,19 +1080,19 @@ In Edit Mode, selection works on whichever element type is active:
     tag: "OBJECT MODE",
     color: "#60a5fa",
     intro:
-      "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically — not just what it looks like.",
+      "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically: not just what it looks like.",
     quiz: [
       {
         q: "You want to sculpt a creature head. Which sphere primitive is the better starting point, and why?",
         options: [
-          "UV Sphere — more vertices means more sculpting detail",
-          "Ico Sphere — more uniform triangle distribution across the surface, better for subdivision and sculpting",
-          "Plane — you can extrude into any shape",
-          "Torus — ring topology works well for necks",
+          "UV Sphere: more vertices means more sculpting detail",
+          "Ico Sphere: more uniform triangle distribution across the surface, better for subdivision and sculpting",
+          "Plane: you can extrude into any shape",
+          "Torus: ring topology works well for necks",
         ],
         answer: 1,
         explanation:
-          "UV Sphere has messy pole pinching at the top/bottom which deforms badly under subdivision. Ico Sphere distributes geometry evenly — ideal for organic sculpting.",
+          "UV Sphere has messy pole pinching at the top/bottom which deforms badly under subdivision. Ico Sphere distributes geometry evenly: ideal for organic sculpting.",
       },
       {
         q: "You add a Cylinder and immediately want to change it to 6 sides (hexagonal). Where do you do this?",
@@ -1053,14 +1109,14 @@ In Edit Mode, selection works on whichever element type is active:
       {
         q: "What data type does Shift+A → Curve → Bezier give you, and how does it differ from a Mesh?",
         options: [
-          "A mesh made of curved edges — same as a mesh but pre-smoothed",
+          "A mesh made of curved edges: same as a mesh but pre-smoothed",
           "A mathematically smooth path defined by control points and handles, not polygons",
           "A modifier that curves an existing mesh",
           "A texture that creates a curved gradient",
         ],
         answer: 1,
         explanation:
-          "Curves are a separate data type — defined by handles and control points, not vertices/edges/faces. They can be converted to mesh, or used directly (for pipes, paths, etc.) via the Curve modifier.",
+          "Curves are a separate data type: defined by handles and control points, not vertices/edges/faces. They can be converted to mesh, or used directly (for pipes, paths, etc.) via the Curve modifier.",
       },
     ],
     sections: [
@@ -1080,19 +1136,29 @@ bpy.ops.mesh.primitive_plane_add(size=2)
 bpy.ops.mesh.primitive_circle_add(radius=1, vertices=32, fill_type='NOTHING')
 bpy.ops.mesh.primitive_grid_add(x_subdivisions=10, y_subdivisions=10, size=2)
 bpy.ops.mesh.primitive_monkey_add(size=2)  # Suzanne`,
-        content: `**Shift+A → Mesh** — The add menu. Every object in your scene starts here.
+        content: `**Shift+A → Mesh**: The add menu. Every object in your scene starts here.
 
 Primitives and their structural value:
-- **Cube** — 6 quads, 8 verts, 12 edges. Perfect base for box-modeling anything boxy. Workhorse.
-- **UV Sphere** — Latitude/longitude topology. Good for planets, eyes, balls. Poles are messy for animation.
-- **Ico Sphere** — Triangulated sphere. Even distribution across surface — better for sculpting and subdivision.
-- **Cylinder** — Flat ends + loop-based sides. Cups, cans, columns, limbs, any tube shape.
-- **Cone** — Pointed top. Arrow tips, teeth, spikes, horns.
-- **Torus** — Donut topology. Rings, tunnels, life preservers, cables bent into circles.
-- **Plane** — Single quad face. Floor, wall, starting point for many models, cards for hair/leaves.
-- **Circle** — Edges only, no fill. Boundary for extrusion, profile for Screw modifier.
-- **Grid** — Subdivided plane. Terrain, cloth sims, displacement maps.
-- **Monkey (Suzanne)** — Blender's test subject. Use her for shading and lighting experiments.`,
+**Cube**
+6 quads, 8 verts, 12 edges. Perfect base for box-modeling anything boxy. Workhorse.
+**UV Sphere**
+Latitude/longitude topology. Good for planets, eyes, balls. Poles are messy for animation.
+**Ico Sphere**
+Triangulated sphere. Even distribution across surface: better for sculpting and subdivision.
+**Cylinder**
+Flat ends + loop-based sides. Cups, cans, columns, limbs, any tube shape.
+**Cone**
+Pointed top. Arrow tips, teeth, spikes, horns.
+**Torus**
+Donut topology. Rings, tunnels, life preservers, cables bent into circles.
+**Plane**
+Single quad face. Floor, wall, starting point for many models, cards for hair/leaves.
+**Circle**
+Edges only, no fill. Boundary for extrusion, profile for Screw modifier.
+**Grid**
+Subdivided plane. Terrain, cloth sims, displacement maps.
+**Monkey (Suzanne)**
+Blender's test subject. Use her for shading and lighting experiments.`,
       },
       {
         title: "The Operator Panel (F9)",
@@ -1129,11 +1195,16 @@ bpy.ops.mesh.primitive_torus_add(
         content: `When you add a primitive, a panel appears at the **bottom-left** of the viewport. This is your one chance to set initial parameters before the operator locks in.
 
 **Click the panel or press F9** to expand it:
-- **Vertices / Segments** — Controls mesh density. More = smoother, heavier.
-- **Radius / Size** — Initial dimensions.
-- **Generate UVs** — Auto-create a UV map. Turn this on — it costs nothing and saves time later.
-- **Align to View** — Face the current camera direction. Useful when adding on a specific axis.
-- **Location / Rotation** — Exact initial placement.
+**Vertices / Segments**
+Controls mesh density. More = smoother, heavier.
+**Radius / Size**
+Initial dimensions.
+**Generate UVs**
+Auto-create a UV map. Turn this on. It costs nothing and saves time later.
+**Align to View**
+Face the current camera direction. Useful when adding on a specific axis.
+**Location / Rotation**
+Exact initial placement.
 
 ⚠️ This panel disappears the moment you perform any other action. It is a one-time window. If you miss it, use Ctrl+Z and re-add.`,
       },
@@ -1159,20 +1230,27 @@ curve.bevel_object = bpy.data.objects["ProfileCurve"]
 
 # Convert curve to mesh (destructive)
 bpy.ops.object.convert(target='MESH')`,
-        content: `**Shift+A → Curve** gives you a different data type — mathematically smooth paths, not polygon meshes.
+        content: `**Shift+A → Curve** gives you a different data type: mathematically smooth paths, not polygon meshes.
 
-- **Bezier** — Handles for smooth curves. Great for paths, logos, cables, motion paths.
-- **NURBS** — Weighted control points. Smooth surfaces, automotive design.
-- **Path** — A simple spline. Use as a motion path for animation or a spine for Curve modifier.
+**Bezier**
+Handles for smooth curves. Great for paths, logos, cables, motion paths.
+**NURBS**
+Weighted control points. Smooth surfaces, automotive design.
+**Path**
+A simple spline. Use as a motion path for animation or a spine for Curve modifier.
 
 Curves can be converted to meshes (**Object → Convert → Mesh**) or used directly with the **Curve modifier** to deform other objects along them.
 
-**Shift+A → Surface** — NURBS surface patches. Rarely used for modeling, but understand they exist.
+**Shift+A → Surface**
+NURBS surface patches. Rarely used for modeling, but understand they exist.
 
 Key curve settings (Properties → Object Data → Geometry):
-- **Bevel → Depth** — Give the curve a round cross-section (instant pipe/tube)
-- **Bevel → Object** — Use a custom shape as the cross-section
-- **Fill Mode** — Whether the curve end caps are filled`,
+**Bevel → Depth**
+Give the curve a round cross-section (instant pipe/tube)
+**Bevel → Object**
+Use a custom shape as the cross-section
+**Fill Mode**
+Whether the curve end caps are filled`,
       },
       {
         title: "🔨 Mini Workshop: Know Your Topology",
@@ -1199,7 +1277,7 @@ print(f"Triangles: {len(tris)}")`,
 1. Add a **UV Sphere** → Tab → see the pole pinching at top/bottom
 2. Add an **Ico Sphere** → Tab → see the uniform triangle distribution
 3. Add a **Cylinder** → Tab → 3 (face select) → click the top cap → it's one n-gon face (important: n-gons cause shading issues if subdivided)
-4. Add a **Torus** → Tab → notice how it's made of edge loops — great for ring topology
+4. Add a **Torus** → Tab → notice how it's made of edge loops: great for ring topology
 5. Add a **Curve → Bezier** → Tab → see the control points and handles → G to move one
 
 ✅ Goal: Given a target shape, immediately know which primitive to start from`,
@@ -1213,7 +1291,7 @@ print(f"Triangles: {len(tris)}")`,
     tag: "CORE MODELING",
     color: "#44d9a2",
     intro:
-      "Edit Mode is where real modeling happens. You're operating on the mesh's actual geometry — vertices, edges, faces. Topology (how geometry is connected) determines everything: how the mesh deforms, subdivides, and renders.",
+      "Edit Mode is where real modeling happens. You're operating on the mesh's actual geometry: vertices, edges, faces. Topology (how geometry is connected) determines everything: how the mesh deforms, subdivides, and renders.",
     quiz: [
       {
         q: "What does Alt+Click do on an edge in Edit Mode?",
@@ -1225,7 +1303,7 @@ print(f"Triangles: {len(tris)}")`,
         ],
         answer: 1,
         explanation:
-          "Alt+Click selects an edge loop — a ring of connected edges that runs around the mesh. One of the most powerful selection shortcuts in modeling.",
+          "Alt+Click selects an edge loop: a ring of connected edges that runs around the mesh. One of the most powerful selection shortcuts in modeling.",
       },
       {
         q: "Why are quads (4-sided faces) preferred over triangles for most modeling?",
@@ -1249,13 +1327,13 @@ print(f"Triangles: {len(tris)}")`,
         ],
         answer: 2,
         explanation:
-          "Proportional Editing creates a smooth falloff — like pulling fabric. Essential for organic shaping without selecting every vert individually.",
+          "Proportional Editing creates a smooth falloff: like pulling fabric. Essential for organic shaping without selecting every vert individually.",
       },
       {
         q: "An object's faces are shading dark and look inside-out. What's most likely wrong?",
         options: [
           "The material is set to transparent",
-          "The normals are flipped — faces are pointing inward instead of outward",
+          "The normals are flipped: faces are pointing inward instead of outward",
           "The object needs a Subdivision Surface modifier",
           "The viewport is in Wireframe mode",
         ],
@@ -1292,22 +1370,33 @@ bmesh.update_edit_mesh(obj.data)  # push changes back`,
         content: `In Edit Mode press Tab (or Ctrl+Tab) to enter from Object Mode.
 
 Switch selection type:
-**1** — Vertex select (points)
-**2** — Edge select (lines)
-**3** — Face select (polygons)
+**1**
+Vertex select (points)
+**2**
+Edge select (lines)
+**3**
+Face select (polygons)
 
 Selecting:
-**Alt+Click** — Select an entire edge/face loop. One of the most powerful selection tools.
-**Ctrl+Click** — Select shortest path between two elements
-**B** — Box select
-**C** — Circle select (paint with brush, scroll to resize, right-click to exit)
-**Ctrl+I** — Invert selection
-**L** — Select linked (hover over a mesh island and press L to select it all)
+**Alt+Click**
+Select an entire edge/face loop. One of the most powerful selection tools.
+**Ctrl+Click**
+Select shortest path between two elements
+**B**
+Box select
+**C**
+Circle select (paint with brush, scroll to resize, right-click to exit)
+**Ctrl+I**
+Invert selection
+**L**
+Select linked (hover over a mesh island and press L to select it all)
 
-**Alt+Z** — Toggle X-Ray (lets you select through the mesh, not just surface)
+**Alt+Z**
+Toggle X-Ray (lets you select through the mesh, not just surface)
 
 Proportional Editing:
-**O** — Toggle Proportional Editing — transforms fall off smoothly around selected verts. Press O while transforming to adjust falloff radius with scroll wheel. Essential for organic shaping.`,
+**O**
+Toggle Proportional Editing: transforms fall off smoothly around selected verts. Press O while transforming to adjust falloff radius with scroll wheel. Essential for organic shaping.`,
       },
       {
         title: "Core Transform Tools",
@@ -1344,24 +1433,37 @@ bpy.ops.mesh.bevel(offset=0.1, segments=2, affect='EDGES')
 bpy.ops.mesh.remove_doubles(threshold=0.001)
 
 bmesh.update_edit_mesh(obj.data)`,
-        content: `**G** — Grab (move). Then X/Y/Z to constrain to an axis. Type a number for exact distance.
-**R** — Rotate. Then X/Y/Z to constrain. Type a number for exact degrees.
-**S** — Scale. Then X/Y/Z to constrain. Type a number for exact factor.
+        content: `**G**: Grab (move). Then X/Y/Z to constrain to an axis. Type a number for exact distance.
+**R**
+Rotate. Then X/Y/Z to constrain. Type a number for exact degrees.
+**S**
+Scale. Then X/Y/Z to constrain. Type a number for exact factor.
 
 Axis constraint tricks:
-- **Shift+X** — Move on the YZ plane (constrain to everything EXCEPT X)
-- **G → X → 2 → Enter** — Move exactly 2 units along X
-- **R → Z → 90** — Rotate exactly 90° around Z axis
+**Shift+X**
+Move on the YZ plane (constrain to everything EXCEPT X)
+**G → X → 2 → Enter**
+Move exactly 2 units along X
+**R → Z → 90**
+Rotate exactly 90° around Z axis
 
 The most important modeling operations:
-**E** — Extrude selected (pull new geometry out from selection)
-**I** — Inset faces (shrink a face inward, creating a border frame)
-**Ctrl+R** — Loop Cut: add an edge loop running around the mesh. Scroll to add more cuts.
-**K** — Knife tool: draw freehand cuts across faces
-**F** — Fill: create a face or edge between selected elements
-**M** — Merge vertices (to center, to cursor, to last selected, by distance)
-**Ctrl+B** — Bevel: chamfer edges or vertices. Scroll to add segments.
-**Ctrl+M** — Mirror selected across an axis`,
+**E**
+Extrude selected (pull new geometry out from selection)
+**I**
+Inset faces (shrink a face inward, creating a border frame)
+**Ctrl+R**
+Loop Cut: add an edge loop running around the mesh. Scroll to add more cuts.
+**K**
+Knife tool: draw freehand cuts across faces
+**F**
+Fill: create a face or edge between selected elements
+**M**
+Merge vertices (to center, to cursor, to last selected, by distance)
+**Ctrl+B**
+Bevel: chamfer edges or vertices. Scroll to add segments.
+**Ctrl+M**
+Mirror selected across an axis`,
       },
       {
         title: "Topology Concepts That Matter",
@@ -1397,14 +1499,21 @@ bmesh.update_edit_mesh(obj.data)`,
 - Shades without artifacts
 
 Key concepts:
-- **Quads** — 4-sided faces. Always prefer quads. They subdivide predictably and shade cleanly.
-- **Tris (triangles)** — Acceptable in static meshes, problematic in animated ones. Avoid on curved surfaces.
-- **N-gons** — 5+ sided faces. Cause shading artifacts when subdivided. Acceptable only on flat, non-subdivided areas.
-- **Edge loops** — A ring of connected edges that runs around the mesh. The backbone of good topology. Alt+Click selects them.
-- **Edge rings** — The edges connecting two parallel loops. Ctrl+Alt+Click selects them.
-- **Poles** — Vertices where more or fewer than 4 edges meet. 3-edge poles (stars) and 5-edge poles are sometimes necessary but should be placed carefully.
+**Quads**
+4-sided faces. Always prefer quads. They subdivide predictably and shade cleanly.
+**Tris (triangles)**
+Acceptable in static meshes, problematic in animated ones. Avoid on curved surfaces.
+**N-gons**
+5+ sided faces. Cause shading artifacts when subdivided. Acceptable only on flat, non-subdivided areas.
+**Edge loops**
+A ring of connected edges that runs around the mesh. The backbone of good topology. Alt+Click selects them.
+**Edge rings**
+The edges connecting two parallel loops. Ctrl+Alt+Click selects them.
+**Poles**
+Vertices where more or fewer than 4 edges meet. 3-edge poles (stars) and 5-edge poles are sometimes necessary but should be placed carefully.
 
-**Ctrl+Alt+Shift+M** — Select Non-Manifold (broken geometry: holes, internal faces, flipped normals). Use this to diagnose mesh problems.`,
+**Ctrl+Alt+Shift+M**
+Select Non-Manifold (broken geometry: holes, internal faces, flipped normals). Use this to diagnose mesh problems.`,
       },
       {
         title: "Normals & Shading",
@@ -1433,12 +1542,16 @@ for poly in mesh.polygons:
         content: `**Normals** are vectors pointing outward from each face, telling Blender which direction is "outside." They control shading.
 
 Common normal issues and fixes:
-- **Flipped normals** — Face looks dark or inverted. Fix: Select all → **Mesh → Normals → Recalculate Outside** (Shift+N)
-- **Flat vs Smooth shading** — Right-click object → Shade Smooth (or Shade Auto Smooth). Smooth shading interpolates normals across a face; Flat shows each face as a distinct polygon.
-- **Auto Smooth** — In Object Data Properties → Normals: set an angle threshold. Edges sharper than the angle show as hard; others as smooth. Best of both worlds.
-- **Weighted Normals modifier** — Computes normals based on face area. Keeps hard-surface objects looking clean after boolean operations.
+**Flipped normals**
+Face looks dark or inverted. Fix: Select all → **Mesh → Normals → Recalculate Outside** (Shift+N)
+**Flat vs Smooth shading**
+Right-click object → Shade Smooth (or Shade Auto Smooth). Smooth shading interpolates normals across a face; Flat shows each face as a distinct polygon.
+**Auto Smooth**
+In Object Data Properties → Normals: set an angle threshold. Edges sharper than the angle show as hard; others as smooth. Best of both worlds.
+**Weighted Normals modifier**
+Computes normals based on face area. Keeps hard-surface objects looking clean after boolean operations.
 
-Overlay: **Viewport Overlays → Face Orientation** — Blue = outward-facing, Red = inward. All blue = healthy mesh.`,
+Overlay: **Viewport Overlays → Face Orientation**: Blue = outward-facing, Red = inward. All blue = healthy mesh.`,
       },
       {
         title: "🔨 Mini Workshop: Box-Model a Mug",
@@ -1503,13 +1616,13 @@ The goal isn't a perfect mug. The goal is to use I, E, Ctrl+R, and Ctrl+J in con
     tag: "NON-DESTRUCTIVE",
     color: "#c084fc",
     intro:
-      "Modifiers are Blender's superpower — non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",
+      "Modifiers are Blender's superpower: non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",
     quiz: [
       {
         q: "You add a Bevel modifier, then a Subdivision Surface modifier. The result looks different than Subdivision then Bevel. Why?",
         options: [
           "The modifiers have conflicting settings",
-          "Modifier order matters — the stack processes top to bottom, so each modifier receives the output of the one above it",
+          "Modifier order matters: the stack processes top to bottom, so each modifier receives the output of the one above it",
           "Only one modifier can be active at a time",
           "You need to Apply the first modifier before adding the second",
         ],
@@ -1539,14 +1652,14 @@ The goal isn't a perfect mug. The goal is to use I, E, Ctrl+R, and Ctrl+J in con
       {
         q: "When should you Apply a modifier rather than leaving it in the stack?",
         options: [
-          "Always apply immediately — live modifiers are slow",
+          "Always apply immediately: live modifiers are slow",
           "Only when you need to sculpt on the result, export, or manually edit the modified geometry",
           "Whenever you save the file",
           "After rendering, to save memory",
         ],
         answer: 1,
         explanation:
-          "Keep modifiers live as long as possible. Apply only when you need to do something the modifier stack can't support — like sculpting at the subdivided resolution.",
+          "Keep modifiers live as long as possible. Apply only when you need to do something the modifier stack can't support: like sculpting at the subdivided resolution.",
       },
     ],
     sections: [
@@ -1578,22 +1691,26 @@ obj.modifiers.remove(mod)
 # List all modifiers in stack order
 for m in obj.modifiers:
     print(m.name, m.type, "viewport:", m.show_viewport)`,
-        content: `**Properties → 🔧 Modifier tab** — Add and manage modifiers here.
+        content: `**Properties → 🔧 Modifier tab**: Add and manage modifiers here.
 
 The stack processes **top to bottom**. Order matters dramatically:
 - Subdivision Surface before Bevel: the bevel gets subdivided (smooth result)
 - Bevel before Subdivision Surface: the subdivision gets beveled (sharp, then smoothed)
 
 For each modifier:
-- **👁 Eye icon** — Toggle viewport visibility
-- **🎬 Camera icon** — Toggle render visibility
-- **Apply** — Burns the result permanently into the mesh (destructive, often irreversible)
-- **Duplicate** — Copy the modifier with same settings
+**👁 Eye icon**
+Toggle viewport visibility
+**🎬 Camera icon**
+Toggle render visibility
+**Apply**
+Burns the result permanently into the mesh (destructive, often irreversible)
+**Duplicate**
+Copy the modifier with same settings
 
 Keep modifiers unapplied until: you need to sculpt on the subdivided mesh, you're exporting, or you need to manually edit the resulting geometry.`,
       },
       {
-        title: "Generate Modifiers — Shape Creators",
+        title: "Generate Modifiers: Shape Creators",
         pythonCode: `import bpy
 
 obj = bpy.context.active_object
@@ -1631,29 +1748,38 @@ bl.object = bpy.data.objects["Cutter"]
 bl.solver = 'EXACT'`,
         content: `These modifiers create or grow geometry:
 
-**Subdivision Surface** — The most-used modifier. Smooths by subdividing geometry.
+**Subdivision Surface**
+The most-used modifier. Smooths by subdividing geometry.
 - Catmull-Clark: smooth organic shapes (levels 2–3 usually sufficient)
 - Simple: subdivide without smoothing (for displacement maps)
 - Use **Ctrl+E → Mark Crease** on edges to keep them sharp while subdividing
 
-**Mirror** — Model one half, get full symmetry. Set the axis, enable Clipping (verts snap at center seam).
+**Mirror**
+Model one half, get full symmetry. Set the axis, enable Clipping (verts snap at center seam).
 
-**Array** — Duplicate in a pattern: fixed count, fit to length, or fit to curve. Stack multiple Arrays for 2D/3D grids.
+**Array**
+Duplicate in a pattern: fixed count, fit to length, or fit to curve. Stack multiple Arrays for 2D/3D grids.
 
-**Bevel** — Procedurally round edges. Set Angle Limit to only bevel edges above a degree threshold. Far more flexible than manual beveling.
+**Bevel**
+Procedurally round edges. Set Angle Limit to only bevel edges above a degree threshold. Far more flexible than manual beveling.
 
-**Solidify** — Add thickness to any flat surface: walls, fabric, panels, paper.
+**Solidify**
+Add thickness to any flat surface: walls, fabric, panels, paper.
 
-**Screw** — Revolve a profile around an axis: bottles, vases, springs, columns.
+**Screw**
+Revolve a profile around an axis: bottles, vases, springs, columns.
 
-**Boolean** — Use one object to cut/join/intersect another. See Module 11 for detail.
+**Boolean**
+Use one object to cut/join/intersect another. See Module 11 for detail.
 
-**Weld** — Merge vertices within a distance threshold. Essential after Booleans.
+**Weld**
+Merge vertices within a distance threshold. Essential after Booleans.
 
-**Remesh** — Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes). Key for sculpt prep.`,
+**Remesh**
+Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes). Key for sculpt prep.`,
       },
       {
-        title: "Deform Modifiers — Shape Changers",
+        title: "Deform Modifiers: Shape Changers",
         pythonCode: `import bpy
 
 obj = bpy.context.active_object
@@ -1687,21 +1813,29 @@ sm.factor = 0.5
 sm.iterations = 3`,
         content: `These modify existing geometry without adding or removing it:
 
-**Simple Deform** — Twist, Bend, Taper, or Stretch along an axis. Controlled by an angle or factor. Great for stylized shapes.
+**Simple Deform**
+Twist, Bend, Taper, or Stretch along an axis. Controlled by an angle or factor. Great for stylized shapes.
 
-**Lattice** — Deform a mesh using a cage object. Edit the cage → the mesh follows. Non-destructive squash and stretch.
+**Lattice**
+Deform a mesh using a cage object. Edit the cage → the mesh follows. Non-destructive squash and stretch.
 
-**Curve** — Deform a mesh along a Bezier/NURBS curve. Roads, pipes, roller coasters, any along-path shape.
+**Curve**
+Deform a mesh along a Bezier/NURBS curve. Roads, pipes, roller coasters, any along-path shape.
 
-**Displace** — Use a texture (Noise, Image, etc.) to push vertices along normals. Instant terrain, wrinkles, knurling.
+**Displace**
+Use a texture (Noise, Image, etc.) to push vertices along normals. Instant terrain, wrinkles, knurling.
 
-**Smooth / Laplacian Smooth** — Relax geometry (reduce bumps) without subdividing. Good for cleaning up sculpts.
+**Smooth / Laplacian Smooth**
+Relax geometry (reduce bumps) without subdividing. Good for cleaning up sculpts.
 
-**Shrinkwrap** — Snap a mesh onto the surface of another object. Key for retopology.
+**Shrinkwrap**
+Snap a mesh onto the surface of another object. Key for retopology.
 
-**Cast** — Push the mesh toward a sphere, cube, or cylinder shape. Good for rounding things out.
+**Cast**
+Push the mesh toward a sphere, cube, or cylinder shape. Good for rounding things out.
 
-**Wave** — Animate a ripple/wave across the surface. Physics-lite animation.`,
+**Wave**
+Animate a ripple/wave across the surface. Physics-lite animation.`,
       },
       {
         title: "Modifier Recipes for Common Goals",
@@ -1785,14 +1919,14 @@ sd = vase.modifiers.new("Twist", 'SIMPLE_DEFORM')
 sd.deform_method = 'TWIST'
 sd.angle = math.radians(45)
 sd.deform_axis = 'Z'`,
-        content: `Build a vase using zero manual sculpting — pure modifiers:
+        content: `Build a vase using zero manual sculpting: pure modifiers:
 
 1. **Shift+A → Mesh → Circle** (16 vertices)
 2. **Tab → Edit Mode** → select all → **E** to extrude upward repeatedly, pulling verts in/out to shape a profile
-3. Back in **Object Mode** → **Add → Modifier → Screw** — instant vase shape!
-4. **Add → Modifier → Solidify** — give it wall thickness (0.02–0.05)
-5. **Add → Modifier → Subdivision Surface** (level 2) — smooth it
-6. Optional: **Add → Modifier → Simple Deform → Twist** — twist the vase body
+3. Back in **Object Mode** → **Add → Modifier → Screw**: instant vase shape!
+4. **Add → Modifier → Solidify**: give it wall thickness (0.02–0.05)
+5. **Add → Modifier → Subdivision Surface** (level 2): smooth it
+6. Optional: **Add → Modifier → Simple Deform → Twist**: twist the vase body
 
 Explore: change the Screw angle (360° = full closed, less = open spiral), change Screw axis.
 
@@ -1807,7 +1941,7 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
     tag: "PROCEDURAL GENERATION",
     color: "#38bdf8",
     intro:
-      "Geometry Nodes is Blender's procedural modeling system — a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",
+      "Geometry Nodes is Blender's procedural modeling system: a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",
     quiz: [
       {
         q: "What is a Field in Geometry Nodes?",
@@ -1819,7 +1953,7 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
         ],
         answer: 1,
         explanation:
-          "Fields are functions, not values. A Position field doesn't return one point — it returns the position of each element individually. This is what makes 'distribute across a surface' possible.",
+          "Fields are functions, not values. A Position field doesn't return one point: it returns the position of each element individually. This is what makes 'distribute across a surface' possible.",
       },
       {
         q: "You want to scatter 5,000 rocks across a terrain with near-zero memory cost. What's the GN approach?",
@@ -1831,7 +1965,7 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
         ],
         answer: 2,
         explanation:
-          "Instances are lightweight references — 5,000 instances point to one rock mesh. Near-zero memory overhead vs 5,000 duplicates which would copy all geometry.",
+          "Instances are lightweight references: 5,000 instances point to one rock mesh. Near-zero memory overhead vs 5,000 duplicates which would copy all geometry.",
       },
       {
         q: "What do Simulation Zones in Geometry Nodes allow you to do?",
@@ -1843,15 +1977,15 @@ Explore: change the Screw angle (360° = full closed, less = open spiral), chang
         ],
         answer: 1,
         explanation:
-          "Simulation Zones pass state from frame to frame — the output of frame N becomes the input of frame N+1. This enables custom physics, growth algorithms, and any iterative process.",
+          "Simulation Zones pass state from frame to frame: the output of frame N becomes the input of frame N+1. This enables custom physics, growth algorithms, and any iterative process.",
       },
       {
         q: "What's the key difference between using GN for hair vs the legacy particle hair system?",
         options: [
           "GN hair is slower and only works in Cycles",
-          "GN hair is Curves-based, fully procedural, and integrated with the node graph — the legacy system uses particles and is being phased out",
+          "GN hair is Curves-based, fully procedural, and integrated with the node graph: the legacy system uses particles and is being phased out",
           "GN hair requires a GPU",
-          "There is no difference — they produce identical results",
+          "There is no difference: they produce identical results",
         ],
         answer: 1,
         explanation:
@@ -1883,9 +2017,9 @@ output_node.location = (300, 0)
 # Connect input → output (pass-through, no changes yet)
 ng.links.new(input_node.outputs[0], output_node.inputs[0])`,
         content: `Geometry Nodes (GN) lets you define geometry through rules rather than by hand. The results are:
-- Fully non-destructive — the node graph is always editable
-- Instantly animatable — any value can be driven by time, a driver, or another node
-- Instancing-friendly — generate thousands of objects with near-zero memory cost
+- Fully non-destructive: the node graph is always editable
+- Instantly animatable: any value can be driven by time, a driver, or another node
+- Instancing-friendly: generate thousands of objects with near-zero memory cost
 
 When to reach for Geometry Nodes:
 - Any **repeated or distributed** geometry (trees in a forest, bolts on a panel, bricks on a wall)
@@ -1923,15 +2057,20 @@ for val in mesh.attributes["my_weight"].data:
 
 # Geometry Nodes exposes attributes as named inputs/outputs
 # Use "Named Attribute" node in GN to read "my_weight" as a field`,
-        content: `**Fields** — Values that vary per-element. Instead of one number, a field is a function evaluated at each vertex/edge/face/instance. This is what makes "distribute across a surface" possible — the position field gives each point's location.
+        content: `**Fields**: Values that vary per-element. Instead of one number, a field is a function evaluated at each vertex/edge/face/instance. This is what makes "distribute across a surface" possible: the position field gives each point's location.
 
-**Instances** — Lightweight references to geometry placed at many locations. An instance doesn't copy the mesh — it points to the original. 10,000 trees as instances use almost no extra memory. Key nodes:
-- **Instance on Points** — Place a geometry (or collection) at every point in a point cloud
-- **Realize Instances** — Convert instances to actual mesh data (necessary before some operations)
+**Instances**
+Lightweight references to geometry placed at many locations. An instance doesn't copy the mesh: it points to the original. 10,000 trees as instances use almost no extra memory. Key nodes:
+**Instance on Points**
+Place a geometry (or collection) at every point in a point cloud
+**Realize Instances**
+Convert instances to actual mesh data (necessary before some operations)
 
-**Attributes** — Named data stored per-element (vertex, edge, face, instance). Position, normal, ID, custom names. You can create, read, and write attributes. They flow through the graph.
+**Attributes**
+Named data stored per-element (vertex, edge, face, instance). Position, normal, ID, custom names. You can create, read, and write attributes. They flow through the graph.
 
-**Domains** — Where attributes live: Vertex, Edge, Face, Face Corner, Spline, Instance. Nodes can transfer data between domains.`,
+**Domains**
+Where attributes live: Vertex, Edge, Face, Face Corner, Spline, Instance. Nodes can transfer data between domains.`,
       },
       {
         title: "Key Node Categories",
@@ -1969,33 +2108,51 @@ mix_node    = add_node('ShaderNodeMix',                    0, -600)`,
         content: `All accessed via **Shift+A** in the Geometry Node Editor:
 
 **Geometry**:
-- **Join Geometry** — Merge multiple geometry streams into one
-- **Transform Geometry** — Move/rotate/scale geometry in the graph
-- **Merge by Distance** — Weld close vertices (like the Weld modifier)
-- **Subdivide Mesh** — Subdivide inside the graph
+**Join Geometry**
+Merge multiple geometry streams into one
+**Transform Geometry**
+Move/rotate/scale geometry in the graph
+**Merge by Distance**
+Weld close vertices (like the Weld modifier)
+**Subdivide Mesh**
+Subdivide inside the graph
 
 **Instances**:
-- **Instance on Points** — The workhorse distribution node
-- **Rotate Instances** — Randomize rotation per instance
-- **Scale Instances** — Randomize scale per instance
-- **Collection Info** — Bring a collection into the graph as instancable geometry
+**Instance on Points**
+The workhorse distribution node
+**Rotate Instances**
+Randomize rotation per instance
+**Scale Instances**
+Randomize scale per instance
+**Collection Info**
+Bring a collection into the graph as instancable geometry
 
 **Point**:
-- **Distribute Points on Faces** — Scatter points across a surface (random or Poisson disk)
-- **Points to Vertices** — Convert a point cloud to a mesh
+**Distribute Points on Faces**
+Scatter points across a surface (random or Poisson disk)
+**Points to Vertices**
+Convert a point cloud to a mesh
 
-**Mesh Primitives** — Create cubes, spheres, cylinders inside the graph without scene objects
+**Mesh Primitives**
+Create cubes, spheres, cylinders inside the graph without scene objects
 
 **Utilities**:
-- **Random Value** — Generate random floats/vectors/integers/booleans per-element
-- **Math** — Every math operation you need
-- **Mix** — Blend between two values by a factor
-- **Map Range** — Remap a value from one range to another (like lerp + clamp)
+**Random Value**
+Generate random floats/vectors/integers/booleans per-element
+**Math**
+Every math operation you need
+**Mix**
+Blend between two values by a factor
+**Map Range**
+Remap a value from one range to another (like lerp + clamp)
 
 **Input**:
-- **Position** — The world position of each element (a field)
-- **Index** — The integer index of each element
-- **Named Attribute** — Read a custom attribute by name`,
+**Position**
+The world position of each element (a field)
+**Index**
+The integer index of each element
+**Named Attribute**
+Read a custom attribute by name`,
       },
       {
         title: "Simulation Zones (Blender 4.1+)",
@@ -2025,7 +2182,7 @@ bpy.ops.object.simulation_nodes_cache_delete()
 obj = bpy.context.active_object
 mod = obj.modifiers["GeoNodes"]
 # Bake path is set per modifier in the UI (Properties → Modifier → Bake)`,
-        content: `**Simulation Zones** let you run iterative (frame-by-frame) simulation logic inside Geometry Nodes. This means you can write custom physics, growth algorithms, or state machines — entirely in nodes.
+        content: `**Simulation Zones** let you run iterative (frame-by-frame) simulation logic inside Geometry Nodes. This means you can write custom physics, growth algorithms, or state machines: entirely in nodes.
 
 Structure:
 - **Simulation Input** node → process geometry for one frame → **Simulation Output** node
@@ -2064,9 +2221,10 @@ for curve in curves.curves:
 # Add a Geometry Nodes modifier to procedurally style hair
 mod = hair.modifiers.new("HairGeoNodes", 'NODES')
 # Then build the node graph to scatter, grow, and style strands`,
-        content: `As of Blender 4.x, the new hair system is built on Geometry Nodes. Hair is a **Curves** object — each strand is a spline.
+        content: `As of Blender 4.x, the new hair system is built on Geometry Nodes. Hair is a **Curves** object: each strand is a spline.
 
-**Object → Add → Curve → Empty Hair** — starts a hair object parented to a mesh (the mesh acts as the base surface).
+**Object → Add → Curve → Empty Hair**
+starts a hair object parented to a mesh (the mesh acts as the base surface).
 
 In the **Hair Curves** context:
 - Use sculpt brushes to style hair (comb, cut, smooth, clump)
@@ -2117,20 +2275,20 @@ l.new(inp.outputs[0],  dist.inputs["Mesh"])
 l.new(dist.outputs[0], inst.inputs["Points"])
 l.new(info.outputs["Geometry"], inst.inputs["Instance"])
 l.new(inst.outputs[0], out.inputs[0])`,
-        content: `The foundational GN workflow — place objects procedurally on a mesh:
+        content: `The foundational GN workflow: place objects procedurally on a mesh:
 
-1. **Shift+A → Mesh → Grid** — your ground plane (scale it up: S → 5)
-2. **Shift+A → Mesh → Ico Sphere** — the object you'll scatter. Scale small (S → 0.1). Keep it in scene.
+1. **Shift+A → Mesh → Grid**: your ground plane (scale it up: S → 5)
+2. **Shift+A → Mesh → Ico Sphere**: the object you'll scatter. Scale small (S → 0.1). Keep it in scene.
 3. Select the **Grid** → Properties → Modifier → Add → **Geometry Nodes**
-4. In the node editor, **Shift+A → Point → Distribute Points on Faces** — place it between Group Input and Group Output. Connect: Geometry → Mesh, Geometry → Geometry.
-5. **Shift+A → Instances → Instance on Points** — connect: Points → Points, output Instances → Geometry.
-6. **Shift+A → Input → Object Info** — set the Object to your Ico Sphere. Connect: Geometry → Instance (on Instance on Points).
+4. In the node editor, **Shift+A → Point → Distribute Points on Faces**: place it between Group Input and Group Output. Connect: Geometry → Mesh, Geometry → Geometry.
+5. **Shift+A → Instances → Instance on Points**: connect: Points → Points, output Instances → Geometry.
+6. **Shift+A → Input → Object Info**: set the Object to your Ico Sphere. Connect: Geometry → Instance (on Instance on Points).
 
-You now have hundreds of spheres scattered on the grid — procedurally.
+You now have hundreds of spheres scattered on the grid: procedurally.
 
 7. Add **Rotate Instances** node after Instance on Points → connect a **Random Value** (Vector) to Rotation for random rotation.
 
-✅ Goal: Understand the Distribute → Instance → Modify pipeline — the foundation of 80% of GN work`,
+✅ Goal: Understand the Distribute → Instance → Modify pipeline: the foundation of 80% of GN work`,
       },
     ],
   },
@@ -2141,13 +2299,13 @@ You now have hundreds of spheres scattered on the grid — procedurally.
     tag: "SURFACE APPEARANCE",
     color: "#f472b6",
     intro:
-      "Materials define what an object is made of — metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender 5.1 uses both Cycles and EEVEE Next, each with full Principled BSDF support.",
+      "Materials define what an object is made of: metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender 5.1 uses both Cycles and EEVEE Next, each with full Principled BSDF support.",
     quiz: [
       {
         q: "What does setting Metallic to 0.5 on the Principled BSDF produce?",
         options: [
           "A semi-metallic alloy material",
-          "An unrealistic result — Metallic should almost always be 0 or 1, not in-between",
+          "An unrealistic result: Metallic should almost always be 0 or 1, not in-between",
           "A brushed metal appearance",
           "A material halfway between plastic and chrome",
         ],
@@ -2183,18 +2341,18 @@ You now have hundreds of spheres scattered on the grid — procedurally.
         q: "What is the Fresnel node used for in a shader?",
         options: [
           "Controlling how transparent glass is at different angles",
-          "Making surfaces more reflective at grazing angles — the physical phenomenon of edge highlights",
+          "Making surfaces more reflective at grazing angles: the physical phenomenon of edge highlights",
           "Generating a rainbow spectrum effect",
           "Setting the index of refraction for transmission",
         ],
         answer: 1,
         explanation:
-          "Fresnel models how reflectivity increases at grazing angles — exactly what makes real surfaces like plastic and water look realistic. Use as a Mix Shader factor for physically correct blending.",
+          "Fresnel models how reflectivity increases at grazing angles: exactly what makes real surfaces like plastic and water look realistic. Use as a Mix Shader factor for physically correct blending.",
       },
     ],
     sections: [
       {
-        title: "Principled BSDF — The Universal Shader",
+        title: "Principled BSDF: The Universal Shader",
         pythonCode: `import bpy
 
 obj = bpy.context.active_object
@@ -2221,16 +2379,26 @@ bsdf.inputs["Sheen Weight"].default_value      = 0.0    # fabric/velvet retroref
 bsdf.inputs["Subsurface Weight"].default_value = 0.0    # skin/wax light scatter`,
         content: `The **Principled BSDF** node handles nearly every real-world material in one node. Key parameters:
 
-**Base Color** — The fundamental color or texture of the surface.
-**Metallic** — 0 = dielectric (plastic, wood, skin), 1 = metal. Use 0 or 1, not in-between — real materials are one or the other.
-**Roughness** — 0 = mirror-smooth, 1 = completely matte. Most surfaces: 0.3–0.8. Metals often 0.1–0.4.
-**IOR (Index of Refraction)** — How much light bends through transparent materials. Glass: 1.45, Water: 1.33, Diamond: 2.42.
-**Transmission Weight** — 0 = opaque, 1 = fully transmissive (glass, water). EEVEE needs Screen Space Refraction enabled.
-**Coat Weight / Coat Roughness** — A clearcoat layer on top (car paint, lacquered wood).
-**Sheen Weight** — Soft retroreflective sheen (fabric, velvet, skin at grazing angles).
-**Emission Color + Strength** — Makes the surface glow and emit light.
-**Alpha** — Transparency (set Blend Mode in Material Settings to Alpha Blend or Alpha Clip).
-**Subsurface Weight** — Light scatters below the surface (skin, wax, marble). Set Subsurface Radius for color bleed.`,
+**Base Color**
+The fundamental color or texture of the surface.
+**Metallic**
+0 = dielectric (plastic, wood, skin), 1 = metal. Use 0 or 1, not in-between. Real materials are one or the other.
+**Roughness**
+0 = mirror-smooth, 1 = completely matte. Most surfaces: 0.3–0.8. Metals often 0.1–0.4.
+**IOR (Index of Refraction)**
+How much light bends through transparent materials. Glass: 1.45, Water: 1.33, Diamond: 2.42.
+**Transmission Weight**
+0 = opaque, 1 = fully transmissive (glass, water). EEVEE needs Screen Space Refraction enabled.
+**Coat Weight / Coat Roughness**
+A clearcoat layer on top (car paint, lacquered wood).
+**Sheen Weight**
+Soft retroreflective sheen (fabric, velvet, skin at grazing angles).
+**Emission Color + Strength**
+Makes the surface glow and emit light.
+**Alpha**
+Transparency (set Blend Mode in Material Settings to Alpha Blend or Alpha Clip).
+**Subsurface Weight**
+Light scatters below the surface (skin, wax, marble). Set Subsurface Radius for color bleed.`,
       },
       {
         title: "The Shader Editor",
@@ -2277,20 +2445,25 @@ links.new(mapping.outputs["Vector"], noise.inputs["Vector"])`,
 
 Every material is a node graph. The minimum: **Principled BSDF → Material Output (Surface)**.
 
-Adding textures — connect to inputs:
+Adding textures: connect to inputs:
 - **Shift+A → Texture → Image Texture** → Color → Base Color (loads a real image file)
 - **Shift+A → Texture → Noise Texture** → Fac → Roughness (procedural variation)
 - For bump: Image Texture → **Normal Map** node → Normal → Normal input
 
 Essential utility nodes:
-- **ColorRamp** — Remap a grayscale range to any colors or values. Plug noise → ColorRamp → Base Color for instant organic color variation.
-- **Mix Color / Mix Shader** — Blend two colors or two complete shaders.
-- **Fresnel** — More reflective at grazing angles. Physically correct, adds realism.
-- **Texture Coordinate** — Controls how textures map: UV (uses UV map), Object (texture fixed to object), Generated (auto), World (fixed in world space).
-- **Mapping** — Translate/rotate/scale a texture coordinate. Plug Texture Coordinate → Mapping → Texture.`,
+**ColorRamp**
+Remap a grayscale range to any colors or values. Plug noise → ColorRamp → Base Color for instant organic color variation.
+**Mix Color / Mix Shader**
+Blend two colors or two complete shaders.
+**Fresnel**
+More reflective at grazing angles. Physically correct, adds realism.
+**Texture Coordinate**
+Controls how textures map: UV (uses UV map), Object (texture fixed to object), Generated (auto), World (fixed in world space).
+**Mapping**
+Translate/rotate/scale a texture coordinate. Plug Texture Coordinate → Mapping → Texture.`,
       },
       {
-        title: "EEVEE Next vs Cycles — Material Considerations",
+        title: "EEVEE Next vs Cycles: Material Considerations",
         pythonCode: `import bpy
 
 scene = bpy.context.scene
@@ -2428,7 +2601,7 @@ add_sphere_with_mat( 3, "Glass",  metallic=0.0, roughness=0.0, transmission=1.0)
 **Glass sphere**: Transmission Weight 1.0, Roughness 0, IOR 1.45
 
 Then experiment:
-- Change roughness on the metal from 0.1 to 0.5 — see how it shifts from chrome to brushed
+- Change roughness on the metal from 0.1 to 0.5: see how it shifts from chrome to brushed
 - Add a ColorRamp between a Noise Texture and Base Color on the rubber sphere
 - Set the glass sphere's Base Color to a slight blue tint
 
@@ -2448,20 +2621,20 @@ Then experiment:
       {
         q: "Which light type produces the softest shadows, and why?",
         options: [
-          "Point — because it emits in all directions",
-          "Sun — because it's infinitely far away",
-          "Area — because it's a large surface emitter; larger size = softer shadows",
-          "Spot — because of the Blend parameter",
+          "Point: because it emits in all directions",
+          "Sun: because it's infinitely far away",
+          "Area: because it's a large surface emitter; larger size = softer shadows",
+          "Spot: because of the Blend parameter",
         ],
         answer: 2,
         explanation:
-          "Shadow softness is determined by apparent light source size. Area lights are physical surfaces — a 2m area light produces much softer shadows than a 0.1m point.",
+          "Shadow softness is determined by apparent light source size. Area lights are physical surfaces: a 2m area light produces much softer shadows than a 0.1m point.",
       },
       {
         q: "An HDRI in the World settings does what?",
         options: [
           "Adds a background image that doesn't affect lighting",
-          "Acts as both environment background and light source — a 360° photograph that illuminates the scene",
+          "Acts as both environment background and light source: a 360° photograph that illuminates the scene",
           "Only affects viewport display, not renders",
           "Creates a dome mesh around the scene",
         ],
@@ -2479,19 +2652,19 @@ Then experiment:
         ],
         answer: 2,
         explanation:
-          "Fill light reduces contrast from the key light. It's placed on the opposite side at lower intensity — typically cool-toned vs a warm key. Without it, shadow areas go completely dark.",
+          "Fill light reduces contrast from the key light. It's placed on the opposite side at lower intensity: typically cool-toned vs a warm key. Without it, shadow areas go completely dark.",
       },
       {
         q: "You rotate a Sun light object in the scene. Its position is 100 units away from the subject. How does this affect the lighting?",
         options: [
           "Moving the sun closer makes it brighter",
-          "Position has no effect — only rotation matters for Sun lights",
+          "Position has no effect: only rotation matters for Sun lights",
           "Moving it further makes shadows softer",
           "The sun must be within 10 units to cast shadows",
         ],
         answer: 1,
         explanation:
-          "Sun lights simulate a light source at infinite distance. Their rays are perfectly parallel regardless of the object's position in the scene — only rotation determines the light direction.",
+          "Sun lights simulate a light source at infinite distance. Their rays are perfectly parallel regardless of the object's position in the scene: only rotation determines the light direction.",
       },
     ],
     sections: [
@@ -2528,15 +2701,19 @@ area = add_light("KeyArea", 'AREA', (4, -2, 6), energy=800, size=2.0)
 area.data.shape = 'RECTANGLE'  # 'SQUARE', 'RECTANGLE', 'DISK', 'ELLIPSE'
 area.data.size  = 2.0
 area.data.size_y = 1.0`,
-        content: `**Point Light** — Omnidirectional bulb. Light radiates in all directions from a single point. Candles, bulbs, glowing orbs.
+        content: `**Point Light**: Omnidirectional bulb. Light radiates in all directions from a single point. Candles, bulbs, glowing orbs.
 
-**Sun** — Parallel rays from an infinite distance. Consistent across the entire scene; position doesn't matter, only rotation. Outdoor daylight, large directional light sources. Casts parallel shadows.
+**Sun**
+Parallel rays from an infinite distance. Consistent across the entire scene; position doesn't matter, only rotation. Outdoor daylight, large directional light sources. Casts parallel shadows.
 
-**Spot** — Cone of light. Stage lights, flashlights, headlights. Controls: Spot Size (cone angle), Blend (hard vs soft edge).
+**Spot**
+Cone of light. Stage lights, flashlights, headlights. Controls: Spot Size (cone angle), Blend (hard vs soft edge).
 
-**Area** — Rectangular or disc light source. Softest shadows, most photorealistic. Simulates windows, softboxes, diffuse panels. Larger = softer shadows. Requires higher power values (500W–5000W typical).
+**Area**
+Rectangular or disc light source. Softest shadows, most photorealistic. Simulates windows, softboxes, diffuse panels. Larger = softer shadows. Requires higher power values (500W–5000W typical).
 
-**HDRI (World Environment)** — A 360° photograph used as both background and light source. Instantly realistic environmental lighting. Found in: **World Properties → Surface → Background → Environment Texture**. Download free HDRIs from Poly Haven.`,
+**HDRI (World Environment)**
+A 360° photograph used as both background and light source. Instantly realistic environmental lighting. Found in: **World Properties → Surface → Background → Environment Texture**. Download free HDRIs from Poly Haven.`,
       },
       {
         title: "Key Light Settings",
@@ -2580,15 +2757,18 @@ def three_point(subject_location=(0,0,0)):
 
 three_point()`,
         content: `For any light object:
-- **Power (W)** — Intensity. Area lights need much higher values than Point lights for equivalent brightness.
-- **Color** — Warm (3200K orange) key + cool (7000K blue) fill = cinematic look.
-- **Radius / Size** — Larger radius = softer shadows. This is the most impactful realism setting.
-- **Spread** (Area lights) — How wide the light spreads from the surface.
+**Power (W)**
+Intensity. Area lights need much higher values than Point lights for equivalent brightness.
+**Color**
+Warm (3200K orange) key + cool (7000K blue) fill = cinematic look.
+**Radius / Size**
+Larger radius = softer shadows. This is the most impactful realism setting.
+- **Spread** (Area lights): How wide the light spreads from the surface.
 
 **Three-Point Lighting (the classic setup)**:
-1. **Key Light** — Primary light, positioned 45° above and to one side. Bright.
-2. **Fill Light** — Softer, from the opposite side. Reduces harsh shadows. ~30–50% of key power.
-3. **Rim / Back Light** — Behind the subject, creates a highlight edge that separates it from the background.
+1. **Key Light**: Primary light, positioned 45° above and to one side. Bright.
+2. **Fill Light**: Softer, from the opposite side. Reduces harsh shadows. ~30–50% of key power.
+3. **Rim / Back Light**: Behind the subject, creates a highlight edge that separates it from the background.
 
 **Light Linking** (Blender 4.1+):
 In the **Light Properties → Light Linking panel**, specify exactly which objects a light affects. One light can illuminate the subject but not the background. Essential for controlled product and portrait lighting.`,
@@ -2640,9 +2820,12 @@ mapping.inputs["Rotation"].default_value[2] = 1.5708  # rotate HDRI 90°`,
 5. Change World **Strength** to adjust overall brightness
 
 Controlling HDRI appearance:
-- **Rotation** — Rotate the environment to change where the light hits from
-- **World Strength** — Global exposure of the environment
-- **Background visibility** — Uncheck "Show Background" in Render Properties if you want the HDRI for light only, not visible as background
+**Rotation**
+Rotate the environment to change where the light hits from
+**World Strength**
+Global exposure of the environment
+**Background visibility**
+Uncheck "Show Background" in Render Properties if you want the HDRI for light only, not visible as background
 
 Combining HDRI + additional lights: the HDRI provides ambient/fill, your placed lights add controlled highlights and shadows. Best of both approaches.`,
       },
@@ -2680,9 +2863,9 @@ for area in bpy.context.screen.areas:
         content: `Using any object (your mug, Suzanne, or a simple sphere):
 
 1. Delete the default light
-2. **Shift+A → Light → Area** — position above and to the left (key light). Power: 500W, Size: 1m.
+2. **Shift+A → Light → Area**: position above and to the left (key light). Power: 500W, Size: 1m.
 3. Add another Area light from the opposite side. Power: 150W (fill light).
-4. Add a Point or Area light behind — rim light for edge definition.
+4. Add a Point or Area light behind: rim light for edge definition.
 5. Switch viewport shading to Rendered: **Z → Rendered** (or click the sphere icon top-right)
 
 Compare the difference between:
@@ -2692,7 +2875,7 @@ Compare the difference between:
 
 Observe: how does shadow softness change with light size? How does light color temperature affect mood?
 
-✅ Goal: Be able to diagnose why a render looks bad — and fix it with lighting`,
+✅ Goal: Be able to diagnose why a render looks bad: and fix it with lighting`,
       },
     ],
   },
@@ -2703,19 +2886,19 @@ Observe: how does shadow softness change with light size? How does light color t
     tag: "ORGANIC MODELING",
     color: "#34d399",
     intro:
-      "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms — characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",
+      "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms: characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",
     quiz: [
       {
         q: "What is Dyntopo (Dynamic Topology) best used for?",
         options: [
           "Final production sculpts with clean topology",
-          "Early exploration — it adds/removes geometry on the fly so you can pull out details without pre-subdividing",
+          "Early exploration: it adds/removes geometry on the fly so you can pull out details without pre-subdividing",
           "Retopologising a sculpt for animation",
           "Baking normal maps",
         ],
         answer: 1,
         explanation:
-          "Dyntopo is for messy exploration. It keeps adding triangles wherever you sculpt. The downside is chaotic topology — use it early, then Remesh before fine detail.",
+          "Dyntopo is for messy exploration. It keeps adding triangles wherever you sculpt. The downside is chaotic topology: use it early, then Remesh before fine detail.",
       },
       {
         q: "Which sculpt brush pulls out tendrils of geometry as you drag?",
@@ -2734,7 +2917,7 @@ Observe: how does shadow softness change with light size? How does light color t
         ],
         answer: 1,
         explanation:
-          "Remesh discards the existing topology and rebuilds it uniformly — either as voxels or quads. Use it to clean up chaotic Dyntopo topology before adding fine detail with Multires.",
+          "Remesh discards the existing topology and rebuilds it uniformly: either as voxels or quads. Use it to clean up chaotic Dyntopo topology before adding fine detail with Multires.",
       },
       {
         q: "You want to sculpt fine detail on the face without affecting the body. What's the right tool?",
@@ -2746,7 +2929,7 @@ Observe: how does shadow softness change with light size? How does light color t
         ],
         answer: 2,
         explanation:
-          "Masking paints a protected region. Masked vertices are locked — you can sculpt freely on the unmasked face without any risk of accidentally affecting the body.",
+          "Masking paints a protected region. Masked vertices are locked: you can sculpt freely on the unmasked face without any risk of accidentally affecting the body.",
       },
     ],
     sections: [
@@ -2778,11 +2961,14 @@ bpy.ops.sculpt.dynamic_topology_toggle()
 bpy.context.scene.tool_settings.sculpt.detail_size = 12  # lower = finer detail`,
         content: `Before sculpting, you need enough geometry to work with. Three approaches:
 
-**Dyntopo (Dynamic Topology)** — Blender adds and removes geometry on-the-fly as you sculpt. Enable in the Sculpt header or N panel. Great for early exploration — you can pull out a horn or ear without pre-subdividing. Downsides: chaotic topology, slow at high detail.
+**Dyntopo (Dynamic Topology)**
+Blender adds and removes geometry on-the-fly as you sculpt. Enable in the Sculpt header or N panel. Great for early exploration: you can pull out a horn or ear without pre-subdividing. Downsides: chaotic topology, slow at high detail.
 
-**Multires Modifier** — Stacks subdivision levels while keeping the lower levels editable. Add the Multiresolution modifier → Subdivide several times → sculpt at high level → the base form at level 0 is unchanged. Best for production sculpts. Subdivision levels 4–7 for character work.
+**Multires Modifier**
+Stacks subdivision levels while keeping the lower levels editable. Add the Multiresolution modifier → Subdivide several times → sculpt at high level → the base form at level 0 is unchanged. Best for production sculpts. Subdivision levels 4–7 for character work.
 
-**Remesh** — Rebuilds the entire mesh with uniform topology. In Sculpt Mode header: **Remesh** with a Voxel Size setting. Use this to re-even topology after Dyntopo gets too messy. Also available as the **Remesh modifier** for non-destructive use.
+**Remesh**
+Rebuilds the entire mesh with uniform topology. In Sculpt Mode header: **Remesh** with a Voxel Size setting. Use this to re-even topology after Dyntopo gets too messy. Also available as the **Remesh modifier** for non-destructive use.
 
 Typical workflow: rough form with Dyntopo → Remesh to clean topology → Multires for fine detail.`,
       },
@@ -2815,20 +3001,32 @@ brush = tool_settings.sculpt.brush
 brush.size          = 50     # radius in pixels (F key drags this)
 brush.strength      = 0.5   # 0.0–1.0 (Shift+F drags this)
 brush.direction     = 'ADD'  # 'ADD' = push out, 'SUBTRACT' = push in (Ctrl inverts)`,
-        content: `**Draw** — Push geometry outward (Ctrl = inward). The basic brush. Use for adding volume anywhere.
-**Clay / Clay Strips** — Build material up like adding clay slabs. Flatter stroke than Draw. Great for primary forms.
-**Smooth** — Hold **Shift** with any brush to smooth instantly. The most used secondary action.
-**Inflate** — Puff geometry outward in all directions uniformly. Good for lips, cheeks, puffiness.
-**Crease** — Create a sharp indented line. Wrinkles, muscle lines, panel seams.
-**Pinch** — Pull geometry toward the brush center. Sharpens edges and ridges.
-**Flatten** — Press geometry against a plane. Rocks, bone planes, flat-faced organic forms.
-**Grab** — Move large chunks of mesh together. Rough posing, pulling out limbs.
-**Snake Hook** — Pull out tendrils of geometry as you drag. Tentacles, horns, hair locks. Only works without Dyntopo (or with it at low count).
-**Elastic Deform** — Pushes nearby geometry naturally, simulates tissue. Posing organic forms.
+        content: `**Draw**: Push geometry outward (Ctrl = inward). The basic brush. Use for adding volume anywhere.
+**Clay / Clay Strips**
+Build material up like adding clay slabs. Flatter stroke than Draw. Great for primary forms.
+**Smooth**
+Hold **Shift** with any brush to smooth instantly. The most used secondary action.
+**Inflate**
+Puff geometry outward in all directions uniformly. Good for lips, cheeks, puffiness.
+**Crease**
+Create a sharp indented line. Wrinkles, muscle lines, panel seams.
+**Pinch**
+Pull geometry toward the brush center. Sharpens edges and ridges.
+**Flatten**
+Press geometry against a plane. Rocks, bone planes, flat-faced organic forms.
+**Grab**
+Move large chunks of mesh together. Rough posing, pulling out limbs.
+**Snake Hook**
+Pull out tendrils of geometry as you drag. Tentacles, horns, hair locks. Only works without Dyntopo (or with it at low count).
+**Elastic Deform**
+Pushes nearby geometry naturally, simulates tissue. Posing organic forms.
 
-**F** — Resize brush (drag)
-**Shift+F** — Change strength (drag)
-**Ctrl+drag** — Invert brush direction (push → pull)`,
+**F**
+Resize brush (drag)
+**Shift+F**
+Change strength (drag)
+**Ctrl+drag**
+Invert brush direction (push → pull)`,
       },
       {
         title: "Masks & Face Sets",
@@ -2854,17 +3052,25 @@ if ".sculpt_face_set" in mesh.attributes:
     fs_attr = mesh.attributes[".sculpt_face_set"]
     unique_sets = set(v.value for v in fs_attr.data)
     print(f"Face sets: {unique_sets}")`,
-        content: `**Masking** — Paint areas you want to protect from sculpting.
+        content: `**Masking**: Paint areas you want to protect from sculpting.
 
-**M** — Mask brush (paint mask onto surface)
-**Alt+M** — Clear mask
-**Ctrl+I** — Invert mask (what was protected becomes sculptable, and vice versa)
-**Ctrl+Click** — Fill mask on a Face Set
+**M**
+Mask brush (paint mask onto surface)
+**Alt+M**
+Clear mask
+**Ctrl+I**
+Invert mask (what was protected becomes sculptable, and vice versa)
+**Ctrl+Click**
+Fill mask on a Face Set
 
-**Face Sets** — Color-coded regions of the mesh. Each face set can be isolated, hidden, or sculpted independently.
-- **Ctrl+W** — Create face set from masked area
-- **H** — Hide unmasked face sets (isolate the active face set)
-- **Alt+H** — Reveal all hidden face sets
+**Face Sets**
+Color-coded regions of the mesh. Each face set can be isolated, hidden, or sculpted independently.
+**Ctrl+W**
+Create face set from masked area
+**H**
+Hide unmasked face sets (isolate the active face set)
+**Alt+H**
+Reveal all hidden face sets
 - Right-click on a face set color to rename/select
 
 Use Face Sets to: isolate a head from a body for sculpting, protect finished areas while working on others, drive procedural effects in Geometry Nodes.`,
@@ -2904,19 +3110,19 @@ for v in mesh.vertices:
     v.co += v.normal * noise * 0.3  # displace along normal
 
 bpy.ops.object.mode_set(mode='SCULPT')`,
-        content: `Rocks are ideal first sculpts — they're irregular by nature, so mistakes look intentional:
+        content: `Rocks are ideal first sculpts: they're irregular by nature, so mistakes look intentional:
 
 1. **Shift+A → Ico Sphere** (subdivisions: 3 in F9)
 2. Add a **Multiresolution modifier** → Subdivide 3–4 times
 3. Enter **Sculpt Mode**
-4. **Grab brush** — pull out 3–4 irregular protrusions to break the perfect sphere
-5. **Clay Strips** — build up flat rocky faces
-6. **Flatten brush** — create some flat facets; rocks have these
-7. **Crease brush** — add sharp cracks and crevices
-8. **Shift** (Smooth) — wherever things look too pointy or unnatural
-9. **Draw + Ctrl** — push in some pits and cavities
+4. **Grab brush**: pull out 3–4 irregular protrusions to break the perfect sphere
+5. **Clay Strips**: build up flat rocky faces
+6. **Flatten brush**: create some flat facets; rocks have these
+7. **Crease brush**: add sharp cracks and crevices
+8. **Shift** (Smooth): wherever things look too pointy or unnatural
+9. **Draw + Ctrl**: push in some pits and cavities
 
-Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster.
+Duplicate it (Shift+D), use Grab to reshape differently: instant rock cluster.
 
 ✅ Goal: Organic results in under 10 minutes. Sculpting is fast once you stop being precious.`,
       },
@@ -2941,19 +3147,19 @@ Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster
         ],
         answer: 1,
         explanation:
-          "Difference subtracts — like a cookie cutter. The cutter carves its shape out of the base. The cutter object is usually hidden after the operation, keeping the cut live and editable.",
+          "Difference subtracts: like a cookie cutter. The cutter carves its shape out of the base. The cutter object is usually hidden after the operation, keeping the cut live and editable.",
       },
       {
         q: "Why add a Bevel modifier after Booleans on a hard surface object?",
         options: [
           "To fix the topology that Booleans break",
-          "To add rounded edge highlights — without them, boolean cuts look unrealistically sharp",
+          "To add rounded edge highlights: without them, boolean cuts look unrealistically sharp",
           "To merge the cutter object permanently",
           "Bevel is required for Cycles to render hard edges correctly",
         ],
         answer: 1,
         explanation:
-          "Real manufactured objects have micro-bevels on their edges — they catch light and reveal form. A Bevel modifier with Angle Limit adds these highlights procedurally without touching the mesh.",
+          "Real manufactured objects have micro-bevels on their edges: they catch light and reveal form. A Bevel modifier with Angle Limit adds these highlights procedurally without touching the mesh.",
       },
       {
         q: "What is the purpose of the Weld modifier after a Boolean operation?",
@@ -2971,7 +3177,7 @@ Duplicate it (Shift+D), use Grab to reshape differently — instant rock cluster
         q: "In the 'box cutter' hard surface workflow, why are boolean cutters kept hidden rather than deleted?",
         options: [
           "Hidden objects use less memory",
-          "Keeping cutters alive means the boolean cut remains editable — move or reshape the cutter later to adjust the cut non-destructively",
+          "Keeping cutters alive means the boolean cut remains editable: move or reshape the cutter later to adjust the cut non-destructively",
           "Blender requires cutters to stay in the scene to render",
           "Deleted cutters would also delete the boolean modifier",
         ],
@@ -3008,16 +3214,19 @@ weld = base.modifiers.new("Weld", 'WELD')
 weld.merge_threshold = 0.001`,
         content: `The **Boolean modifier** uses one object (the cutter) to modify another (the target):
 
-- **Union** — Combine two objects into one merged solid
-- **Difference** — Subtract one object from another. Carves holes, cuts recesses.
-- **Intersect** — Keep only the overlapping volume between two objects
+**Union**
+Combine two objects into one merged solid
+**Difference**
+Subtract one object from another. Carves holes, cuts recesses.
+**Intersect**
+Keep only the overlapping volume between two objects
 
 **Workflow:**
 1. Select the base (target) object
 2. **Properties → Modifier → Boolean**
 3. Set operation type
 4. Set the Cutter object in the Object field
-5. **H** to hide the cutter — the cut remains live and non-destructive
+5. **H** to hide the cutter: the cut remains live and non-destructive
 6. Apply when done, or keep live for future adjustment
 
 After a Boolean, always add a **Weld modifier** to clean up near-zero-distance vertices left by the operation.
@@ -3036,7 +3245,7 @@ obj = bpy.context.active_object
 # Standard hard surface modifier stack
 bev = obj.modifiers.new("Bevel", 'BEVEL')
 bev.limit_method  = 'ANGLE'
-bev.angle_limit   = 0.5236   # 30° — only bevel sharp edges
+bev.angle_limit   = 0.5236   # 30°: only bevel sharp edges
 bev.width         = 0.02
 bev.segments      = 2
 bev.profile       = 0.7      # roundness of the bevel profile
@@ -3061,15 +3270,17 @@ bpy.ops.object.shade_smooth_by_angle(angle=0.523599)  # 30°`,
 
 **The standard hard surface stack:**
 1. Model base shape with edge loops placed for control
-2. **Bevel modifier** — round all edges above an angle threshold (Limit Method: Angle, ~30°). Use segments: 2–3 for a sharp highlight.
-3. **Subdivision Surface modifier** — smooth the curved areas, keep sharp edges beveled
-4. **Weighted Normals modifier** — compute normals based on face area. Keeps flat areas shading flat even with micro-bevels.
+2. **Bevel modifier**: round all edges above an angle threshold (Limit Method: Angle, ~30°). Use segments: 2–3 for a sharp highlight.
+3. **Subdivision Surface modifier**: smooth the curved areas, keep sharp edges beveled
+4. **Weighted Normals modifier**: compute normals based on face area. Keeps flat areas shading flat even with micro-bevels.
 
-**Edge Creases (Ctrl+E → Edge Crease in Edit Mode)** — Tell the Subdivision Surface modifier to keep specific edges sharp without beveling them. Good for internal detail you want crisp.
+**Edge Creases (Ctrl+E → Edge Crease in Edit Mode)**
+Tell the Subdivision Surface modifier to keep specific edges sharp without beveling them. Good for internal detail you want crisp.
 
-**Bevel Weight** — Per-edge control over how much the Bevel modifier affects each edge. Mark via Ctrl+E → Edge Bevel Weight. Lets you have some edges fully beveled and others untouched.
+**Bevel Weight**
+Per-edge control over how much the Bevel modifier affects each edge. Mark via Ctrl+E → Edge Bevel Weight. Lets you have some edges fully beveled and others untouched.
 
-**Shade Auto Smooth** (Object right-click) — Set a degree threshold. Edges sharper than the threshold show as hard; gentler ones shade smooth. No geometry needed.`,
+**Shade Auto Smooth** (Object right-click): Set a degree threshold. Edges sharper than the threshold show as hard; gentler ones shade smooth. No geometry needed.`,
       },
       {
         title: "The Box Cutter Workflow",
@@ -3110,8 +3321,8 @@ panel.modifiers.new("Bevel", 'BEVEL').limit_method = 'ANGLE'
 panel.modifiers.new("Subdiv", 'SUBSURF').levels = 1`,
         content: `The dominant hard surface approach for industrial/sci-fi assets:
 
-1. Start with a **Cube** — your base panel, hull, or body
-2. Add **Boolean cutters**: other cubes, cylinders, custom shapes — for recesses, holes, vents, panels
+1. Start with a **Cube**: your base panel, hull, or body
+2. Add **Boolean cutters**: other cubes, cylinders, custom shapes: for recesses, holes, vents, panels
 3. Keep all cutters live and hidden (H) so you can adjust any cut at any time
 4. Add **Bevel modifier** with Angle limit for edge highlights
 5. Add **Subdivision Surface** for final smoothing
@@ -3120,9 +3331,12 @@ panel.modifiers.new("Subdiv", 'SUBSURF').levels = 1`,
 The key insight: you never manually model the holes, recesses, or panel lines. They're all boolean cuts.
 
 **Recommended addons** for professional hard surface work:
-- **HardOps** — Boolean management, shading tools, workflow shortcuts
-- **BoxCutter** — Interactive boolean drawing directly in the viewport
-- **MESHmachine** — Edge flow and bevel management after booleans`,
+**HardOps**
+Boolean management, shading tools, workflow shortcuts
+**BoxCutter**
+Interactive boolean drawing directly in the viewport
+**MESHmachine**
+Edge flow and bevel management after booleans`,
       },
       {
         title: "🔨 Mini Workshop: Sci-Fi Wall Panel",
@@ -3167,7 +3381,7 @@ for x, y in [(-1.1, 0.6), (1.1, -0.6), (-1.1, -0.6)]:
     bool_s.operation = 'DIFFERENCE'
     bool_s.object = s
     s.hide_set(True)`,
-        content: `Create a wall panel like you'd see on a spaceship — using only booleans:
+        content: `Create a wall panel like you'd see on a spaceship: using only booleans:
 
 1. **Shift+A → Plane** → scale up (S → 3) → **Solidify modifier** (thickness 0.05)
 2. Add **Bevel modifier** (Limit Method: Angle, width: 0.02, segments: 2)
@@ -3198,13 +3412,13 @@ Add an Area light at a low grazing angle to show the surface detail dramatically
         q: "In Rigid Body simulation, what is a Passive object?",
         options: [
           "An object that moves slowly due to high mass",
-          "A static collider — it doesn't move but other active objects bounce off it",
+          "A static collider: it doesn't move but other active objects bounce off it",
           "An object that absorbs simulation forces without responding",
           "An object that has been baked and can't be changed",
         ],
         answer: 1,
         explanation:
-          "Passive rigid bodies are immovable colliders — floors, walls, ramps. Active rigid bodies are dynamically simulated. Every simulation needs at least one passive collider or objects fall forever.",
+          "Passive rigid bodies are immovable colliders: floors, walls, ramps. Active rigid bodies are dynamically simulated. Every simulation needs at least one passive collider or objects fall forever.",
       },
       {
         q: "What does a Pin Group do in Cloth simulation?",
@@ -3216,19 +3430,19 @@ Add an Area light at a low grazing angle to show the surface detail dramatically
         ],
         answer: 1,
         explanation:
-          "Create a vertex group, assign the verts you want fixed (e.g. the top of a tablecloth), then set it as the Pin Group. Those verts won't move — everything else drapes naturally.",
+          "Create a vertex group, assign the verts you want fixed (e.g. the top of a tablecloth), then set it as the Pin Group. Those verts won't move: everything else drapes naturally.",
       },
       {
         q: "In Mantaflow, what is the Domain object?",
         options: [
           "The object that emits fluid or smoke",
-          "The bounding box that defines where the simulation exists — fluid/smoke cannot leave it",
+          "The bounding box that defines where the simulation exists: fluid/smoke cannot leave it",
           "The collision object that fluid bounces off",
           "The camera through which the simulation is rendered",
         ],
         answer: 1,
         explanation:
-          "The Domain is the simulation volume. Everything inside it can participate in the sim. Make it large enough to contain the full effect — fluid that reaches the boundary gets clipped.",
+          "The Domain is the simulation volume. Everything inside it can participate in the sim. Make it large enough to contain the full effect: fluid that reaches the boundary gets clipped.",
       },
       {
         q: "You want fire and smoke. Which Mantaflow domain type and flow type do you use?",
@@ -3240,7 +3454,7 @@ Add an Area light at a low grazing angle to show the surface detail dramatically
         ],
         answer: 1,
         explanation:
-          "Gas domain handles volumetric effects — smoke, fire, explosions. Set the Flow object's type to Fire, Smoke, or Fire+Smoke. Liquid domain is for water-like simulations.",
+          "Gas domain handles volumetric effects: smoke, fire, explosions. Set the Flow object's type to Fire, Smoke, or Fire+Smoke. Liquid domain is for water-like simulations.",
       },
     ],
     sections: [
@@ -3273,20 +3487,28 @@ scene.rigidbody_world.solver_iterations   = 10
 
 # Bake the simulation (cache it)
 bpy.ops.ptcache.bake_all(bake=True)`,
-        content: `**Properties → Physics → Rigid Body** — Makes objects fall, collide, bounce, and stack under simulated gravity.
+        content: `**Properties → Physics → Rigid Body**: Makes objects fall, collide, bounce, and stack under simulated gravity.
 
 Two roles:
-- **Active** — The object participates in the simulation, is affected by gravity and collisions
-- **Passive** — A static collider (floor, walls). Other objects bounce off it.
+**Active**
+The object participates in the simulation, is affected by gravity and collisions
+**Passive**
+A static collider (floor, walls). Other objects bounce off it.
 
 Key settings:
-- **Mass** — Heavier objects have more momentum
-- **Friction** — How much objects slide vs grip
-- **Bounciness (Restitution)** — How elastic collisions are (0 = dead stop, 1 = perfect bounce)
-- **Collision Shape** — How Blender approximates the object for collision: Box, Sphere, Convex Hull, Mesh. Use Convex Hull or Mesh for complex shapes.
+**Mass**
+Heavier objects have more momentum
+**Friction**
+How much objects slide vs grip
+**Bounciness (Restitution)**
+How elastic collisions are (0 = dead stop, 1 = perfect bounce)
+**Collision Shape**
+How Blender approximates the object for collision: Box, Sphere, Convex Hull, Mesh. Use Convex Hull or Mesh for complex shapes.
 
-**Scene → Rigid Body World → Cache** — Bake the simulation to frames so it plays back reliably.
-**Ctrl+A** — Apply the simulation result as keyframes if you need to edit the baked motion.
+**Scene → Rigid Body World → Cache**
+Bake the simulation to frames so it plays back reliably.
+**Ctrl+A**
+Apply the simulation result as keyframes if you need to edit the baked motion.
 
 Use for: falling objects, breaking things, stacking simulations, pinball physics, dominos.`,
       },
@@ -3321,14 +3543,19 @@ collider.collision.thickness_outer = 0.01
 # Bake
 bpy.context.view_layer.objects.active = cloth_obj
 bpy.ops.ptcache.bake_all(bake=True)`,
-        content: `**Properties → Physics → Cloth** — Simulates fabric: draping, colliding with objects, responding to wind.
+        content: `**Properties → Physics → Cloth**: Simulates fabric: draping, colliding with objects, responding to wind.
 
 Key settings:
-- **Vertex Mass** — How heavy the fabric is. Light = floaty, heavy = stiff.
-- **Stiffness → Tension/Compression/Shear** — How much the cloth resists stretching and shearing. Low = silky, High = canvas.
-- **Bending** — Resistance to folding. Low = silk, High = cardboard.
-- **Self Collision** — Prevents cloth from passing through itself (computationally expensive).
-- **Collision** — Enable on the objects the cloth should land on (Properties → Physics → Collision).
+**Vertex Mass**
+How heavy the fabric is. Light = floaty, heavy = stiff.
+**Stiffness → Tension/Compression/Shear**
+How much the cloth resists stretching and shearing. Low = silky, High = canvas.
+**Bending**
+Resistance to folding. Low = silk, High = cardboard.
+**Self Collision**
+Prevents cloth from passing through itself (computationally expensive).
+**Collision**
+Enable on the objects the cloth should land on (Properties → Physics → Collision).
 
 **Pinning**: Select vertices in Edit Mode → assign to a Vertex Group. In Cloth → Shape → Pin Group, use that group. Those vertices stay fixed while the rest simulates.
 
@@ -3430,7 +3657,7 @@ bpy.ops.object.effector_add(type='TURBULENCE', location=(0, 0, 2))
 turb = bpy.context.active_object
 turb.field.strength = 2.0
 turb.field.size     = 1.0`,
-        content: `**Properties → Particles → Add** — Particle systems for emission and hair.
+        content: `**Properties → Particles → Add**: Particle systems for emission and hair.
 
 **Emitter particles**: Objects born at a surface, move through space, die.
 - **Emission**: count, start/end frame, lifetime
@@ -3440,11 +3667,16 @@ turb.field.size     = 1.0`,
 **Hair particles** (legacy): generate strands from a surface. Controlled with Particle Edit mode. The **new hair system** uses Geometry Nodes (see Module 7) and is preferred in Blender 4.x+.
 
 **Force Fields** (Shift+A → Force Field):
-- **Wind** — Constant directional push
-- **Turbulence** — Random chaotic movement
-- **Vortex** — Spiral/spinning force
-- **Magnetic** — Attract/repel based on particle charge
-- **Gravity / Force** — Point gravity well or constant force
+**Wind**
+Constant directional push
+**Turbulence**
+Random chaotic movement
+**Vortex**
+Spiral/spinning force
+**Magnetic**
+Attract/repel based on particle charge
+**Gravity / Force**
+Point gravity well or constant force
 
 Force fields affect particles, cloth, soft body, and rigid bodies. Layer multiple fields for complex motion.
 
@@ -3488,14 +3720,14 @@ wind.field.strength = 3.0
 wind.rotation_euler[0] = 1.5708  # point sideways`,
         content: `The quickest way to see simulation working:
 
-1. **Shift+A → Plane** — scale large (S → 5). **Properties → Physics → Rigid Body → Passive** (this is the floor).
-2. **Shift+A → Cube** — position 3 units above the plane. **Physics → Rigid Body → Active**.
+1. **Shift+A → Plane**: scale large (S → 5). **Properties → Physics → Rigid Body → Passive** (this is the floor).
+2. **Shift+A → Cube**: position 3 units above the plane. **Physics → Rigid Body → Active**.
 3. Duplicate the cube (Shift+D) 5–10 times, scatter randomly above the plane at different heights.
-4. Press **Space** (or the play button in the Timeline) — the cubes fall and pile up.
+4. Press **Space** (or the play button in the Timeline): the cubes fall and pile up.
 5. Try: change Bounciness on a cube to 0.8 and watch it bounce.
-6. Add **Shift+A → Force Field → Wind** — point it sideways. The cubes now drift.
+6. Add **Shift+A → Force Field → Wind**: point it sideways. The cubes now drift.
 
-✅ Goal: See that simulation is a system of parameters — not keyframes — and understand how to compose it`,
+✅ Goal: See that simulation is a system of parameters: not keyframes: and understand how to compose it`,
       },
     ],
   },
@@ -3511,20 +3743,20 @@ wind.rotation_euler[0] = 1.5708  # point sideways`,
       {
         q: "Your scene has light focusing through a glass lens creating a caustic pattern on the table. Which renderer handles this correctly?",
         options: [
-          "EEVEE Next — it's faster so it can compute more effects",
-          "Cycles — it physically traces light rays, including caustics",
-          "Workbench — it's designed for optical effects",
+          "EEVEE Next: it's faster so it can compute more effects",
+          "Cycles: it physically traces light rays, including caustics",
+          "Workbench: it's designed for optical effects",
           "Both render caustics identically",
         ],
         answer: 1,
         explanation:
-          "Caustics require physically tracing light rays through refractive/reflective surfaces — something only path tracers like Cycles do correctly. EEVEE Next approximates many effects but not true caustics.",
+          "Caustics require physically tracing light rays through refractive/reflective surfaces: something only path tracers like Cycles do correctly. EEVEE Next approximates many effects but not true caustics.",
       },
       {
         q: "What does enabling Denoising in Cycles allow you to do?",
         options: [
           "Render at full quality with zero noise regardless of sample count",
-          "Use far fewer samples while still getting a clean result — AI removes remaining noise",
+          "Use far fewer samples while still getting a clean result: AI removes remaining noise",
           "Denoise the audio track of an animation",
           "Remove compression artifacts from imported image textures",
         ],
@@ -3535,20 +3767,20 @@ wind.rotation_euler[0] = 1.5708  # point sideways`,
       {
         q: "You're rendering an animation of a motion graphic logo. Speed matters more than caustics. Which engine?",
         options: [
-          "Cycles — it's the only production-quality renderer",
-          "EEVEE Next — near-instant frames, still high quality for motion graphics",
-          "Workbench — designed for animation",
+          "Cycles: it's the only production-quality renderer",
+          "EEVEE Next: near-instant frames, still high quality for motion graphics",
+          "Workbench: designed for animation",
           "They take the same time for animations",
         ],
         answer: 1,
         explanation:
-          "EEVEE Next is a real-time path-traced renderer — frame times are orders of magnitude faster than Cycles for animation. For motion graphics, stylised work, and non-caustics scenes, it's the right choice.",
+          "EEVEE Next is a real-time path-traced renderer: frame times are orders of magnitude faster than Cycles for animation. For motion graphics, stylised work, and non-caustics scenes, it's the right choice.",
       },
       {
         q: "What is the Compositor in Blender used for?",
         options: [
           "Compositing multiple .blend files into one scene",
-          "A node-based post-processing graph that runs on 2D rendered images — color grading, glare, depth of field, combining render passes",
+          "A node-based post-processing graph that runs on 2D rendered images: color grading, glare, depth of field, combining render passes",
           "Real-time mixing of audio and video tracks",
           "Merging multiple materials into one shader",
         ],
@@ -3559,7 +3791,7 @@ wind.rotation_euler[0] = 1.5708  # point sideways`,
     ],
     sections: [
       {
-        title: "Cycles vs EEVEE Next — When to Use Each",
+        title: "Cycles vs EEVEE Next: When to Use Each",
         pythonCode: `import bpy
 
 scene = bpy.context.scene
@@ -3591,20 +3823,21 @@ eevee.use_ssr             = True  # screen space reflections
 
 # Print current engine
 print(f"Active engine: {scene.render.engine}")`,
-        content: `**Cycles** — Physically accurate path tracing.
+        content: `**Cycles**: Physically accurate path tracing.
 - Simulates true light: reflections, refractions, caustics (light through glass), subsurface scattering, volumetrics
 - Slower: seconds to minutes per frame on GPU, much longer on CPU
 - Use when: photorealistic output is the goal, caustics are required, subsurface skin is critical
 - GPU rendering available: CUDA/OptiX (NVIDIA), Metal (Mac). Enable in **Preferences → System → Cycles Render Devices**.
 
-**EEVEE Next** (Blender 4.2+) — Real-time path-traced renderer.
+**EEVEE Next** (Blender 4.2+): Real-time path-traced renderer.
 - Near-instant feedback in the viewport
 - Supports: true reflections, refractions, volumetrics, subsurface scattering, global illumination
 - Significantly faster than Cycles for animation
 - Some limitations vs Cycles: fewer light bounces, limited caustics, lighter volumetric detail
 - Use when: motion graphics, stylized work, animation with tight deadlines, real-time previsualization
 
-**Workbench** — Technical renderer for clay renders, studio presentation. No materials, just form.
+**Workbench**
+Technical renderer for clay renders, studio presentation. No materials, just form.
 
 In Blender 5.1, for most non-caustics work, EEVEE Next produces competitive results to Cycles at a fraction of the time.`,
       },
@@ -3639,21 +3872,32 @@ bpy.ops.render.render(animation=True)       # Ctrl+F12 equivalent
 # Open last render in Image Editor
 bpy.ops.render.view_show()                  # F11 equivalent`,
         content: `**Render Properties (🎬 icon)**:
-- **Render Engine** — Cycles / EEVEE Next / Workbench
-- **Samples** — How many light paths to trace per pixel (Cycles). More = less noise, more time. 128–256 for preview, 512–2048 for final.
-- **Denoising** — Enable! AI denoising (OptiX on NVIDIA, OpenImageDenoise for CPU) removes noise at low sample counts. Use **Render Denoising** for final, **Viewport Denoising** for preview.
-- **Light Paths** (Cycles) — Number of bounces for each ray type. Defaults are fine; reduce Transmission/Volume bounces to speed up glass-heavy scenes.
+**Render Engine**
+Cycles / EEVEE Next / Workbench
+**Samples**
+How many light paths to trace per pixel (Cycles). More = less noise, more time. 128–256 for preview, 512–2048 for final.
+**Denoising**
+Enable! AI denoising (OptiX on NVIDIA, OpenImageDenoise for CPU) removes noise at low sample counts. Use **Render Denoising** for final, **Viewport Denoising** for preview.
+- **Light Paths** (Cycles): Number of bounces for each ray type. Defaults are fine; reduce Transmission/Volume bounces to speed up glass-heavy scenes.
 
 **Output Properties (🖼️ icon)**:
-- **Resolution X/Y** — Image size in pixels. Common: 1920×1080 (FHD), 3840×2160 (4K).
-- **Frame Range** — Start/end frame for animation renders.
-- **Frame Rate** — 24fps (film), 25fps (PAL), 30fps (NTSC/web), 60fps (game/slow-mo).
-- **Output Path** — Where to save frames. Use // for relative to the .blend file.
-- **File Format** — PNG (lossless, single frames), JPEG (lossy), OpenEXR (HDR data, multi-pass, essential for compositing).
+**Resolution X/Y**
+Image size in pixels. Common: 1920×1080 (FHD), 3840×2160 (4K).
+**Frame Range**
+Start/end frame for animation renders.
+**Frame Rate**
+24fps (film), 25fps (PAL), 30fps (NTSC/web), 60fps (game/slow-mo).
+**Output Path**
+Where to save frames. Use // for relative to the .blend file.
+**File Format**
+PNG (lossless, single frames), JPEG (lossy), OpenEXR (HDR data, multi-pass, essential for compositing).
 
-**F12** — Render current frame
-**Ctrl+F12** — Render animation (all frames in range)
-**F11** — Show last rendered image`,
+**F12**
+Render current frame
+**Ctrl+F12**
+Render animation (all frames in range)
+**F11**
+Show last rendered image`,
       },
       {
         title: "Render Passes & the Compositor",
@@ -3696,7 +3940,7 @@ links.new(cb.outputs["Image"], glare.inputs["Image"])
 links.new(glare.outputs["Image"], comp.inputs["Image"])`,
         content: `Instead of rendering a single flat image, Blender can output **render passes**: separate layers for shadows, reflections, diffuse, specular, depth, normals, etc.
 
-Enable passes: **View Layer Properties → Passes** — check what you need.
+Enable passes: **View Layer Properties → Passes**: check what you need.
 
 Output to **OpenEXR Multilayer** format to preserve all passes in one file.
 
@@ -3747,15 +3991,23 @@ cam_data.clip_end   = 1000.0
 bpy.context.scene.camera = cam_obj`,
         content: `Select the camera → **Object Data Properties (🎬 camera icon)**:
 
-- **Focal Length** — Longer = telephoto (compressed perspective, good for portraits). Shorter = wide angle (distorted, dramatic). 50mm ≈ human eye. 85–135mm = portrait. 24mm = wide architectural.
-- **Sensor Size** — Affects depth of field and perspective. Full Frame (36mm) is the default.
-- **Depth of Field → F-Stop** — Lower = more blur (shallow depth of field). Higher = everything sharp. Enable DoF, set Focus Object or Distance.
-- **Clip Start/End** — The near and far range where Blender renders. Adjust for very small or very large scenes.
-- **Camera Type** — Perspective (default), Orthographic (no perspective, technical drawings), Panoramic (360° equirectangular for VR).
+**Focal Length**
+Longer = telephoto (compressed perspective, good for portraits). Shorter = wide angle (distorted, dramatic). 50mm ≈ human eye. 85–135mm = portrait. 24mm = wide architectural.
+**Sensor Size**
+Affects depth of field and perspective. Full Frame (36mm) is the default.
+**Depth of Field → F-Stop**
+Lower = more blur (shallow depth of field). Higher = everything sharp. Enable DoF, set Focus Object or Distance.
+**Clip Start/End**
+The near and far range where Blender renders. Adjust for very small or very large scenes.
+**Camera Type**
+Perspective (default), Orthographic (no perspective, technical drawings), Panoramic (360° equirectangular for VR).
 
-**Numpad 0** — Enter camera view
-**N → View → Lock Camera to View** — Navigate freely and the camera follows. Disable when done.
-**Ctrl+Alt+0** — Snap the camera to current viewport.`,
+**Numpad 0**
+Enter camera view
+**N → View → Lock Camera to View**
+Navigate freely and the camera follows. Disable when done.
+**Ctrl+Alt+0**
+Snap the camera to current viewport.`,
       },
       {
         title: "🔨 Mini Workshop: First Beauty Render",
@@ -3798,14 +4050,14 @@ bpy.ops.render.render(write_still=True)`,
 
 1. Switch to **Cycles** in Render Properties
 2. Samples: 128, enable **Denoising** (OpenImageDenoise)
-3. **World Properties → Environment Texture** — load any HDRI
-4. **Shift+A → Mesh → Plane** — large plane below object as floor. Add material → enable **Shadow Catcher** (Material → Settings → Shadow Mode: Shadow Catcher) — floor shows only shadows, not itself.
-5. **Numpad 0** — camera view. Press N → View → Lock Camera to View, navigate to a good angle.
-6. **F12** — render.
+3. **World Properties → Environment Texture**: load any HDRI
+4. **Shift+A → Mesh → Plane**: large plane below object as floor. Add material → enable **Shadow Catcher** (Material → Settings → Shadow Mode: Shadow Catcher): floor shows only shadows, not itself.
+5. **Numpad 0**: camera view. Press N → View → Lock Camera to View, navigate to a good angle.
+6. **F12**: render.
 
 Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
 
-✅ Goal: A render you'd show someone — with shadows, environment, proper camera`,
+✅ Goal: A render you'd show someone: with shadows, environment, proper camera`,
       },
     ],
   },
@@ -3816,7 +4068,7 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
     tag: "ADVANCED SHADING",
     color: "#818cf8",
     intro:
-      "Procedural textures are generated mathematically — no image files, infinite resolution, no tiling, fully animatable. Combined with the Shader Editor, they can describe almost any surface.",
+      "Procedural textures are generated mathematically: no image files, infinite resolution, no tiling, fully animatable. Combined with the Shader Editor, they can describe almost any surface.",
     quiz: [
       {
         q: "What does a ColorRamp node do?",
@@ -3831,7 +4083,7 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
           "ColorRamp takes a single grayscale input (like Noise Texture's Fac output) and maps it to any gradient of colors you define. It's the bridge between procedural noise and meaningful color variation.",
       },
       {
-        q: "Which texture node creates cell-like patterns — useful for cracked earth, skin pores, or ceramic tiles?",
+        q: "Which texture node creates cell-like patterns: useful for cracked earth, skin pores, or ceramic tiles?",
         options: [
           "Noise Texture",
           "Wave Texture",
@@ -3848,11 +4100,11 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
           "Bump is for organic surfaces, Displacement is for hard surfaces",
           "Bump fakes surface detail by changing how light hits without moving geometry; Displacement actually moves vertices",
           "Bump works in EEVEE, Displacement only in Cycles",
-          "They are identical — just named differently for historical reasons",
+          "They are identical: just named differently for historical reasons",
         ],
         answer: 1,
         explanation:
-          "Bump is cheap — it tricks the lighting system into seeing detail that isn't geometrically there. Displacement is expensive and real — it requires enough geometry to actually move. Enable Displacement: Both in material settings for Cycles.",
+          "Bump is cheap: it tricks the lighting system into seeing detail that isn't geometrically there. Displacement is expensive and real: it requires enough geometry to actually move. Enable Displacement: Both in material settings for Cycles.",
       },
       {
         q: "You want a wood grain texture. Which node produces the underlying stripe/ring pattern?",
@@ -3864,7 +4116,7 @@ Experiment: switch the same setup to EEVEE Next. Compare quality vs render time.
         ],
         answer: 2,
         explanation:
-          "Wave Texture creates concentric rings or parallel bands — the natural structure of wood grain. Add Distortion to break up the regularity, and a ColorRamp to map it to realistic wood colours.",
+          "Wave Texture creates concentric rings or parallel bands: the natural structure of wood grain. Add Distortion to break up the regularity, and a ColorRamp to map it to realistic wood colours.",
       },
     ],
     sections: [
@@ -3907,19 +4159,26 @@ musg.inputs["Scale"].default_value  = 3.0
 musg.inputs["Detail"].default_value = 8.0`,
         content: `All found via **Shift+A → Texture** in the Shader Editor:
 
-**Noise Texture** — The fundamental organic texture. Parameters: Scale (zoom level), Detail (complexity layers), Roughness (sharpness of detail), Distortion (warp the noise itself). The foundation of most procedural materials.
+**Noise Texture**
+The fundamental organic texture. Parameters: Scale (zoom level), Detail (complexity layers), Roughness (sharpness of detail), Distortion (warp the noise itself). The foundation of most procedural materials.
 
-**Voronoi Texture** — Cell-based patterns. Distance to Edge mode = cracked earth, ceramic, skin pores. Smooth F1 = soft cellular blobs. Randomness controls how regular the cells are.
+**Voronoi Texture**
+Cell-based patterns. Distance to Edge mode = cracked earth, ceramic, skin pores. Smooth F1 = soft cellular blobs. Randomness controls how regular the cells are.
 
-**Wave Texture** — Concentric rings or parallel stripes. Bands vs Rings type. Add Distortion for wood grain. Phase Offset can animate it.
+**Wave Texture**
+Concentric rings or parallel stripes. Bands vs Rings type. Add Distortion for wood grain. Phase Offset can animate it.
 
-**Musgrave Texture** — Fractal noise with more layers and control than basic Noise. Great for terrain height maps, cloud patterns.
+**Musgrave Texture**
+Fractal noise with more layers and control than basic Noise. Great for terrain height maps, cloud patterns.
 
-**Magic Texture** — Colorful, swirling psychedelic patterns. Depth and Distortion controls. Underrated for abstract surfaces and trippy effects.
+**Magic Texture**
+Colorful, swirling psychedelic patterns. Depth and Distortion controls. Underrated for abstract surfaces and trippy effects.
 
-**Brick Texture** — Procedural bricks with mortar. Control width, height, offset, mortar size. Can mix with other textures for realistic variation.
+**Brick Texture**
+Procedural bricks with mortar. Control width, height, offset, mortar size. Can mix with other textures for realistic variation.
 
-**Gradient Texture** — Simple linear/radial/spherical gradient. Often used as a factor for mixing or masking.`,
+**Gradient Texture**
+Simple linear/radial/spherical gradient. Often used as a factor for mixing or masking.`,
       },
       {
         title: "Connecting Textures to Materials",
@@ -3963,17 +4222,23 @@ l.new(tc.outputs["Object"], mp.inputs["Vector"])
 l.new(mp.outputs["Vector"], noise.inputs["Vector"])`,
         content: `The key connectors between textures and the Principled BSDF:
 
-**ColorRamp** — Remap any grayscale value (0–1) to any set of colors. The most versatile node. Plug Noise → ColorRamp → Base Color for instant rock/lava/organic color.
+**ColorRamp**
+Remap any grayscale value (0–1) to any set of colors. The most versatile node. Plug Noise → ColorRamp → Base Color for instant rock/lava/organic color.
 
-**Bump node** — Simulate surface detail from a height map without moving geometry. Fast, works in Cycles and EEVEE. Height → Bump → Normal input.
+**Bump node**
+Simulate surface detail from a height map without moving geometry. Fast, works in Cycles and EEVEE. Height → Bump → Normal input.
 
-**Displacement node** — Actually moves vertices based on texture (requires Cycles + Material → Settings → Displacement: Both). Much more expensive than Bump but geometrically correct.
+**Displacement node**
+Actually moves vertices based on texture (requires Cycles + Material → Settings → Displacement: Both). Much more expensive than Bump but geometrically correct.
 
-**Mix node** — Blend two colors/textures by a Factor. Use another texture as the Factor for organic blending (e.g., blend clean grass and muddy grass by a Noise-driven mask).
+**Mix node**
+Blend two colors/textures by a Factor. Use another texture as the Factor for organic blending (e.g., blend clean grass and muddy grass by a Noise-driven mask).
 
-**Texture Coordinate + Mapping** — Always pair these when using procedural textures. Texture Coordinate (Object) + Mapping (translate/rotate/scale) controls how the texture maps to the surface. Object coordinates mean the texture moves with the object — useful for predictable results.
+**Texture Coordinate + Mapping**
+Always pair these when using procedural textures. Texture Coordinate (Object) + Mapping (translate/rotate/scale) controls how the texture maps to the surface. Object coordinates mean the texture moves with the object: useful for predictable results.
 
-**Math / Map Range** — Transform the 0–1 output of a texture into any numeric range. Essential for routing texture outputs to non-color inputs like Roughness, Metallic, Emission Strength.`,
+**Math / Map Range**
+Transform the 0–1 output of a texture into any numeric range. Essential for routing texture outputs to non-color inputs like Roughness, Metallic, Emission Strength.`,
       },
       {
         title: "Procedural Material Recipes",
@@ -4099,12 +4364,12 @@ noise.inputs["W"].default_value = 0.0
 noise.inputs["W"].keyframe_insert("default_value", frame=1)
 noise.inputs["W"].default_value = 5.0
 noise.inputs["W"].keyframe_insert("default_value", frame=250)`,
-        content: `Build a planet with zero image textures — everything procedural:
+        content: `Build a planet with zero image textures: everything procedural:
 
 1. **Shift+A → UV Sphere** (64 segments in F9)
 2. Apply a **Subdivision Surface** (level 2) → Enter **Shader Editor**
 3. Add a **Noise Texture** (Scale: 5, Detail: 8, Roughness: 0.6)
-4. Add a **ColorRamp**: deep blue on left, add stops for green, tan, white (poles) — position them like elevation bands
+4. Add a **ColorRamp**: deep blue on left, add stops for green, tan, white (poles): position them like elevation bands
 5. Connect: Noise → ColorRamp → Base Color
 6. Add a second **Noise** (different Scale) → **Bump** → Normal
 
@@ -4983,7 +5248,7 @@ export default function BlenderWorkshop() {
         { idx: 0, note: "Foundation" },
         { idx: 1, note: "Python setup" },
         { idx: 5, note: "Modifiers" },
-        { idx: 6, note: "Geometry Nodes — core tool" },
+        { idx: 6, note: "Geometry Nodes: core tool" },
         { idx: 7, note: "Shading" },
         { idx: 8, note: "Lighting" },
         { idx: 12, note: "Rendering" },
@@ -4994,8 +5259,8 @@ export default function BlenderWorkshop() {
       emoji: "🐍", title: "Vibe-Coding", shortTitle: "Vibe-Code",
       desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
       modules: [
-        { idx: 0, note: "Mental model — start here" },
-        { idx: 1, note: "bpy environment — do this second" },
+        { idx: 0, note: "Mental model: start here" },
+        { idx: 1, note: "bpy environment: do this second" },
         { idx: 5, note: "Modifiers via code" },
         { idx: 6, note: "Geometry Nodes via code" },
         { idx: 7, note: "Materials via code" },
@@ -5789,14 +6054,14 @@ export default function BlenderWorkshop() {
                     marginBottom: 6,
                   }}
                 >
-                  F3 — Your Most Important Shortcut
+                  F3: Your Most Important Shortcut
                 </div>
                 <div
                   style={{ fontSize: 12, color: "#888899", lineHeight: 1.6 }}
                 >
                   Press <strong style={{ color: "#e8e8f0" }}>F3</strong>{" "}
                   anywhere in Blender to search every operator by name. If you
-                  know what you want but not where it lives — F3 finds it. This
+                  know what you want but not where it lives: F3 finds it. This
                   is how you navigate Blender when vibe-coding: describe what
                   you want, search for it.
                 </div>
@@ -6107,7 +6372,7 @@ export default function BlenderWorkshop() {
                   }}
                 >
                   Modules 7 (Geometry Nodes) and 12 (Physics) are the most
-                  conceptually dense — each deserves its own session. Module 2
+                  conceptually dense: each deserves its own session. Module 2
                   (bpy Setup) is short but high-value if you plan to vibe-code.
                 </div>
               </div>
@@ -6176,7 +6441,7 @@ export default function BlenderWorkshop() {
               <div style={{ marginBottom: 48 }}>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>LEARNING PATHS</div>
                 <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>What do you want to make?</div>
-                <div style={{ fontSize: 13, color: "#666688", lineHeight: 1.7 }}>Use the path selector above — always visible at the top — to pick a goal and get a recommended module sequence. You can access all modules in any order at any time.</div>
+                <div style={{ fontSize: 13, color: "#666688", lineHeight: 1.7 }}>Use the path selector above: always visible at the top: to pick a goal and get a recommended module sequence. You can access all modules in any order at any time.</div>
               </div>
 
               {/* CTA */}
@@ -6205,7 +6470,7 @@ export default function BlenderWorkshop() {
                     boxShadow: "0 4px 24px rgba(232,98,42,0.35)",
                   }}
                 >
-                  Start Module 1 — Mental Model →
+                  Start Module 1: Mental Model →
                 </button>
               </div>
 
