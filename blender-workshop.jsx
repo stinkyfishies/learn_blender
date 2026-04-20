@@ -240,7 +240,7 @@ Destructive operations include: applying a modifier, sculpting directly on a mes
 Stay non-destructive as long as possible. Apply only when exporting, hitting a performance limit, or when a step is truly final. Throughout this workshop, each relevant module flags which operations are destructive and which are not, so you build the habit naturally as you go.`,
       },
       {
-        title: "The Properties Panel — Your Control Center",
+        title: "The Properties Panel: Your Control Center",
         pythonCode: `import bpy
 
 obj = bpy.context.active_object
