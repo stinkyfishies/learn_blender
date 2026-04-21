@@ -491,6 +491,8 @@ for area in bpy.context.screen.areas:
         area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
         content: `Once configured, your primary navigation controls:
 
+Note: trackpad gesture mappings depend on your Preferences settings and macOS trackpad configuration. The gestures below reflect a typical Mac setup with Multi-Touch Trackpad enabled — yours may differ.
+
 **Two-finger drag**
 Orbit (rotate the view around the scene)
 **Shift+two-finger drag**
