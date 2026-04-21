@@ -500,7 +500,7 @@ Pan (slide the view left/right/up/down)
 **Pinch (two-finger)**
 Zoom in/out
 **Numpad . (or View menu → Frame Selected)**
-Frame the selected object(s): instantly centers view on your selection. Note: the regular Period key opens the pivot point menu instead — you need the numpad period, or use View → Frame Selected from the viewport header menu.
+Frame the selected object(s): instantly centers view on your selection. Note: the regular Period key opens the pivot point menu instead. You need the numpad period, or use View → Frame Selected from the viewport header menu.
 **Home**
 Frame everything in the scene
 
