@@ -384,6 +384,308 @@ for obj in scene.objects:
   },
   {
     id: 2,
+    emoji: "🧭",
+    title: "Interface & Navigation",
+    tag: "MAC TRACKPAD",
+    color: "#5b8dee",
+    intro:
+      "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything: do these first.",
+    quiz: [
+      {
+        q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?",
+        options: [
+          "Two-finger drag",
+          "Three-finger swipe",
+          "Option + drag",
+          "Cmd + drag",
+        ],
+        answer: 2,
+        explanation:
+          "Option+drag emulates the middle mouse button, which Blender uses for orbiting the viewport.",
+      },
+      {
+        q: "You want to run a Blender feature but can't find it in any menu. What's the fastest way?",
+        options: [
+          "Search the Blender documentation online",
+          "Press F3 to open the operator search",
+          "Check Preferences → Add-ons",
+          "Right-click in the viewport",
+        ],
+        answer: 1,
+        explanation:
+          "F3 searches every available operator by name. Type what you want and run it directly: the core vibe-coding shortcut.",
+      },
+      {
+        q: "What does pressing the Period (.) key do in the 3D viewport?",
+        options: [
+          "Opens the decimal input for precise transforms",
+          "Frames the selected object(s) in the viewport",
+          "Toggles orthographic mode",
+          "Opens the pivot point menu",
+        ],
+        answer: 1,
+        explanation:
+          "Period frames/zooms to the selected object. Essential for quickly re-centering your view on what you're working on.",
+      },
+      {
+        q: "What does the Z key open in the 3D viewport?",
+        options: [
+          "The zoom controls",
+          "The undo history",
+          "The shading pie menu (Wireframe, Solid, Material, Rendered)",
+          "The scale tool",
+        ],
+        answer: 2,
+        explanation:
+          "Z opens the shading pie menu: a quick way to switch between how the scene looks without going to the toolbar.",
+      },
+    ],
+    sections: [
+      {
+        title: "First: Configure Blender for Mac Trackpad",
+        pythonCode: `import bpy
+
+# Read/write Blender preferences via Python
+prefs = bpy.context.preferences
+inputs = prefs.inputs
+
+# The three essential Mac trackpad settings
+inputs.use_mouse_emulate_3_button = True   # Option+click = MMB (orbit)
+inputs.use_numpad_as_ndof = False
+inputs.use_emulate_numpad = True           # Number row = numpad views
+
+# Save preferences so they persist
+bpy.ops.wm.save_userpref()`,
+        content: `**Edit → Preferences → Input**: enable these three settings:
+
+1. ✅ **Emulate 3 Button Mouse**: Maps Option+click to middle mouse button (orbit). Essential.
+2. ✅ **Emulate Numpad**: Maps the top number row (1–0) to numpad view shortcuts. Essential if you don't have a numpad.
+3. ✅ **Allow Mouse Selection With Trackpad Gesture** (if shown): gesture-aware selection
+
+Then under the **Trackpad** section (same Preferences page):
+- ✅ **Use Multi-Touch Trackpad**: enables pinch-to-zoom and two-finger pan natively
+
+Save these preferences: **Hamburger menu (☰) → Save Preferences** so they persist across launches.`,
+      },
+      {
+        title: "Viewport Navigation (Trackpad-First)",
+        pythonCode: `import bpy
+
+# Set the viewport to a specific view angle via Python
+# (useful in scripts that set up a scene for the user)
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        region = area.spaces[0].region_3d
+        # Look from front (same as Numpad 1)
+        region.view_rotation.identity()
+
+# Frame all objects (same as Home key)
+bpy.ops.view3d.view_all(use_all_regions=False)
+
+# Frame selected object (same as . key)
+bpy.ops.view3d.view_selected()
+
+# Set orthographic vs perspective
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
+        content: `Once configured, your primary navigation controls:
+
+**Option+drag**
+Orbit (rotate the view around the scene)
+**Two-finger drag**
+Pan (slide the view left/right/up/down)
+**Pinch (two-finger)**
+Zoom in/out
+**Period (.)**
+Frame the selected object(s): instantly centers view on your selection
+**Home**
+Frame everything in the scene
+
+Keyboard view shortcuts (with Emulate Numpad ON):
+**1**
+Front view (looking down -Y axis)
+**3**
+Right side view
+**7**
+Top view (looking down -Z)
+**Ctrl+1 / 3 / 7**
+Opposite views (Back, Left, Bottom)
+**5**
+Toggle Perspective ↔ Orthographic
+**0**
+Camera view (what your render will see)
+**~ (backtick)**
+View pie menu: access all views at once`,
+      },
+      {
+        title: "Editor Layout & Workspaces",
+        pythonCode: `import bpy
+
+# List all editor types in the current screen
+for area in bpy.context.screen.areas:
+    print(area.type)
+# Common types: VIEW_3D, NODE_EDITOR, PROPERTIES, OUTLINER,
+#   IMAGE_EDITOR, NLA_EDITOR, GRAPH_EDITOR, DOPESHEET_EDITOR
+
+# Change an area to a different editor type
+area = bpy.context.screen.areas[0]
+area.type = 'NODE_EDITOR'
+
+# Access the Shader Editor's node tree for active object
+obj = bpy.context.active_object
+if obj and obj.active_material:
+    tree = obj.active_material.node_tree
+    for node in tree.nodes:
+        print(node.name, node.type)`,
+        content: `**The UI is made of named regions**
+
+**Top bar**
+The very top strip: Blender's application menus (File, Edit, Render, Window, Help) on the left, workspace tabs in the center, scene/view layer selectors on the right.
+
+**Workspace tabs**
+The labeled tabs across the top bar (Layout, Modeling, Sculpting, Shading, Animation, Rendering, Compositing). Each is a saved arrangement of editors. Add your own with the + tab.
+
+**Editors**
+Every panel in Blender is an editor. Any area can be any editor type — change it by clicking the icon in the top-left corner of that area. You can have as many editors open as you want by splitting areas.
+
+**Header**
+The bar at the top of each individual editor. Contains the editor type selector (the icon), mode selector (Object Mode / Edit Mode / etc.), and editor-specific menus and controls. Some editors show it at the bottom instead.
+
+**Toolbar (T panel)**
+The vertical strip on the left side of the 3D Viewport. Press T to toggle. Shows tools for the current mode (selection tools, transform tools, etc.).
+
+**Sidebar (N panel)**
+The panel that slides in from the right side of the 3D Viewport. Press N to toggle. Has tabs: Item (selected object transform), Tool (active tool settings), View (viewport settings). Addons often add their own tabs here.
+
+**Properties Editor**
+The tall panel in the bottom-right of the default layout. Organized into tabs by icon along the side: Scene, Output, View Layer, Scene (world), Object, Modifiers, Particles, Physics, Object Data, Material. This is where most settings live.
+
+**Outliner**
+Top-right panel. Shows the scene hierarchy as a tree: collections, objects, and their data. Also has display modes for browsing all data in the file (Blender File mode) or the raw datablock graph (Data API mode).
+
+**Status bar**
+The thin strip at the very bottom of the screen. Shows context-sensitive hints for what the mouse buttons and modifier keys do in the current state.
+
+**Splitting and joining editors**
+To split: hover over the corner of any editor until the cursor becomes a crosshair, then drag. To join: drag from one editor's corner into the neighbor you want to absorb. You can also right-click any border between editors for split/join options.
+
+Most important editor types:
+**3D Viewport**
+Main working area. Most of your time is here.
+**Shader Editor**
+Node-based material building.
+**Geometry Node Editor**
+Procedural modeling and generation.
+**Compositor**
+Node-based post-processing of renders.
+**Timeline / Graph Editor / NLA Editor**
+Animation, in order of complexity.
+**UV Editor**
+UV unwrapping for texture mapping.`,
+      },
+      {
+        title: "The Most Useful Navigation Shortcuts",
+        pythonCode: `import bpy
+
+# F3 equivalent: run any operator by its Python ID
+# Find operator IDs by hovering over menu items and reading the tooltip
+bpy.ops.mesh.subdivide(number_cuts=2)
+bpy.ops.object.shade_smooth()
+bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY')
+
+# Toggle X-Ray (Alt+Z) via Python
+for area in bpy.context.screen.areas:
+    if area.type == 'VIEW_3D':
+        area.spaces[0].shading.show_xray = True
+
+# Set shading mode (Z pie menu equivalent)
+area.spaces[0].shading.type = 'SOLID'      # Solid
+area.spaces[0].shading.type = 'MATERIAL'   # Material Preview
+area.spaces[0].shading.type = 'RENDERED'   # Rendered`,
+        content: `**F3**: Operator search. Type any Blender feature by name and run it. The single most powerful shortcut: if you know what you want but not where it lives, F3 finds it.
+
+**Ctrl+Space**
+Maximize the hovered editor (full screen). Press again to restore.
+
+**N**
+Toggle the N-Panel sidebar (Item, Tool, View, and addon panels)
+**T**
+Toggle the left toolbar (tool icons)
+
+**Ctrl+Alt+Q**
+Quad view (four viewports: top, front, right, perspective). Toggle off the same way.
+
+**Z**
+Shading pie menu: Wireframe, Solid, Material Preview, Rendered. Essential for quickly switching how you see the scene.
+
+**Alt+Z**
+Toggle X-Ray mode (see through the mesh: critical for selecting hidden geometry)
+
+**F11**
+Show last render (if you've rendered anything)`,
+      },
+      {
+        title: "Selection on Mac",
+        pythonCode: `import bpy
+
+# Select objects by name
+bpy.data.objects["Cube"].select_set(True)
+bpy.context.view_layer.objects.active = bpy.data.objects["Cube"]
+
+# Deselect all
+bpy.ops.object.select_all(action='DESELECT')
+
+# Select all
+bpy.ops.object.select_all(action='SELECT')
+
+# Select by type
+bpy.ops.object.select_by_type(type='MESH')
+
+# In Edit Mode — select all vertices
+bpy.ops.mesh.select_all(action='SELECT')
+
+# Select edge loops (Alt+Click equivalent — must be in EDGE select mode)
+bpy.ops.mesh.loop_select(extend=False)
+
+# Invert selection
+bpy.ops.mesh.select_all(action='INVERT')
+
+# Box select (programmatic, by location range)
+bpy.ops.mesh.select_random(ratio=0.5)  # random % for procedural selection`,
+        content: `Blender 5.1 defaults to **left-click select** (matches Mac conventions).
+
+**Click**
+Select single item
+**Shift+Click**
+Add/remove from selection
+**Cmd+Click**
+(same as Shift in most contexts)
+**B**
+Box select: drag a rectangle
+**C**
+Circle select: paint with a brush (scroll to resize, right-click to exit)
+**Ctrl+I**
+Invert selection
+**A**
+Select all / deselect all (toggle)
+**Alt+A**
+Deselect all
+
+In Edit Mode, selection works on whichever element type is active:
+**1**
+Vertex select mode
+**2**
+Edge select mode
+**3**
+Face select mode
+**Alt+Click**
+Select an entire edge loop (one of the most important shortcuts in modeling)`,
+      },
+    ],
+  },
+  {
+    id: 3,
     emoji: "🐍",
     title: "bpy Setup & Vibe-Coding",
     tag: "PYTHON + WORKFLOW",
@@ -808,286 +1110,6 @@ print("Scene built. Press F12 to render.")`,
 3. Add \`print(dir(obj))\` anywhere: see every attribute available on the object.
 
 ✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code`,
-      },
-    ],
-  },
-  {
-    id: 3,
-    emoji: "🧭",
-    title: "Interface & Navigation",
-    tag: "MAC TRACKPAD",
-    color: "#5b8dee",
-    intro:
-      "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything: do these first.",
-    quiz: [
-      {
-        q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?",
-        options: [
-          "Two-finger drag",
-          "Three-finger swipe",
-          "Option + drag",
-          "Cmd + drag",
-        ],
-        answer: 2,
-        explanation:
-          "Option+drag emulates the middle mouse button, which Blender uses for orbiting the viewport.",
-      },
-      {
-        q: "You want to run a Blender feature but can't find it in any menu. What's the fastest way?",
-        options: [
-          "Search the Blender documentation online",
-          "Press F3 to open the operator search",
-          "Check Preferences → Add-ons",
-          "Right-click in the viewport",
-        ],
-        answer: 1,
-        explanation:
-          "F3 searches every available operator by name. Type what you want and run it directly: the core vibe-coding shortcut.",
-      },
-      {
-        q: "What does pressing the Period (.) key do in the 3D viewport?",
-        options: [
-          "Opens the decimal input for precise transforms",
-          "Frames the selected object(s) in the viewport",
-          "Toggles orthographic mode",
-          "Opens the pivot point menu",
-        ],
-        answer: 1,
-        explanation:
-          "Period frames/zooms to the selected object. Essential for quickly re-centering your view on what you're working on.",
-      },
-      {
-        q: "What does the Z key open in the 3D viewport?",
-        options: [
-          "The zoom controls",
-          "The undo history",
-          "The shading pie menu (Wireframe, Solid, Material, Rendered)",
-          "The scale tool",
-        ],
-        answer: 2,
-        explanation:
-          "Z opens the shading pie menu: a quick way to switch between how the scene looks without going to the toolbar.",
-      },
-    ],
-    sections: [
-      {
-        title: "First: Configure Blender for Mac Trackpad",
-        pythonCode: `import bpy
-
-# Read/write Blender preferences via Python
-prefs = bpy.context.preferences
-inputs = prefs.inputs
-
-# The three essential Mac trackpad settings
-inputs.use_mouse_emulate_3_button = True   # Option+click = MMB (orbit)
-inputs.use_numpad_as_ndof = False
-inputs.use_emulate_numpad = True           # Number row = numpad views
-
-# Save preferences so they persist
-bpy.ops.wm.save_userpref()`,
-        content: `**Edit → Preferences → Input**: enable these three settings:
-
-1. ✅ **Emulate 3 Button Mouse**: Maps Option+click to middle mouse button (orbit). Essential.
-2. ✅ **Emulate Numpad**: Maps the top number row (1–0) to numpad view shortcuts. Essential if you don't have a numpad.
-3. ✅ **Allow Mouse Selection With Trackpad Gesture** (if shown): gesture-aware selection
-
-Then under the **Trackpad** section (same Preferences page):
-- ✅ **Use Multi-Touch Trackpad**: enables pinch-to-zoom and two-finger pan natively
-
-Save these preferences: **Hamburger menu (☰) → Save Preferences** so they persist across launches.`,
-      },
-      {
-        title: "Viewport Navigation (Trackpad-First)",
-        pythonCode: `import bpy
-
-# Set the viewport to a specific view angle via Python
-# (useful in scripts that set up a scene for the user)
-for area in bpy.context.screen.areas:
-    if area.type == 'VIEW_3D':
-        region = area.spaces[0].region_3d
-        # Look from front (same as Numpad 1)
-        region.view_rotation.identity()
-
-# Frame all objects (same as Home key)
-bpy.ops.view3d.view_all(use_all_regions=False)
-
-# Frame selected object (same as . key)
-bpy.ops.view3d.view_selected()
-
-# Set orthographic vs perspective
-for area in bpy.context.screen.areas:
-    if area.type == 'VIEW_3D':
-        area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
-        content: `Once configured, your primary navigation controls:
-
-**Option+drag**
-Orbit (rotate the view around the scene)
-**Two-finger drag**
-Pan (slide the view left/right/up/down)
-**Pinch (two-finger)**
-Zoom in/out
-**Period (.)**
-Frame the selected object(s): instantly centers view on your selection
-**Home**
-Frame everything in the scene
-
-Keyboard view shortcuts (with Emulate Numpad ON):
-**1**
-Front view (looking down -Y axis)
-**3**
-Right side view
-**7**
-Top view (looking down -Z)
-**Ctrl+1 / 3 / 7**
-Opposite views (Back, Left, Bottom)
-**5**
-Toggle Perspective ↔ Orthographic
-**0**
-Camera view (what your render will see)
-**~ (backtick)**
-View pie menu: access all views at once`,
-      },
-      {
-        title: "Editor Layout & Workspaces",
-        pythonCode: `import bpy
-
-# List all editor types in the current screen
-for area in bpy.context.screen.areas:
-    print(area.type)
-# Common types: VIEW_3D, NODE_EDITOR, PROPERTIES, OUTLINER,
-#   IMAGE_EDITOR, NLA_EDITOR, GRAPH_EDITOR, DOPESHEET_EDITOR
-
-# Change an area to a different editor type
-area = bpy.context.screen.areas[0]
-area.type = 'NODE_EDITOR'
-
-# Access the Shader Editor's node tree for active object
-obj = bpy.context.active_object
-if obj and obj.active_material:
-    tree = obj.active_material.node_tree
-    for node in tree.nodes:
-        print(node.name, node.type)`,
-        content: `Every panel in Blender is an **editor**: any area can be any editor type. Change it via the icon at the top-left corner of any panel.
-
-Most important editors:
-**3D Viewport**
-Your main working area
-**Shader Editor**
-Node-based material building
-**Geometry Node Editor**
-Procedural modeling/generation
-**Compositor**
-Post-process renders with nodes
-**Timeline / Graph Editor / NLA Editor**
-Animation
-**UV Editor**
-UV unwrapping
-**Outliner**
-Scene hierarchy and datablock tree
-**Properties**
-All settings organized by icon
-
-**Workspaces** (tabs along the top bar): Blender ships with Layout, Modeling, Sculpting, Shading, Animation, Rendering, Compositing. Each is a saved editor arrangement. Create your own with the + button.
-
-**Split an editor**: hover over an edge → right-click → Split. Merge: drag a corner.`,
-      },
-      {
-        title: "The Most Useful Navigation Shortcuts",
-        pythonCode: `import bpy
-
-# F3 equivalent: run any operator by its Python ID
-# Find operator IDs by hovering over menu items and reading the tooltip
-bpy.ops.mesh.subdivide(number_cuts=2)
-bpy.ops.object.shade_smooth()
-bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY')
-
-# Toggle X-Ray (Alt+Z) via Python
-for area in bpy.context.screen.areas:
-    if area.type == 'VIEW_3D':
-        area.spaces[0].shading.show_xray = True
-
-# Set shading mode (Z pie menu equivalent)
-area.spaces[0].shading.type = 'SOLID'      # Solid
-area.spaces[0].shading.type = 'MATERIAL'   # Material Preview
-area.spaces[0].shading.type = 'RENDERED'   # Rendered`,
-        content: `**F3**: Operator search. Type any Blender feature by name and run it. The single most powerful shortcut: if you know what you want but not where it lives, F3 finds it.
-
-**Ctrl+Space**
-Maximize the hovered editor (full screen). Press again to restore.
-
-**N**
-Toggle the N-Panel sidebar (Item, Tool, View, and addon panels)
-**T**
-Toggle the left toolbar (tool icons)
-
-**Ctrl+Alt+Q**
-Quad view (four viewports: top, front, right, perspective). Toggle off the same way.
-
-**Z**
-Shading pie menu: Wireframe, Solid, Material Preview, Rendered. Essential for quickly switching how you see the scene.
-
-**Alt+Z**
-Toggle X-Ray mode (see through the mesh: critical for selecting hidden geometry)
-
-**F11**
-Show last render (if you've rendered anything)`,
-      },
-      {
-        title: "Selection on Mac",
-        pythonCode: `import bpy
-
-# Select objects by name
-bpy.data.objects["Cube"].select_set(True)
-bpy.context.view_layer.objects.active = bpy.data.objects["Cube"]
-
-# Deselect all
-bpy.ops.object.select_all(action='DESELECT')
-
-# Select all
-bpy.ops.object.select_all(action='SELECT')
-
-# Select by type
-bpy.ops.object.select_by_type(type='MESH')
-
-# In Edit Mode — select all vertices
-bpy.ops.mesh.select_all(action='SELECT')
-
-# Select edge loops (Alt+Click equivalent — must be in EDGE select mode)
-bpy.ops.mesh.loop_select(extend=False)
-
-# Invert selection
-bpy.ops.mesh.select_all(action='INVERT')
-
-# Box select (programmatic, by location range)
-bpy.ops.mesh.select_random(ratio=0.5)  # random % for procedural selection`,
-        content: `Blender 5.1 defaults to **left-click select** (matches Mac conventions).
-
-**Click**
-Select single item
-**Shift+Click**
-Add/remove from selection
-**Cmd+Click**
-(same as Shift in most contexts)
-**B**
-Box select: drag a rectangle
-**C**
-Circle select: paint with a brush (scroll to resize, right-click to exit)
-**Ctrl+I**
-Invert selection
-**A**
-Select all / deselect all (toggle)
-**Alt+A**
-Deselect all
-
-In Edit Mode, selection works on whichever element type is active:
-**1**
-Vertex select mode
-**2**
-Edge select mode
-**3**
-Face select mode
-**Alt+Click**
-Select an entire edge loop (one of the most important shortcuts in modeling)`,
       },
     ],
   },
