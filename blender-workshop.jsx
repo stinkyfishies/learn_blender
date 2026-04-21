@@ -421,11 +421,11 @@ for obj in scene.objects:
           "Opens the decimal input for precise transforms",
           "Frames the selected object(s) in the viewport",
           "Toggles orthographic mode",
-          "Opens the pivot point menu",
+          "Opens the pivot point pie menu",
         ],
-        answer: 1,
+        answer: 3,
         explanation:
-          "Period frames/zooms to the selected object. Essential for quickly re-centering your view on what you're working on.",
+          "The regular Period key opens the pivot point pie menu (Median Point, Active Element, etc.). Framing the selected object requires Numpad Period, or View → Frame Selected from the viewport header.",
       },
       {
         q: "What does the Z key open in the 3D viewport?",
@@ -482,7 +482,7 @@ for area in bpy.context.screen.areas:
 # Frame all objects (same as Home key)
 bpy.ops.view3d.view_all(use_all_regions=False)
 
-# Frame selected object (same as . key)
+# Frame selected object (same as Numpad . key)
 bpy.ops.view3d.view_selected()
 
 # Set orthographic vs perspective
@@ -499,8 +499,8 @@ Orbit (rotate the view around the scene)
 Pan (slide the view left/right/up/down)
 **Pinch (two-finger)**
 Zoom in/out
-**Period (.)**
-Frame the selected object(s): instantly centers view on your selection
+**Numpad . (or View menu → Frame Selected)**
+Frame the selected object(s): instantly centers view on your selection. Note: the regular Period key opens the pivot point menu instead — you need the numpad period, or use View → Frame Selected from the viewport header menu.
 **Home**
 Frame everything in the scene
 
@@ -4689,7 +4689,7 @@ const quickRefs = [
   { keys: ["0"], desc: "Camera view (Numpad/Emulated)" },
   { keys: ["5"], desc: "Toggle Ortho ↔ Perspective" },
   { keys: ["1 / 3 / 7"], desc: "Front / Right / Top view" },
-  { keys: ["."], desc: "Frame selected object" },
+  { keys: ["Numpad ."], desc: "Frame selected object" },
   { keys: ["2-finger drag"], desc: "Orbit viewport (trackpad)" },
   { keys: ["Shift", "2-finger drag"], desc: "Pan viewport (trackpad)" },
   { keys: ["Pinch"], desc: "Zoom (trackpad)" },
@@ -5995,7 +5995,7 @@ export default function BlenderWorkshop() {
                       { keys: ["2-finger drag"], desc: "Orbit" },
                       { keys: ["Shift", "2-finger drag"], desc: "Pan" },
                       { keys: ["Pinch"], desc: "Zoom" },
-                      { keys: ["."], desc: "Frame selected" },
+                      { keys: ["Numpad ."], desc: "Frame selected" },
                       { keys: ["1 / 3 / 7"], desc: "Front / Right / Top" },
                       { keys: ["5"], desc: "Ortho ↔ Perspective" },
                       { keys: ["0"], desc: "Camera view" },
