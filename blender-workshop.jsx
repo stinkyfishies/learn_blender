@@ -1508,6 +1508,41 @@ Bevel: chamfer edges or vertices. Scroll to add segments.
 Mirror selected across an axis`,
       },
       {
+        title: "Pivot Point: What Rotates Around What",
+        pythonCode: `import bpy
+
+# Set pivot point via Python
+# Options: 'MEDIAN_POINT', 'INDIVIDUAL_ORIGINS', 'ACTIVE_ELEMENT',
+#          'CURSOR', 'BOUNDING_BOX_CENTER'
+bpy.context.scene.tool_settings.transform_pivot_point = 'MEDIAN_POINT'
+
+# Example: scale faces around their own centers (not group center)
+bpy.context.scene.tool_settings.transform_pivot_point = 'INDIVIDUAL_ORIGINS'
+bpy.ops.transform.resize(value=(0.5, 0.5, 0.5))
+
+# Place the 3D cursor (used by CURSOR pivot)
+bpy.ops.view3d.cursor3d()  # places at mouse position
+bpy.context.scene.cursor.location = (0, 0, 2)  # or set directly`,
+        content: `When you rotate (R) or scale (S) a selection, Blender needs a center point to transform around. That's the pivot point. Press Period (.) to open the pivot point pie menu.
+
+**Median Point** (default)
+The average center of everything selected. Rotate three objects and they orbit the midpoint between them.
+
+**Individual Origins**
+Each object, face, or vertex group rotates and scales around its own center. Scaling multiple faces inward with Individual Origins shrinks each one separately. With Median Point, they'd all collapse toward a shared center.
+
+**Active Element**
+Transforms around the last-clicked item in your selection (highlighted brighter than the rest).
+
+**3D Cursor**
+Transforms around the red/white cursor in the viewport. Place it anywhere with Shift+Right-click, then use it as a custom pivot. Useful for rotating something around a specific point in space.
+
+**Bounding Box Center**
+Center of the invisible box that fits around your entire selection.
+
+For most work, leave it on Median Point. Switch to Individual Origins when you want things to transform independently rather than as a group.`,
+      },
+      {
         title: "Topology Concepts That Matter",
         pythonCode: `import bpy
 import bmesh
