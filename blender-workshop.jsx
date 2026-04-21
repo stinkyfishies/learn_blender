@@ -373,7 +373,7 @@ for obj in scene.objects:
 
 1. Find the **Outliner** (top-right corner of the default layout): a tree of every object in your scene. Identify which Collections exist and which Objects are inside them.
 2. Click an object, then check the **Properties panel**. What Modifiers does it have? What Materials?
-3. Press **Tab** to enter Edit Mode on that object's mesh. Press **Tab** again to return to Object Mode.
+3. Click an object to select it (it should have an orange outline). Hover your mouse over the **3D Viewport** (the large center area), then press **Tab**. This toggles into Edit Mode, where you see the raw vertices, edges, and faces. Press **Tab** again to return to Object Mode. Tab only works when your cursor is over the 3D Viewport and an object is selected.
 4. Press **Ctrl+Tab** to browse through available modes. Notice how the toolbar changes with each one.
 5. Press **N** to open the sidebar. Look at the Item tab to see the exact location, rotation, and scale.
 6. Click through the icons in the Properties Editor. Find the Modifier stack and the Material slots.
