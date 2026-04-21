@@ -501,7 +501,7 @@ Pan (slide the view left/right/up/down)
 Zoom in/out
 **Numpad . (or View menu → Frame Selected)**
 Frame the selected object(s): instantly centers view on your selection. Note: the regular Period key opens the pivot point menu instead. You need the numpad period, or use View → Frame Selected from the viewport header menu.
-**Home**
+**Home** (Fn+Left Arrow on Mac laptop)
 Frame everything in the scene
 
 Keyboard view shortcuts (with Emulate Numpad ON):
@@ -517,7 +517,7 @@ Opposite views (Back, Left, Bottom)
 Toggle Perspective ↔ Orthographic
 **0**
 Camera view (what your render will see)
-**~ (backtick)**
+**` (backtick)**
 View pie menu: access all views at once`,
       },
       {
@@ -6034,7 +6034,7 @@ export default function BlenderWorkshop() {
                       { keys: ["1 / 3 / 7"], desc: "Front / Right / Top" },
                       { keys: ["5"], desc: "Ortho ↔ Perspective" },
                       { keys: ["0"], desc: "Camera view" },
-                      { keys: ["~"], desc: "View pie menu" },
+                      { keys: ["`"], desc: "View pie menu" },
                       { keys: ["Z"], desc: "Shading pie menu" },
                       { keys: ["Alt", "Z"], desc: "X-Ray toggle" },
                     ],
