@@ -5258,8 +5258,8 @@ export default function BlenderWorkshop() {
       desc: "Model, light, and render compelling 3D images. No animation required.",
       modules: [
         { idx: 0, note: "Foundation" },
-        { idx: 1, note: "Python setup" },
-        { idx: 2, note: "Navigation basics" },
+        { idx: 1, note: "Navigation basics" },
+        { idx: 2, note: "Python setup" },
         { idx: 3, note: "Building geometry" },
         { idx: 4, note: "Editing topology" },
         { idx: 5, note: "Non-destructive ops" },
@@ -5274,8 +5274,8 @@ export default function BlenderWorkshop() {
       desc: "Bring scenes to life with keyframes, physics, and procedural motion.",
       modules: [
         { idx: 0, note: "Foundation" },
-        { idx: 1, note: "Python setup" },
-        { idx: 2, note: "Navigation" },
+        { idx: 1, note: "Navigation" },
+        { idx: 2, note: "Python setup" },
         { idx: 3, note: "Geometry" },
         { idx: 4, note: "Topology" },
         { idx: 5, note: "Modifiers" },
@@ -5291,7 +5291,7 @@ export default function BlenderWorkshop() {
       desc: "Use Geometry Nodes and shaders to generate complex outputs from simple rules.",
       modules: [
         { idx: 0, note: "Foundation" },
-        { idx: 1, note: "Python setup" },
+        { idx: 2, note: "Python setup" },
         { idx: 5, note: "Modifiers" },
         { idx: 6, note: "Geometry Nodes: core tool" },
         { idx: 7, note: "Shading" },
@@ -5305,7 +5305,7 @@ export default function BlenderWorkshop() {
       desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
       modules: [
         { idx: 0, note: "Mental model: start here" },
-        { idx: 1, note: "bpy environment: do this second" },
+        { idx: 2, note: "bpy environment: do this second" },
         { idx: 5, note: "Modifiers via code" },
         { idx: 6, note: "Geometry Nodes via code" },
         { idx: 7, note: "Materials via code" },
