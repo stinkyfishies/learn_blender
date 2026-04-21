@@ -371,7 +371,7 @@ for obj in scene.objects:
     print(f"  {obj.name} [{obj.type}] | mods: {mods} | mats: {mats}")`,
         content: `Open any Blender scene (the default startup or a downloaded .blend file) and map it to what you now know.
 
-1. Open the **Outliner**. Identify which Collections exist and which Objects are inside them.
+1. Find the **Outliner** (top-right corner of the default layout): a tree of every object in your scene. Identify which Collections exist and which Objects are inside them.
 2. Click an object, then check the **Properties panel**. What Modifiers does it have? What Materials?
 3. Press **Tab** to enter Edit Mode on that object's mesh. Press **Tab** again to return to Object Mode.
 4. Press **Ctrl+Tab** to browse through available modes. Notice how the toolbar changes with each one.
