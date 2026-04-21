@@ -517,7 +517,7 @@ Opposite views (Back, Left, Bottom)
 Toggle Perspective ↔ Orthographic
 **0**
 Camera view (what your render will see)
-**` (backtick)**
+**\` (backtick)**
 View pie menu: access all views at once`,
       },
       {
