@@ -392,16 +392,16 @@ for obj in scene.objects:
       "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything: do these first.",
     quiz: [
       {
-        q: "After enabling 'Emulate 3 Button Mouse', what gesture replaces middle-mouse orbit?",
+        q: "On a Mac trackpad, what gesture orbits the 3D viewport in Blender?",
         options: [
-          "Two-finger drag",
-          "Three-finger swipe",
           "Option + drag",
+          "Three-finger swipe",
+          "Two-finger drag",
           "Cmd + drag",
         ],
         answer: 2,
         explanation:
-          "Option+drag emulates the middle mouse button, which Blender uses for orbiting the viewport.",
+          "Two-finger drag orbits the viewport. Shift+two-finger drag pans, and pinch zooms. Option+drag maps to middle mouse but two-finger drag is the natural orbit gesture on Mac.",
       },
       {
         q: "You want to run a Blender feature but can't find it in any menu. What's the fastest way?",
@@ -463,7 +463,7 @@ bpy.ops.wm.save_userpref()`,
 3. ✅ **Allow Mouse Selection With Trackpad Gesture** (if shown): gesture-aware selection
 
 Then under the **Trackpad** section (same Preferences page):
-- ✅ **Use Multi-Touch Trackpad**: enables pinch-to-zoom and two-finger pan natively
+- ✅ **Use Multi-Touch Trackpad**: enables pinch-to-zoom, two-finger orbit, and Shift+two-finger pan natively
 
 Save these preferences: **Hamburger menu (☰) → Save Preferences** so they persist across launches.`,
       },
@@ -491,9 +491,9 @@ for area in bpy.context.screen.areas:
         area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
         content: `Once configured, your primary navigation controls:
 
-**Option+drag**
-Orbit (rotate the view around the scene)
 **Two-finger drag**
+Orbit (rotate the view around the scene)
+**Shift+two-finger drag**
 Pan (slide the view left/right/up/down)
 **Pinch (two-finger)**
 Zoom in/out
@@ -4688,7 +4688,8 @@ const quickRefs = [
   { keys: ["5"], desc: "Toggle Ortho ↔ Perspective" },
   { keys: ["1 / 3 / 7"], desc: "Front / Right / Top view" },
   { keys: ["."], desc: "Frame selected object" },
-  { keys: ["Option", "drag"], desc: "Orbit viewport (trackpad)" },
+  { keys: ["2-finger drag"], desc: "Orbit viewport (trackpad)" },
+  { keys: ["Shift", "2-finger drag"], desc: "Pan viewport (trackpad)" },
   { keys: ["Pinch"], desc: "Zoom (trackpad)" },
   { keys: ["2-finger drag"], desc: "Pan viewport (trackpad)" },
   { keys: ["Z"], desc: "Shading pie menu" },
@@ -5966,7 +5967,7 @@ export default function BlenderWorkshop() {
                   <strong style={{ color: "#e8e8f0" }}>
                     Emulate 3 Button Mouse
                   </strong>{" "}
-                  → Option+drag = orbit
+                  → Option+drag = middle mouse
                   <br />✅{" "}
                   <strong style={{ color: "#e8e8f0" }}>Emulate Numpad</strong> →
                   number row = view shortcuts
@@ -5974,7 +5975,7 @@ export default function BlenderWorkshop() {
                   <strong style={{ color: "#e8e8f0" }}>
                     Use Multi-Touch Trackpad
                   </strong>{" "}
-                  → pinch = zoom, 2-finger drag = pan
+                  → 2-finger drag = orbit, Shift+2-finger = pan, pinch = zoom
                 </div>
               </div>
 
@@ -5989,8 +5990,8 @@ export default function BlenderWorkshop() {
                   {
                     title: "Viewport (Trackpad)",
                     keys: [
-                      { keys: ["Option", "drag"], desc: "Orbit" },
-                      { keys: ["2-finger drag"], desc: "Pan" },
+                      { keys: ["2-finger drag"], desc: "Orbit" },
+                      { keys: ["Shift", "2-finger drag"], desc: "Pan" },
                       { keys: ["Pinch"], desc: "Zoom" },
                       { keys: ["."], desc: "Frame selected" },
                       { keys: ["1 / 3 / 7"], desc: "Front / Right / Top" },
