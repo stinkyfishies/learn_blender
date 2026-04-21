@@ -376,7 +376,7 @@ for obj in scene.objects:
 3. Click the **cube** to select it (orange outline). Tab only works on mesh objects — cameras and lights have no geometry, so Tab does nothing on them. Hover your cursor over the **3D Viewport**, then press **Tab**. You'll see the raw vertices, edges, and faces of the mesh. Press **Tab** again to return to Object Mode.
 4. Press **Ctrl+Tab** to browse through available modes. Notice how the toolbar changes with each one.
 5. Press **N** to open the sidebar. Look at the Item tab to see the exact location, rotation, and scale.
-6. Click through the icons in the Properties Editor. Find the Modifier stack and the Material slots.
+6. Select the cube, then look at the **Properties Editor** (bottom-right panel, the tall one with icon tabs on the side). Click the **wrench icon** — that's the Modifier stack. Click the **sphere icon** (looks like a marble) — that's the Material tab where material slots live. The default cube has no modifiers and no material assigned, so both will be mostly empty, but that's where you'd add them.
 
 ✅ Goal: Be able to answer "what is this scene made of?" for any .blend file`,
       },
