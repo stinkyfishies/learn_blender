@@ -675,7 +675,9 @@ Select all / deselect all (toggle)
 **Alt+A**
 Deselect all
 
-In Edit Mode, selection works on whichever element type is active:
+In Edit Mode, selection works on whichever element type is active. With Emulate Numpad on, 1/2/3 are taken by view shortcuts — use the three icons in the 3D Viewport header bar instead (left side, looks like a vertex/edge/face icon set). Shift+click an icon to enable multiple modes at once.
+
+If you turn Emulate Numpad off, the number keys work as:
 **1**
 Vertex select mode
 **2**
