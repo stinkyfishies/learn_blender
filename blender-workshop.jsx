@@ -572,19 +572,20 @@ The thin strip at the very bottom of the screen. Shows context-sensitive hints f
 **Splitting and joining editors**
 To split: hover over the corner of any editor until the cursor becomes a crosshair, then drag. To join: drag from one editor's corner into the neighbor you want to absorb. You can also right-click any border between editors for split/join options.
 
-Most important editor types:
+To open any of these: click the editor type icon in the top-left corner of any existing editor, then pick from the dropdown. You can also use the workspace tabs at the top — Shading opens a layout with the Shader Editor, Animation opens Timeline/Graph/NLA, etc.
+
 **3D Viewport**
-Main working area. Most of your time is here.
+Main working area. Present in every workspace. The large center panel in the default layout.
 **Shader Editor**
-Node-based material building.
+Node-based material building. Switch to it via the Shading workspace tab, or change any editor's type to Shader Editor. Only shows a node tree when an object with a material is selected.
 **Geometry Node Editor**
-Procedural modeling and generation.
+Procedural modeling and generation. Change any editor to this type, or add a Geometry Nodes modifier to an object — the modifier panel will offer to open it.
 **Compositor**
-Node-based post-processing of renders.
+Node-based post-processing of renders. Found in the Compositing workspace tab. Only active when Use Nodes is checked in its header.
 **Timeline / Graph Editor / NLA Editor**
-Animation, in order of complexity.
+Animation editors, in order of complexity. All visible in the Animation workspace tab stacked vertically.
 **UV Editor**
-UV unwrapping for texture mapping.`,
+UV unwrapping for texture mapping. Switch to it in the UV Editing workspace tab. Only shows UVs when in Edit Mode with faces selected.`,
       },
       {
         title: "The Most Useful Navigation Shortcuts",
