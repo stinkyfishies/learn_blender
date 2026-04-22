@@ -577,15 +577,15 @@ To open any of these: click the editor type icon in the top-left corner of any e
 **3D Viewport**
 Main working area. Present in every workspace. The large center panel in the default layout.
 **Shader Editor**
-Node-based material building. Switch to it via the Shading workspace tab, or change any editor's type to Shader Editor. Only shows a node tree when an object with a material is selected.
+Where you build materials by wiring boxes together. Each box (node) does one thing: set a color, control roughness, add a texture. You connect outputs into inputs to describe how a surface looks. Example: plug a Noise Texture node into the Roughness input of a Principled BSDF and the roughness varies across the surface without painting anything. Open via the Shading workspace tab. Only shows content when an object with a material is selected.
 **Geometry Node Editor**
-Procedural modeling and generation. Change any editor to this type, or add a Geometry Nodes modifier to an object — the modifier panel will offer to open it.
+Where you create or modify geometry using logic instead of pushing vertices by hand. You build a graph of operations: "take this mesh, scatter 500 copies of another object on its surface, randomize their rotation and scale." Change a number, the result updates instantly. Nothing is destructive. Open by adding a Geometry Nodes modifier to an object, or switching any editor to this type.
 **Compositor**
-Node-based post-processing of renders. Found in the Compositing workspace tab. Only active when Use Nodes is checked in its header.
+Where you process the rendered image after Blender finishes rendering it. Add color grading, glow, depth of field blur, or combine multiple render passes. Works on the final pixels, not the 3D scene. Found in the Compositing workspace tab. Only active when Use Nodes is checked in its header.
 **Timeline / Graph Editor / NLA Editor**
-Animation editors, in order of complexity. All visible in the Animation workspace tab stacked vertically.
+Animation editors. Timeline shows keyframes on a simple strip. Graph Editor shows the curves between keyframes so you can control how motion accelerates and decelerates. NLA Editor layers and mixes multiple animations. All three are in the Animation workspace tab.
 **UV Editor**
-UV unwrapping for texture mapping. Switch to it in the UV Editing workspace tab. Only shows UVs when in Edit Mode with faces selected.`,
+When you apply a texture image to a 3D object, Blender needs to know which part of the image maps to which face. UV unwrapping is the process of flattening the 3D surface into a 2D layout that lines up with the texture. The UV Editor is where you see and adjust that layout. Only shows content when in Edit Mode with faces selected. Found in the UV Editing workspace tab.`,
       },
       {
         title: "The Most Useful Navigation Shortcuts",
