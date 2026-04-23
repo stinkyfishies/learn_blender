@@ -967,45 +967,59 @@ bpy.ops.render.render(animation=True)     # render full animation`,
 This is how automated 3D content generation works at scale: parametric scene scripts + headless renders, driven from any external system.`,
       },
       {
-        title: "VS Code as an External Editor",
-        pythonCode: `# Install the "Blender Development" extension by Jacques Lucke in VS Code
+        title: "External Editor: VS Code or Zed",
+        pythonCode: `# VS Code: install the "Blender Development" extension by Jacques Lucke
 # It connects VS Code directly to a running Blender instance
 
 # In VS Code: Cmd+Shift+P → "Blender: Start" → picks a Blender executable
 # Then: Cmd+Shift+P → "Blender: Run Script" → runs current file in Blender
 
-# The extension also provides:
-# - bpy auto-complete in VS Code (via fake-bpy-module)
-# - Real-time error feedback
-# - Add-on development with hot-reload
-
-# Install fake-bpy-module for auto-complete in VS Code (without running Blender):
+# Install fake-bpy-module for bpy auto-complete in any editor:
 # pip install fake-bpy-module-latest
 
-# In your project: create a .vscode/settings.json
+# VS Code: create .vscode/settings.json
 # {
 #   "python.analysis.extraPaths": ["path/to/fake-bpy-module"]
 # }
 
-# Now VS Code knows the full bpy type hierarchy and auto-completes:
+# Zed: add to settings.json
+# {
+#   "lsp": {
+#     "pyright": {
+#       "settings": {
+#         "python": { "analysis": { "extraPaths": ["path/to/fake-bpy-module"] } }
+#       }
+#     }
+#   }
+# }
+
 import bpy
-obj = bpy.context.active_object  # VS Code knows this is bpy.types.Object
+obj = bpy.context.active_object  # editor knows this is bpy.types.Object
 obj.modifiers.new(  # → auto-completes name, type parameters`,
-        content: `For serious scripting, VS Code gives you a much better experience than Blender's built-in Text Editor.
+        content: `For serious scripting, any modern editor beats Blender's built-in Text Editor. Two good options:
 
-**Setup:**
-1. Install the **Blender Development** extension in VS Code (by Jacques Lucke)
-2. Install **fake-bpy-module**: \`pip install fake-bpy-module-latest\`. This gives VS Code full bpy type info and auto-complete without needing Blender running.
-3. Connect VS Code to a running Blender: **Cmd+Shift+P → Blender: Start**
-4. Run any script into Blender: **Cmd+Shift+P → Blender: Run Script**
+**VS Code**
+The most established option with dedicated Blender tooling. Install the **Blender Development** extension by Jacques Lucke — it connects VS Code directly to a running Blender instance so you can run scripts with one command.
 
-**What this gets you:**
-- Full bpy auto-complete in VS Code (the entire API, typed)
-- Inline documentation on hover for any bpy class or method
-- Real-time error highlighting
-- Edit the script in VS Code, run it in Blender instantly: much faster iteration than copy-pasting into Blender's Text Editor
+Setup:
+1. Install the Blender Development extension in VS Code
+2. Install fake-bpy-module: \`pip install fake-bpy-module-latest\` for full bpy auto-complete without Blender running
+3. Connect to Blender: Cmd+Shift+P → Blender: Start
+4. Run scripts: Cmd+Shift+P → Blender: Run Script
 
-**For vibe-coding:** VS Code is where you receive the AI-generated script, review it, make small edits, then run it into Blender with one command. The auto-complete also helps you understand what the generated code is doing.`,
+**Zed**
+A faster, newer editor with native AI integration (Claude, GPT) built in. No dedicated Blender extension yet, but fake-bpy-module works via Pyright LSP for auto-complete. For a vibe-coding workflow where you're talking to an AI inside the editor, Zed's native AI assistant is a smoother experience than VS Code's Copilot/extensions.
+
+Setup:
+1. Install Zed (zed.dev)
+2. Install fake-bpy-module: \`pip install fake-bpy-module-latest\`
+3. Configure Pyright in Zed settings to pick up the fake-bpy-module path
+4. Run scripts into Blender manually via terminal: \`blender -b --python script.py\`
+
+**Which to choose:**
+VS Code if you want the tightest Blender integration and one-click script running. Zed if you want a faster editor with better native AI and don't mind running scripts from the terminal.
+
+Both give you full bpy auto-complete and are vastly better than Blender's built-in editor for anything beyond a few lines.`,
       },
       {
         title: "The Vibe-Coding Loop",
