@@ -787,7 +787,7 @@ cd my_blender_project
 \`\`\`
 
 **2. Git versioning**
-Non-negotiable. This is code. Every time you have a working script, commit it. You will break things and you will want to go back. Setup takes two minutes:
+Non-negotiable. This is code. Every time you have a working script, commit it. You will break things and you will want to go back. Setup takes two minutes. And if your editor is running an AI agent (Claude Code, Cursor, Zed with an agent), you can just ask it to set up git, write the .gitignore, and make the first commit. The agent handles the terminal commands.
 
 \`\`\`
 git init
