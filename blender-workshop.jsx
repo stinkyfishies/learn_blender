@@ -1130,6 +1130,7 @@ Both work well. Open your script from inside Blender's Text Editor once to link 
 
 Both give you full bpy auto-complete and are vastly better than Blender's built-in editor for anything beyond a few lines.`,
       },
+      {
         title: "Version Control for Vibe-Coders (Git Intro)",
         pythonCode: `# Your project folder structure
 my_blender_project/
