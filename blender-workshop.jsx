@@ -696,7 +696,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
     intro:
-      "If the idea of generating code feels overwhelming, stop. You don't write the code — you describe what you want and an AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. That's the whole loop. This module breaks it into four parts: your workspace, version control, your editor, and the run-refresh cycle.",
+      "If the idea of generating code feels overwhelming, stop. You don't write the code. You describe what you want and an AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. That's the whole loop. This module breaks it into four parts: your workspace, version control, your editor, and the run-refresh cycle.",
     quiz: [
       {
         q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",
@@ -779,7 +779,7 @@ git commit -m "init project"
         content: `You don't need to learn Python. You need four things in place, then the loop runs itself.
 
 **1. A workspace directory**
-A folder on your machine for this project. Everything lives here: your scripts, your .gitignore, nothing else. No .blend files — those are generated output, not source.
+A folder on your machine for this project. Everything lives here: your scripts, your .gitignore, nothing else. No .blend files. Those are generated output, not source.
 
 \`\`\`
 mkdir my_blender_project
@@ -803,12 +803,12 @@ renders/
 \`\`\`
 
 **3. A code editor (or Claude Code)**
-VS Code or Zed — both covered in this module. Or use Claude Code directly, which writes and runs scripts in a terminal. You don't type Python. You describe what you want. The editor is where the AI delivers the script and where you paste it.
+VS Code or Zed (both covered in this module). Or use Claude Code directly, which writes and runs scripts in a terminal. You don't type Python. You describe what you want. The editor is where the AI delivers the script and where you paste it.
 
 **4. The run-refresh loop**
 Ask AI for a script. Paste it into Blender's Text Editor and press Alt+P to run it, or run it from the terminal headlessly. See what happens. If it errors, copy the error back to the AI. If it works, commit it. Repeat.
 
-That's everything. The rest of this module covers each piece in more depth — but if you have these four things set up, you can start today.`,
+That's everything. The rest of this module covers each piece in more depth. If you have these four things set up, you can start today.`,
       },
       {
         title: "The Vibe-Coding Loop",
@@ -1109,7 +1109,7 @@ obj.modifiers.new(  # → auto-completes name, type parameters`,
         content: `For serious scripting, any modern editor beats Blender's built-in Text Editor. Two good options:
 
 **VS Code**
-The most established option with dedicated Blender tooling. Install the **Blender Development** extension by Jacques Lucke — it connects VS Code directly to a running Blender instance so you can run scripts with one command.
+The most established option with dedicated Blender tooling. Install the **Blender Development** extension by Jacques Lucke. It connects VS Code directly to a running Blender instance so you can run scripts with one command.
 
 Setup:
 1. Install the Blender Development extension in VS Code
@@ -1268,11 +1268,11 @@ print("Scene built. Press F12 to render.")`,
 
 ---
 
-You now have everything you need to start vibe-coding in Blender. Seriously — stop here, open a new chat with an AI, and try building something. Describe a scene, ask for a bpy script, run it, iterate.
+You now have everything you need to start vibe-coding in Blender. Seriously, stop here, open a new chat with an AI, and try building something. Describe a scene, ask for a bpy script, run it, iterate.
 
 The modules that follow are not prerequisites. They are vocabulary. The more of them you read, the better your prompts get, the more precisely you can describe what you want, and the less back-and-forth you need with the AI. But none of them unlock the ability to start. You can already start.
 
-Come back when you hit a wall — when the AI keeps getting something wrong and you can't explain why, or when you want to understand what the generated code is actually doing. That's when the next module earns its place.`,
+Come back when you hit a wall: when the AI keeps getting something wrong and you can't explain why, or when you want to understand what the generated code is actually doing. That's when the next module earns its place.`,
       },
     ],
   },
