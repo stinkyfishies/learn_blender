@@ -696,7 +696,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
     intro:
-      "Blender has a full Python API called bpy: every action you take in the UI has a Python equivalent. This module covers how to set up the environment, write and run scripts, debug them, and how this directly enables a vibe-coding workflow where you prompt an AI to generate Blender scripts.",
+      "If the idea of generating code feels overwhelming, stop. You don't write the code — you describe what you want and an AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. That's the whole loop. This module breaks it into four parts: your workspace, version control, your editor, and the run-refresh cycle.",
     quiz: [
       {
         q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",
@@ -749,6 +749,68 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
     ],
     sections: [
       {
+        title: "What You Actually Need to Get Started",
+        pythonCode: `# The vibe-coding setup in one place:
+
+# 1. Workspace directory
+mkdir my_blender_project
+cd my_blender_project
+
+# 2. Git versioning
+git init
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+# Create a .gitignore
+echo "*.blend" >> .gitignore
+echo "*.blend1" >> .gitignore
+echo "renders/" >> .gitignore
+git add .gitignore
+git commit -m "init project"
+
+# 3. Your first script (AI writes this for you)
+# scene.py lives here — this is what you version control
+
+# 4. Run it into Blender
+# Option A: from terminal
+# /Applications/Blender.app/Contents/MacOS/Blender -b --python scene.py
+
+# Option B: paste into Blender's Text Editor → Alt+P to run`,
+        content: `You don't need to learn Python. You need four things in place, then the loop runs itself.
+
+**1. A workspace directory**
+A folder on your machine for this project. Everything lives here: your scripts, your .gitignore, nothing else. No .blend files — those are generated output, not source.
+
+\`\`\`
+mkdir my_blender_project
+cd my_blender_project
+\`\`\`
+
+**2. Git versioning**
+Non-negotiable. This is code. Every time you have a working script, commit it. You will break things and you will want to go back. Setup takes two minutes:
+
+\`\`\`
+git init
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+\`\`\`
+
+Then create a \`.gitignore\` file in the folder with these lines:
+\`\`\`
+*.blend
+*.blend1
+renders/
+\`\`\`
+
+**3. A code editor (or Claude Code)**
+VS Code or Zed — both covered in this module. Or use Claude Code directly, which writes and runs scripts in a terminal. You don't type Python. You describe what you want. The editor is where the AI delivers the script and where you paste it.
+
+**4. The run-refresh loop**
+Ask AI for a script. Paste it into Blender's Text Editor and press Alt+P to run it, or run it from the terminal headlessly. See what happens. If it errors, copy the error back to the AI. If it works, commit it. Repeat.
+
+That's everything. The rest of this module covers each piece in more depth — but if you have these four things set up, you can start today.`,
+      },
+      {
         title: "Blender's Python Environment",
         pythonCode: `# Blender ships with its own Python interpreter: you don't install anything.
 # Access it from: Scripting workspace (top workspace tabs)
@@ -759,18 +821,18 @@ import sys
 # See which Python version Blender is running
 print(sys.version)
 
-# bpy is always available — no import needed in the Python Console,
+# bpy is always available in the Python Console,
 # but you do need 'import bpy' at the top of scripts in the Text Editor.
 
 # The three main bpy namespaces you'll use constantly:
 bpy.context   # what's currently selected/active in the UI
 bpy.data      # all datablocks in the .blend file (objects, meshes, materials, etc.)
-bpy.ops       # operators — the same actions as menu items and shortcuts
+bpy.ops       # operators: the same actions as menu items and shortcuts
 
 # Example: what is currently selected?
 print(bpy.context.active_object)
 print(bpy.context.selected_objects)`,
-        content: `Blender ships with a **built-in Python 3 interpreter**: no separate installation required. The bpy module is always available and gives you programmatic access to everything in Blender.
+        content: `Blender ships with a built-in Python 3 interpreter: no separate installation required. The bpy module is always available and gives you programmatic access to everything in Blender.
 
 The three namespaces you'll use constantly:
 **bpy.context**
