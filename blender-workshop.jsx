@@ -373,10 +373,10 @@ for obj in scene.objects:
 
 1. Find the **Outliner** (top-right corner of the default layout): a tree of every object in your scene. Identify which Collections exist and which Objects are inside them.
 2. Click an object, then check the **Properties panel**. What Modifiers does it have? What Materials?
-3. Click the **cube** to select it (orange outline). Tab only works on mesh objects — cameras and lights have no geometry, so Tab does nothing on them. Hover your cursor over the **3D Viewport**, then press **Tab**. You'll see the raw vertices, edges, and faces of the mesh. Press **Tab** again to return to Object Mode.
+3. Click the **cube** to select it (orange outline). Tab only works on mesh objects. Cameras and lights have no geometry, so Tab does nothing on them. Hover your cursor over the **3D Viewport**, then press **Tab**. You'll see the raw vertices, edges, and faces of the mesh. Press **Tab** again to return to Object Mode.
 4. Press **Ctrl+Tab** to browse through available modes. Notice how the toolbar changes with each one.
 5. Press **N** to open the sidebar. Look at the Item tab to see the exact location, rotation, and scale.
-6. Select the cube, then look at the **Properties Editor** (bottom-right panel, the tall one with icon tabs on the side). Click the **wrench icon** — that's the Modifier stack. Click the **sphere icon** (looks like a marble) — that's the Material tab where material slots live. The default cube has no modifiers and no material assigned, so both will be mostly empty, but that's where you'd add them.
+6. Select the cube, then look at the **Properties Editor** (bottom-right panel, the tall one with icon tabs on the side). Click the **wrench icon**: that's the Modifier stack. Click the **sphere icon** (looks like a marble): that's the Material tab where material slots live. The default cube has no modifiers and no material assigned, so both will be mostly empty, but that's where you'd add them.
 
 ✅ Goal: Be able to answer "what is this scene made of?" for any .blend file`,
       },
@@ -549,7 +549,7 @@ The very top strip: Blender's application menus (File, Edit, Render, Window, Hel
 The labeled tabs across the top bar (Layout, Modeling, Sculpting, Shading, Animation, Rendering, Compositing). Each is a saved arrangement of editors. Add your own with the + tab.
 
 **Editors**
-Every panel in Blender is an editor. Any area can be any editor type — change it by clicking the icon in the top-left corner of that area. You can have as many editors open as you want by splitting areas.
+Every panel in Blender is an editor. Any area can be any editor type. Change it by clicking the icon in the top-left corner of that area. You can have as many editors open as you want by splitting areas.
 
 **Header**
 The bar at the top of each individual editor. Contains the editor type selector (the icon), mode selector (Object Mode / Edit Mode / etc.), and editor-specific menus and controls. Some editors show it at the bottom instead.
@@ -572,7 +572,7 @@ The thin strip at the very bottom of the screen. Shows context-sensitive hints f
 **Splitting and joining editors**
 To split: hover over the corner of any editor until the cursor becomes a crosshair, then drag. To join: drag from one editor's corner into the neighbor you want to absorb. You can also right-click any border between editors for split/join options.
 
-To open any of these: click the editor type icon in the top-left corner of any existing editor, then pick from the dropdown. You can also use the workspace tabs at the top — Shading opens a layout with the Shader Editor, Animation opens Timeline/Graph/NLA, etc.
+To open any of these: click the editor type icon in the top-left corner of any existing editor, then pick from the dropdown. You can also use the workspace tabs at the top: Shading opens a layout with the Shader Editor, Animation opens Timeline/Graph/NLA, etc.
 
 **3D Viewport**
 Main working area. Present in every workspace. The large center panel in the default layout.
@@ -675,7 +675,7 @@ Select all / deselect all (toggle)
 **Alt+A**
 Deselect all
 
-In Edit Mode, selection works on whichever element type is active. With Emulate Numpad on, 1/2/3 are taken by view shortcuts — use the three icons in the 3D Viewport header bar instead (left side, looks like a vertex/edge/face icon set). Shift+click an icon to enable multiple modes at once.
+In Edit Mode, selection works on whichever element type is active. With Emulate Numpad on, 1/2/3 are taken by view shortcuts. Use the three icons in the 3D Viewport header bar instead (left side, looks like a vertex/edge/face icon set). Shift+click an icon to enable multiple modes at once.
 
 If you turn Emulate Numpad off, the number keys work as:
 **1**
@@ -1074,13 +1074,13 @@ __pycache__/
 # You version the script, not the .blend.
 # Anyone who clones your repo can reproduce the scene by running:
 # blender -b --python scene_builder.py`,
-        content: `If you already know git, skip this section. If you don't, read it — vibe-coding without version control means every working state you leave behind is gone the moment you change something.
+        content: `If you already know git, skip this section. If you don't, read it. Vibe-coding without version control means every working state you leave behind is gone the moment you change something.
 
 **What git is:**
 A time machine for your files. Every time you commit, git takes a snapshot. You can go back to any snapshot, see what changed between them, and work on multiple versions simultaneously. It's free, runs locally, and the files live on your machine.
 
 **Why it matters for vibe-coding Blender:**
-Your Python scripts are the source of truth — not the .blend file. The .blend is generated output (like a compiled binary in software). You version the script, gitignore the .blend, and reproduce the scene by running the script. This gives you a complete, readable history of every scene you've built.
+Your Python scripts are the source of truth, not the .blend file. The .blend is generated output (like a compiled binary in software). You version the script, gitignore the .blend, and reproduce the scene by running the script. This gives you a complete, readable history of every scene you've built.
 
 **One-time setup:**
 \`\`\`
@@ -1093,7 +1093,7 @@ git config --global user.email "you@example.com"
 git init              # start tracking this folder
 \`\`\`
 
-**The daily workflow — three commands:**
+**The daily workflow: three commands**
 \`\`\`
 git add script.py     # stage the file (tell git you want to snapshot it)
 git commit -m "add procedural terrain with noise displacement"   # snapshot it
@@ -1123,7 +1123,7 @@ git checkout main            # switch back to main
 Branches let you explore a direction without affecting your stable working version. If the experiment works, merge it back. If it doesn't, discard the branch.
 
 **What to put on GitHub:**
-Create a free account at github.com, create a repository, and push your scripts there. This gives you an offsite backup and a URL you can share — someone else can clone your repo and run your scene script on their machine.
+Create a free account at github.com, create a repository, and push your scripts there. This gives you an offsite backup and a URL you can share. Someone else can clone your repo and run your scene script on their machine.
 
 **The commit message discipline:**
 Write messages that describe what the script now produces, not what you did. "add rocky terrain with Musgrave displacement" is useful. "update script" is not. Future you will thank present you.`,
@@ -1260,7 +1260,7 @@ for mod in addon_utils.modules():
 Adds essential shortcuts to the Shader Editor and Geometry Node Editor. Without it, connecting nodes requires dragging every wire manually. With it: Ctrl+Shift+Click any node to preview its output, Ctrl+T to instantly add a texture coordinate setup, Alt+RMB to cut connections. Enable this before touching materials.
 
 **Screencast Keys**
-Displays your keyboard and mouse inputs on screen as you work. Useful when recording videos so viewers can follow along. Also useful when learning — you can see what shortcuts you're actually pressing.
+Displays your keyboard and mouse inputs on screen as you work. Useful when recording videos so viewers can follow along. Also useful when learning: you can see what shortcuts you're actually pressing.
 
 **LoopTools**
 Adds extra mesh editing operations: relax a loop of vertices into a smooth curve, space them evenly, flatten a selection to a plane. Small but frequently useful during modeling.
@@ -1286,7 +1286,7 @@ for mod in addon_utils.modules():
 **How to use it:**
 1. Open **Edit → Preferences → Get Extensions**
 2. Search for what you want
-3. Click Install — done
+3. Click Install. Done.
 
 Extensions are sandboxed and versioned, which means they update cleanly and are less likely to break between Blender versions than the old add-on system.
 
@@ -1308,13 +1308,13 @@ The old manual method still works: download a .zip, go to Preferences → Add-on
         content: `**BlenderKit**
 A free asset library integrated directly into Blender. Browse and drag in materials, 3D models, HDRIs, and brushes without leaving the app. The free tier has thousands of assets. Install via Get Extensions, then find it in the N panel sidebar inside the 3D Viewport.
 
-**Node Wrangler** (already covered — but worth repeating: install this first)
+**Node Wrangler** (already covered, but worth repeating: install this first)
 
 **Gaffer**
 Better lighting management. Shows all lights in a clean list, lets you adjust intensity and color without clicking into each light individually. Useful once your scenes have more than two lights.
 
 **Photographer**
-Physically-based camera controls — exposure in EV, real aperture and shutter speed values, auto-exposure. Makes the camera behave like a real camera instead of Blender's abstract defaults.
+Physically-based camera controls: exposure in EV, real aperture and shutter speed values, auto-exposure. Makes the camera behave like a real camera instead of Blender's abstract defaults.
 
 These are all free. Search for them in Get Extensions or on GitHub.`,
       },
@@ -1344,7 +1344,7 @@ bpy.ops.wm.save_userpref()`,
         content: `A few preference changes that make daily use noticeably better:
 
 **Auto Save**
-Edit → Preferences → Save & Load: confirm auto-save is on and set to every 2 minutes. Blender crashes occasionally — this limits damage.
+Edit → Preferences → Save & Load: confirm auto-save is on and set to every 2 minutes. Blender crashes occasionally; this limits damage.
 
 **Save Versions**
 Same section: set Save Versions to 10. Blender keeps .blend1, .blend2 etc. as backups every time you save. If you save over something you wanted to keep, the previous version is still there.
