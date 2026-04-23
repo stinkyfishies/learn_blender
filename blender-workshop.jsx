@@ -1264,7 +1264,15 @@ print("Scene built. Press F12 to render.")`,
 2. Change \`"ProcMat"\` to an existing material name: see what happens.
 3. Add \`print(dir(obj))\` anywhere: see every attribute available on the object.
 
-✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code`,
+✅ Goal: Run a script, read an error, understand where errors appear, and find your way back to working code
+
+---
+
+You now have everything you need to start vibe-coding in Blender. Seriously — stop here, open a new chat with an AI, and try building something. Describe a scene, ask for a bpy script, run it, iterate.
+
+The modules that follow are not prerequisites. They are vocabulary. The more of them you read, the better your prompts get, the more precisely you can describe what you want, and the less back-and-forth you need with the AI. But none of them unlock the ability to start. You can already start.
+
+Come back when you hit a wall — when the AI keeps getting something wrong and you can't explain why, or when you want to understand what the generated code is actually doing. That's when the next module earns its place.`,
       },
     ],
   },
