@@ -811,6 +811,54 @@ Ask AI for a script. Paste it into Blender's Text Editor and press Alt+P to run 
 That's everything. The rest of this module covers each piece in more depth — but if you have these four things set up, you can start today.`,
       },
       {
+        title: "The Vibe-Coding Loop",
+        pythonCode: `# The complete vibe-coding workflow for Blender:
+
+# 1. Know what you want (this workshop gives you the vocabulary)
+goal = "Create a procedural rocky terrain with Cycles lighting and an HDRI"
+
+# 2. Prompt an AI with precise Blender terminology
+prompt = """
+Write a bpy Python script that:
+- Creates a Grid mesh (50x50 subdivisions, 20 units wide)
+- Adds a Displace modifier with a Musgrave texture (scale 3.0, strength 2.0)
+- Adds a Principled BSDF material with Noise-driven Base Color (grey/brown tones)
+  and Roughness variation (0.4-0.8 range via Map Range node)
+- Adds a 3-point Area light setup (key 800W warm, fill 200W cool, rim 300W)
+- Sets the World to an HDRI environment (placeholder path)
+- Sets the render engine to Cycles, 128 samples, OIDN denoising
+- Renders to //render_output.png
+"""
+
+# 3. Receive the script — review for obvious issues
+# 4. Run it: paste into Blender Text Editor → Alt+P
+#    OR: blender -b -P generated_script.py
+
+# 5. Read errors in System Console — feed back to AI with exact error message
+error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created with use_nodes=True but nodes weren't cleared first"
+
+# 6. Iterate — usually 1-3 rounds to a working scene
+# 7. Tweak parameters directly in bpy or via the UI`,
+        content: `The vibe-coding loop with Blender has a specific shape, and this workshop is designed to make each step effective.
+
+**The loop:**
+
+1. **Describe what you want**: in precise Blender terms. "A procedural rocky terrain" is vague. "A Grid mesh with a Displace modifier driven by a Musgrave texture at scale 3, feeding into a Subdivision Surface at level 2, with a noise-driven roughness variation between 0.4 and 0.8" is a prompt that generates working code.
+
+2. **Prompt with tool names**: the vocabulary from this workshop (modifier types, node names, bpy paths) is exactly what makes prompts accurate. The AI knows Blender's API precisely; your job is to give it the right terms.
+
+3. **Run and read errors**: most generated scripts fail on first run due to context issues or API version differences. Copy the error from the System Console and feed it back to the AI with the exact message and line number.
+
+4. **Iterate**: typically 1–3 rounds. After that, the scene is live in Blender and you can tweak parameters directly in the UI or in the script.
+
+**What makes this workshop directly useful:**
+- You know enough to describe any outcome in Blender vocabulary → better prompts
+- You can read the generated script and understand what it's doing → spot obvious errors before running
+- You know what context errors mean → fix or explain them to the AI quickly
+- You understand the non-destructive stack → you can modify the generated scene sensibly`,
+      },
+      {
+      {
         title: "Blender's Python Environment",
         pythonCode: `# Blender ships with its own Python interpreter: you don't install anything.
 # Access it from: Scripting workspace (top workspace tabs)
@@ -1083,54 +1131,6 @@ VS Code if you want the tightest Blender integration and one-click script runnin
 
 Both give you full bpy auto-complete and are vastly better than Blender's built-in editor for anything beyond a few lines.`,
       },
-      {
-        title: "The Vibe-Coding Loop",
-        pythonCode: `# The complete vibe-coding workflow for Blender:
-
-# 1. Know what you want (this workshop gives you the vocabulary)
-goal = "Create a procedural rocky terrain with Cycles lighting and an HDRI"
-
-# 2. Prompt an AI with precise Blender terminology
-prompt = """
-Write a bpy Python script that:
-- Creates a Grid mesh (50x50 subdivisions, 20 units wide)
-- Adds a Displace modifier with a Musgrave texture (scale 3.0, strength 2.0)
-- Adds a Principled BSDF material with Noise-driven Base Color (grey/brown tones)
-  and Roughness variation (0.4-0.8 range via Map Range node)
-- Adds a 3-point Area light setup (key 800W warm, fill 200W cool, rim 300W)
-- Sets the World to an HDRI environment (placeholder path)
-- Sets the render engine to Cycles, 128 samples, OIDN denoising
-- Renders to //render_output.png
-"""
-
-# 3. Receive the script — review for obvious issues
-# 4. Run it: paste into Blender Text Editor → Alt+P
-#    OR: blender -b -P generated_script.py
-
-# 5. Read errors in System Console — feed back to AI with exact error message
-error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created with use_nodes=True but nodes weren't cleared first"
-
-# 6. Iterate — usually 1-3 rounds to a working scene
-# 7. Tweak parameters directly in bpy or via the UI`,
-        content: `The vibe-coding loop with Blender has a specific shape, and this workshop is designed to make each step effective.
-
-**The loop:**
-
-1. **Describe what you want**: in precise Blender terms. "A procedural rocky terrain" is vague. "A Grid mesh with a Displace modifier driven by a Musgrave texture at scale 3, feeding into a Subdivision Surface at level 2, with a noise-driven roughness variation between 0.4 and 0.8" is a prompt that generates working code.
-
-2. **Prompt with tool names**: the vocabulary from this workshop (modifier types, node names, bpy paths) is exactly what makes prompts accurate. The AI knows Blender's API precisely; your job is to give it the right terms.
-
-3. **Run and read errors**: most generated scripts fail on first run due to context issues or API version differences. Copy the error from the System Console and feed it back to the AI with the exact message and line number.
-
-4. **Iterate**: typically 1–3 rounds. After that, the scene is live in Blender and you can tweak parameters directly in the UI or in the script.
-
-**What makes this workshop directly useful:**
-- You know enough to describe any outcome in Blender vocabulary → better prompts
-- You can read the generated script and understand what it's doing → spot obvious errors before running
-- You know what context errors mean → fix or explain them to the AI quickly
-- You understand the non-destructive stack → you can modify the generated scene sensibly`,
-      },
-      {
         title: "Version Control for Vibe-Coders (Git Intro)",
         pythonCode: `# Your project folder structure
 my_blender_project/
