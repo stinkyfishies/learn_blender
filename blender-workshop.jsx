@@ -1127,7 +1127,7 @@ Setup:
 4. Run scripts into Blender manually via terminal: \`blender -b --python script.py\`
 
 **Which to choose:**
-VS Code if you want the tightest Blender integration and one-click script running. Zed if you want a faster editor with better native AI and don't mind running scripts from the terminal.
+Both work well. Open your script from inside Blender's Text Editor once to link it, then edit in your external editor. Blender picks up the changes and you reload with a shortcut. VS Code has a dedicated Blender extension; Zed has faster performance and native AI built in. Use whichever you're already comfortable with.
 
 Both give you full bpy auto-complete and are vastly better than Blender's built-in editor for anything beyond a few lines.`,
       },
