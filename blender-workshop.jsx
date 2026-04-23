@@ -858,7 +858,6 @@ error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created 
 - You understand the non-destructive stack → you can modify the generated scene sensibly`,
       },
       {
-      {
         title: "Blender's Python Environment",
         pythonCode: `# Blender ships with its own Python interpreter: you don't install anything.
 # Access it from: Scripting workspace (top workspace tabs)
