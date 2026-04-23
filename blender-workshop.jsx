@@ -5193,6 +5193,34 @@ const renderContent = (text) => {
     listBuffer = [];
   };
 
+  let codeBuffer = [];
+  let inCode = false;
+
+  const flushCode = (key) => {
+    if (codeBuffer.length === 0) return;
+    elements.push(
+      <pre
+        key={`code-${key}`}
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 12,
+          lineHeight: 1.7,
+          color: "#7777aa",
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid #1e1e2e",
+          borderRadius: 6,
+          padding: "12px 16px",
+          margin: "12px 0",
+          overflowX: "auto",
+          whiteSpace: "pre",
+        }}
+      >
+        {codeBuffer.join("\n")}
+      </pre>
+    );
+    codeBuffer = [];
+  };
+
   const flushTree = (key) => {
     if (treeBuffer.length === 0) return;
     elements.push(
@@ -5219,6 +5247,20 @@ const renderContent = (text) => {
   };
 
   lines.forEach((line, i) => {
+    if (line.trim() === "```") {
+      if (inCode) {
+        flushCode(i);
+        inCode = false;
+      } else {
+        flushList(i);
+        inCode = true;
+      }
+      return;
+    }
+    if (inCode) {
+      codeBuffer.push(line);
+      return;
+    }
     if (line.trim() === "##tree") {
       flushList(i);
       inTree = true;
