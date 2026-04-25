@@ -692,7 +692,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
   {
     id: 3,
     emoji: "🐍",
-    title: "bpy Setup & AI-Assisted Coding",
+    title: "bpy with AI-Assist",
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
     intro:
