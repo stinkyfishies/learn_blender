@@ -274,7 +274,7 @@ bpy.ops.mesh.select_all(action='INVERT')
 
 # Box select (programmatic, by location range)
 bpy.ops.mesh.select_random(ratio=0.5)  # random % for procedural selection`,
-        content: `Blender 5.1 defaults to **left-click select** (matches Mac conventions).
+        content: `Blender defaults to **left-click select** (matches Mac conventions).
 
 **Click**
 Select single item

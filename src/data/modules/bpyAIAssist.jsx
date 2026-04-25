@@ -456,7 +456,7 @@ Both give you full bpy auto-complete and are vastly better than Blender's built-
 # --- CLAUDE.md template ---
 
 # Blender Scripting Context
-# Environment: Blender 5.1, Python 3.12, EEVEE Next renderer
+# Environment: Blender X.Y, Python 3.12, EEVEE Next renderer  # ← update to match your version
 #
 # API notes:
 # - Principled BSDF v2: use Base Color, Roughness, Metallic, IOR. Specular removed.
@@ -483,7 +483,7 @@ Place a small Markdown file in your project root. Your AI tool reads it before y
 **Cursor:** Create \`.cursor/rules/blender.mdc\`:
 \`\`\`
 ---
-description: Blender 5.1 scripting context
+description: Blender X.Y scripting context
 globs: ["**/*.py"]
 ---
 [paste your context here]
@@ -502,7 +502,7 @@ globs: ["**/*.py"]
 **Starter template** (copy this into a \`CLAUDE.md\` in your project root):
 \`\`\`
 # Blender Scripting Context
-Blender 5.1, Python 3.12, EEVEE Next renderer.
+Blender X.Y, Python 3.12, EEVEE Next renderer.  # ← fill in your version
 
 API notes:
 - Principled BSDF v2: Base Color, Roughness, Metallic, IOR. Specular removed.

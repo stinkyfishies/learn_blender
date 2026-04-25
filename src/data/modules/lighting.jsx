@@ -7,7 +7,7 @@ const lighting = {
     tag: "ILLUMINATION",
     color: "#fbbf24",
     intro:
-      "Lighting is half the art. The same object in bad lighting looks terrible. Blender 5.1 with EEVEE Next gives you cinema-grade lighting in real time.",
+      "Lighting is half the art. The same object in bad lighting looks terrible. Modern Blender with EEVEE Next gives you cinema-grade lighting in real time.",
     quiz: [
       {
         q: "Which light type produces the softest shadows, and why?",

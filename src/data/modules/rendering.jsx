@@ -7,7 +7,7 @@ const rendering = {
     tag: "OUTPUT",
     color: "#a78bfa",
     intro:
-      "Rendering converts your 3D scene into a final image or animation. Blender 5.1 has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",
+      "Rendering converts your 3D scene into a final image or animation. Blender has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",
     quiz: [
       {
         q: "Your scene has light focusing through a glass lens creating a caustic pattern on the table. Which renderer handles this correctly?",
@@ -109,7 +109,7 @@ print(f"Active engine: {scene.render.engine}")`,
 **Workbench**
 Technical renderer for clay renders, studio presentation. No materials, just form.
 
-In Blender 5.1, for most non-caustics work, EEVEE Next produces competitive results to Cycles at a fraction of the time.`,
+For most non-caustics work, EEVEE Next produces competitive results to Cycles at a fraction of the time.`,
       },
       {
         title: "Key Render Settings",
