@@ -1,6 +1,6 @@
 # Blender 5.1 Workshop
 
-A bespoke single-page learning app for Blender, designed for someone who wants to **navigate the possibility space** — understand the vocabulary, the tools, and the outcome→workflow mapping — without needing to memorize every keybind. Designed for Mac trackpad users who will vibe-code (AI-assisted scripting) rather than manually operate Blender in depth.
+A single-page learning app for Blender, designed for people who want to navigate the possibility space: vocabulary, tools, and outcome-to-workflow mapping. Aimed at Mac trackpad users doing AI-assisted scripting (vibe-coding) rather than deep manual operation.
 
 **Live:** https://stinkyfishies.github.io/learn_blender/
 
@@ -28,144 +28,139 @@ npm run preview    # preview the build locally
 
 Deploys automatically on every push to `main` via GitHub Actions.
 
-**One-time setup** (do this once in the GitHub repo settings):
+**One-time setup:**
 
 1. Go to **Settings → Pages**
 2. Under **Source**, select **GitHub Actions**
 3. Push any commit to `main` — the workflow builds and deploys automatically
 
-The workflow lives at `.github/workflows/deploy.yml`. It:
-- Installs dependencies with `npm ci`
-- Runs `vite build` (outputs to `dist/`)
-- Uploads `dist/` as a Pages artifact
-- Deploys via the official `actions/deploy-pages` action
+The workflow lives at `.github/workflows/deploy.yml`. It installs dependencies, runs `vite build`, and deploys `dist/` via `actions/deploy-pages`.
 
 The `base: '/learn_blender/'` in `vite.config.js` must match the repository name for asset paths to resolve correctly on GitHub Pages.
 
 ---
 
-## Project Architecture
-
-### File structure
+## Project Structure
 
 ```
-blender-workshop.jsx   — the entire app (single file)
-main.jsx               — React root mount point
-index.html             — Vite entry HTML
-vite.config.js         — Vite config (base path for GitHub Pages)
-package.json           — dependencies: React 18, Vite 6, @vitejs/plugin-react
-.github/workflows/
-  deploy.yml           — GitHub Actions: build + deploy to Pages on push to main
+src/
+├── App.jsx                        root component: state, layout, render
+├── components/
+│   ├── CodeBlock.jsx              syntax-highlighted Python viewer
+│   ├── Quiz.jsx                   self-assessment quiz
+│   ├── KeybindChip.jsx            keyboard shortcut chip
+│   ├── SectionLabel.jsx           reusable monospace section label
+│   └── renderContent.jsx          markdown-like content parser
+├── data/
+│   ├── modules/
+│   │   ├── index.js               aggregates all modules in order
+│   │   ├── mentalModel.jsx
+│   │   ├── interfaceNavigation.jsx
+│   │   ├── bpyAIAssist.jsx
+│   │   ├── enhancingBlender.jsx
+│   │   ├── meshPrimitives.jsx
+│   │   ├── editModeTopology.jsx
+│   │   ├── modifiers.jsx
+│   │   ├── geometryNodes.jsx
+│   │   ├── materialsShading.jsx
+│   │   ├── lighting.jsx
+│   │   ├── sculptMode.jsx
+│   │   ├── booleanHardSurface.jsx
+│   │   ├── physicsSimulation.jsx
+│   │   ├── rendering.jsx
+│   │   └── proceduralTextures.jsx
+│   ├── outcomes.jsx               data for the Outcomes tab
+│   ├── learningPaths.js           TABS + LEARNING_PATHS constants
+│   └── quickRefs.js               keybind reference data
+└── utils/
+    └── index.js                   shared utilities and constants
+
+main.jsx                           React root mount
+index.html                         Vite entry HTML
+vite.config.js                     Vite config (base path for GitHub Pages)
+CLAUDE.md                          AI assistant context for Blender scripting
 ```
-
-### Single-file architecture
-
-The entire app lives in `blender-workshop.jsx`. It contains:
-
-1. **`hexToRgb(hex)`** — utility: converts hex color to `"r,g,b"` string for use in `rgba()`.
-
-2. **`modules[]`** — array of 13 module objects. Each module has:
-   ```js
-   {
-     id: Number,
-     emoji: String,
-     title: String,
-     tag: String,          // short label shown in sidebar (e.g. "CORE MODELING")
-     color: String,        // hex color for accent
-     intro: String,        // one-paragraph framing shown at top of module
-     sections: [
-       {
-         title: String,
-         content: String,  // markdown-ish text (see Content Format below)
-         isWorkshop: Boolean  // optional — styles the section as a hands-on exercise
-       }
-     ]
-   }
-   ```
-
-3. **`outcomes[]`** — data for the Outcomes tab. Array of category groups:
-   ```js
-   {
-     category: String,
-     items: [
-       {
-         goal: String,      // what the user wants to achieve
-         approach: String,  // which workflow/technique to use
-         tools: String[]    // tool name tags displayed as chips
-       }
-     ]
-   }
-   ```
-
-4. **`quickRefs[]`** — array of `{ keys: String[], desc: String }` for the Quick Reference tab.
-
-5. **`KeybindChip`** — renders a keyboard shortcut row (key chips + description).
-
-6. **`applyBold(str)`** — converts `**text**` to `<strong>` HTML.
-
-7. **`renderContent(text)`** — renders module section content. Handles:
-   - `- item` or `• item` lines → styled list items with `›` prefix
-   - `**bold**` → `<strong>` via `applyBold`
-   - Blank lines → spacer divs
-   - All other lines → paragraph elements
-
-8. **`BlenderWorkshop`** — the root component. State:
-   - `activeModule` — which module is shown (index into `modules[]`)
-   - `completedModules` — Set of completed module indices
-   - `expandedSections` — object mapping section index → boolean
-   - `activeTab` — `"content"` | `"outcomes"` | `"quickref"`
 
 ---
 
-## Content Format (for `section.content`)
+## Data Shapes
 
-Content strings use a minimal markdown-ish syntax parsed by `renderContent`:
+### Module (`src/data/modules/*.jsx`)
+
+```js
+{
+  id: Number,
+  emoji: String,
+  title: String,
+  tag: String,           // short label shown in sidebar (e.g. "CORE MODELING")
+  color: String,         // hex accent color
+  intro: String,         // framing paragraph shown at top of module
+  quiz: [
+    {
+      q: String,
+      options: String[],
+      answer: Number,    // index into options
+      explanation: String,
+    }
+  ],
+  sections: [
+    {
+      title: String,
+      content: String,       // parsed by renderContent() — see Content Format
+      pythonCode: String,    // optional — shown when Python toggle is on
+      isWorkshop: Boolean,   // optional — styles section as hands-on exercise
+    }
+  ]
+}
+```
+
+### Outcome (`src/data/outcomes.jsx`)
+
+```js
+{
+  category: String,
+  items: [
+    {
+      goal: String,      // plain-language description of what the user wants
+      approach: String,  // which workflow/technique to use, 1-2 sentences
+      tools: String[]    // tool name tags shown as chips
+    }
+  ]
+}
+```
+
+---
+
+## Content Format
+
+Section `content` strings use a minimal syntax parsed by `renderContent()`:
 
 ```
 **bold text**           → highlighted in white
 - list item             → styled bullet with › prefix
-• list item             → same as above
-blank line              → vertical spacer between paragraphs
-anything else           → paragraph text in muted color
+> callout text          → highlighted callout block
+blank line              → vertical spacer
+##tree / ##endtree      → monospace tree block (for directory structures)
+```fence```             → monospace code block (non-Python prose code)
+anything else           → paragraph text
 ```
 
-There is no heading support within content — use section titles for that. Keep content conceptual and outcome-oriented, not step-by-step procedural.
-
----
-
-## Design Principles (important for AI agents)
-
-The app is opinionated about **what kind of learning it supports**:
-
-1. **Concept-first, not keybind-first.** The goal is understanding what exists and when to use it — not memorizing shortcuts. Keybinds are secondary context, not the lead.
-
-2. **Outcome → tool mapping.** Every topic should be framed as "given this goal, here's which Blender system applies." The Outcomes tab is the purest expression of this.
-
-3. **Mac trackpad primary.** Navigation instructions always lead with trackpad gestures (Option+drag, pinch, 2-finger pan), keyboard shortcuts secondary. Never write "middle mouse button" without the Option+drag equivalent.
-
-4. **Blender 5.1 accuracy.** Use current terminology:
-   - EEVEE Next (not "EEVEE" or "EEVEE 2.0")
-   - Transmission Weight (not "Transmission" — renamed in Principled BSDF v2)
-   - New hair system = Geometry Nodes based (not legacy particle hair)
-   - Simulation Zones in GN (available 4.1+)
-   - Light Linking (available 4.1+)
-
-5. **Non-destructive workflow bias.** Always mention the non-destructive approach first. Flag when something is destructive (applying a modifier, sculpting directly).
-
-6. **No speculative content.** Don't add modules or sections that aren't real Blender features or workflows. If a feature is version-specific, note the version.
+No heading support within content — use section titles for structure. Keep content conceptual and outcome-oriented, not step-by-step procedural.
 
 ---
 
 ## Adding a New Module
 
-1. Append an object to `modules[]` with a new `id` (increment from last), unique `color`, appropriate `tag`.
-2. Write 3–5 sections: 2–3 concept sections + 1 "Recipes / When to use" section + 1 `isWorkshop: true` hands-on section.
-3. Add relevant outcomes to `outcomes[]` under the appropriate category (or create a new category).
-4. Add any new essential shortcuts to `quickRefs[]`.
+1. Create `src/data/modules/myModuleName.jsx` following the shape above.
+2. Import and add it to `src/data/modules/index.js`.
+3. Write 3-5 sections: concept sections + one "Recipes / When to use" + one `isWorkshop: true` hands-on section.
+4. Add relevant outcomes to `src/data/outcomes.jsx` under the appropriate category.
+5. Update learning path indices in `src/data/learningPaths.js` if the new module belongs in a path.
 
 ## Adding an Outcome
 
-Append to the relevant category in `outcomes[]`:
+Append to the relevant category in `src/data/outcomes.jsx`:
+
 ```js
 {
   goal: "Plain language description of what the user wants",
@@ -174,7 +169,29 @@ Append to the relevant category in `outcomes[]`:
 }
 ```
 
-Keep `goal` user-facing (what they want), not Blender-jargon (what the tool is called).
+Keep `goal` user-facing (what they want to achieve), not Blender-jargon (what the tool is called).
+
+---
+
+## Design Principles
+
+1. **Concept-first, not keybind-first.** Understanding what exists and when to use it — not memorizing shortcuts.
+
+2. **Outcome to tool mapping.** Every topic framed as: given this goal, here's which Blender system applies.
+
+3. **Mac trackpad primary.** Navigation always leads with trackpad gestures. Never write "middle mouse button" without the trackpad equivalent.
+
+4. **Blender 5.1 accuracy.** Current terminology only:
+   - EEVEE Next (not "EEVEE" or "EEVEE 2.0")
+   - Principled BSDF v2 parameter names (Base Color, Roughness, Metallic, IOR — Specular removed)
+   - Hair = Geometry Nodes based (not legacy particle hair)
+   - Simulation Zones in GN (4.1+)
+
+5. **Non-destructive workflow bias.** Always mention the non-destructive approach first. Flag destructive operations explicitly.
+
+6. **No em dashes.** Use colons, parentheses, or commas instead.
+
+7. **No LLM writing patterns.** No rule-of-three lists, no dramatic short sentences, no filler affirmations, no summary closers.
 
 ---
 
@@ -187,4 +204,4 @@ Keep `goal` user-facing (what they want), not Blender-jargon (what the tool is c
 | vite | ^6.0.0 | Build tool + dev server |
 | @vitejs/plugin-react | ^4.3.4 | JSX transform + Fast Refresh |
 
-No other dependencies. No routing library, no state management library, no CSS framework. All styles are inline.
+No routing library, no state management library, no CSS framework. All styles are inline.
