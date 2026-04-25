@@ -6803,29 +6803,29 @@ export default function BlenderWorkshop() {
                 >
                   {[
                     {
-                      step: "01",
-                      label: "Start each module with the Lessons tab",
-                      desc: "Read the intro framing, then expand each section in order. The intro tells you why this domain matters. Read this before the details.",
+                      step: "→",
+                      label: "Go in any order",
+                      desc: "Jump to whatever is relevant to what you're building right now. The sidebar is a menu, not a curriculum. The Your Paths suggestions are just that — suggestions.",
                     },
                     {
-                      step: "02",
-                      label: "Allocate 30–60 minutes per module",
-                      desc: "Concept-only pass (just reading): ~30 min. With the workshop exercise in Blender: ~60 min. Geometry Nodes (Module 7) and Physics (Module 12) each deserve a dedicated session.",
+                      step: "→",
+                      label: "Each module is self-contained",
+                      desc: "Every module has its own framing, sections, bpy code, and quiz. You don't need to have read anything else to get value from any single module.",
                     },
                     {
-                      step: "03",
+                      step: "→",
                       label: "Toggle the 🐍 bpy switch",
-                      desc: "Once you've read a section, turn on the bpy toggle and trace how the UI concepts map to Python. This is the bridge to AI-assisted coding as you learn to describe what you want in Blender's terms.",
+                      desc: "Turn it on to see how the UI concepts in any section map to Python. This is the bridge to AI-assisted coding — it shows you the vocabulary to use when prompting.",
                     },
                     {
-                      step: "04",
-                      label: "Take the quiz before moving on",
-                      desc: "Answer the questions at the bottom of each module. If something surprises you, re-read the relevant section.",
+                      step: "→",
+                      label: "Use the quiz to check your mental model",
+                      desc: "The quiz at the bottom of each module is a recall assist, not a gate. If something surprises you, re-read the relevant section.",
                     },
                     {
-                      step: "05",
+                      step: "→",
                       label: "Use the Outcomes tab as a reference",
-                      desc: "After finishing all modules, the Outcomes tab becomes your primary tool. It's an index of Blender's possibility space: goal → workflow → tool names.",
+                      desc: "The Outcomes tab is an index of Blender's possibility space: start from what you want to make, find which system applies. Use it anytime.",
                     },
                   ].map((s) => (
                     <div
