@@ -5665,6 +5665,7 @@ export default function BlenderWorkshop() {
   const [openPath, setOpenPath] = useState(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -5893,8 +5894,79 @@ export default function BlenderWorkshop() {
           </div>
         </div>
 
+        {/* Search */}
+        <div style={{ padding: "0 16px 8px" }}>
+          <input
+            type="text"
+            placeholder="Search modules, sections..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            style={{
+              width: "100%",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid #1e1e2e",
+              borderRadius: 6,
+              padding: "7px 10px",
+              fontSize: 12,
+              color: "#c8c8e0",
+              outline: "none",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          />
+          {searchQuery.trim().length > 1 && (() => {
+            const q = searchQuery.trim().toLowerCase();
+            const results = [];
+            modules.forEach((m, mi) => {
+              if (m.title.toLowerCase().includes(q)) {
+                results.push({ moduleIdx: mi, sectionIdx: null, label: m.title, sub: "Module", color: m.color, emoji: m.emoji });
+              }
+              m.sections.forEach((s, si) => {
+                const inTitle = s.title.toLowerCase().includes(q);
+                const inContent = s.content && s.content.toLowerCase().includes(q);
+                if (inTitle || inContent) {
+                  results.push({ moduleIdx: mi, sectionIdx: si, label: s.title, sub: m.title, color: m.color, emoji: m.emoji });
+                }
+              });
+            });
+            if (results.length === 0) return (
+              <div style={{ fontSize: 11, color: "#444466", padding: "8px 4px" }}>No results</div>
+            );
+            return (
+              <div style={{ marginTop: 6, maxHeight: 300, overflowY: "auto" }}>
+                {results.map((r, ri) => (
+                  <div
+                    key={ri}
+                    onClick={() => {
+                      setActiveModule(r.moduleIdx);
+                      setActiveTab("content");
+                      setSidebarOpen(false);
+                      setSearchQuery("");
+                      if (r.sectionIdx !== null) {
+                        setExpandedSections(prev => ({ ...prev, [r.sectionIdx]: true }));
+                      } else {
+                        setExpandedSections({ 0: true });
+                      }
+                    }}
+                    style={{
+                      padding: "6px 8px",
+                      cursor: "pointer",
+                      borderRadius: 4,
+                      marginBottom: 2,
+                      background: "rgba(255,255,255,0.03)",
+                      borderLeft: `2px solid ${r.color}`,
+                    }}
+                  >
+                    <div style={{ fontSize: 12, color: "#c8c8e0", fontWeight: 600 }}>{r.emoji} {r.label}</div>
+                    <div style={{ fontSize: 10, color: "#555577", marginTop: 1 }}>{r.sub}</div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+        </div>
+
         {/* Nav */}
-        <div style={{ flex: 1, padding: "8px 0" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "8px 0" }}>
           {/* Home */}
           <div
             onClick={goHome}
