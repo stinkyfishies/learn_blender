@@ -696,7 +696,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
     intro:
-      "If the idea of generating code feels overwhelming, stop. You don't write the code. You describe what you want and an AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. That's the whole loop. This module breaks it into four parts: your workspace, version control, your editor, and the run-refresh cycle.",
+      "Blender has a complete Python API called bpy. Every single thing you can do in Blender's UI (add an object, apply a modifier, set a material, trigger a render) has a Python equivalent. This is Blender's most powerful aspect: the entire application is programmable. A script can build a fully lit, shaded, rendered scene from nothing. That's what we're going to drive with AI. You describe the outcome, an AI writes the bpy script, and Blender executes it. If the idea of writing code feels overwhelming, stop. You don't write it. You describe what you want and the AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. This module breaks that into four parts: your workspace, version control, your editor, and the run-refresh cycle.",
     quiz: [
       {
         q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",
