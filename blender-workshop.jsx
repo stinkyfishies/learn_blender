@@ -6741,6 +6741,7 @@ export default function BlenderWorkshop() {
                               onClick={() => {
                                 setActiveModule(step.moduleIdx);
                                 setActiveTab("content");
+                                setExpandedSections(prev => ({ ...prev, [step.sectionIdx]: true }));
                                 setTimeout(() => setScrollToSection(step.sectionIdx), 80);
                               }}
                               style={{ display: "flex", alignItems: "baseline", gap: 6, padding: "4px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", cursor: "pointer" }}
