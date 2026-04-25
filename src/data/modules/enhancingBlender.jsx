@@ -38,43 +38,31 @@ const enhancingBlender = {
       {
         title: "Built-in Add-ons to Enable First",
         pythonCode: `import bpy
-
-# Enable add-ons via Python (useful in setup scripts)
 import addon_utils
 
-# Enable Node Wrangler
+# Enable Node Wrangler (the one built-in add-on worth enabling immediately)
 addon_utils.enable("node_wrangler", default_set=True)
 
-# Enable Screencast Keys
-addon_utils.enable("screencast_keys", default_set=True)
-
-# Enable LoopTools
-addon_utils.enable("mesh_looptools", default_set=True)
-
-# Enable Extra Objects
-addon_utils.enable("add_mesh_extra_objects", default_set=True)
-
-# Save preferences so they persist
+# Save preferences so it persists across sessions
 bpy.ops.wm.save_userpref()
 
-# List all enabled add-ons
+# List all currently enabled add-ons
 for mod in addon_utils.modules():
     is_enabled, is_loaded = addon_utils.check(mod.__name__)
     if is_enabled:
         print(mod.__name__)`,
-        content: `These ship with Blender and just need to be switched on. Go to **Edit → Preferences → Add-ons**, search by name, and check the box.
+        content: `In Blender 5.1, most of the classic bundled add-ons (LoopTools, Extra Objects, Screencast Keys) have been removed or migrated to the Extensions platform. One remains worth enabling immediately.
 
 **Node Wrangler**
-Adds essential shortcuts to the Shader Editor and Geometry Node Editor. Without it, connecting nodes requires dragging every wire manually. With it: Ctrl+Shift+Click any node to preview its output, Ctrl+T to instantly add a texture coordinate setup, Alt+RMB to cut connections. Enable this before touching materials.
+Go to **Edit → Preferences → Add-ons**, search "Node Wrangler", check the box.
 
-**Screencast Keys**
-Displays your keyboard and mouse inputs on screen as you work. Useful when recording videos so viewers can follow along. Also useful when learning: you can see what shortcuts you're actually pressing.
+Adds essential shortcuts to the Shader Editor and Geometry Node Editor. Without it, connecting nodes requires dragging every wire manually. With it:
+- **Ctrl+Shift+Click** any node to preview its output directly in the viewport
+- **Ctrl+T** to instantly add a Texture Coordinate + Mapping setup
+- **Alt+RMB** to cut connections by dragging across wires
+- **Ctrl+Shift+RMB** to mix two nodes together automatically
 
-**LoopTools**
-Adds extra mesh editing operations: relax a loop of vertices into a smooth curve, space them evenly, flatten a selection to a plane. Small but frequently useful during modeling.
-
-**Extra Objects**
-Adds more primitive types to Shift+A → Mesh: math-based shapes, geodesic spheres, bolt and gear shapes. Good for starting points that would take time to model from scratch.`,
+Enable this before touching materials. Everything else you want can be found through the Extensions platform.`,
       },
       {
         title: "The Extensions Platform (Blender 4.2+)",
