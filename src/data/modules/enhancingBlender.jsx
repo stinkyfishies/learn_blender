@@ -87,7 +87,9 @@ for mod in addon_utils.modules():
 
 Extensions are sandboxed and versioned, which means they update cleanly and are less likely to break between Blender versions than the old add-on system.
 
-The old manual method still works: download a .zip, go to Preferences → Add-ons → Install from Disk, pick the file. Some older add-ons not yet on the platform still require this.`,
+The old manual method still works: download a .zip, go to Preferences → Add-ons → Install from Disk, pick the file. Some older add-ons not yet on the platform still require this.
+
+!! If you see "'extensions.blender.org' remote data unavailable" on first open, macOS firewall is blocking Blender. Go to System Settings → Privacy & Security → Firewall → Firewall Options, find Blender and set it to "Allow incoming connections." If Blender isn't listed, click + and add it from Applications. Quit and reopen Blender, then try again. A VPN or proxy will cause the same error.`,
       },
       {
         title: "Free Add-ons Worth Knowing",
