@@ -6683,6 +6683,75 @@ export default function BlenderWorkshop() {
                 </div>
               </div>
 
+              {/* Workflow Guides */}
+              {(() => {
+                const guides = [
+                  {
+                    title: "Set up Blender",
+                    color: "#5b8dee",
+                    steps: [
+                      { label: "Configure Mac trackpad", moduleIdx: 1, sectionIdx: 0 },
+                      { label: "Editor layout & workspaces", moduleIdx: 1, sectionIdx: 2 },
+                      { label: "Built-in add-ons to enable", moduleIdx: 3, sectionIdx: 0 },
+                      { label: "Recommended preferences", moduleIdx: 3, sectionIdx: 3 },
+                    ],
+                  },
+                  {
+                    title: "Set up IDE for AI-Assist",
+                    color: "#38bdf8",
+                    steps: [
+                      { label: "What you actually need", moduleIdx: 2, sectionIdx: 0 },
+                      { label: "External editor: VS Code or Zed", moduleIdx: 2, sectionIdx: 7 },
+                      { label: "Give your AI Blender context", moduleIdx: 2, sectionIdx: 8 },
+                      { label: "Organise your project", moduleIdx: 2, sectionIdx: 9 },
+                      { label: "Version control (git)", moduleIdx: 2, sectionIdx: 10 },
+                    ],
+                  },
+                  {
+                    title: "AI-Assisted Coding Workflow",
+                    color: "#a78bfa",
+                    steps: [
+                      { label: "The coding loop", moduleIdx: 2, sectionIdx: 1 },
+                      { label: "Scripting workspace layout", moduleIdx: 2, sectionIdx: 3 },
+                      { label: "Finding operator names", moduleIdx: 2, sectionIdx: 4 },
+                      { label: "Debugging scripts", moduleIdx: 2, sectionIdx: 5 },
+                      { label: "Mini workshop: first bpy script", moduleIdx: 2, sectionIdx: 11 },
+                    ],
+                  },
+                ];
+                return (
+                  <div style={{ marginBottom: 24 }}>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 12 }}>
+                      WORKFLOW GUIDES
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                      {guides.map((guide) => (
+                        <div key={guide.title} style={{ background: "#111118", border: `1px solid rgba(255,255,255,0.07)`, borderRadius: 10, padding: 16 }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: guide.color, marginBottom: 10 }}>{guide.title}</div>
+                          {guide.steps.map((step, i) => (
+                            <div
+                              key={i}
+                              onClick={() => {
+                                setActiveModule(step.moduleIdx);
+                                setActiveTab("content");
+                                setTimeout(() => setScrollToSection(step.sectionIdx), 80);
+                              }}
+                              style={{ display: "flex", alignItems: "baseline", gap: 6, padding: "4px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", cursor: "pointer" }}
+                            >
+                              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#333355", flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
+                              <span style={{ fontSize: 12, color: "#7777aa", lineHeight: 1.4 }}
+                                onMouseEnter={e => e.currentTarget.style.color = guide.color}
+                                onMouseLeave={e => e.currentTarget.style.color = "#7777aa"}
+                              >{step.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+
               <div
                 style={{
                   display: "grid",
