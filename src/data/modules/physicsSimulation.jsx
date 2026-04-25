@@ -63,7 +63,7 @@ const physicsSimulation = {
         title: "Rigid Body Simulation",
         pythonCode: `import bpy
 
-# Make an object a Rigid Body — Active (simulated)
+# Make an object a Rigid Body: Active (simulated)
 obj = bpy.context.active_object
 bpy.ops.rigidbody.object_add()
 rb = obj.rigid_body
@@ -247,7 +247,7 @@ settings.drag_factor     = 0.0
 settings.render_type  = 'OBJECT'
 settings.instance_object = bpy.data.objects["Debris"]
 
-# Force Fields — create wind
+# Force Fields: create wind
 bpy.ops.object.effector_add(type='WIND', location=(0, -3, 1))
 wind = bpy.context.active_object
 wind.field.strength   = 5.0

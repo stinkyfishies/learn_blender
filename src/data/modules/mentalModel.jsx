@@ -72,7 +72,7 @@ for obj in bpy.data.objects:
 
 # An object and the mesh data it references
 obj = bpy.context.active_object
-mesh = obj.data  # bpy.types.Mesh — separate from the object
+mesh = obj.data  # bpy.types.Mesh: separate from the object
 
 # Multiple objects sharing one mesh (linked duplicate)
 bpy.ops.object.duplicate(linked=True)   # Alt+D equivalent
@@ -350,7 +350,7 @@ The Outliner also shows the full datablock tree. Right-click any item for option
         isWorkshop: true,
         pythonCode: `import bpy
 
-# Print a full scene inventory — run this in Blender's Script editor
+# Print a full scene inventory: run this in Blender's Script editor
 scene = bpy.context.scene
 print(f"Scene: {scene.name}")
 print(f"Frame range: {scene.frame_start} – {scene.frame_end}")

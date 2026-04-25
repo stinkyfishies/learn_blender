@@ -7,7 +7,7 @@ const CodeBlock = ({ code }) => {
   // Returns an array of colored <span> elements.
   // Match groups correspond to PYTHON_HIGHLIGHT_RE in utils/index.js.
   const highlight = (line) => {
-    // Python comments — render the whole line as muted italic, no further tokenizing
+    // Python comments: render the whole line as muted italic, no further tokenizing
     if (/^\s*#/.test(line))
       return (
         <span style={{ color: C.textDim, fontStyle: "italic" }}>{line}</span>

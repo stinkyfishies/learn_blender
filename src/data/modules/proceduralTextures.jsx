@@ -128,7 +128,7 @@ tree = mat.node_tree
 n, l = tree.nodes, tree.links
 bsdf = n["Principled BSDF"]
 
-# ColorRamp — remap noise (0-1) to any colors
+# ColorRamp: remap noise (0-1) to any colors
 noise = n.new('ShaderNodeTexNoise'); noise.location = (-500, 200)
 noise.inputs["Scale"].default_value = 6.0
 ramp  = n.new('ShaderNodeValToRGB'); ramp.location  = (-200, 200)
@@ -138,13 +138,13 @@ ramp.color_ramp.elements[1].color = (0.55, 0.50, 0.45, 1)
 l.new(noise.outputs["Fac"], ramp.inputs["Fac"])
 l.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
 
-# Bump node — fake surface detail without moving geometry
+# Bump node: fake surface detail without moving geometry
 bump = n.new('ShaderNodeBump'); bump.location = (-200, -100)
 bump.inputs["Strength"].default_value = 0.5
 l.new(noise.outputs["Fac"], bump.inputs["Height"])
 l.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
 
-# Map Range — remap texture output to a numeric input range
+# Map Range: remap texture output to a numeric input range
 mr = n.new('ShaderNodeMapRange'); mr.location = (-200, 0)
 mr.inputs["From Min"].default_value = 0.0
 mr.inputs["From Max"].default_value = 1.0

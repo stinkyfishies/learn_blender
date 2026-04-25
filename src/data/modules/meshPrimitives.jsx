@@ -92,7 +92,7 @@ Blender's test subject. Use her for shading and lighting experiments.`,
         pythonCode: `import bpy
 
 # The F9 panel settings are just keyword args on the operator.
-# Pass them directly — no need to open F9 at all in scripting.
+# Pass them directly: no need to open F9 at all in scripting.
 
 # UV Sphere with custom segment counts
 bpy.ops.mesh.primitive_uv_sphere_add(
@@ -192,7 +192,7 @@ print(f"Vertices: {len(mesh.vertices)}")
 print(f"Edges:    {len(mesh.edges)}")
 print(f"Polygons: {len(mesh.polygons)}")
 
-# Check for n-gons (faces with more than 4 verts — shading risk)
+# Check for n-gons (faces with more than 4 verts: shading risk)
 ngons = [p for p in mesh.polygons if len(p.vertices) > 4]
 print(f"N-gons: {len(ngons)}")
 

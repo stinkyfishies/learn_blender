@@ -136,7 +136,7 @@ bpy.ops.mesh.extrude_region_move(
 # Inset faces (I key)
 bpy.ops.mesh.inset(thickness=0.1, depth=0.0)
 
-# Loop cut (Ctrl+R) — adds edge loop with n cuts
+# Loop cut (Ctrl+R): adds edge loop with n cuts
 bpy.ops.mesh.loopcut_slide(
     MESH_OT_loopcut={"number_cuts": 1},
     TRANSFORM_OT_edge_slide={"value": 0.0}
@@ -224,7 +224,7 @@ import bmesh
 obj = bpy.context.active_object
 bm = bmesh.from_edit_mesh(obj.data)
 
-# Check valence (number of edges per vertex) — find poles
+# Check valence (number of edges per vertex): find poles
 for v in bm.verts:
     valence = len(v.link_edges)
     if valence != 4:

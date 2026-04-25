@@ -77,7 +77,7 @@ bool_mod.solver    = 'EXACT'        # 'EXACT' (accurate) or 'FAST'
 cutter.hide_set(True)
 cutter.hide_render = True
 
-# Apply (destructive — burns cut into mesh permanently)
+# Apply (destructive: burns cut into mesh permanently)
 bpy.context.view_layer.objects.active = base
 bpy.ops.object.modifier_apply(modifier="Bool")
 

@@ -80,7 +80,7 @@ git add .gitignore
 git commit -m "init project"
 
 # 3. Your first script (AI writes this for you)
-# scene.py lives here — this is what you version control
+# scene.py lives here: this is what you version control
 
 # 4. Run it into Blender
 # Option A: from terminal
@@ -141,14 +141,14 @@ Write a bpy Python script that:
 - Renders to //render_output.png
 """
 
-# 3. Receive the script — review for obvious issues
+# 3. Receive the script: review for obvious issues
 # 4. Run it: paste into Blender Text Editor → Alt+P
 #    OR: blender -b -P generated_script.py
 
-# 5. Read errors in System Console — feed back to AI with exact error message
-error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created with use_nodes=True but nodes weren't cleared first"
+# 5. Read errors in System Console: feed back to AI with exact error message
+error_feedback = "Line 34: KeyError: 'Principled BSDF', node created with use_nodes=True but nodes weren't cleared first"
 
-# 6. Iterate — usually 1-3 rounds to a working scene
+# 6. Iterate: usually 1-3 rounds to a working scene
 # 7. Tweak parameters directly in bpy or via the UI`,
         content: `The AI-assisted coding loop with Blender has a specific shape, and this workshop is designed to make each step effective.
 
@@ -220,7 +220,7 @@ Python files Blender loads as plugins.`,
       {
         title: "The Scripting Workspace Layout",
         pythonCode: `# In the Python Console (interactive, one-liners):
-# Type any bpy expression and press Enter — result shows immediately
+# Type any bpy expression and press Enter: result shows immediately
 
 >>> bpy.context.active_object
 >>> bpy.context.active_object.location
@@ -260,15 +260,15 @@ To open the Info Editor: change any editor's type to **Info** via the editor typ
 # Step 2: Open the Info Editor
 # Step 3: Copy the logged Python statement
 
-# Example — you manually added a UV Sphere via Shift+A → Mesh → UV Sphere
+# Example: you manually added a UV Sphere via Shift+A → Mesh → UV Sphere
 # Info logs:
 bpy.ops.mesh.primitive_uv_sphere_add(radius=1, enter_editmode=False,
     align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
 
-# Example — you applied a Subdivision Surface modifier
+# Example: you applied a Subdivision Surface modifier
 bpy.ops.object.modifier_apply(modifier="Subdivision")
 
-# Example — you set a material's roughness to 0.3
+# Example: you set a material's roughness to 0.3
 bpy.context.object.active_material.node_tree.nodes["Principled BSDF"].inputs[2].default_value = 0.3
 
 # Hover method: hover over any UI element → tooltip shows the data path
@@ -302,14 +302,14 @@ The discipline is: don't end a session with manual changes that haven't been con
         title: "Debugging Scripts",
         pythonCode: `import bpy
 
-# 1. Print debugging — the simplest approach
+# 1. Print debugging: the simplest approach
 obj = bpy.context.active_object
 print(f"Active object: {obj}")          # None if nothing selected
 print(f"Type: {obj.type if obj else 'N/A'}")
 
-# 2. Context guards — most errors are context failures
+# 2. Context guards: most errors are context failures
 if bpy.context.active_object is None:
-    raise RuntimeError("No active object — select something first")
+    raise RuntimeError("No active object: select something first")
 if bpy.context.active_object.type != 'MESH':
     raise TypeError(f"Expected MESH, got {bpy.context.active_object.type}")
 if bpy.context.mode != 'OBJECT':
@@ -320,7 +320,7 @@ if bpy.context.mode != 'OBJECT':
 with bpy.context.temp_override(active_object=obj):
     bpy.ops.object.shade_smooth()
 
-# 4. See the full traceback — run from System Console:
+# 4. See the full traceback: run from System Console:
 # Mac: open Terminal → /Applications/Blender.app/Contents/MacOS/Blender
 # Windows: Window → Toggle System Console
 # The full Python traceback prints there, not inside Blender's UI`,
@@ -466,8 +466,8 @@ Both give you full bpy auto-complete and are vastly better than Blender's built-
 # - bpy.ops calls fail silently or raise RuntimeError if context is wrong.
 #
 # Project:
-# scripts/   .py files — source, versioned
-# renders/   output — gitignored
+# scripts/   .py files: source, versioned
+# renders/   output: gitignored
 # .blend files are build artifacts, gitignored
 #
 # Conventions:
@@ -512,10 +512,10 @@ API notes:
 - bpy.ops calls raise RuntimeError if context (mode, active object) is wrong.
 
 Project layout:
-- scenes/    one .py per scene or deliverable — self-contained, runnable
+- scenes/    one .py per scene or deliverable: self-contained, runnable
 - lib/       reusable functions (lighting rigs, materials, utils) imported by scenes
-- renders/   output — gitignored
-- .blend files are build artifacts — gitignored
+- renders/   output: gitignored
+- .blend files are build artifacts: gitignored
 
 Conventions:
 - Objects: snake_case. Materials: Title_Case.
@@ -526,13 +526,13 @@ Conventions:
 
 Update the version and renderer line when you upgrade Blender. Everything else carries forward unless your conventions change.
 
->> API changes between Blender versions are not a research problem. When a script breaks after an upgrade, paste the error into your AI with one line of context: "I upgraded to Blender X.Y and this call now fails." The AI knows the API differences and will give you the updated equivalent immediately — no changelog hunting required. This is one of the clearest advantages of AI-assisted Blender scripting over following static tutorials.`,
+>> API changes between Blender versions are not a research problem. When a script breaks after an upgrade, paste the error into your AI with one line of context: "I upgraded to Blender X.Y and this call now fails." The AI knows the API differences and will give you the updated equivalent immediately: no changelog hunting required. This is one of the clearest advantages of AI-assisted Blender scripting over following static tutorials.`,
       },
       {
         title: "Organising Your Blender Scripting Project",
         pythonCode: `# Recommended project layout
 my_blender_project/
-├── CLAUDE.md            # AI context file — loaded automatically
+├── CLAUDE.md            # AI context file: loaded automatically
 ├── .gitignore           # *.blend, renders/, __pycache__/
 ├── README.md            # what this project is, how to run each script
 │
@@ -546,7 +546,7 @@ my_blender_project/
 │   ├── materials.py     # material setup functions
 │   └── utils.py         # shared helpers (clear scene, etc.)
 │
-└── renders/             # output — gitignored
+└── renders/             # output: gitignored
 
 # Example: lib/lighting.py
 import bpy
@@ -589,7 +589,7 @@ my_blender_project/
 ├── README.md            # what each script produces, how to run it
 ├── scenes/              # one .py per scene or deliverable
 ├── lib/                 # reusable functions (lighting, materials, utils)
-└── renders/             # output — gitignored
+└── renders/             # output: gitignored
 \`\`\`
 
 **scenes/**: Each file is self-contained and runnable. It imports from lib/ and produces one complete result. Name files after what they produce: \`terrain.py\`, \`product_viz.py\`, \`title_card.py\`.
@@ -613,9 +613,9 @@ The AI knows where things live and follows the pattern.`,
         pythonCode: `# Your project folder structure
 my_blender_project/
 ├── .gitignore        # tells git what to ignore
-├── scene_builder.py  # your script — this is the source
+├── scene_builder.py  # your script: this is the source
 ├── lighting_rig.py   # reusable components
-└── renders/          # output — not versioned
+└── renders/          # output: not versioned
 
 # .gitignore contents:
 *.blend
@@ -624,7 +624,7 @@ my_blender_project/
 renders/
 __pycache__/
 
-# The .blend is a build artifact — generated by running the script.
+# The .blend is a build artifact: generated by running the script.
 # You version the script, not the .blend.
 # Anyone who clones your repo can reproduce the scene by running:
 # blender -b --python scene_builder.py`,

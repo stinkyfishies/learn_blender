@@ -11,7 +11,7 @@ export const hexToRgb = (hex) => {
 };
 
 // Converts **text** markers to inline <strong> HTML.
-// Used with dangerouslySetInnerHTML — input is always from our own content strings, not user data.
+// Used with dangerouslySetInnerHTML: input is always from our own content strings, not user data.
 export const applyBold = (str) =>
   str.replace(/\*\*(.*?)\*\*/g, `<strong style="color:${C.textPrimary}">$1</strong>`);
 
@@ -43,13 +43,13 @@ export const getQuizOptionStyles = (done, isSelected, isCorrect) => {
 
 
 // Regex for Python syntax highlighting. Match groups (used in CodeBlock.jsx):
-//   m[1] — strings (single/double/triple-quoted)
-//   m[2] — bpy.* API calls
-//   m[3] — keywords (import, for, if, in, return, True, False, None)
-//   m[4] — numbers
-//   m[5] — function calls (word followed by open paren)
-//   m[6] — punctuation (=, commas, brackets)
-// Reset lastIndex before each use — the /g flag makes it stateful.
+//   m[1]: strings (single/double/triple-quoted)
+//   m[2]: bpy.* API calls
+//   m[3]: keywords (import, for, if, in, return, True, False, None)
+//   m[4]: numbers
+//   m[5]: function calls (word followed by open paren)
+//   m[6]: punctuation (=, commas, brackets)
+// Reset lastIndex before each use: the /g flag makes it stateful.
 export const PYTHON_HIGHLIGHT_RE =
   /("""[\s\S]*?"""|'[^']*'|"[^"]*")|(bpy\.\w+(?:\.\w+)*)|(import\s+\w+|for\s|if\s|in\s|return\s|True|False|None)|(\b\d+\.?\d*\b)|(\b\w+\s*(?=\())|([=,\[\]{}():])/g;
 

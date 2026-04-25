@@ -235,7 +235,7 @@ if "Camera" not in bpy.data.objects:
 cam_obj  = bpy.data.objects["Camera"]
 cam_data = cam_obj.data  # bpy.types.Camera
 
-# Focal length — controls zoom and perspective distortion
+# Focal length: controls zoom and perspective distortion
 cam_data.lens      = 85.0    # mm: 24=wide, 50=normal, 85=portrait, 135=telephoto
 cam_data.lens_unit = 'MILLIMETERS'  # or 'FOV'
 

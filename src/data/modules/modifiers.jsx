@@ -73,7 +73,7 @@ mod.show_render = False
 # Duplicate a modifier
 bpy.ops.object.modifier_copy(modifier=mod.name)
 
-# Apply a modifier (destructive — burns into mesh)
+# Apply a modifier (destructive: burns into mesh)
 bpy.ops.object.modifier_apply(modifier=mod.name)
 
 # Remove a modifier without applying
@@ -292,7 +292,7 @@ bpy.ops.mesh.primitive_circle_add(vertices=16, radius=0.5, fill_type='NOTHING')
 vase = bpy.context.active_object
 vase.name = "Vase"
 
-# Add Screw modifier — revolves the circle profile
+# Add Screw modifier: revolves the circle profile
 scr = vase.modifiers.new("Screw", 'SCREW')
 scr.angle = math.radians(360)
 scr.steps = 32

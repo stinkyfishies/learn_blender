@@ -72,7 +72,7 @@ print(mod.total_levels)    # total available levels
 # Change sculpt level (like moving the slider)
 mod.sculpt_levels = 3
 
-# Remesh — rebuild with uniform voxel topology
+# Remesh: rebuild with uniform voxel topology
 bpy.ops.object.voxel_remesh()  # uses scene remesh voxel size
 obj.data.remesh_voxel_size = 0.01  # smaller = more detail, heavier
 
@@ -104,7 +104,7 @@ sculpt = tool_settings.sculpt
 # Switch brush (must be in Sculpt Mode)
 bpy.ops.object.mode_set(mode='SCULPT')
 
-# Set brush via name — all built-in brushes
+# Set brush via name: all built-in brushes
 bpy.ops.paint.brush_select(sculpt_tool='DRAW')       # Draw
 bpy.ops.paint.brush_select(sculpt_tool='CLAY')       # Clay
 bpy.ops.paint.brush_select(sculpt_tool='CLAY_STRIPS')
@@ -168,7 +168,7 @@ bpy.ops.paint.mask_flood_fill(mode='VALUE', value=0.0)   # clear all mask
 bpy.ops.paint.mask_flood_fill(mode='VALUE', value=1.0)   # mask everything
 bpy.ops.paint.mask_flood_fill(mode='INVERT')             # invert mask
 
-# Face sets — stored as integer attribute ".sculpt_face_set"
+# Face sets: stored as integer attribute ".sculpt_face_set"
 if ".sculpt_face_set" in mesh.attributes:
     fs_attr = mesh.attributes[".sculpt_face_set"]
     unique_sets = set(v.value for v in fs_attr.data)
@@ -220,7 +220,7 @@ brush = bpy.context.scene.tool_settings.sculpt.brush
 brush.size     = 120
 brush.strength = 0.8
 
-# Programmatic sculpting is limited in Python — most sculpting
+# Programmatic sculpting is limited in Python: most sculpting
 # is interactive. What you CAN do: drive mesh shape via vertex positions
 # before entering sculpt mode.
 bpy.ops.object.mode_set(mode='OBJECT')

@@ -263,10 +263,10 @@ bpy.ops.object.select_all(action='SELECT')
 # Select by type
 bpy.ops.object.select_by_type(type='MESH')
 
-# In Edit Mode — select all vertices
+# In Edit Mode: select all vertices
 bpy.ops.mesh.select_all(action='SELECT')
 
-# Select edge loops (Alt+Click equivalent — must be in EDGE select mode)
+# Select edge loops (Alt+Click equivalent: must be in EDGE select mode)
 bpy.ops.mesh.loop_select(extend=False)
 
 # Invert selection

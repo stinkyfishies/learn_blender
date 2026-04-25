@@ -97,10 +97,10 @@ const renderContent = (text) => {
       flushList(i);
       elements.push(<div key={i} style={{ height: 6 }} />);
     } else if (/^[-•]\s+/.test(line)) {
-      // Bullet list item — buffered until a blank line or non-list line
+      // Bullet list item: buffered until a blank line or non-list line
       listBuffer.push(line.replace(/^[-•]\s+/, ""));
     } else if (/^>>\s+/.test(line)) {
-      // Tip / insight callout — positive, sky-blue treatment
+      // Tip / insight callout: positive, sky-blue treatment
       flushList(i);
       elements.push(
         <div
@@ -132,7 +132,7 @@ const renderContent = (text) => {
         </div>,
       );
     } else if (/^!!\s+/.test(line)) {
-      // Trap callout — visually distinct from regular callouts
+      // Trap callout: visually distinct from regular callouts
       flushList(i);
       elements.push(
         <div

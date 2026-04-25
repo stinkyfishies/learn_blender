@@ -31,8 +31,8 @@ export default function BlenderWorkshop() {
   }, [activeModule]);
 
   // Scroll to a specific section when scrollToSection is set.
-  // The 100ms delay lets the module render complete before scrollIntoView fires —
-  // without it the target element may not be in the DOM yet.
+  // The 100ms delay lets the module render complete before scrollIntoView fires.
+  // Without it the target element may not be in the DOM yet.
   // Callers set expandedSections before setting scrollToSection so the section is open.
   useEffect(() => {
     if (scrollToSection === null) return;
@@ -1327,7 +1327,7 @@ export default function BlenderWorkshop() {
                 </div>
               </div>
 
-              {/* bpy toggle nudge — only on bpy module when toggle is off */}
+              {/* bpy toggle nudge: only on bpy module when toggle is off */}
               {mod.id === 3 && !showPython && (
                 <div
                   style={{
@@ -1534,7 +1534,7 @@ export default function BlenderWorkshop() {
             color: C.textGhost,
             letterSpacing: 1,
           }}>
-            © 2026 Dee Dee — All Rights Reserved
+            © 2026 Dee Dee. All Rights Reserved
           </span>
         </div>
       </div>

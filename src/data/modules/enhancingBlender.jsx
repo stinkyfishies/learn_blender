@@ -113,7 +113,7 @@ The old manual method still works: download a .zip, go to Preferences → Add-on
 # - A new menu item in an editor header
 # - The Properties panel under a new section
 # Check the add-on's documentation or hover over the Preferences
-# entry — it usually shows a link to where the UI appears`,
+# entry: it usually shows a link to where the UI appears`,
         content: `**BlenderKit**
 A free asset library integrated directly into Blender. Browse and drag in materials, 3D models, HDRIs, and brushes without leaving the app. The free tier has thousands of assets. Install via Get Extensions, then find it in the N panel sidebar inside the 3D Viewport.
 

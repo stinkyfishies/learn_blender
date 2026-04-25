@@ -75,19 +75,19 @@ def add_light(name, type, location, energy, color=(1,1,1), size=0.5):
         light.data.shadow_soft_size = size
     return light
 
-# Point light — omnidirectional bulb
+# Point light: omnidirectional bulb
 add_light("KeyPoint", 'POINT', (3, -3, 5), energy=500)
 
-# Sun light — parallel rays, position irrelevant, only rotation matters
+# Sun light: parallel rays, position irrelevant, only rotation matters
 sun = add_light("Sun", 'SUN', (0, 0, 10), energy=5)
 sun.rotation_euler = (math.radians(45), 0, math.radians(30))
 
-# Spot light — cone
+# Spot light: cone
 spot = add_light("Spot", 'SPOT', (0, -5, 8), energy=1000)
 spot.data.spot_size  = math.radians(45)   # cone angle
 spot.data.spot_blend = 0.15               # soft edge (0=hard, 1=very soft)
 
-# Area light — rectangular, softest shadows
+# Area light: rectangular, softest shadows
 area = add_light("KeyArea", 'AREA', (4, -2, 6), energy=800, size=2.0)
 area.data.shape = 'RECTANGLE'  # 'SQUARE', 'RECTANGLE', 'DISK', 'ELLIPSE'
 area.data.size  = 2.0

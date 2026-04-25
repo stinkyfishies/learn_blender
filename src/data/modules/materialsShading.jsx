@@ -74,7 +74,7 @@ obj.data.materials.append(mat)
 # Get the Principled BSDF node
 bsdf = mat.node_tree.nodes["Principled BSDF"]
 
-# Key inputs — set via default_value on the input socket
+# Key inputs: set via default_value on the input socket
 bsdf.inputs["Base Color"].default_value        = (0.8, 0.2, 0.1, 1.0)  # RGBA
 bsdf.inputs["Metallic"].default_value          = 0.0    # 0=dielectric, 1=metal
 bsdf.inputs["Roughness"].default_value         = 0.5    # 0=mirror, 1=matte
