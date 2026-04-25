@@ -93,29 +93,22 @@ The old manual method still works: download a .zip, go to Preferences → Add-on
       },
       {
         title: "Free Add-ons Worth Knowing",
-        pythonCode: `# BlenderKit: asset library accessible inside Blender
-# Install via Preferences → Get Extensions → search "BlenderKit"
-# Then: in the 3D Viewport sidebar (N panel) → BlenderKit tab
-# Browse materials, models, HDRIs without leaving Blender
-
-# After installing an add-on, its UI usually appears in one of:
+        pythonCode: `# After installing an add-on, its UI usually appears in one of:
 # - The N panel (sidebar, press N in 3D Viewport)
 # - A new menu item in an editor header
 # - The Properties panel under a new section
 # Check the add-on's documentation or hover over the Preferences
 # entry: it usually shows a link to where the UI appears`,
-        content: `**BlenderKit**
-A free asset library integrated directly into Blender. Browse and drag in materials, 3D models, HDRIs, and brushes without leaving the app. The free tier has thousands of assets. Install via Get Extensions, then find it in the N panel sidebar inside the 3D Viewport.
+        content: `Some well-known add-ons (BlenderKit, Gaffer, Photographer) predate the Extensions platform and are not listed there. They require manual install: download the .zip from their respective sites or GitHub, then Preferences → Add-ons → Install from Disk.
 
-**Node Wrangler** (already covered, but worth repeating: install this first)
+**BlenderKit**: free asset library (materials, models, HDRIs) accessible from the N panel sidebar. blenderkit.com.
+**Gaffer**: lighting management panel, useful once your scene has more than two lights. GitHub: gregzaal/Gaffer.
+**Photographer**: physically-based camera controls (EV, aperture, shutter speed). GitHub: gregzaal/Photographer.
 
-**Gaffer**
-Better lighting management. Shows all lights in a clean list, lets you adjust intensity and color without clicking into each light individually. Useful once your scenes have more than two lights.
-
-**Photographer**
-Physically-based camera controls: exposure in EV, real aperture and shutter speed values, auto-exposure. Makes the camera behave like a real camera instead of Blender's abstract defaults.
-
-These are all free. Search for them in Get Extensions or on GitHub.`,
+For everything else, browse the Extensions platform directly. When evaluating an extension:
+- Check the rating and number of reviews
+- Check when it was last updated (stale extensions break on new Blender versions)
+- Read the description for which Blender version it targets`,
       },
       {
         title: "Recommended Preferences to Change",
