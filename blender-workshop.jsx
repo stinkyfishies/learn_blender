@@ -1436,7 +1436,7 @@ Come back when you hit a wall: when the AI keeps getting something wrong and you
   },
   {
     id: 4,
-    emoji: "🔧",
+    emoji: "⚙️",
     title: "Enhancing Blender",
     tag: "SETUP + ADD-ONS",
     color: "#a78bfa",
