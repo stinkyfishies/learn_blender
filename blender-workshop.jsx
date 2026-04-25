@@ -978,7 +978,14 @@ Hover over any UI button or property field. The tooltip shows the Python data pa
 **Right-click → Copy Data Path**
 Right-click any property and it copies its full Python path to clipboard. Paste directly into a script.
 
-Together these three methods let you discover the bpy path to any UI control in under 30 seconds, without reading the API documentation.`,
+Together these three methods let you discover the bpy path to any UI control in under 30 seconds, without reading the API documentation.
+
+**Manual tweaks and script integrity**
+Your script is the source of truth. If you make a manual tweak directly in Blender's UI (move a vertex, adjust a modifier value, reposition a light), that change exists only in the open .blend file -- it's not in your script. Close Blender or re-run the script and it's gone.
+
+The fix: before closing Blender, check the Info Editor. Every manual action you took is logged there as Python. Copy those lines and paste them into the right place in your script. Commit the updated script.
+
+The discipline is: don't end a session with manual changes that haven't been converted back into the script. The Info Editor makes this possible -- it's logging everything in real time whether you asked it to or not.`,
       },
       {
         title: "Debugging Scripts",
