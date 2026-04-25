@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import modules from "./data/modules/index.js";
 import outcomes from "./data/outcomes.jsx";
 import { TABS, LEARNING_PATHS } from "./data/learningPaths.js";
@@ -12,8 +13,25 @@ import CodeBlock from "./components/CodeBlock.jsx";
 import { C } from "./utils/colors.js";
 
 
+const toSlug = (title) =>
+  title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
 export default function BlenderWorkshop() {
-  const [activeModule, setActiveModule] = useState(null); // null = home
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Slug → array index map, built once
+  const slugToIdx = useMemo(
+    () => Object.fromEntries(modules.map((m, i) => [toSlug(m.title), i])),
+    []
+  );
+
+  // Derive active module index from URL (null = home)
+  const urlSlug = location.pathname.match(/^\/module\/(.+)/)?.[1] ?? null;
+  const activeModule = urlSlug !== null ? (slugToIdx[urlSlug] ?? null) : null;
+
+  const toModuleUrl = (idx) => `/module/${toSlug(modules[idx].title)}`;
+
   const [completedModules, setCompletedModules] = useState(new Set());
   const [expandedSections, setExpandedSections] = useState({ 0: true });
   const [activeTab, setActiveTab] = useState("content");
@@ -62,13 +80,13 @@ export default function BlenderWorkshop() {
   const markComplete = () => {
     setCompletedModules((prev) => new Set([...prev, activeModule]));
     if (activeModule < modules.length - 1) {
-      setActiveModule(activeModule + 1);
+      navigate(toModuleUrl(activeModule + 1));
       setExpandedSections({ 0: true });
     }
   };
 
   const goHome = () => {
-    setActiveModule(null);
+    navigate("/");
     setActiveTab("content");
     setSidebarOpen(false);
   };
@@ -231,7 +249,7 @@ export default function BlenderWorkshop() {
                   <div
                     key={ri}
                     onClick={() => {
-                      setActiveModule(r.moduleIdx);
+                      navigate(toModuleUrl(r.moduleIdx));
                       setActiveTab("content");
                       setSidebarOpen(false);
                       setSearchQuery("");
@@ -310,7 +328,7 @@ export default function BlenderWorkshop() {
             <div
               key={m.id}
               onClick={() => {
-                setActiveModule(i);
+                navigate(toModuleUrl(i));
                 setExpandedSections({ 0: true });
                 setActiveTab("content");
                 setSidebarOpen(false);
@@ -595,7 +613,7 @@ export default function BlenderWorkshop() {
               {LEARNING_PATHS[openPath].modules.map((m, mi) => (
                 <div
                   key={mi}
-                  onClick={() => { setActiveModule(m.idx); setExpandedSections({ 0: true }); setActiveTab("content"); setOpenPath(null); }}
+                  onClick={() => { navigate(toModuleUrl(m.idx)); setExpandedSections({ 0: true }); setActiveTab("content"); setOpenPath(null); }}
                   style={{
                     display: "flex", alignItems: "center", gap: 12,
                     padding: "10px 20px",
@@ -835,7 +853,7 @@ export default function BlenderWorkshop() {
                             <div
                               key={i}
                               onClick={() => {
-                                setActiveModule(step.moduleIdx);
+                                navigate(toModuleUrl(step.moduleIdx));
                                 setActiveTab("content");
                                 setExpandedSections(prev => ({ ...prev, [step.sectionIdx]: true }));
                                 setTimeout(() => setScrollToSection(step.sectionIdx), 80);
@@ -1257,7 +1275,7 @@ export default function BlenderWorkshop() {
               >
                 <button
                   onClick={() => {
-                    setActiveModule(0);
+                    navigate(toModuleUrl(0));
                     setExpandedSections({ 0: true });
                   }}
                   style={{
@@ -1469,7 +1487,7 @@ export default function BlenderWorkshop() {
                 <button
                   onClick={() => {
                     if (activeModule > 0) {
-                      setActiveModule(activeModule - 1);
+                      navigate(toModuleUrl(activeModule - 1));
                       setExpandedSections({ 0: true });
                     }
                   }}
