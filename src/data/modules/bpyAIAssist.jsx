@@ -524,7 +524,9 @@ Conventions:
 - New scene scripts follow the structure of existing ones in scenes/.
 \`\`\`
 
-Update the version and renderer line when you upgrade Blender. Everything else carries forward unless your conventions change.`,
+Update the version and renderer line when you upgrade Blender. Everything else carries forward unless your conventions change.
+
+>> API changes between Blender versions are not a research problem. When a script breaks after an upgrade, paste the error into your AI with one line of context: "I upgraded to Blender X.Y and this call now fails." The AI knows the API differences and will give you the updated equivalent immediately — no changelog hunting required. This is one of the clearest advantages of AI-assisted Blender scripting over following static tutorials.`,
       },
       {
         title: "Organising Your Blender Scripting Project",

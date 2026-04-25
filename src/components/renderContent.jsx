@@ -6,6 +6,8 @@ import { C } from "../utils/colors.js";
 // Supports a minimal markdown-like syntax:
 //   **text**          → bold (white)
 //   - item / • item   → styled bullet list
+//   >> text           → tip callout (sky-blue, "TIP" label)
+//   !! text           → trap callout (orange, "COMMON TRAP" label)
 //   > text            → callout block (indented, italic)
 //   ```               → fenced code block (monospace, starts/ends with ```)
 //   ##tree/##endtree  → directory tree block (same style as code block)
@@ -97,6 +99,38 @@ const renderContent = (text) => {
     } else if (/^[-•]\s+/.test(line)) {
       // Bullet list item — buffered until a blank line or non-list line
       listBuffer.push(line.replace(/^[-•]\s+/, ""));
+    } else if (/^>>\s+/.test(line)) {
+      // Tip / insight callout — positive, sky-blue treatment
+      flushList(i);
+      elements.push(
+        <div
+          key={i}
+          style={{
+            borderLeft: `3px solid ${C.sky}`,
+            background: "rgba(56,189,248,0.06)",
+            borderRadius: "0 6px 6px 0",
+            padding: "10px 14px",
+            marginTop: 8,
+            marginBottom: 8,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 9,
+              letterSpacing: 2,
+              color: C.sky,
+              marginBottom: 5,
+            }}
+          >
+            TIP
+          </div>
+          <div
+            style={{ fontSize: 12.5, lineHeight: 1.6, color: C.textBody }}
+            dangerouslySetInnerHTML={{ __html: applyBold(line.replace(/^>>\s+/, "")) }}
+          />
+        </div>,
+      );
     } else if (/^!!\s+/.test(line)) {
       // Trap callout — visually distinct from regular callouts
       flushList(i);
