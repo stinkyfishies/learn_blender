@@ -1,4 +1,5 @@
 import React from "react";
+import { C } from "../utils/colors.js";
 
 const KeybindChip = ({ keys, desc }) => (
   <div
@@ -29,7 +30,7 @@ const KeybindChip = ({ keys, desc }) => (
             padding: "2px 7px",
             fontFamily: "monospace",
             fontSize: 11,
-            color: "#e8e8f0",
+            color: C.textPrimary,
             fontWeight: 700,
             boxShadow: "0 2px 0 rgba(0,0,0,0.4)",
             whiteSpace: "nowrap",
@@ -39,7 +40,7 @@ const KeybindChip = ({ keys, desc }) => (
         </span>
       ))}
     </div>
-    <span style={{ fontSize: 12, color: "#9999bb" }}>{desc}</span>
+    <span style={{ fontSize: 12, color: C.textBody }}>{desc}</span>
   </div>
 );
 

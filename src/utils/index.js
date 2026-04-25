@@ -1,7 +1,8 @@
 // Shared utilities, constants, and style objects used across components.
+import { C } from "../utils/colors.js";
 
 // Converts a hex color string to "r,g,b" for use in rgba() expressions.
-// e.g. hexToRgb("#e8622a") → "232,98,42"
+// e.g. hexToRgb(C.orange) → "232,98,42"
 export const hexToRgb = (hex) => {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -12,14 +13,14 @@ export const hexToRgb = (hex) => {
 // Converts **text** markers to inline <strong> HTML.
 // Used with dangerouslySetInnerHTML — input is always from our own content strings, not user data.
 export const applyBold = (str) =>
-  str.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#e8e8f0">$1</strong>');
+  str.replace(/\*\*(.*?)\*\*/g, `<strong style="color:${C.textPrimary}">$1</strong>`);
 
 
 export const INLINE_CODE_STYLE = {
   fontFamily: "'JetBrains Mono', monospace",
   fontSize: 12,
   lineHeight: 1.7,
-  color: "#7777aa",
+  color: C.textCode,
   background: "rgba(255,255,255,0.03)",
   border: "1px solid #1e1e2e",
   borderRadius: 6,
@@ -34,10 +35,10 @@ export const INLINE_CODE_STYLE = {
 // Returns background/border/color for a quiz answer button based on its state.
 // Priority order matters: correctness is shown only after the question is answered (done).
 export const getQuizOptionStyles = (done, isSelected, isCorrect) => {
-  if (!done && isSelected) return { bg: "rgba(91,141,238,0.1)", border: "#5b8dee40", color: "#e8e8f0" };
-  if (done && isCorrect)   return { bg: "rgba(68,217,162,0.08)", border: "#44d9a240", color: "#44d9a2" };
-  if (done && isSelected)  return { bg: "rgba(244,114,114,0.08)", border: "#f4727240", color: "#f47272" };
-  return { bg: "transparent", border: "#2a2a3a", color: "#888899" };
+  if (!done && isSelected) return { bg: "rgba(91,141,238,0.1)", border: C.blueAlpha, color: C.textPrimary };
+  if (done && isCorrect)   return { bg: "rgba(68,217,162,0.08)", border: C.greenAlpha, color: C.green };
+  if (done && isSelected)  return { bg: "rgba(244,114,114,0.08)", border: C.redAlpha, color: C.red };
+  return { bg: "transparent", border: C.borderMid, color: C.textMuted };
 };
 
 

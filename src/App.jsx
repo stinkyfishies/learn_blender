@@ -8,6 +8,7 @@ import SectionLabel from "./components/SectionLabel.jsx";
 import renderContent from "./components/renderContent.jsx";
 import Quiz from "./components/Quiz.jsx";
 import CodeBlock from "./components/CodeBlock.jsx";
+import { C } from "./utils/colors.js";
 
 
 export default function BlenderWorkshop() {
@@ -78,8 +79,8 @@ export default function BlenderWorkshop() {
         display: "flex",
         height: "100%",
         fontFamily: "'Inter', sans-serif",
-        background: "#0a0a0f",
-        color: "#e8e8f0",
+        background: C.bgBase,
+        color: C.textPrimary,
         overflow: "hidden",
       }}
     >
@@ -145,9 +146,9 @@ export default function BlenderWorkshop() {
             cursor: "pointer",
           }}
         >
-          <SectionLabel text="WORKSHOP FOR AI-ASSISTED CODERS" color="#e8622a" size={9} mb={4} />
+          <SectionLabel text="WORKSHOP FOR AI-ASSISTED CODERS" color={C.orange} size={9} mb={4} />
           <div style={{ fontSize: 20, fontWeight: 800 }}>
-            Blender <span style={{ color: "#e8622a" }}>5.1</span>
+            Blender <span style={{ color: C.orange }}>5.1</span>
           </div>
         </div>
 
@@ -159,7 +160,7 @@ export default function BlenderWorkshop() {
           <div
             style={{
               height: 3,
-              background: "#1e1e2e",
+              background: C.border,
               borderRadius: 2,
               overflow: "hidden",
             }}
@@ -178,7 +179,7 @@ export default function BlenderWorkshop() {
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: 11,
-              color: "#e8622a",
+              color: C.orange,
               marginTop: 5,
             }}
           >
@@ -200,7 +201,7 @@ export default function BlenderWorkshop() {
               borderRadius: 6,
               padding: "7px 10px",
               fontSize: 12,
-              color: "#c8c8e0",
+              color: C.textSubtle,
               outline: "none",
               fontFamily: "'Inter', sans-serif",
             }}
@@ -221,7 +222,7 @@ export default function BlenderWorkshop() {
               });
             });
             if (results.length === 0) return (
-              <div style={{ fontSize: 11, color: "#444466", padding: "8px 4px" }}>No results</div>
+              <div style={{ fontSize: 11, color: C.textFaint, padding: "8px 4px" }}>No results</div>
             );
             return (
               <div style={{ marginTop: 6, maxHeight: 300, overflowY: "auto" }}>
@@ -249,8 +250,8 @@ export default function BlenderWorkshop() {
                       borderLeft: `2px solid ${r.color}`,
                     }}
                   >
-                    <div style={{ fontSize: 12, color: "#c8c8e0", fontWeight: 600 }}>{r.emoji} {r.label}</div>
-                    <div style={{ fontSize: 10, color: "#555577", marginTop: 1 }}>{r.sub}</div>
+                    <div style={{ fontSize: 12, color: C.textSubtle, fontWeight: 600 }}>{r.emoji} {r.label}</div>
+                    <div style={{ fontSize: 10, color: C.textDim, marginTop: 1 }}>{r.sub}</div>
                   </div>
                 ))}
               </div>
@@ -269,7 +270,7 @@ export default function BlenderWorkshop() {
               gap: 10,
               padding: "9px 20px",
               cursor: "pointer",
-              borderLeft: `3px solid ${activeModule === null ? "#e8622a" : "transparent"}`,
+              borderLeft: `3px solid ${activeModule === null ? C.orange : "transparent"}`,
               background:
                 activeModule === null ? "rgba(232,98,42,0.08)" : "transparent",
               transition: "all 0.15s",
@@ -284,7 +285,7 @@ export default function BlenderWorkshop() {
                 style={{
                   fontSize: 12,
                   fontWeight: 600,
-                  color: activeModule === null ? "#e8e8f0" : "#888899",
+                  color: activeModule === null ? C.textPrimary : C.textMuted,
                 }}
               >
                 Overview
@@ -293,7 +294,7 @@ export default function BlenderWorkshop() {
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: 9,
-                  color: "#444466",
+                  color: C.textFaint,
                   letterSpacing: 1,
                 }}
               >
@@ -302,7 +303,7 @@ export default function BlenderWorkshop() {
             </div>
           </div>
           <div
-            style={{ height: 1, background: "#1e1e2e", margin: "4px 20px 8px" }}
+            style={{ height: 1, background: C.border, margin: "4px 20px 8px" }}
           />
           {modules.map((m, i) => (
             <div
@@ -335,7 +336,7 @@ export default function BlenderWorkshop() {
                   style={{
                     fontSize: 12,
                     fontWeight: 600,
-                    color: i === activeModule ? "#e8e8f0" : "#888899",
+                    color: i === activeModule ? C.textPrimary : C.textMuted,
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -347,7 +348,7 @@ export default function BlenderWorkshop() {
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: 9,
-                    color: "#444466",
+                    color: C.textFaint,
                     letterSpacing: 1,
                   }}
                 >
@@ -360,12 +361,12 @@ export default function BlenderWorkshop() {
                     width: 16,
                     height: 16,
                     borderRadius: "50%",
-                    background: "#44d9a2",
+                    background: C.green,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: 9,
-                    color: "#0a0a0f",
+                    color: C.bgBase,
                     fontWeight: 700,
                     flexShrink: 0,
                   }}
@@ -389,7 +390,7 @@ export default function BlenderWorkshop() {
               background: "rgba(255,255,255,0.03)",
               border: "1px solid #2a2a3a",
               borderRadius: 8,
-              color: "#666688",
+              color: C.textSecondary,
               fontSize: 12,
               textDecoration: "none",
               fontFamily: "'Inter', sans-serif",
@@ -428,7 +429,7 @@ export default function BlenderWorkshop() {
               style={{
                 background: "transparent",
                 border: "none",
-                color: "#888899",
+                color: C.textMuted,
                 fontSize: 20,
                 cursor: "pointer",
                 padding: "12px 12px 12px 0",
@@ -447,8 +448,8 @@ export default function BlenderWorkshop() {
                 padding: isMobile ? "12px 10px" : "14px 20px",
                 background: "transparent",
                 border: "none",
-                borderBottom: `2px solid ${activeTab === tab.id ? (mod ? mod.color : "#e8622a") : "transparent"}`,
-                color: activeTab === tab.id ? "#e8e8f0" : "#555577",
+                borderBottom: `2px solid ${activeTab === tab.id ? (mod ? mod.color : C.orange) : "transparent"}`,
+                color: activeTab === tab.id ? C.textPrimary : C.textDim,
                 cursor: "pointer",
                 fontSize: isMobile ? 18 : 12,
                 fontWeight: 600,
@@ -480,7 +481,7 @@ export default function BlenderWorkshop() {
                 background: showPython
                   ? "rgba(56,189,248,0.12)"
                   : "rgba(255,255,255,0.05)",
-                border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
+                border: `1px solid ${showPython ? C.sky : C.borderLight}`,
                 borderRadius: 8,
                 padding: "4px 10px 4px 8px",
                 cursor: "pointer",
@@ -492,7 +493,7 @@ export default function BlenderWorkshop() {
                 <span
                   style={{
                     fontSize: 12,
-                    color: showPython ? "#38bdf8" : "#aaaacc",
+                    color: showPython ? C.sky : "#aaaacc",
                     fontFamily: "'JetBrains Mono', monospace",
                     letterSpacing: 1,
                     transition: "color 0.2s",
@@ -507,8 +508,8 @@ export default function BlenderWorkshop() {
                   width: 40,
                   height: 22,
                   borderRadius: 11,
-                  background: showPython ? "rgba(56,189,248,0.25)" : "#2a2a3a",
-                  border: `1px solid ${showPython ? "#38bdf8" : "#3a3a4a"}`,
+                  background: showPython ? "rgba(56,189,248,0.25)" : C.borderMid,
+                  border: `1px solid ${showPython ? C.sky : C.borderLight}`,
                   position: "relative",
                   transition: "all 0.2s",
                   flexShrink: 0,
@@ -522,7 +523,7 @@ export default function BlenderWorkshop() {
                     width: 14,
                     height: 14,
                     borderRadius: "50%",
-                    background: showPython ? "#38bdf8" : "#666688",
+                    background: showPython ? C.sky : C.textSecondary,
                     transition: "all 0.2s",
                   }}
                 />
@@ -552,9 +553,9 @@ export default function BlenderWorkshop() {
           <div style={{
             display: "flex", alignItems: "center", gap: 4,
             padding: "0 16px", borderBottom: "1px solid #1e1e2e",
-            background: "#0a0a0f",
+            background: C.bgBase,
           }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 2, paddingRight: 8, borderRight: "1px solid #1e1e2e", marginRight: 4, whiteSpace: "nowrap" }}>YOUR PATH</span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: C.textFaint, letterSpacing: 2, paddingRight: 8, borderRight: "1px solid #1e1e2e", marginRight: 4, whiteSpace: "nowrap" }}>YOUR PATH</span>
             {LEARNING_PATHS.map((path, pi) => (
               <button
                 key={pi}
@@ -564,8 +565,8 @@ export default function BlenderWorkshop() {
                   padding: "8px 10px",
                   background: openPath === pi ? "rgba(255,255,255,0.06)" : "transparent",
                   border: "none",
-                  borderBottom: `2px solid ${openPath === pi ? "#e8622a" : "transparent"}`,
-                  color: openPath === pi ? "#e8e8f0" : "#555577",
+                  borderBottom: `2px solid ${openPath === pi ? C.orange : "transparent"}`,
+                  color: openPath === pi ? C.textPrimary : C.textDim,
                   cursor: "pointer", fontSize: 11, fontWeight: 600,
                   fontFamily: "'Inter', sans-serif",
                   whiteSpace: "nowrap", transition: "all 0.15s",
@@ -581,14 +582,14 @@ export default function BlenderWorkshop() {
           {openPath !== null && (
             <div style={{
               position: "absolute", top: "100%", left: 0, right: 0, zIndex: 50,
-              background: "#0f0f18", border: "1px solid #2a2a3a",
+              background: C.bgDeep, border: "1px solid #2a2a3a",
               borderTop: "none", borderRadius: "0 0 10px 10px",
               boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
               maxHeight: 340, overflowY: "auto",
             }}>
               <div style={{ padding: "10px 20px 6px", borderBottom: "1px solid #1a1a28" }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#e8e8f0" }}>{LEARNING_PATHS[openPath].emoji} {LEARNING_PATHS[openPath].title}</div>
-                <div style={{ fontSize: 11, color: "#555577", marginTop: 2 }}>{LEARNING_PATHS[openPath].desc}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.textPrimary }}>{LEARNING_PATHS[openPath].emoji} {LEARNING_PATHS[openPath].title}</div>
+                <div style={{ fontSize: 11, color: C.textDim, marginTop: 2 }}>{LEARNING_PATHS[openPath].desc}</div>
               </div>
               {LEARNING_PATHS[openPath].modules.map((m, mi) => (
                 <div
@@ -603,13 +604,13 @@ export default function BlenderWorkshop() {
                   onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.04)"}
                   onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#333355", width: 18, flexShrink: 0 }}>{String(mi + 1).padStart(2, "0")}</div>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.textGhost, width: 18, flexShrink: 0 }}>{String(mi + 1).padStart(2, "0")}</div>
                   <span style={{ fontSize: 15, width: 22, textAlign: "center", flexShrink: 0 }}>{modules[m.idx].emoji}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#c8c8e0" }}>{modules[m.idx].title}</div>
-                    <div style={{ fontSize: 11, color: "#555577" }}>{m.note}</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: C.textSubtle }}>{modules[m.idx].title}</div>
+                    <div style={{ fontSize: 11, color: C.textDim }}>{m.note}</div>
                   </div>
-                  <span style={{ fontSize: 11, color: "#333355" }}>→</span>
+                  <span style={{ fontSize: 11, color: C.textGhost }}>→</span>
                 </div>
               ))}
             </div>
@@ -633,7 +634,7 @@ export default function BlenderWorkshop() {
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: 10,
-                    color: "#e8622a",
+                    color: C.orange,
                     letterSpacing: 3,
                     marginBottom: 6,
                   }}
@@ -643,7 +644,7 @@ export default function BlenderWorkshop() {
                 <div style={{ fontSize: 24, fontWeight: 800 }}>
                   What Do You Want to Make?
                 </div>
-                <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>
+                <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
                   Find your goal → learn which Blender tools and workflow apply
                 </div>
               </div>
@@ -658,7 +659,7 @@ export default function BlenderWorkshop() {
                       <div
                         key={i}
                         style={{
-                          background: "#111118",
+                          background: C.bgCard,
                           border: "1px solid #1e1e2e",
                           borderRadius: 10,
                           padding: "14px 18px",
@@ -673,7 +674,7 @@ export default function BlenderWorkshop() {
                             style={{
                               fontSize: 13,
                               fontWeight: 700,
-                              color: "#e8e8f0",
+                              color: C.textPrimary,
                               marginBottom: 2,
                             }}
                           >
@@ -683,7 +684,7 @@ export default function BlenderWorkshop() {
                         <div
                           style={{
                             fontSize: 12,
-                            color: "#9999bb",
+                            color: C.textBody,
                             lineHeight: 1.6,
                           }}
                         >
@@ -706,7 +707,7 @@ export default function BlenderWorkshop() {
                                 borderRadius: 4,
                                 padding: "2px 8px",
                                 fontSize: 10,
-                                color: "#5b8dee",
+                                color: C.blue,
                                 fontFamily: "'JetBrains Mono', monospace",
                                 whiteSpace: "nowrap",
                               }}
@@ -731,7 +732,7 @@ export default function BlenderWorkshop() {
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: 10,
-                    color: "#e8622a",
+                    color: C.orange,
                     letterSpacing: 3,
                     marginBottom: 6,
                   }}
@@ -741,7 +742,7 @@ export default function BlenderWorkshop() {
                 <div style={{ fontSize: 24, fontWeight: 800 }}>
                   Shortcuts & Controls
                 </div>
-                <div style={{ fontSize: 13, color: "#666688", marginTop: 4 }}>
+                <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
                   Mac trackpad primary. Keyboard wherever possible.
                 </div>
               </div>
@@ -760,26 +761,26 @@ export default function BlenderWorkshop() {
                   style={{
                     fontSize: 13,
                     fontWeight: 700,
-                    color: "#5b8dee",
+                    color: C.blue,
                     marginBottom: 8,
                   }}
                 >
                   Mac Trackpad Setup (do this first)
                 </div>
                 <div
-                  style={{ fontSize: 12, color: "#888899", lineHeight: 1.7 }}
+                  style={{ fontSize: 12, color: C.textMuted, lineHeight: 1.7 }}
                 >
                   Edit → Preferences → Input:
                   <br />✅{" "}
-                  <strong style={{ color: "#e8e8f0" }}>
+                  <strong style={{ color: C.textPrimary }}>
                     Emulate 3 Button Mouse
                   </strong>{" "}
                   → Option+drag = middle mouse
                   <br />✅{" "}
-                  <strong style={{ color: "#e8e8f0" }}>Emulate Numpad</strong> →
+                  <strong style={{ color: C.textPrimary }}>Emulate Numpad</strong> →
                   number row = view shortcuts
                   <br />✅{" "}
-                  <strong style={{ color: "#e8e8f0" }}>
+                  <strong style={{ color: C.textPrimary }}>
                     Use Multi-Touch Trackpad
                   </strong>{" "}
                   → 2-finger drag = orbit, Shift+2-finger = pan, pinch = zoom
@@ -791,7 +792,7 @@ export default function BlenderWorkshop() {
                 const guides = [
                   {
                     title: "Set up Blender",
-                    color: "#5b8dee",
+                    color: C.blue,
                     steps: [
                       { label: "Configure Mac trackpad", moduleIdx: 1, sectionIdx: 0 },
                       { label: "Editor layout & workspaces", moduleIdx: 1, sectionIdx: 2 },
@@ -801,7 +802,7 @@ export default function BlenderWorkshop() {
                   },
                   {
                     title: "Set up IDE for AI-Assist",
-                    color: "#38bdf8",
+                    color: C.sky,
                     steps: [
                       { label: "What you actually need", moduleIdx: 2, sectionIdx: 0 },
                       { label: "External editor: VS Code or Zed", moduleIdx: 2, sectionIdx: 7 },
@@ -812,7 +813,7 @@ export default function BlenderWorkshop() {
                   },
                   {
                     title: "AI-Assisted Coding Workflow",
-                    color: "#a78bfa",
+                    color: C.purpleLight,
                     steps: [
                       { label: "The coding loop", moduleIdx: 2, sectionIdx: 1 },
                       { label: "Scripting workspace layout", moduleIdx: 2, sectionIdx: 3 },
@@ -827,7 +828,7 @@ export default function BlenderWorkshop() {
                     <SectionLabel text="WORKFLOW GUIDES" />
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
                       {guides.map((guide) => (
-                        <div key={guide.title} style={{ background: "#111118", border: `1px solid rgba(255,255,255,0.07)`, borderRadius: 10, padding: 16 }}>
+                        <div key={guide.title} style={{ background: C.bgCard, border: `1px solid rgba(255,255,255,0.07)`, borderRadius: 10, padding: 16 }}>
                           <div style={{ fontSize: 12, fontWeight: 700, color: guide.color, marginBottom: 10 }}>{guide.title}</div>
                           {guide.steps.map((step, i) => (
                             <div
@@ -840,10 +841,10 @@ export default function BlenderWorkshop() {
                               }}
                               style={{ display: "flex", alignItems: "baseline", gap: 6, padding: "4px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", cursor: "pointer" }}
                             >
-                              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#333355", flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
-                              <span style={{ fontSize: 12, color: "#7777aa", lineHeight: 1.4 }}
+                              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: C.textGhost, flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
+                              <span style={{ fontSize: 12, color: C.textCode, lineHeight: 1.4 }}
                                 onMouseEnter={e => e.currentTarget.style.color = guide.color}
-                                onMouseLeave={e => e.currentTarget.style.color = "#7777aa"}
+                                onMouseLeave={e => e.currentTarget.style.color = C.textCode}
                               >{step.label}</span>
                             </div>
                           ))}
@@ -935,7 +936,7 @@ export default function BlenderWorkshop() {
                   <div
                     key={group.title}
                     style={{
-                      background: "#111118",
+                      background: C.bgCard,
                       border: "1px solid #1e1e2e",
                       borderRadius: 10,
                       padding: 18,
@@ -962,16 +963,16 @@ export default function BlenderWorkshop() {
                   style={{
                     fontSize: 13,
                     fontWeight: 700,
-                    color: "#e8622a",
+                    color: C.orange,
                     marginBottom: 6,
                   }}
                 >
                   F3: Your Most Important Shortcut
                 </div>
                 <div
-                  style={{ fontSize: 12, color: "#888899", lineHeight: 1.6 }}
+                  style={{ fontSize: 12, color: C.textMuted, lineHeight: 1.6 }}
                 >
-                  Press <strong style={{ color: "#e8e8f0" }}>F3</strong>{" "}
+                  Press <strong style={{ color: C.textPrimary }}>F3</strong>{" "}
                   anywhere in Blender to search every operator by name. If you
                   know what you want but not where it lives: F3 finds it. This
                   is how you navigate Blender when AI-assisted coding: describe what
@@ -996,7 +997,7 @@ export default function BlenderWorkshop() {
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: 18,
-                    color: "#e8622a",
+                    color: C.orange,
                     letterSpacing: 3,
                     marginBottom: 20,
                   }}
@@ -1013,12 +1014,12 @@ export default function BlenderWorkshop() {
                 >
                   Learn the language,
                   <br />
-                  <span style={{ color: "#e8622a" }}>know what's possible.</span>
+                  <span style={{ color: C.orange }}>know what's possible.</span>
                 </div>
                 <div
                   style={{
                     fontSize: 14,
-                    color: "#888899",
+                    color: C.textMuted,
                     lineHeight: 1.8,
                     maxWidth: 560,
                   }}
@@ -1062,7 +1063,7 @@ export default function BlenderWorkshop() {
                     <div
                       key={card.title}
                       style={{
-                        background: "#111118",
+                        background: C.bgCard,
                         border: "1px solid #1e1e2e",
                         borderRadius: 10,
                         padding: "16px 18px",
@@ -1075,7 +1076,7 @@ export default function BlenderWorkshop() {
                         style={{
                           fontSize: 13,
                           fontWeight: 700,
-                          color: "#e8e8f0",
+                          color: C.textPrimary,
                           marginBottom: 6,
                         }}
                       >
@@ -1099,7 +1100,7 @@ export default function BlenderWorkshop() {
               <div
                 style={{
                   marginBottom: 40,
-                  background: "#111118",
+                  background: C.bgCard,
                   border: "1px solid #1e1e2e",
                   borderRadius: 10,
                   padding: "22px 24px",
@@ -1144,7 +1145,7 @@ export default function BlenderWorkshop() {
                         style={{
                           fontFamily: "'JetBrains Mono', monospace",
                           fontSize: 11,
-                          color: "#e8622a",
+                          color: C.orange,
                           flexShrink: 0,
                           paddingTop: 1,
                           width: 24,
@@ -1157,7 +1158,7 @@ export default function BlenderWorkshop() {
                           style={{
                             fontSize: 13,
                             fontWeight: 600,
-                            color: "#e8e8f0",
+                            color: C.textPrimary,
                             marginBottom: 3,
                           }}
                         >
@@ -1194,25 +1195,25 @@ export default function BlenderWorkshop() {
                       label: "Concept pass",
                       time: "~5.5 hrs",
                       note: "Reading only, all 14 modules",
-                      color: "#5b8dee",
+                      color: C.blue,
                     },
                     {
                       label: "With exercises",
                       time: "~11 hrs",
                       note: "Doing the workshops in Blender",
-                      color: "#c084fc",
+                      color: C.purple,
                     },
                     {
                       label: "Per session",
                       time: "1–2 modules",
                       note: "Recommended pace",
-                      color: "#e8622a",
+                      color: C.orange,
                     },
                   ].map((t) => (
                     <div
                       key={t.label}
                       style={{
-                        background: "#111118",
+                        background: C.bgCard,
                         border: `1px solid ${t.color}30`,
                         borderRadius: 10,
                         padding: "16px",
@@ -1233,13 +1234,13 @@ export default function BlenderWorkshop() {
                         style={{
                           fontSize: 12,
                           fontWeight: 600,
-                          color: "#e8e8f0",
+                          color: C.textPrimary,
                           marginBottom: 4,
                         }}
                       >
                         {t.label}
                       </div>
-                      <div style={{ fontSize: 11, color: "#555577" }}>
+                      <div style={{ fontSize: 11, color: C.textDim }}>
                         {t.note}
                       </div>
                     </div>
@@ -1248,7 +1249,7 @@ export default function BlenderWorkshop() {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#555577",
+                    color: C.textDim,
                     lineHeight: 1.6,
                     padding: "0 4px",
                   }}
@@ -1269,7 +1270,7 @@ export default function BlenderWorkshop() {
                   padding: "22px 24px",
                 }}
               >
-                <SectionLabel text="AFTER COMPLETING ALL MODULES" color="#44d9a2" mb={16} />
+                <SectionLabel text="AFTER COMPLETING ALL MODULES" color={C.green} mb={16} />
                 <div
                   style={{ display: "flex", flexDirection: "column", gap: 10 }}
                 >
@@ -1287,7 +1288,7 @@ export default function BlenderWorkshop() {
                     >
                       <span
                         style={{
-                          color: "#44d9a2",
+                          color: C.green,
                           flexShrink: 0,
                           fontSize: 13,
                           paddingTop: 1,
@@ -1298,7 +1299,7 @@ export default function BlenderWorkshop() {
                       <span
                         style={{
                           fontSize: 13,
-                          color: "#9999bb",
+                          color: C.textBody,
                           lineHeight: 1.6,
                         }}
                       >
@@ -1311,9 +1312,9 @@ export default function BlenderWorkshop() {
 
               {/* Learning Paths hint */}
               <div style={{ marginBottom: 48 }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#e8622a", letterSpacing: 3, marginBottom: 6 }}>LEARNING PATHS</div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 6 }}>LEARNING PATHS</div>
                 <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>What do you want to make?</div>
-                <div style={{ fontSize: 13, color: "#666688", lineHeight: 1.7 }}>Use the path selector above: always visible at the top: to pick a goal and get a recommended module sequence. You can access all modules in any order at any time.</div>
+                <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.7 }}>Use the path selector above: always visible at the top: to pick a goal and get a recommended module sequence. You can access all modules in any order at any time.</div>
               </div>
 
               {/* CTA */}
@@ -1385,7 +1386,7 @@ export default function BlenderWorkshop() {
                 <div
                   style={{
                     fontSize: 14,
-                    color: "#888899",
+                    color: C.textMuted,
                     lineHeight: 1.6,
                     borderLeft: `3px solid ${mod.color}`,
                     paddingLeft: 14,
@@ -1414,7 +1415,7 @@ export default function BlenderWorkshop() {
                 >
                   <span style={{ fontSize: 26, animation: "bpy-snake 1.2s ease-in-out infinite" }}>🐍</span>
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#38bdf8", marginBottom: 2 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.sky, marginBottom: 2 }}>
                       Enable the bpy toggle before reading this module
                     </div>
                     <div style={{ fontSize: 12, color: "#557799" }}>
@@ -1424,7 +1425,7 @@ export default function BlenderWorkshop() {
                   <div style={{
                     marginLeft: "auto",
                     fontSize: 11,
-                    color: "#38bdf8",
+                    color: C.sky,
                     fontFamily: "'JetBrains Mono', monospace",
                     flexShrink: 0,
                   }}>
@@ -1442,8 +1443,8 @@ export default function BlenderWorkshop() {
                     marginBottom: 12,
                     background: section.isWorkshop
                       ? `rgba(${hexToRgb(mod.color)},0.05)`
-                      : "#111118",
-                    border: `1px solid ${section.isWorkshop ? mod.color + "40" : "#1e1e2e"}`,
+                      : C.bgCard,
+                    border: `1px solid ${section.isWorkshop ? mod.color + "40" : C.border}`,
                     borderRadius: 10,
                     overflow: "hidden",
                   }}
@@ -1462,14 +1463,14 @@ export default function BlenderWorkshop() {
                       style={{
                         fontSize: 14,
                         fontWeight: 700,
-                        color: section.isWorkshop ? mod.color : "#e8e8f0",
+                        color: section.isWorkshop ? mod.color : C.textPrimary,
                       }}
                     >
                       {section.title}
                     </div>
                     <div
                       style={{
-                        color: "#555577",
+                        color: C.textDim,
                         fontSize: 16,
                         transition: "transform 0.2s",
                         transform: expandedSections[i]
@@ -1530,7 +1531,7 @@ export default function BlenderWorkshop() {
                     borderRadius: 8,
                     border: "1px solid #2a2a3a",
                     background: "transparent",
-                    color: activeModule === 0 ? "#333344" : "#888899",
+                    color: activeModule === 0 ? "#333344" : C.textMuted,
                     cursor: activeModule === 0 ? "not-allowed" : "pointer",
                     fontSize: 13,
                     fontFamily: "'Inter', sans-serif",
@@ -1550,7 +1551,7 @@ export default function BlenderWorkshop() {
                       ? "rgba(68,217,162,0.15)"
                       : `linear-gradient(135deg, ${mod.color}, ${mod.color}cc)`,
                     color: completedModules.has(activeModule)
-                      ? "#44d9a2"
+                      ? C.green
                       : "#fff",
                     cursor: "pointer",
                     fontSize: 13,
@@ -1582,7 +1583,7 @@ export default function BlenderWorkshop() {
           <span style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: 10,
-            color: "#333355",
+            color: C.textGhost,
             letterSpacing: 1,
           }}>
             © 2026 Dee Dee — All Rights Reserved

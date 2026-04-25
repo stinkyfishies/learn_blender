@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { getQuizOptionStyles } from "../utils/index.js";
+import { C } from "../utils/colors.js";
 
 // moduleId is passed as the React `key` on this component by the parent (App.jsx).
 // When the key changes (user navigates to a new module), React unmounts and remounts,
@@ -39,14 +40,14 @@ const Quiz = ({ questions, moduleId }) => {
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: 10,
-              color: "#555577",
+              color: C.textDim,
               letterSpacing: 2,
               marginBottom: 4,
             }}
           >
             SELF-ASSESSMENT
           </div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#e8e8f0" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: C.textPrimary }}>
             Quick Check
           </div>
         </div>
@@ -59,9 +60,9 @@ const Quiz = ({ questions, moduleId }) => {
                 color:
                   answered === questions.length
                     ? correct === questions.length
-                      ? "#44d9a2"
-                      : "#fbbf24"
-                    : "#666688",
+                      ? C.green
+                      : C.yellow
+                    : C.textSecondary,
               }}
             >
               {answered === questions.length
@@ -75,7 +76,7 @@ const Quiz = ({ questions, moduleId }) => {
                 border: "1px solid #2a2a3a",
                 borderRadius: 6,
                 padding: "4px 10px",
-                color: "#555577",
+                color: C.textDim,
                 cursor: "pointer",
                 fontSize: 11,
                 fontFamily: "'JetBrains Mono', monospace",
@@ -96,8 +97,8 @@ const Quiz = ({ questions, moduleId }) => {
             <div
               key={qi}
               style={{
-                background: "#111118",
-                border: `1px solid ${done ? (isRight ? "#44d9a240" : "#f4727240") : "#1e1e2e"}`,
+                background: C.bgCard,
+                border: `1px solid ${done ? (isRight ? C.greenAlpha : C.redAlpha) : C.border}`,
                 borderRadius: 10,
                 padding: "14px 16px",
               }}
@@ -105,7 +106,7 @@ const Quiz = ({ questions, moduleId }) => {
               <div
                 style={{
                   fontSize: 13,
-                  color: "#e8e8f0",
+                  color: C.textPrimary,
                   fontWeight: 600,
                   marginBottom: 12,
                   lineHeight: 1.5,
@@ -115,7 +116,7 @@ const Quiz = ({ questions, moduleId }) => {
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: 10,
-                    color: "#444466",
+                    color: C.textFaint,
                     marginRight: 8,
                   }}
                 >
@@ -169,11 +170,11 @@ const Quiz = ({ questions, moduleId }) => {
                     background: "rgba(68,217,162,0.05)",
                     borderRadius: 6,
                     fontSize: 12,
-                    color: "#666688",
+                    color: C.textSecondary,
                     lineHeight: 1.6,
                   }}
                 >
-                  <span style={{ color: "#44d9a2", fontWeight: 700 }}>→ </span>
+                  <span style={{ color: C.green, fontWeight: 700 }}>→ </span>
                   {q.explanation}
                 </div>
               )}

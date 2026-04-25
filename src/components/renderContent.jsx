@@ -1,5 +1,6 @@
 import React from "react";
 import { applyBold, INLINE_CODE_STYLE } from "../utils/index.js";
+import { C } from "../utils/colors.js";
 
 // Parses section content strings into React elements.
 // Supports a minimal markdown-like syntax:
@@ -29,11 +30,11 @@ const renderContent = (text) => {
       >
         {listBuffer.map((item, idx) => (
           <li key={idx} style={{ display: "flex", gap: 8, marginBottom: 3 }}>
-            <span style={{ color: "#555577", flexShrink: 0, fontWeight: 700 }}>
+            <span style={{ color: C.textDim, flexShrink: 0, fontWeight: 700 }}>
               ›
             </span>
             <span
-              style={{ fontSize: 13.5, lineHeight: 1.7, color: "#9999bb" }}
+              style={{ fontSize: 13.5, lineHeight: 1.7, color: C.textBody }}
               dangerouslySetInnerHTML={{ __html: applyBold(item) }}
             />
           </li>
@@ -109,7 +110,7 @@ const renderContent = (text) => {
             marginBottom: 6,
             fontSize: 12.5,
             lineHeight: 1.6,
-            color: "#666688",
+            color: C.textSecondary,
             fontStyle: "italic",
           }}
           dangerouslySetInnerHTML={{ __html: applyBold(line.replace(/^>\s+/, "")) }}
@@ -123,7 +124,7 @@ const renderContent = (text) => {
           style={{
             fontSize: 13.5,
             lineHeight: 1.7,
-            color: "#9999bb",
+            color: C.textBody,
             marginBottom: 2,
           }}
           dangerouslySetInnerHTML={{ __html: applyBold(line) }}

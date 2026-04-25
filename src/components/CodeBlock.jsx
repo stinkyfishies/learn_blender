@@ -1,5 +1,6 @@
 import React from "react";
 import { PYTHON_HIGHLIGHT_RE } from "../utils/index.js";
+import { C } from "../utils/colors.js";
 
 const CodeBlock = ({ code }) => {
   // Applies per-token syntax highlighting to a single line of Python.
@@ -9,7 +10,7 @@ const CodeBlock = ({ code }) => {
     // Python comments — render the whole line as muted italic, no further tokenizing
     if (/^\s*#/.test(line))
       return (
-        <span style={{ color: "#555577", fontStyle: "italic" }}>{line}</span>
+        <span style={{ color: C.textDim, fontStyle: "italic" }}>{line}</span>
       );
 
     const tokens = [];
@@ -21,43 +22,43 @@ const CodeBlock = ({ code }) => {
       // Emit any unmatched text between the last token and this one
       if (m.index > last)
         tokens.push(
-          <span key={last} style={{ color: "#9999bb" }}>
+          <span key={last} style={{ color: C.textBody }}>
             {line.slice(last, m.index)}
           </span>,
         );
       if (m[1])        // strings (single/double/triple-quoted)
         tokens.push(
-          <span key={m.index} style={{ color: "#fbbf24" }}>
+          <span key={m.index} style={{ color: C.yellow }}>
             {m[1]}
           </span>,
         );
       else if (m[2])   // bpy.* API calls
         tokens.push(
-          <span key={m.index} style={{ color: "#38bdf8" }}>
+          <span key={m.index} style={{ color: C.sky }}>
             {m[2]}
           </span>,
         );
       else if (m[3])   // keywords
         tokens.push(
-          <span key={m.index} style={{ color: "#c084fc" }}>
+          <span key={m.index} style={{ color: C.purple }}>
             {m[3]}
           </span>,
         );
       else if (m[4])   // numbers
         tokens.push(
-          <span key={m.index} style={{ color: "#fb923c" }}>
+          <span key={m.index} style={{ color: C.orangeAlt }}>
             {m[4]}
           </span>,
         );
       else if (m[5])   // function calls
         tokens.push(
-          <span key={m.index} style={{ color: "#44d9a2" }}>
+          <span key={m.index} style={{ color: C.green }}>
             {m[5]}
           </span>,
         );
       else             // punctuation (=, commas, brackets)
         tokens.push(
-          <span key={m.index} style={{ color: "#666688" }}>
+          <span key={m.index} style={{ color: C.textSecondary }}>
             {m[0]}
           </span>,
         );
@@ -65,7 +66,7 @@ const CodeBlock = ({ code }) => {
     }
     if (last < line.length)
       tokens.push(
-        <span key={last} style={{ color: "#9999bb" }}>
+        <span key={last} style={{ color: C.textBody }}>
           {line.slice(last)}
         </span>,
       );
@@ -76,7 +77,7 @@ const CodeBlock = ({ code }) => {
     <div
       style={{
         marginTop: 12,
-        background: "#0d0d16",
+        background: C.bgCode,
         border: "1px solid #2a2a4a",
         borderRadius: 8,
         overflow: "hidden",
@@ -85,7 +86,7 @@ const CodeBlock = ({ code }) => {
       <div
         style={{
           padding: "6px 14px",
-          background: "#111128",
+          background: C.bgCodeHeader,
           borderBottom: "1px solid #2a2a4a",
           display: "flex",
           alignItems: "center",
@@ -95,7 +96,7 @@ const CodeBlock = ({ code }) => {
         <span
           style={{
             fontSize: 10,
-            color: "#38bdf8",
+            color: C.sky,
             fontFamily: "'JetBrains Mono', monospace",
             letterSpacing: 1,
           }}
@@ -105,7 +106,7 @@ const CodeBlock = ({ code }) => {
         <span
           style={{
             fontSize: 10,
-            color: "#444466",
+            color: C.textFaint,
             fontFamily: "'JetBrains Mono', monospace",
           }}
         >
