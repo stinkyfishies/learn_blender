@@ -1131,6 +1131,78 @@ Both work well. Open your script from inside Blender's Text Editor once to link 
 Both give you full bpy auto-complete and are vastly better than Blender's built-in editor for anything beyond a few lines.`,
       },
       {
+        title: "Giving Your AI Assistant Blender Context",
+        pythonCode: `# Drop a CLAUDE.md (or equivalent) in your project root.
+# Your AI tool loads it automatically before every session.
+
+# --- CLAUDE.md template ---
+
+# Blender Scripting Context
+# Environment: Blender 5.1, Python 3.12, EEVEE Next renderer
+#
+# API notes:
+# - Principled BSDF v2: use Base Color, Roughness, Metallic, IOR. Specular removed.
+# - Hair is GN-based (Hair Curves + Geometry Nodes). Particle hair is legacy.
+# - Prefer bpy.data direct assignment over bpy.ops where possible (no context required).
+# - Always set active object and mode before calling operators.
+# - bpy.ops calls fail silently or raise RuntimeError if context is wrong.
+#
+# Project:
+# scripts/   .py files — source, versioned
+# renders/   output — gitignored
+# .blend files are build artifacts, gitignored
+#
+# Conventions:
+# Objects: snake_case. Materials: Title_Case.
+# Target: 1920x1080, 24fps, EEVEE Next.`,
+        content: `Every AI session starts cold. Without context, the AI defaults to generic Python advice and may target the wrong Blender version or API. A context file loaded automatically at session start fixes this.
+
+**How it works:**
+Place a small Markdown file in your project root. Your AI tool reads it before you type anything. You never need to re-explain your Blender version, renderer, or project conventions.
+
+**Claude Code:** \`CLAUDE.md\` in the project root. Loaded automatically.
+
+**Cursor:** Create \`.cursor/rules/blender.mdc\`:
+\`\`\`
+---
+description: Blender 5.1 scripting context
+globs: ["**/*.py"]
+---
+[paste your context here]
+\`\`\`
+
+**GitHub Copilot (VS Code 1.99+):** Create \`.github/copilot-instructions.md\` and paste your context. Loaded automatically for the repo.
+
+**Zed:** No file-based project context yet. Paste your context into the AI panel's system prompt field manually, or save it as a reusable snippet.
+
+**What to put in the context file:**
+- Blender version and renderer (EEVEE Next vs Cycles)
+- Key API notes for that version (what changed, what's deprecated)
+- Your project structure (where scripts live, what they do)
+- Conventions (naming, units, output paths)
+
+**Starter template** (copy this into a \`CLAUDE.md\` in your project root):
+\`\`\`
+# Blender Scripting Context
+Blender 5.1, Python 3.12, EEVEE Next renderer.
+
+API notes:
+- Principled BSDF v2: Base Color, Roughness, Metallic, IOR. Specular removed.
+- Hair is GN-based (Hair Curves + Geometry Nodes). Particle hair is legacy.
+- Prefer bpy.data direct assignment over bpy.ops where context allows.
+- Always set active object and mode before calling operators.
+
+Project:
+- scripts/   .py files, versioned in git
+- renders/   output, gitignored
+- .blend files are build artifacts, gitignored
+
+Conventions: objects snake_case, materials Title_Case. Target 1920x1080, 24fps.
+\`\`\`
+
+Update the version and renderer line each time you upgrade Blender. Everything else carries forward.`,
+      },
+      {
         title: "Version Control for AI-Assisted Coders (Git Intro)",
         pythonCode: `# Your project folder structure
 my_blender_project/
