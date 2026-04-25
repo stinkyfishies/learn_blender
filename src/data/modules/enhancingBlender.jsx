@@ -89,7 +89,7 @@ Extensions are sandboxed and versioned, which means they update cleanly and are 
 
 The old manual method still works: download a .zip, go to Preferences → Add-ons → Install from Disk, pick the file. Some older add-ons not yet on the platform still require this.
 
-!! If you see "'extensions.blender.org' remote data unavailable": first check if a VPN or proxy is active and disconnect it. If not, your system firewall may be blocking Blender's outbound connection (on Windows: Windows Defender Firewall → Allow an app, add Blender; on Mac: System Settings → Network → Firewall). Try the refresh icon next to the remote source in Preferences → Extensions, or test on a different network. The extensions server occasionally has downtime too.`,
+!! On first open, the Extensions tab may show "remote data unavailable" or "sync required" — this just means the local index hasn't been downloaded yet. Click the refresh/sync icon (circular arrow) next to the extensions.blender.org entry in Preferences → Extensions. It downloads the index once and caches it. If the sync fails, check whether a VPN or proxy is active. If not, your system firewall may be blocking Blender (on Windows: Windows Defender Firewall → Allow an app; on Mac: System Settings → Network → Firewall). Test on a different network if nothing else works.`,
       },
       {
         title: "Free Add-ons Worth Knowing",
