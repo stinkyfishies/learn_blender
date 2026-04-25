@@ -222,6 +222,7 @@ Read a custom attribute by name`,
       },
       {
         title: "Simulation Zones (Blender 4.1+)",
+        versionNote: "v4.1+",
         pythonCode: `import bpy
 
 # Simulation zones are defined by two paired nodes in the graph:
@@ -266,6 +267,7 @@ This is advanced but understanding it exists changes what you think is possible.
       },
       {
         title: "Hair System (Geometry Nodes Based)",
+        versionNote: "v4.0+",
         pythonCode: `import bpy
 
 # Add a hair curves object parented to a mesh

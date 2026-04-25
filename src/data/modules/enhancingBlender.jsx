@@ -78,6 +78,7 @@ Adds more primitive types to Shift+A → Mesh: math-based shapes, geodesic spher
       },
       {
         title: "The Extensions Platform (Blender 4.2+)",
+        versionNote: "v4.2+",
         pythonCode: `# The Extensions platform replaced the old add-on system in Blender 4.2
 # You can install extensions from inside Blender:
 # Preferences → Get Extensions → search → Install

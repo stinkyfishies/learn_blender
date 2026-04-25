@@ -88,6 +88,8 @@ The stack processes **top to bottom**. Order matters dramatically:
 - Subdivision Surface before Bevel: the bevel gets subdivided (smooth result)
 - Bevel before Subdivision Surface: the subdivision gets beveled (sharp, then smoothed)
 
+!! Boolean + Bevel is the most common broken combination: if Bevel comes before Boolean in the stack, the boolean cut slices through the beveled edge and leaves mangled triangulated faces. The correct order is Mirror → Array → Boolean → Bevel → Subdivision Surface. When in doubt, Boolean goes near the top.
+
 For each modifier:
 **👁 Eye icon**
 Toggle viewport visibility

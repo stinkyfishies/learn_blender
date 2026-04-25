@@ -61,6 +61,7 @@ const materialsShading = {
     sections: [
       {
         title: "Principled BSDF: The Universal Shader",
+        versionNote: "v4.x",
         pythonCode: `import bpy
 
 obj = bpy.context.active_object
@@ -172,6 +173,7 @@ Translate/rotate/scale a texture coordinate. Plug Texture Coordinate → Mapping
       },
       {
         title: "EEVEE Next vs Cycles: Material Considerations",
+        versionNote: "v4.2+",
         pythonCode: `import bpy
 
 scene = bpy.context.scene

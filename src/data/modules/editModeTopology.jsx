@@ -292,6 +292,8 @@ for poly in mesh.polygons:
     print(f"Face {poly.index} normal: {poly.normal}")`,
         content: `**Normals** are vectors pointing outward from each face, telling Blender which direction is "outside." They control shading.
 
+!! A face going black mid-render is almost always a flipped normal, not a lighting or materials problem. Enable **Viewport Overlays → Face Orientation** first: blue = outward, red = inward. Select all in Edit Mode, then **Mesh → Normals → Recalculate Outside** (Shift+N). Check this before touching anything else.
+
 Common normal issues and fixes:
 **Flipped normals**
 Face looks dark or inverted. Fix: Select all → **Mesh → Normals → Recalculate Outside** (Shift+N)

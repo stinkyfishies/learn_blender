@@ -149,7 +149,7 @@ export default function BlenderWorkshop() {
         >
           <SectionLabel text="WORKSHOP FOR AI-ASSISTED CODERS" color={C.orange} size={9} mb={4} />
           <div style={{ fontSize: 20, fontWeight: 800 }}>
-            Blender <span style={{ color: C.orange }}>5.1</span>
+            Modern <span style={{ color: C.orange }}>Blender</span>
           </div>
         </div>
 
@@ -1003,7 +1003,7 @@ export default function BlenderWorkshop() {
                     marginBottom: 20,
                   }}
                 >
-                  BLENDER 5.1 WORKSHOP FOR AI-ASSISTED CODERS
+                  MODERN BLENDER WORKSHOP FOR AI-ASSISTED CODERS
                 </div>
                 <div
                   style={{
@@ -1389,14 +1389,32 @@ export default function BlenderWorkshop() {
                       cursor: "pointer",
                     }}
                   >
-                    <div
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 700,
-                        color: section.isWorkshop ? mod.color : C.textPrimary,
-                      }}
-                    >
-                      {section.title}
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}>
+                      <div
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 700,
+                          color: section.isWorkshop ? mod.color : C.textPrimary,
+                        }}
+                      >
+                        {section.title}
+                      </div>
+                      {section.versionNote && (
+                        <span
+                          style={{
+                            fontFamily: "'JetBrains Mono', monospace",
+                            fontSize: 9,
+                            letterSpacing: 1,
+                            color: C.sky,
+                            border: `1px solid ${C.sky}50`,
+                            borderRadius: 4,
+                            padding: "2px 6px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {section.versionNote}
+                        </span>
+                      )}
                     </div>
                     <div
                       style={{

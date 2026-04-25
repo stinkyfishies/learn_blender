@@ -61,6 +61,7 @@ const rendering = {
     sections: [
       {
         title: "Cycles vs EEVEE Next: When to Use Each",
+        versionNote: "v4.2+",
         pythonCode: `import bpy
 
 scene = bpy.context.scene
@@ -140,7 +141,9 @@ bpy.ops.render.render(animation=True)       # Ctrl+F12 equivalent
 
 # Open last render in Image Editor
 bpy.ops.render.view_show()                  # F11 equivalent`,
-        content: `**Render Properties (🎬 icon)**:
+        content: `!! The viewport is not the render. Viewport shading uses approximations: lights may differ, some shader nodes don't preview correctly, post-processing is off, and the viewport camera may not match the render camera. Always hit F12 before judging your scene. If the render looks nothing like the viewport, check: render engine (Cycles vs EEVEE Next), camera match (Numpad 0 = camera view), and whether materials have nodes that require a full render to evaluate.
+
+**Render Properties (🎬 icon)**:
 **Render Engine**
 Cycles / EEVEE Next / Workbench
 **Samples**

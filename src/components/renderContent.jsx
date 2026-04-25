@@ -97,6 +97,38 @@ const renderContent = (text) => {
     } else if (/^[-•]\s+/.test(line)) {
       // Bullet list item — buffered until a blank line or non-list line
       listBuffer.push(line.replace(/^[-•]\s+/, ""));
+    } else if (/^!!\s+/.test(line)) {
+      // Trap callout — visually distinct from regular callouts
+      flushList(i);
+      elements.push(
+        <div
+          key={i}
+          style={{
+            borderLeft: `3px solid ${C.orange}`,
+            background: "rgba(232,98,42,0.06)",
+            borderRadius: "0 6px 6px 0",
+            padding: "10px 14px",
+            marginTop: 8,
+            marginBottom: 8,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 9,
+              letterSpacing: 2,
+              color: C.orange,
+              marginBottom: 5,
+            }}
+          >
+            COMMON TRAP
+          </div>
+          <div
+            style={{ fontSize: 12.5, lineHeight: 1.6, color: C.textBody }}
+            dangerouslySetInnerHTML={{ __html: applyBold(line.replace(/^!!\s+/, "")) }}
+          />
+        </div>,
+      );
     } else if (/^>\s+/.test(line)) {
       // Callout / blockquote line
       flushList(i);
