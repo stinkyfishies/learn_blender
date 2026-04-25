@@ -5328,6 +5328,21 @@ const KeybindChip = ({ keys, desc }) => (
 const applyBold = (str) =>
   str.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#e8e8f0">$1</strong>');
 
+const INLINE_CODE_STYLE = {
+  fontFamily: "'JetBrains Mono', monospace",
+  fontSize: 12,
+  lineHeight: 1.7,
+  color: "#7777aa",
+  background: "rgba(255,255,255,0.03)",
+  border: "1px solid #1e1e2e",
+  borderRadius: 6,
+  padding: "12px 16px",
+  margin: "12px 0",
+  overflowX: "auto",
+  whiteSpace: "pre",
+  display: "block",
+};
+
 const renderContent = (text) => {
   const lines = text.split("\n");
   const elements = [];
@@ -5363,51 +5378,13 @@ const renderContent = (text) => {
 
   const flushCode = (key) => {
     if (codeBuffer.length === 0) return;
-    elements.push(
-      <pre
-        key={`code-${key}`}
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 12,
-          lineHeight: 1.7,
-          color: "#7777aa",
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid #1e1e2e",
-          borderRadius: 6,
-          padding: "12px 16px",
-          margin: "12px 0",
-          overflowX: "auto",
-          whiteSpace: "pre",
-        }}
-      >
-        {codeBuffer.join("\n")}
-      </pre>
-    );
+    elements.push(<pre key={`code-${key}`} style={INLINE_CODE_STYLE}>{codeBuffer.join("\n")}</pre>);
     codeBuffer = [];
   };
 
   const flushTree = (key) => {
     if (treeBuffer.length === 0) return;
-    elements.push(
-      <pre
-        key={`tree-${key}`}
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 12,
-          lineHeight: 1.7,
-          color: "#7777aa",
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid #1e1e2e",
-          borderRadius: 6,
-          padding: "12px 16px",
-          margin: "12px 0",
-          overflowX: "auto",
-          whiteSpace: "pre",
-        }}
-      >
-        {treeBuffer.join("\n")}
-      </pre>
-    );
+    elements.push(<pre key={`tree-${key}`} style={INLINE_CODE_STYLE}>{treeBuffer.join("\n")}</pre>);
     treeBuffer = [];
   };
 
@@ -5610,26 +5587,7 @@ const Quiz = ({ questions, moduleId }) => {
                 {q.options.map((opt, oi) => {
                   const isSelected = picked === oi;
                   const isCorrect = oi === q.answer;
-                  let bg = "transparent",
-                    border = "#2a2a3a",
-                    color = "#888899";
-                  if (done) {
-                    if (isCorrect) {
-                      bg = "rgba(68,217,162,0.08)";
-                      border = "#44d9a240";
-                      color = "#44d9a2";
-                    } else if (isSelected) {
-                      bg = "rgba(244,114,114,0.08)";
-                      border = "#f4727240";
-                      color = "#f47272";
-                    }
-                  } else {
-                    if (isSelected) {
-                      bg = "rgba(91,141,238,0.1)";
-                      border = "#5b8dee40";
-                      color = "#e8e8f0";
-                    }
-                  }
+                  const { bg, border, color } = getQuizOptionStyles(done, isSelected, isCorrect);
                   return (
                     <button
                       key={oi}
@@ -5687,6 +5645,22 @@ const Quiz = ({ questions, moduleId }) => {
   );
 };
 
+const getQuizOptionStyles = (done, isSelected, isCorrect) => {
+  if (!done && isSelected) return { bg: "rgba(91,141,238,0.1)", border: "#5b8dee40", color: "#e8e8f0" };
+  if (done && isCorrect)   return { bg: "rgba(68,217,162,0.08)", border: "#44d9a240", color: "#44d9a2" };
+  if (done && isSelected)  return { bg: "rgba(244,114,114,0.08)", border: "#f4727240", color: "#f47272" };
+  return { bg: "transparent", border: "#2a2a3a", color: "#888899" };
+};
+
+const SectionLabel = ({ text, color = "#555577", mb = 12, size = 10 }) => (
+  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: size, color, letterSpacing: 2, marginBottom: mb }}>
+    {text}
+  </div>
+);
+
+const PYTHON_HIGHLIGHT_RE =
+  /("""[\s\S]*?"""|'[^']*'|"[^"]*")|(bpy\.\w+(?:\.\w+)*)|(import\s+\w+|for\s|if\s|in\s|return\s|True|False|None)|(\b\d+\.?\d*\b)|(\b\w+\s*(?=\())|([=,\[\]{}():])/g;
+
 const CodeBlock = ({ code }) => {
   const highlight = (line) => {
     // comment
@@ -5696,8 +5670,8 @@ const CodeBlock = ({ code }) => {
       );
     // apply token coloring
     const tokens = [];
-    const re =
-      /("""[\s\S]*?"""|'[^']*'|"[^"]*")|(bpy\.\w+(?:\.\w+)*)|(import\s+\w+|for\s|if\s|in\s|return\s|True|False|None)|(\b\d+\.?\d*\b)|(\b\w+\s*(?=\())|([=,\[\]{}():])/g;
+    PYTHON_HIGHLIGHT_RE.lastIndex = 0;
+    const re = PYTHON_HIGHLIGHT_RE;
     let last = 0,
       m;
     while ((m = re.exec(line)) !== null) {
@@ -5821,6 +5795,76 @@ const CodeBlock = ({ code }) => {
   );
 };
 
+const TABS = [
+  { id: "content", label: "📖 Lessons", mobileLabel: "📖" },
+  { id: "outcomes", label: "🎯 Outcomes", mobileLabel: "🎯" },
+  { id: "quickref", label: "⌨️ Quick Ref", mobileLabel: "⌨️" },
+];
+
+const LEARNING_PATHS = [
+  {
+    emoji: "🖼️", title: "Still Images", shortTitle: "Still Images",
+    desc: "Model, light, and render compelling 3D images. No animation required.",
+    modules: [
+      { idx: 0, note: "Foundation" },
+      { idx: 1, note: "Navigation basics" },
+      { idx: 2, note: "Python setup" },
+      { idx: 3, note: "Configure your environment" },
+      { idx: 4, note: "Building geometry" },
+      { idx: 5, note: "Editing topology" },
+      { idx: 6, note: "Non-destructive ops" },
+      { idx: 8, note: "Shading" },
+      { idx: 9, note: "Lighting your scene" },
+      { idx: 13, note: "Rendering" },
+      { idx: 14, note: "Procedural textures" },
+    ],
+  },
+  {
+    emoji: "🎬", title: "Motion & Animation", shortTitle: "Animation",
+    desc: "Bring scenes to life with keyframes, physics, and procedural motion.",
+    modules: [
+      { idx: 0, note: "Foundation" },
+      { idx: 1, note: "Navigation" },
+      { idx: 2, note: "Python setup" },
+      { idx: 4, note: "Geometry" },
+      { idx: 5, note: "Topology" },
+      { idx: 6, note: "Modifiers" },
+      { idx: 7, note: "Procedural animation" },
+      { idx: 8, note: "Shading" },
+      { idx: 9, note: "Lighting" },
+      { idx: 12, note: "Physics & simulation" },
+      { idx: 13, note: "Rendering" },
+    ],
+  },
+  {
+    emoji: "🧬", title: "Procedural Art", shortTitle: "Procedural",
+    desc: "Use Geometry Nodes and shaders to generate complex outputs from simple rules.",
+    modules: [
+      { idx: 0, note: "Foundation" },
+      { idx: 2, note: "Python setup" },
+      { idx: 6, note: "Modifiers" },
+      { idx: 7, note: "Geometry Nodes: core tool" },
+      { idx: 8, note: "Shading" },
+      { idx: 9, note: "Lighting" },
+      { idx: 13, note: "Rendering" },
+      { idx: 14, note: "Procedural textures" },
+    ],
+  },
+  {
+    emoji: "🐍", title: "AI-Assisted Coding", shortTitle: "AI-Assisted",
+    desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
+    modules: [
+      { idx: 0, note: "Mental model: start here" },
+      { idx: 2, note: "bpy environment: do this second" },
+      { idx: 6, note: "Modifiers via code" },
+      { idx: 7, note: "Geometry Nodes via code" },
+      { idx: 8, note: "Materials via code" },
+      { idx: 13, note: "Headless rendering" },
+      { idx: 14, note: "Procedural textures via code" },
+    ],
+  },
+];
+
 export default function BlenderWorkshop() {
   const [activeModule, setActiveModule] = useState(null); // null = home
   const [completedModules, setCompletedModules] = useState(new Set());
@@ -5876,75 +5920,6 @@ export default function BlenderWorkshop() {
     setSidebarOpen(false);
   };
 
-  const tabs = [
-    { id: "content", label: "📖 Lessons", mobileLabel: "📖" },
-    { id: "outcomes", label: "🎯 Outcomes", mobileLabel: "🎯" },
-    { id: "quickref", label: "⌨️ Quick Ref", mobileLabel: "⌨️" },
-  ];
-
-  const learningPaths = [
-    {
-      emoji: "🖼️", title: "Still Images", shortTitle: "Still Images",
-      desc: "Model, light, and render compelling 3D images. No animation required.",
-      modules: [
-        { idx: 0, note: "Foundation" },
-        { idx: 1, note: "Navigation basics" },
-        { idx: 2, note: "Python setup" },
-        { idx: 3, note: "Configure your environment" },
-        { idx: 4, note: "Building geometry" },
-        { idx: 5, note: "Editing topology" },
-        { idx: 6, note: "Non-destructive ops" },
-        { idx: 8, note: "Shading" },
-        { idx: 9, note: "Lighting your scene" },
-        { idx: 13, note: "Rendering" },
-        { idx: 14, note: "Procedural textures" },
-      ],
-    },
-    {
-      emoji: "🎬", title: "Motion & Animation", shortTitle: "Animation",
-      desc: "Bring scenes to life with keyframes, physics, and procedural motion.",
-      modules: [
-        { idx: 0, note: "Foundation" },
-        { idx: 1, note: "Navigation" },
-        { idx: 2, note: "Python setup" },
-        { idx: 4, note: "Geometry" },
-        { idx: 5, note: "Topology" },
-        { idx: 6, note: "Modifiers" },
-        { idx: 7, note: "Procedural animation" },
-        { idx: 8, note: "Shading" },
-        { idx: 9, note: "Lighting" },
-        { idx: 12, note: "Physics & simulation" },
-        { idx: 13, note: "Rendering" },
-      ],
-    },
-    {
-      emoji: "🧬", title: "Procedural Art", shortTitle: "Procedural",
-      desc: "Use Geometry Nodes and shaders to generate complex outputs from simple rules.",
-      modules: [
-        { idx: 0, note: "Foundation" },
-        { idx: 2, note: "Python setup" },
-        { idx: 6, note: "Modifiers" },
-        { idx: 7, note: "Geometry Nodes: core tool" },
-        { idx: 8, note: "Shading" },
-        { idx: 9, note: "Lighting" },
-        { idx: 13, note: "Rendering" },
-        { idx: 14, note: "Procedural textures" },
-      ],
-    },
-    {
-      emoji: "🐍", title: "AI-Assisted Coding", shortTitle: "AI-Assisted",
-      desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
-      modules: [
-        { idx: 0, note: "Mental model: start here" },
-        { idx: 2, note: "bpy environment: do this second" },
-        { idx: 6, note: "Modifiers via code" },
-        { idx: 7, note: "Geometry Nodes via code" },
-        { idx: 8, note: "Materials via code" },
-        { idx: 13, note: "Headless rendering" },
-        { idx: 14, note: "Procedural textures via code" },
-      ],
-    },
-  ];
 
   return (
     <div
@@ -6019,17 +5994,7 @@ export default function BlenderWorkshop() {
             cursor: "pointer",
           }}
         >
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 9,
-              color: "#e8622a",
-              letterSpacing: 2,
-              marginBottom: 4,
-            }}
-          >
-            WORKSHOP FOR AI-ASSISTED CODERS
-          </div>
+          <SectionLabel text="WORKSHOP FOR AI-ASSISTED CODERS" color="#e8622a" size={9} mb={4} />
           <div style={{ fontSize: 20, fontWeight: 800 }}>
             Blender <span style={{ color: "#e8622a" }}>5.1</span>
           </div>
@@ -6039,17 +6004,7 @@ export default function BlenderWorkshop() {
         <div
           style={{ padding: "12px 20px", borderBottom: "1px solid #1e1e2e" }}
         >
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 9,
-              color: "#555577",
-              letterSpacing: 2,
-              marginBottom: 6,
-            }}
-          >
-            PROGRESS
-          </div>
+          <SectionLabel text="PROGRESS" size={9} mb={6} />
           <div
             style={{
               height: 3,
@@ -6333,7 +6288,7 @@ export default function BlenderWorkshop() {
               ☰
             </button>
           )}
-          {tabs.map((tab) => (
+          {TABS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -6449,7 +6404,7 @@ export default function BlenderWorkshop() {
             background: "#0a0a0f",
           }}>
             <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: "#444466", letterSpacing: 2, paddingRight: 8, borderRight: "1px solid #1e1e2e", marginRight: 4, whiteSpace: "nowrap" }}>YOUR PATH</span>
-            {learningPaths.map((path, pi) => (
+            {LEARNING_PATHS.map((path, pi) => (
               <button
                 key={pi}
                 onClick={() => setOpenPath(openPath === pi ? null : pi)}
@@ -6481,17 +6436,17 @@ export default function BlenderWorkshop() {
               maxHeight: 340, overflowY: "auto",
             }}>
               <div style={{ padding: "10px 20px 6px", borderBottom: "1px solid #1a1a28" }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#e8e8f0" }}>{learningPaths[openPath].emoji} {learningPaths[openPath].title}</div>
-                <div style={{ fontSize: 11, color: "#555577", marginTop: 2 }}>{learningPaths[openPath].desc}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#e8e8f0" }}>{LEARNING_PATHS[openPath].emoji} {LEARNING_PATHS[openPath].title}</div>
+                <div style={{ fontSize: 11, color: "#555577", marginTop: 2 }}>{LEARNING_PATHS[openPath].desc}</div>
               </div>
-              {learningPaths[openPath].modules.map((m, mi) => (
+              {LEARNING_PATHS[openPath].modules.map((m, mi) => (
                 <div
                   key={mi}
                   onClick={() => { setActiveModule(m.idx); setExpandedSections({ 0: true }); setActiveTab("content"); setOpenPath(null); }}
                   style={{
                     display: "flex", alignItems: "center", gap: 12,
                     padding: "10px 20px",
-                    borderBottom: mi < learningPaths[openPath].modules.length - 1 ? "1px solid #12121c" : "none",
+                    borderBottom: mi < LEARNING_PATHS[openPath].modules.length - 1 ? "1px solid #12121c" : "none",
                     cursor: "pointer", transition: "background 0.1s",
                   }}
                   onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.04)"}
@@ -6544,17 +6499,7 @@ export default function BlenderWorkshop() {
 
               {outcomes.map((group) => (
                 <div key={group.category} style={{ marginBottom: 32 }}>
-                  <div
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: 10,
-                      color: "#555577",
-                      letterSpacing: 2,
-                      marginBottom: 12,
-                    }}
-                  >
-                    {group.category.toUpperCase()}
-                  </div>
+                  <SectionLabel text={group.category.toUpperCase()} />
                   <div
                     style={{ display: "flex", flexDirection: "column", gap: 8 }}
                   >
@@ -6728,9 +6673,7 @@ export default function BlenderWorkshop() {
                 ];
                 return (
                   <div style={{ marginBottom: 24 }}>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#555577", letterSpacing: 2, marginBottom: 12 }}>
-                      WORKFLOW GUIDES
-                    </div>
+                    <SectionLabel text="WORKFLOW GUIDES" />
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
                       {guides.map((guide) => (
                         <div key={guide.title} style={{ background: "#111118", border: `1px solid rgba(255,255,255,0.07)`, borderRadius: 10, padding: 16 }}>
@@ -6847,17 +6790,7 @@ export default function BlenderWorkshop() {
                       padding: 18,
                     }}
                   >
-                    <div
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 10,
-                        color: "#555577",
-                        letterSpacing: 2,
-                        marginBottom: 10,
-                      }}
-                    >
-                      {group.title.toUpperCase()}
-                    </div>
+                    <SectionLabel text={group.title.toUpperCase()} mb={10} />
                     {group.keys.map((k, i) => (
                       <KeybindChip key={i} {...k} />
                     ))}
@@ -6945,17 +6878,7 @@ export default function BlenderWorkshop() {
 
               {/* POV */}
               <div style={{ marginBottom: 40 }}>
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 10,
-                    color: "#555577",
-                    letterSpacing: 2,
-                    marginBottom: 16,
-                  }}
-                >
-                  THE LEARNING METHOD
-                </div>
+                <SectionLabel text="THE LEARNING METHOD" mb={16} />
                 <div
                   style={{
                     display: "grid",
@@ -7031,17 +6954,7 @@ export default function BlenderWorkshop() {
                   padding: "22px 24px",
                 }}
               >
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 10,
-                    color: "#555577",
-                    letterSpacing: 2,
-                    marginBottom: 16,
-                  }}
-                >
-                  HOW TO USE THIS WORKSHOP
-                </div>
+                <SectionLabel text="HOW TO USE THIS WORKSHOP" mb={16} />
                 <div
                   style={{ display: "flex", flexDirection: "column", gap: 14 }}
                 >
@@ -7116,17 +7029,7 @@ export default function BlenderWorkshop() {
 
               {/* Time table */}
               <div style={{ marginBottom: 40 }}>
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 10,
-                    color: "#555577",
-                    letterSpacing: 2,
-                    marginBottom: 16,
-                  }}
-                >
-                  TIME ALLOCATION
-                </div>
+                <SectionLabel text="TIME ALLOCATION" mb={16} />
                 <div
                   style={{
                     display: "grid",
@@ -7215,17 +7118,7 @@ export default function BlenderWorkshop() {
                   padding: "22px 24px",
                 }}
               >
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 10,
-                    color: "#44d9a2",
-                    letterSpacing: 2,
-                    marginBottom: 16,
-                  }}
-                >
-                  AFTER COMPLETING ALL MODULES
-                </div>
+                <SectionLabel text="AFTER COMPLETING ALL MODULES" color="#44d9a2" mb={16} />
                 <div
                   style={{ display: "flex", flexDirection: "column", gap: 10 }}
                 >
