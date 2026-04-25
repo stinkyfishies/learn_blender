@@ -1191,16 +1191,102 @@ API notes:
 - Hair is GN-based (Hair Curves + Geometry Nodes). Particle hair is legacy.
 - Prefer bpy.data direct assignment over bpy.ops where context allows.
 - Always set active object and mode before calling operators.
+- bpy.ops calls raise RuntimeError if context (mode, active object) is wrong.
 
-Project:
-- scripts/   .py files, versioned in git
-- renders/   output, gitignored
-- .blend files are build artifacts, gitignored
+Project layout:
+- scenes/    one .py per scene or deliverable — self-contained, runnable
+- lib/       reusable functions (lighting rigs, materials, utils) imported by scenes
+- renders/   output — gitignored
+- .blend files are build artifacts — gitignored
 
-Conventions: objects snake_case, materials Title_Case. Target 1920x1080, 24fps.
+Conventions:
+- Objects: snake_case. Materials: Title_Case.
+- Target: 1920x1080, 24fps.
+- Each scene script imports from lib/ rather than duplicating setup code.
+- New scene scripts follow the structure of existing ones in scenes/.
 \`\`\`
 
-Update the version and renderer line each time you upgrade Blender. Everything else carries forward.`,
+Update the version and renderer line when you upgrade Blender. Everything else carries forward unless your conventions change.`,
+      },
+      {
+        title: "Organising Your Blender Scripting Project",
+        pythonCode: `# Recommended project layout
+my_blender_project/
+├── CLAUDE.md            # AI context file — loaded automatically
+├── .gitignore           # *.blend, renders/, __pycache__/
+├── README.md            # what this project is, how to run each script
+│
+├── scenes/              # one script per scene or deliverable
+│   ├── terrain.py       # builds the rocky terrain scene
+│   ├── product_viz.py   # builds the product visualisation
+│   └── title_card.py    # builds the animated title card
+│
+├── lib/                 # reusable pieces the AI imports
+│   ├── lighting.py      # standard lighting rigs as functions
+│   ├── materials.py     # material setup functions
+│   └── utils.py         # shared helpers (clear scene, etc.)
+│
+└── renders/             # output — gitignored
+
+# Example: lib/lighting.py
+import bpy
+
+def three_point(key_energy=800, fill_energy=200, rim_energy=300):
+    """Standard 3-point area light setup. Call from any scene script."""
+    bpy.ops.object.light_add(type='AREA', location=(4, -3, 5))
+    key = bpy.context.active_object
+    key.data.energy = key_energy
+    key.data.color = (1.0, 0.95, 0.85)   # warm key
+
+    bpy.ops.object.light_add(type='AREA', location=(-3, -2, 3))
+    fill = bpy.context.active_object
+    fill.data.energy = fill_energy
+    fill.data.color = (0.85, 0.9, 1.0)   # cool fill
+
+    bpy.ops.object.light_add(type='AREA', location=(0, 3, 4))
+    rim = bpy.context.active_object
+    rim.data.energy = rim_energy
+
+# Example: scenes/terrain.py
+import bpy, sys
+sys.path.append("/path/to/my_blender_project")
+from lib.lighting import three_point
+from lib.utils import clear_scene
+
+clear_scene()
+three_point(key_energy=600)
+# ... rest of terrain setup`,
+        content: `When AI generates your scripts, the organisation discipline shifts from writing clean code to giving the AI a clear project map. A well-structured folder is also a better prompt -- you can say "add a new scene script following the same structure as terrain.py, using the lighting rig from lib/lighting.py" and get consistent output every time.
+
+**The core principle: one script per deliverable**
+Each scene, object, or animation gets its own file. Not one giant script for everything. If a script produces something standalone and reusable, it's a scene script. If it's a function another script calls, it goes in lib/.
+
+**Recommended layout:**
+\`\`\`
+my_blender_project/
+├── CLAUDE.md            # AI context (Blender version, conventions)
+├── .gitignore
+├── README.md            # what each script produces, how to run it
+├── scenes/              # one .py per scene or deliverable
+├── lib/                 # reusable functions (lighting, materials, utils)
+└── renders/             # output — gitignored
+\`\`\`
+
+**scenes/**: Each file is self-contained and runnable. It imports from lib/ and produces one complete result. Name files after what they produce: \`terrain.py\`, \`product_viz.py\`, \`title_card.py\`.
+
+**lib/**: Functions the AI extracts when the same setup appears in multiple scenes. Typical candidates: lighting rigs, material presets, scene-clear utility, camera setup. Keep each function small and focused. A function in \`lib/lighting.py\` called \`three_point()\` is a prompt you can reuse across every project.
+
+**README.md**: One line per script describing what it produces and how to run it. This is for you in six months, not for anyone else. Without it, a folder of twenty AI-generated scripts becomes opaque fast.
+
+**Why this helps with AI generation:**
+When your CLAUDE.md describes this layout, the AI generates files that fit the pattern automatically. It will import from lib/ rather than duplicating functions, name files consistently, and place output in the right folders. The structure becomes self-reinforcing: each new prompt produces a file that fits without you having to specify it every time.
+
+**Prompting with structure:**
+Once the layout is established, your prompts get shorter and more precise:
+- "Add a new scene script in scenes/ that builds a product visualisation. Use the three_point() rig from lib/lighting.py and the glossy_plastic() material from lib/materials.py."
+- "Extract the material setup from terrain.py into a reusable function in lib/materials.py called rocky_ground()."
+
+The AI knows where things live and follows the pattern.`,
       },
       {
         title: "Version Control for AI-Assisted Coders (Git Intro)",
