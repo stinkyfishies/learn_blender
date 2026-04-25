@@ -5666,11 +5666,23 @@ export default function BlenderWorkshop() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
 
   useEffect(() => {
     if (contentRef.current) contentRef.current.scrollTop = 0;
   }, [activeModule]);
+
+  useEffect(() => {
+    if (scrollToSection === null) return;
+    const el = document.querySelector(`[data-section-id="${scrollToSection}"]`);
+    if (el && contentRef.current) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+    setScrollToSection(null);
+  }, [scrollToSection]);
 
   useEffect(() => {
     const handler = () => setIsMobile(window.innerWidth < 768);
@@ -5943,6 +5955,7 @@ export default function BlenderWorkshop() {
                       setSearchQuery("");
                       if (r.sectionIdx !== null) {
                         setExpandedSections(prev => ({ ...prev, [r.sectionIdx]: true }));
+                        setScrollToSection(r.sectionIdx);
                       } else {
                         setExpandedSections({ 0: true });
                       }
@@ -7099,6 +7112,7 @@ export default function BlenderWorkshop() {
               {mod.sections.map((section, i) => (
                 <div
                   key={i}
+                  data-section-id={i}
                   style={{
                     marginBottom: 12,
                     background: section.isWorkshop
