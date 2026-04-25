@@ -5798,6 +5798,15 @@ export default function BlenderWorkshop() {
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 2px; }
         * { box-sizing: border-box; }
+        @keyframes bpy-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(56,189,248,0.0); background: rgba(56,189,248,0.06); }
+          50% { box-shadow: 0 0 0 6px rgba(56,189,248,0.0); background: rgba(56,189,248,0.14); }
+        }
+        @keyframes bpy-snake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(3px); }
+          75% { transform: translateX(-3px); }
+        }
       `}</style>
 
       {/* Mobile overlay backdrop */}
@@ -7107,6 +7116,43 @@ export default function BlenderWorkshop() {
                   {mod.intro}
                 </div>
               </div>
+
+              {/* bpy toggle nudge — only on bpy module when toggle is off */}
+              {mod.id === 3 && !showPython && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
+                    padding: "14px 18px",
+                    borderRadius: 10,
+                    border: "1px solid #38bdf8",
+                    marginBottom: 20,
+                    animation: "bpy-pulse 2s ease-in-out infinite",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setShowPython(true)}
+                >
+                  <span style={{ fontSize: 26, animation: "bpy-snake 1.2s ease-in-out infinite" }}>🐍</span>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#38bdf8", marginBottom: 2 }}>
+                      Enable the bpy toggle before reading this module
+                    </div>
+                    <div style={{ fontSize: 12, color: "#557799" }}>
+                      Every section has a Python equivalent. The toggle is in the top bar. Click here to enable it now.
+                    </div>
+                  </div>
+                  <div style={{
+                    marginLeft: "auto",
+                    fontSize: 11,
+                    color: "#38bdf8",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    flexShrink: 0,
+                  }}>
+                    ENABLE →
+                  </div>
+                </div>
+              )}
 
               {/* Sections */}
               {mod.sections.map((section, i) => (
