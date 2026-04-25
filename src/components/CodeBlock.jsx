@@ -2,66 +2,65 @@ import React from "react";
 import { PYTHON_HIGHLIGHT_RE } from "../utils/index.js";
 
 const CodeBlock = ({ code }) => {
+  // Applies per-token syntax highlighting to a single line of Python.
+  // Returns an array of colored <span> elements.
+  // Match groups correspond to PYTHON_HIGHLIGHT_RE in utils/index.js.
   const highlight = (line) => {
-    // comment
+    // Python comments — render the whole line as muted italic, no further tokenizing
     if (/^\s*#/.test(line))
       return (
         <span style={{ color: "#555577", fontStyle: "italic" }}>{line}</span>
       );
-    // apply token coloring
+
     const tokens = [];
-    PYTHON_HIGHLIGHT_RE.lastIndex = 0;
+    PYTHON_HIGHLIGHT_RE.lastIndex = 0; // reset stateful /g regex before each line
     const re = PYTHON_HIGHLIGHT_RE;
-    let last = 0,
-      m;
+    let last = 0, m;
+
     while ((m = re.exec(line)) !== null) {
+      // Emit any unmatched text between the last token and this one
       if (m.index > last)
         tokens.push(
           <span key={last} style={{ color: "#9999bb" }}>
             {line.slice(last, m.index)}
           </span>,
         );
-      if (m[1])
+      if (m[1])        // strings (single/double/triple-quoted)
         tokens.push(
           <span key={m.index} style={{ color: "#fbbf24" }}>
             {m[1]}
           </span>,
         );
-      // strings
-      else if (m[2])
+      else if (m[2])   // bpy.* API calls
         tokens.push(
           <span key={m.index} style={{ color: "#38bdf8" }}>
             {m[2]}
           </span>,
         );
-      // bpy.*
-      else if (m[3])
+      else if (m[3])   // keywords
         tokens.push(
           <span key={m.index} style={{ color: "#c084fc" }}>
             {m[3]}
           </span>,
         );
-      // keywords
-      else if (m[4])
+      else if (m[4])   // numbers
         tokens.push(
           <span key={m.index} style={{ color: "#fb923c" }}>
             {m[4]}
           </span>,
         );
-      // numbers
-      else if (m[5])
+      else if (m[5])   // function calls
         tokens.push(
           <span key={m.index} style={{ color: "#44d9a2" }}>
             {m[5]}
           </span>,
         );
-      // function calls
-      else
+      else             // punctuation (=, commas, brackets)
         tokens.push(
           <span key={m.index} style={{ color: "#666688" }}>
             {m[0]}
           </span>,
-        ); // punctuation
+        );
       last = m.index + m[0].length;
     }
     if (last < line.length)

@@ -1,6 +1,18 @@
 import React from "react";
 import { applyBold, INLINE_CODE_STYLE } from "../utils/index.js";
 
+// Parses section content strings into React elements.
+// Supports a minimal markdown-like syntax:
+//   **text**          → bold (white)
+//   - item / • item   → styled bullet list
+//   > text            → callout block (indented, italic)
+//   ```               → fenced code block (monospace, starts/ends with ```)
+//   ##tree/##endtree  → directory tree block (same style as code block)
+//   blank line        → vertical spacer
+//   anything else     → paragraph
+//
+// Buffers are used for list and block types that span multiple lines.
+// Each flush call emits the buffered lines as a single element and clears the buffer.
 const renderContent = (text) => {
   const lines = text.split("\n");
   const elements = [];
@@ -47,6 +59,7 @@ const renderContent = (text) => {
   };
 
   lines.forEach((line, i) => {
+    // Fenced code block toggle (``` opens and closes)
     if (line.trim() === "```") {
       if (inCode) {
         flushCode(i);
@@ -61,6 +74,7 @@ const renderContent = (text) => {
       codeBuffer.push(line);
       return;
     }
+    // Directory tree block (##tree / ##endtree)
     if (line.trim() === "##tree") {
       flushList(i);
       inTree = true;
@@ -76,11 +90,14 @@ const renderContent = (text) => {
       return;
     }
     if (!line.trim()) {
+      // Blank line: flush any open list, emit a small spacer
       flushList(i);
       elements.push(<div key={i} style={{ height: 6 }} />);
     } else if (/^[-•]\s+/.test(line)) {
+      // Bullet list item — buffered until a blank line or non-list line
       listBuffer.push(line.replace(/^[-•]\s+/, ""));
     } else if (/^>\s+/.test(line)) {
+      // Callout / blockquote line
       flushList(i);
       elements.push(
         <div

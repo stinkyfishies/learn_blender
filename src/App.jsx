@@ -23,10 +23,15 @@ export default function BlenderWorkshop() {
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
 
+  // Scroll content area back to top whenever the active module changes.
   useEffect(() => {
     if (contentRef.current) contentRef.current.scrollTop = 0;
   }, [activeModule]);
 
+  // Scroll to a specific section when scrollToSection is set.
+  // The 100ms delay lets the module render complete before scrollIntoView fires —
+  // without it the target element may not be in the DOM yet.
+  // Callers set expandedSections before setting scrollToSection so the section is open.
   useEffect(() => {
     if (scrollToSection === null) return;
     const el = document.querySelector(`[data-section-id="${scrollToSection}"]`);
@@ -38,6 +43,7 @@ export default function BlenderWorkshop() {
     setScrollToSection(null);
   }, [scrollToSection]);
 
+  // Track viewport width for mobile layout switching (breakpoint: 768px).
   useEffect(() => {
     const handler = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handler);

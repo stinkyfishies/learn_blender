@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { getQuizOptionStyles } from "../utils/index.js";
 
+// moduleId is passed as the React `key` on this component by the parent (App.jsx).
+// When the key changes (user navigates to a new module), React unmounts and remounts,
+// which resets answers and revealed state without any explicit reset logic needed here.
 const Quiz = ({ questions, moduleId }) => {
   const [answers, setAnswers] = useState({});
   const [revealed, setRevealed] = useState({});
 
-  // Reset when module changes
-  const key = moduleId;
-
   const pick = (qi, oi) => {
-    if (answers[qi] !== undefined) return;
+    if (answers[qi] !== undefined) return; // ignore clicks after the question is answered
     setAnswers((prev) => ({ ...prev, [qi]: oi }));
     setRevealed((prev) => ({ ...prev, [qi]: true }));
   };
