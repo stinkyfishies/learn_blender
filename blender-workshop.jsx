@@ -6805,7 +6805,7 @@ export default function BlenderWorkshop() {
                     {
                       step: "→",
                       label: "Go in any order",
-                      desc: "Jump to whatever is relevant to what you're building right now. The sidebar is a menu, not a curriculum. The Your Paths suggestions are just that — suggestions.",
+                      desc: "Jump to whatever is relevant to what you're building right now. The sidebar is a menu, not a curriculum. The Your Paths suggestions are just that: suggestions.",
                     },
                     {
                       step: "→",
@@ -6815,7 +6815,7 @@ export default function BlenderWorkshop() {
                     {
                       step: "→",
                       label: "Toggle the 🐍 bpy switch",
-                      desc: "Turn it on to see how the UI concepts in any section map to Python. This is the bridge to AI-assisted coding — it shows you the vocabulary to use when prompting.",
+                      desc: "Turn it on to see how the UI concepts in any section map to Python. This is the bridge to AI-assisted coding: it shows you the vocabulary to use when prompting.",
                     },
                     {
                       step: "→",
