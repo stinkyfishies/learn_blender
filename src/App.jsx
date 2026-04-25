@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import modules from "./data/modules.js";
+import modules from "./data/modules/index.js";
 import { TABS, LEARNING_PATHS } from "./data/learningPaths.js";
 import { hexToRgb } from "./utils/index.js";
 import KeybindChip from "./components/KeybindChip.jsx";
