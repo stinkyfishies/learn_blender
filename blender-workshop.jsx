@@ -11,7 +11,7 @@ const hexToRgb = (hex) => {
 const modules = [
   {
     id: 1,
-    emoji: "🧠",
+    emoji: "🎯",
     title: "Mental Model",
     tag: "FOUNDATION",
     color: "#e8622a",
@@ -6972,7 +6972,7 @@ export default function BlenderWorkshop() {
                       body: "Every section has a Python/bpy equivalent. Toggle it on (top right of page) to see how each knob in Blender's interface maps to a line of code you can generate or modify.",
                     },
                     {
-                      icon: "🧠",
+                      icon: "🎯",
                       title: "Self-assessment, not grades",
                       body: "Each module ends with a short quiz. This quiz is not about gates or scores, but simply a motivated self-learner's recall assist.",
                     },
