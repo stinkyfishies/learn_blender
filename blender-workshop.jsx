@@ -413,7 +413,7 @@ for obj in scene.objects:
         ],
         answer: 1,
         explanation:
-          "F3 searches every available operator by name. Type what you want and run it directly: the core vibe-coding shortcut.",
+          "F3 searches every available operator by name. Type what you want and run it directly: the core AI-assisted coding shortcut.",
       },
       {
         q: "What does pressing the Period (.) key do in the 3D viewport?",
@@ -692,7 +692,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
   {
     id: 3,
     emoji: "🐍",
-    title: "bpy Setup & Vibe-Coding",
+    title: "bpy Setup & AI-Assisted Coding",
     tag: "PYTHON + WORKFLOW",
     color: "#38bdf8",
     intro:
@@ -723,7 +723,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
           "The Scripting workspace has a Text Editor (for full scripts) and a Python Console (for interactive one-liners). Both have access to the full bpy API and run in Blender's embedded Python interpreter.",
       },
       {
-        q: "What is the Python Console's main advantage over the Text Editor for vibe-coding workflows?",
+        q: "What is the Python Console's main advantage over the Text Editor for AI-assisted coding workflows?",
         options: [
           "It's faster to render from",
           "It supports auto-complete: type bpy.data. and Tab shows all available attributes interactively",
@@ -750,7 +750,7 @@ Select an entire edge loop (one of the most important shortcuts in modeling)`,
     sections: [
       {
         title: "What You Actually Need to Get Started",
-        pythonCode: `# The vibe-coding setup in one place:
+        pythonCode: `# The AI-assisted coding setup in one place:
 
 # 1. Workspace directory
 mkdir my_blender_project
@@ -811,8 +811,8 @@ Ask AI for a script. Paste it into Blender's Text Editor and press Alt+P to run 
 That's everything. The rest of this module covers each piece in more depth. If you have these four things set up, you can start today.`,
       },
       {
-        title: "The Vibe-Coding Loop",
-        pythonCode: `# The complete vibe-coding workflow for Blender:
+        title: "The AI-Assisted Coding Loop",
+        pythonCode: `# The complete AI-assisted coding workflow for Blender:
 
 # 1. Know what you want (this workshop gives you the vocabulary)
 goal = "Create a procedural rocky terrain with Cycles lighting and an HDRI"
@@ -839,7 +839,7 @@ error_feedback = "Line 34: KeyError: 'Principled BSDF' — the node was created 
 
 # 6. Iterate — usually 1-3 rounds to a working scene
 # 7. Tweak parameters directly in bpy or via the UI`,
-        content: `The vibe-coding loop with Blender has a specific shape, and this workshop is designed to make each step effective.
+        content: `The AI-assisted coding loop with Blender has a specific shape, and this workshop is designed to make each step effective.
 
 **The loop:**
 
@@ -1068,7 +1068,7 @@ bpy.ops.render.render(animation=True)     # render full animation`,
 - \`-E ENGINE\`: set render engine (\`CYCLES\`, \`BLENDER_EEVEE_NEXT\`)
 - \`-t N\`: use N threads for CPU rendering
 
-**The vibe-coding pipeline this enables:**
+**The AI-assisted coding pipeline this enables:**
 1. AI generates a Python script that builds a scene
 2. You run it headlessly: \`blender -b -P scene_builder.py -o /renders/ -f 1\`
 3. No need to open Blender's UI at all
@@ -1117,7 +1117,7 @@ Setup:
 4. Run scripts: Cmd+Shift+P → Blender: Run Script
 
 **Zed**
-A faster, newer editor with native AI integration (Claude, GPT) built in. No dedicated Blender extension yet, but fake-bpy-module works via Pyright LSP for auto-complete. For a vibe-coding workflow where you're talking to an AI inside the editor, Zed's native AI assistant is a smoother experience than VS Code's Copilot/extensions.
+A faster, newer editor with native AI integration (Claude, GPT) built in. No dedicated Blender extension yet, but fake-bpy-module works via Pyright LSP for auto-complete. For a AI-assisted coding workflow where you're talking to an AI inside the editor, Zed's native AI assistant is a smoother experience than VS Code's Copilot/extensions.
 
 Setup:
 1. Install Zed (zed.dev)
@@ -1131,7 +1131,7 @@ Both work well. Open your script from inside Blender's Text Editor once to link 
 Both give you full bpy auto-complete and are vastly better than Blender's built-in editor for anything beyond a few lines.`,
       },
       {
-        title: "Version Control for Vibe-Coders (Git Intro)",
+        title: "Version Control for AI-Assisted Coders (Git Intro)",
         pythonCode: `# Your project folder structure
 my_blender_project/
 ├── .gitignore        # tells git what to ignore
@@ -1150,12 +1150,12 @@ __pycache__/
 # You version the script, not the .blend.
 # Anyone who clones your repo can reproduce the scene by running:
 # blender -b --python scene_builder.py`,
-        content: `If you already know git, skip this section. If you don't, read it. Vibe-coding without version control means every working state you leave behind is gone the moment you change something.
+        content: `If you already know git, skip this section. If you don't, read it. AI-assisted coding without version control means every working state you leave behind is gone the moment you change something.
 
 **What git is:**
 A time machine for your files. Every time you commit, git takes a snapshot. You can go back to any snapshot, see what changed between them, and work on multiple versions simultaneously. It's free, runs locally, and the files live on your machine.
 
-**Why it matters for vibe-coding Blender:**
+**Why it matters for AI-assisted coding Blender:**
 Your Python scripts are the source of truth, not the .blend file. The .blend is generated output (like a compiled binary in software). You version the script, gitignore the .blend, and reproduce the scene by running the script. This gives you a complete, readable history of every scene you've built.
 
 **One-time setup:**
@@ -1268,7 +1268,7 @@ print("Scene built. Press F12 to render.")`,
 
 ---
 
-You now have everything you need to start vibe-coding in Blender. Seriously, stop here, open a new chat with an AI, and try building something. Describe a scene, ask for a bpy script, run it, iterate.
+You now have everything you need to start AI-assisted coding in Blender. Seriously, stop here, open a new chat with an AI, and try building something. Describe a scene, ask for a bpy script, run it, iterate.
 
 The modules that follow are not prerequisites. They are vocabulary. The more of them you read, the better your prompts get, the more precisely you can describe what you want, and the less back-and-forth you need with the AI. But none of them unlock the ability to start. You can already start.
 
@@ -5754,7 +5754,7 @@ export default function BlenderWorkshop() {
       ],
     },
     {
-      emoji: "🐍", title: "Vibe-Coding", shortTitle: "Vibe-Code",
+      emoji: "🐍", title: "AI-Assisted Coding", shortTitle: "AI-Assisted",
       desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
       modules: [
         { idx: 0, note: "Mental model: start here" },
@@ -5841,7 +5841,7 @@ export default function BlenderWorkshop() {
               marginBottom: 4,
             }}
           >
-            WORKSHOP FOR VIBE CODERS
+            WORKSHOP FOR AI-ASSISTED CODERS
           </div>
           <div style={{ fontSize: 20, fontWeight: 800 }}>
             Blender <span style={{ color: "#e8622a" }}>5.1</span>
@@ -6561,7 +6561,7 @@ export default function BlenderWorkshop() {
                   Press <strong style={{ color: "#e8e8f0" }}>F3</strong>{" "}
                   anywhere in Blender to search every operator by name. If you
                   know what you want but not where it lives: F3 finds it. This
-                  is how you navigate Blender when vibe-coding: describe what
+                  is how you navigate Blender when AI-assisted coding: describe what
                   you want, search for it.
                 </div>
               </div>
@@ -6588,7 +6588,7 @@ export default function BlenderWorkshop() {
                     marginBottom: 20,
                   }}
                 >
-                  BLENDER 5.1 WORKSHOP FOR VIBE CODERS
+                  BLENDER 5.1 WORKSHOP FOR AI-ASSISTED CODERS
                 </div>
                 <div
                   style={{
@@ -6643,7 +6643,7 @@ export default function BlenderWorkshop() {
                     {
                       icon: "🎯",
                       title: "Outcome → tool thinking",
-                      body: "The Outcomes tab inverts the learning: start from what you want to make, then find which Blender system applies. That's how vibe-coding works in practice.",
+                      body: "The Outcomes tab inverts the learning: start from what you want to make, then find which Blender system applies. That's how AI-assisted coding works in practice.",
                     },
                     {
                       icon: "🐍",
@@ -6730,7 +6730,7 @@ export default function BlenderWorkshop() {
                     {
                       step: "03",
                       label: "Toggle the 🐍 bpy switch",
-                      desc: "Once you've read a section, turn on the bpy toggle and trace how the UI concepts map to Python. This is the bridge to vibe-coding as you learn to describe what you want in Blender's terms.",
+                      desc: "Once you've read a section, turn on the bpy toggle and trace how the UI concepts map to Python. This is the bridge to AI-assisted coding as you learn to describe what you want in Blender's terms.",
                     },
                     {
                       step: "04",
@@ -6872,7 +6872,7 @@ export default function BlenderWorkshop() {
                 >
                   Modules 7 (Geometry Nodes) and 12 (Physics) are the most
                   conceptually dense: each deserves its own session. Module 2
-                  (bpy Setup) is short but high-value if you plan to vibe-code.
+                  (bpy Setup) is short but high-value if you plan to AI-assisted.
                 </div>
               </div>
 
@@ -6905,7 +6905,7 @@ export default function BlenderWorkshop() {
                     "Able to look at any 3D scene, render, or effect and name the systems involved: which modifiers, shaders, light types, and simulation domains produced it",
                     "Know which Blender tool or system to reach for given any creative goal without having to try every option by hand",
                     "Understand the non-destructive workflow: when to stay live, when to apply, and how to structure a scene for future editability",
-                    "Ready to vibe-code: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using bpy knowledge",
+                    "Ready to AI-assisted: you can describe what you want in precise Blender terms, interpret the Python that comes back, and debug it using bpy knowledge",
                     "Equipped to self-direct further learning because you have a map of the territory, you know exactly which gaps remain to fill",
                   ].map((cap, i) => (
                     <div
