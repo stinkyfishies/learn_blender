@@ -60,6 +60,45 @@ const bpyAIAssist = {
     ],
     sections: [
       {
+        title: "What Python Can and Cannot Do in Blender",
+        content: `Before anything else, know the territory.
+
+**Python fully owns:**
+- Procedural and generative geometry (math-driven, no hands)
+- Scene assembly from existing assets
+- Materials and shaders
+- Lighting and cameras
+- Rendering pipeline
+- Batch operations across many objects
+
+**Python can read but not meaningfully reconstruct:**
+- Freehand mesh edits (vertex dragging): final positions are readable, but the operation isn't logged
+- Sculpted meshes: vertex data exists, but encoding 100k coordinates in a script is not a usable source of truth
+- Weight painting: data is readable, but the brushwork that produced it is not
+
+**What this means for your workflow:**
+There are two lanes. Generative work: Python is the complete source of truth, no .blend required. Artisanal work: the .blend is load-bearing and Python operates on top of it. Most real projects use both. The discipline is knowing which lane you're in.
+
+**Ways Python hooks into Blender:**
+- \`bpy.ops\` — operator calls (everything in the UI has one)
+- \`bpy.data\` — direct read/write access to all scene data
+- \`bpy.app.handlers\` — event hooks: save, load, frame change, depsgraph update
+- \`bpy.msgbus\` — subscribe to property changes
+- Info Editor log — records every user action as Python in real time
+- Modal operators — intercept input events as they happen
+
+**Formats Blender speaks:**
+- \`.blend\` — full state, binary, not diffable, not text
+- \`.usda\` — USD, text-based, diffable, composable — Blender support is partial but improving
+- \`.abc\` (Alembic) — geometry cache, animation-focused
+- \`.obj\`, \`.fbx\`, \`.glb\` — interchange formats, lossy, no Blender-specific data
+
+**If you want a fully text-based 3D pipeline:**
+USD (Universal Scene Description) is the open standard built for exactly this. Pixar open-sourced it in 2016. Houdini and NVIDIA Omniverse are built around it. Blender supports import and export but not the full layered composition workflow yet. This is a 2-3 year gap, not a permanent one.
+
+!! The single most common mistake: assuming Python is a complete replacement for the UI. It isn't. It's a complete replacement for the *generative and automation* parts. Know the line before you design a workflow around crossing it.`,
+      },
+      {
         title: "What You Actually Need to Get Started",
         pythonCode: `# The AI-assisted coding setup in one place:
 
