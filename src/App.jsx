@@ -1350,7 +1350,12 @@ export default function BlenderWorkshop() {
                         marginBottom: 4,
                       }}
                     >
-                      {mod.tag} · MODULE {activeModule + 1}/{modules.length}
+                      {mod.tag} · {(() => {
+                        const isSpecialized = mod.specialized || mod.advanced;
+                        const group = modules.filter(m => isSpecialized ? (m.specialized || m.advanced) : (!m.specialized && !m.advanced));
+                        const pos = group.findIndex((_, gi) => modules.indexOf(group[gi]) === activeModule) + 1;
+                        return `MODULE ${pos}/${group.length}`;
+                      })()}
                     </div>
                     <div
                       style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}
