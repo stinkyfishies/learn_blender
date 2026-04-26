@@ -382,7 +382,7 @@ export default function BlenderWorkshop() {
                     </span>
                   )}
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <span
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
@@ -403,6 +403,7 @@ export default function BlenderWorkshop() {
                         borderRadius: 3,
                         padding: "1px 4px",
                         letterSpacing: 1,
+                        flexShrink: 0,
                       }}
                     >
                       SPECIALIZED
