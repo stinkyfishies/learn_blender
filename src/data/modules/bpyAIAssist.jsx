@@ -96,7 +96,7 @@ There are two lanes. Generative work: Python is the complete source of truth, no
 **If you want a fully text-based 3D pipeline:**
 USD (Universal Scene Description) is the open standard built for exactly this. Pixar open-sourced it in 2016. Houdini and NVIDIA Omniverse are built around it. Blender supports import and export but not the full layered composition workflow yet. This is a 2-3 year gap, not a permanent one.
 
-!! The single most common mistake: assuming Python is a complete replacement for the UI. It isn't. It's a complete replacement for the *generative and automation* parts. Know the line before you design a workflow around crossing it.`,
+!! Most Blender users never touch Python. This module is for a different use case: using AI to generate and automate Blender work. If that's your goal, knowing where Python stops is the first thing to get clear on.`,
       },
       {
         title: "What You Actually Need to Get Started",
