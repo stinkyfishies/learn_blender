@@ -59,8 +59,8 @@ Go to **Edit → Preferences → Add-ons**, search "Node Wrangler", check the bo
 Adds essential shortcuts to the Shader Editor and Geometry Node Editor. Without it, connecting nodes requires dragging every wire manually. With it:
 - **Ctrl+Shift+Click** any node to preview its output directly in the viewport
 - **Ctrl+T** to instantly add a Texture Coordinate + Mapping setup
-- **Alt+RMB** to cut connections by dragging across wires
-- **Ctrl+Shift+RMB** to mix two nodes together automatically
+- To cut a connection: drag from the input socket back to empty space (trackpad-friendly). Alt+RMB drag across wires does the same but requires a mouse.
+- To mix two nodes: add a Mix node manually via Shift+A. Ctrl+Shift+RMB drag is the mouse shortcut but doesn't work well on trackpad.
 
 Enable this before touching materials. Everything else you want can be found through the Extensions platform.`,
       },
