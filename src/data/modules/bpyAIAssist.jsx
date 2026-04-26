@@ -169,6 +169,63 @@ error_feedback = "Line 34: KeyError: 'Principled BSDF', node created with use_no
 - You understand the non-destructive stack → you can modify the generated scene sensibly`,
       },
       {
+        title: "The Script Is the Save File",
+        pythonCode: `import bpy
+
+# --- Workflow 1: Edit the script, re-run ---
+# Make changes in your editor, then re-run.
+# Without clearing first, you get duplicate objects every run.
+# Always start your scripts with a scene clear:
+
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
+
+# Then build the scene fresh from scratch.
+# This is the most reliable workflow for structural changes.
+
+# --- Workflow 2: Manual tweak → Info Editor → back into script ---
+# Make a manual tweak in the viewport (move a light, change a value).
+# Open the Info Editor: it logged every action as Python.
+# Copy the relevant line, paste it into the right place in your script.
+# Save the script. Now the change is permanent.
+
+# --- Workflow 3: Throwaway exploration ---
+# Sketch something manually. Don't worry about the script.
+# When you know what you want, describe it to AI from scratch.
+# "Make a cube at (2, 0, 0) with a bevel of 0.1 and a red material."
+# AI rewrites the script from intent. Manual work was just the sketch.
+
+# --- Saving the script to disk ---
+# If you opened the script from disk (File → Open or dragged in):
+#   Cmd+S saves back to that file.
+# If you pasted into a new buffer (no file path):
+#   Cmd+S does nothing. Use Text → Save As to write it to disk first.
+#   After that, Cmd+S works normally.`,
+        content: `This is the single most important mechanic to understand before you start.
+
+**The script is the save file. The .blend is just the preview.**
+
+When you run a bpy script, Blender builds the scene in memory. The .blend file (if you save it) is a snapshot of that memory. But if you re-run your script, Blender rebuilds the scene from code. The script is the source of truth, not the .blend.
+
+This means: if you make a manual change in the viewport but don't put it back in the script, that change is gone the next time you run the script.
+
+**Three ways to work:**
+
+**1. Edit the script, re-run**
+Make changes in your editor, save to disk, re-run in Blender. This is the main workflow for structural changes. One trap: re-running a script that creates objects will create duplicates unless you clear the scene first. Always start scripts with a scene clear.
+
+**2. Manual tweak → Info Editor → back into script**
+Make a manual change in the viewport. Open the Info Editor — it logged that action as Python in real time. Copy the line, paste it into your script in the right place. Save. Now the change is permanent and survives the next run. This is how you bridge manual work and the script without losing anything.
+
+**3. Throwaway exploration**
+Make manual changes freely, knowing they're a sketch. Once you know what you want, describe the result to AI and get a clean script. The manual session was just discovery.
+
+**Saving the script to disk**
+If you opened the script from disk (via the Text Editor's Open button or your external editor), Cmd+S saves back to that file. If you pasted code into a new buffer with no file path, Cmd+S does nothing useful. Use Text → Save As to give it a path first. After that, Cmd+S works normally.
+
+!! Re-running a script without a scene clear creates duplicates. Always clear the scene at the top of your script before building anything.`,
+      },
+      {
         title: "Blender's Python Environment",
         pythonCode: `# Blender ships with its own Python interpreter: you don't install anything.
 # Access it from: Scripting workspace (top workspace tabs)
@@ -289,14 +346,7 @@ Hover over any UI button or property field. The tooltip shows the Python data pa
 **Right-click → Copy Data Path**
 Right-click any property and it copies its full Python path to clipboard. Paste directly into a script.
 
-Together these three methods let you discover the bpy path to any UI control in under 30 seconds, without reading the API documentation.
-
-**Manual tweaks and script integrity**
-Your script is the source of truth. If you make a manual tweak directly in Blender's UI (move a vertex, adjust a modifier value, reposition a light), that change exists only in the open .blend file -- it's not in your script. Close Blender or re-run the script and it's gone.
-
-The fix: before closing Blender, check the Info Editor. Every manual action you took is logged there as Python. Copy those lines and paste them into the right place in your script. Commit the updated script.
-
-The discipline is: don't end a session with manual changes that haven't been converted back into the script. The Info Editor makes this possible -- it's logging everything in real time whether you asked it to or not.`,
+Together these three methods let you discover the bpy path to any UI control in under 30 seconds, without reading the API documentation.`,
       },
       {
         title: "Debugging Scripts",
