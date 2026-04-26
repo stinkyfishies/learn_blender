@@ -5,6 +5,7 @@ const uvUnwrapping = {
   emoji: "🗺️",
   title: "UV Unwrapping",
   tag: "TEXTURING",
+  specialized: true,
   color: "#2dd4bf",
   intro:
     "UV maps tell Blender how to project a 2D image texture onto a 3D surface. Without them, image textures can't be placed accurately. UV unwrapping is the step between modeling and texturing that most tutorials skip over, which is why it blindsides so many people.",

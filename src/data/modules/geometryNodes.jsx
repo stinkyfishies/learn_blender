@@ -5,6 +5,7 @@ const geometryNodes = {
     emoji: "🔷",
     title: "Geometry Nodes",
     tag: "PROCEDURAL GENERATION",
+    specialized: true,
     color: "#38bdf8",
     intro:
       "Geometry Nodes is Blender's procedural modeling system: a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",

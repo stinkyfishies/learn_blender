@@ -5,6 +5,7 @@ const sculptMode = {
     emoji: "🏛️",
     title: "Sculpt Mode",
     tag: "ORGANIC MODELING",
+    specialized: true,
     color: "#34d399",
     intro:
       "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms: characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",

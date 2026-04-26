@@ -5,6 +5,7 @@ const proceduralTextures = {
     emoji: "🌊",
     title: "Procedural Textures",
     tag: "ADVANCED SHADING",
+    specialized: true,
     color: "#818cf8",
     intro:
       "Procedural textures are generated mathematically: no image files, infinite resolution, no tiling, fully animatable. Combined with the Shader Editor, they can describe almost any surface.",

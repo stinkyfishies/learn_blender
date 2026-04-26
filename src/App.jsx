@@ -374,7 +374,7 @@ export default function BlenderWorkshop() {
                   >
                     {m.tag}
                   </span>
-                  {m.advanced && (
+                  {(m.advanced || m.specialized) && (
                     <span
                       style={{
                         fontFamily: "'JetBrains Mono', monospace",
@@ -386,7 +386,7 @@ export default function BlenderWorkshop() {
                         letterSpacing: 1,
                       }}
                     >
-                      ADV
+                      SPECIALIZED
                     </span>
                   )}
                 </div>

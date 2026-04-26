@@ -5,6 +5,7 @@ const booleanHardSurface = {
     emoji: "📐",
     title: "Boolean & Hard Surface",
     tag: "PRECISION MODELING",
+    specialized: true,
     color: "#60a5fa",
     intro:
       "Hard surface modeling covers anything manufactured: machines, architecture, vehicles, electronics. The core technique is combining precise primitives using Boolean operations, then refining with bevels and subdivision.",

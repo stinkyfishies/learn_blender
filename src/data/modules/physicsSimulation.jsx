@@ -5,6 +5,7 @@ const physicsSimulation = {
     emoji: "⚡",
     title: "Physics & Simulation",
     tag: "DYNAMICS",
+    specialized: true,
     color: "#fb923c",
     intro:
       "Blender includes several simulation systems for dynamics, fabric, fluids, fire, smoke, and particles. Each is its own domain. Knowing which system handles which problem is the skill.",
