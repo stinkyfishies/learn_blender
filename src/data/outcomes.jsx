@@ -27,12 +27,12 @@ const outcomes = [
       {
         goal: "Terrain or landscape",
         approach:
-          "Grid + Displace modifier with Musgrave/Noise texture. Or Geometry Nodes with noise-driven height.",
+          "Grid + Displace modifier with Noise texture. Or Geometry Nodes with noise-driven height.",
         tools: [
           "Grid",
           "Displace modifier",
           "Geometry Nodes",
-          "Musgrave Texture",
+          "Noise Texture",
         ],
       },
       {
@@ -66,14 +66,20 @@ const outcomes = [
       {
         goal: "Hair, fur, feathers",
         approach:
-          "New Hair system (Geometry Nodes based): Add → Curve → Empty Hair. Style with hair sculpt brushes.",
-        tools: ["Hair Curves", "Geometry Nodes", "Particle Edit"],
+          "GN-based Hair system: Add → Curve → Empty Hair. Style with hair sculpt brushes. Particle Edit is the legacy system — avoid for new work.",
+        tools: ["Hair Curves", "Geometry Nodes", "Hair Sculpt brushes"],
       },
     ],
   },
   {
     category: "Surface & Appearance",
     items: [
+      {
+        goal: "Apply an image texture (photo, decal, label)",
+        approach:
+          "UV unwrap the mesh first: mark seams along natural edges, then Unwrap. In the Shader Editor, add an Image Texture node and connect it to the Principled BSDF Base Color (or other inputs).",
+        tools: ["UV Unwrapping", "UV Editor", "Image Texture node", "Shader Editor"],
+      },
       {
         goal: "Photorealistic material (metal, glass, skin)",
         approach:
@@ -124,8 +130,8 @@ const outcomes = [
       {
         goal: "Neon / glowing light in EEVEE",
         approach:
-          "Emissive material on object + EEVEE Bloom (Render Properties → Bloom). Adjust Bloom Threshold and Intensity.",
-        tools: ["Emission shader", "EEVEE Bloom", "Compositor Glare node"],
+          "Emissive material on object. Bloom was removed from Render Properties in 4.2. Add glow in the Compositor: Render Layers → Glare node (Fog Glow or Streaks type).",
+        tools: ["Emission shader", "Compositor", "Glare node"],
       },
     ],
   },
@@ -137,6 +143,12 @@ const outcomes = [
         approach:
           "Insert keyframes (I key) in Object Mode. Edit curves in Graph Editor. Non-linear blending in NLA Editor.",
         tools: ["Keyframes", "Graph Editor", "NLA Editor"],
+      },
+      {
+        goal: "Rig a character or prop for animation",
+        approach:
+          "Add an Armature, place bones in Edit Mode to match the mesh structure. Parent the mesh to the armature with Automatic Weights. Refine bone influence in Weight Paint mode.",
+        tools: ["Armature", "Edit Mode (bones)", "Weight Paint", "Automatic Weights"],
       },
       {
         goal: "Character animation with a skeleton",
