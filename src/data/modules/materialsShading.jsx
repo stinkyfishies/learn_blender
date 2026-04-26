@@ -5,6 +5,7 @@ const materialsShading = {
     emoji: "🎨",
     title: "Materials & Shading",
     tag: "SURFACE APPEARANCE",
+    workflow: "py",
     color: "#f472b6",
     intro:
       "Materials define what an object is made of: metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender supports both Cycles and EEVEE Next, each with full Principled BSDF support.",

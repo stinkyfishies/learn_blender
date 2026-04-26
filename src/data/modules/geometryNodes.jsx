@@ -5,6 +5,7 @@ const geometryNodes = {
     emoji: "🔷",
     title: "Geometry Nodes",
     tag: "PROCEDURAL GENERATION",
+    workflow: "py",
     specialized: true,
     color: "#38bdf8",
     intro:

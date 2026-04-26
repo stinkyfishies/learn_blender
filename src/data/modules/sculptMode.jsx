@@ -5,6 +5,7 @@ const sculptMode = {
     emoji: "🏛️",
     title: "Sculpt Mode",
     tag: "ORGANIC MODELING",
+    workflow: "ui",
     specialized: true,
     color: "#34d399",
     intro:

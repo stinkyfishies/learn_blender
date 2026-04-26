@@ -5,6 +5,7 @@ const bpyAIAssist = {
     emoji: "🐍",
     title: "bpy with AI-Assist",
     tag: "PYTHON + WORKFLOW",
+    workflow: "py",
     color: "#38bdf8",
     intro:
       "Blender has a complete Python API called bpy. Every single thing you can do in Blender's UI (add an object, apply a modifier, set a material, trigger a render) has a Python equivalent. This is Blender's most powerful aspect: the entire application is programmable. A script can build a fully lit, shaded, rendered scene from nothing. That's what we're going to drive with AI. You describe the outcome, an AI writes the bpy script, and Blender executes it. If the idea of writing code feels overwhelming, stop. You don't write it. You describe what you want and the AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. This module breaks that into four parts: your workspace, version control, your editor, and the run-refresh cycle.",

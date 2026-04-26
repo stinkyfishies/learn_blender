@@ -5,6 +5,7 @@ const rendering = {
     emoji: "🎬",
     title: "Rendering",
     tag: "OUTPUT",
+    workflow: "py",
     color: "#a78bfa",
     intro:
       "Rendering converts your 3D scene into a final image or animation. Blender has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",

@@ -5,6 +5,7 @@ const meshPrimitives = {
     emoji: "🧊",
     title: "Mesh Primitives",
     tag: "OBJECT MODE",
+    workflow: "both",
     color: "#60a5fa",
     intro:
       "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically: not just what it looks like.",

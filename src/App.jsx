@@ -389,6 +389,21 @@ export default function BlenderWorkshop() {
                       SPECIALIZED
                     </span>
                   )}
+                  {m.workflow && (
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 8,
+                        color: m.workflow === "py" ? "#34d399" : m.workflow === "ui" ? "#f472b6" : "#94a3b8",
+                        border: `1px solid ${m.workflow === "py" ? "#34d39950" : m.workflow === "ui" ? "#f472b650" : "#94a3b850"}`,
+                        borderRadius: 3,
+                        padding: "1px 4px",
+                        letterSpacing: 1,
+                      }}
+                    >
+                      {m.workflow === "py" ? "PY-FORWARD" : m.workflow === "ui" ? "UI-FORWARD" : "UI-AND-PY"}
+                    </span>
+                  )}
                 </div>
               </div>
               {completedModules.has(i) && (

@@ -5,6 +5,7 @@ const uvUnwrapping = {
   emoji: "🗺️",
   title: "UV Unwrapping",
   tag: "TEXTURING",
+  workflow: "ui",
   specialized: true,
   color: "#2dd4bf",
   intro:

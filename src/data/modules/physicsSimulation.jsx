@@ -5,6 +5,7 @@ const physicsSimulation = {
     emoji: "⚡",
     title: "Physics & Simulation",
     tag: "DYNAMICS",
+    workflow: "py",
     specialized: true,
     color: "#fb923c",
     intro:

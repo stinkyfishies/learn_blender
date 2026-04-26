@@ -5,6 +5,7 @@ const modifiers = {
     emoji: "🔧",
     title: "Modifiers",
     tag: "NON-DESTRUCTIVE",
+    workflow: "py",
     color: "#c084fc",
     intro:
       "Modifiers are Blender's superpower: non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",

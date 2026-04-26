@@ -5,6 +5,7 @@ const booleanHardSurface = {
     emoji: "📐",
     title: "Boolean & Hard Surface",
     tag: "PRECISION MODELING",
+    workflow: "py",
     specialized: true,
     color: "#60a5fa",
     intro:

@@ -5,6 +5,7 @@ const rigging = {
   emoji: "🦴",
   title: "Rigging",
   tag: "ANIMATION",
+  workflow: "ui",
   specialized: true,
   color: "#f43f5e",
   intro:

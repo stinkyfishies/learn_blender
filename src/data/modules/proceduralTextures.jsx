@@ -5,6 +5,7 @@ const proceduralTextures = {
     emoji: "🌊",
     title: "Procedural Textures",
     tag: "ADVANCED SHADING",
+    workflow: "py",
     specialized: true,
     color: "#818cf8",
     intro:

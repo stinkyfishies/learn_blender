@@ -5,6 +5,7 @@ const lighting = {
     emoji: "💡",
     title: "Lighting",
     tag: "ILLUMINATION",
+    workflow: "both",
     color: "#fbbf24",
     intro:
       "Lighting is half the art. The same object in bad lighting looks terrible. Modern Blender with EEVEE Next gives you cinema-grade lighting in real time.",
