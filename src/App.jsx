@@ -16,6 +16,70 @@ import { C } from "./utils/colors.js";
 const toSlug = (title) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
+function ModuleItem({ m, i, activeModule, completedModules, navigate, setExpandedSections, setActiveTab, setSidebarOpen, hexToRgb, C }) {
+  return (
+    <div>
+      <div
+        onClick={() => {
+          navigate(`/module/${toSlug(m.title)}`);
+          setExpandedSections({ 0: true });
+          setActiveTab("content");
+          setSidebarOpen(false);
+        }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          padding: "9px 20px",
+          cursor: "pointer",
+          borderLeft: `3px solid ${i === activeModule ? m.color : "transparent"}`,
+          background: i === activeModule ? `rgba(${hexToRgb(m.color)},0.08)` : "transparent",
+          transition: "all 0.15s",
+        }}
+      >
+        <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>{m.emoji}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{
+              fontSize: 12,
+              fontWeight: 600,
+              color: i === activeModule ? C.textPrimary : C.textMuted,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              flex: 1,
+            }}>
+              {m.title}
+            </div>
+            {m.workflow && (
+              <span style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 8,
+                color: C.textFaint,
+                letterSpacing: 1,
+                flexShrink: 0,
+              }}>
+                {m.workflow === "py" ? "PY" : m.workflow === "ui" ? "UI" : "PY+UI"}
+              </span>
+            )}
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: C.textFaint, letterSpacing: 1 }}>
+            {m.tag}
+          </div>
+        </div>
+        {completedModules.has(i) && (
+          <div style={{
+            width: 16, height: 16, borderRadius: "50%", background: C.green,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 9, color: C.bgBase, fontWeight: 700, flexShrink: 0,
+          }}>✓</div>
+        )}
+      </div>
+      <div style={{ height: 1, background: C.border, margin: "0 20px" }} />
+    </div>
+  );
+}
+
 export default function BlenderWorkshop() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,6 +103,7 @@ export default function BlenderWorkshop() {
   const [openPath, setOpenPath] = useState(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [levelUpOpen, setLevelUpOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
@@ -324,117 +389,40 @@ export default function BlenderWorkshop() {
           <div
             style={{ height: 1, background: C.border, margin: "4px 20px 8px" }}
           />
-          {modules.map((m, i) => (
-            <div key={m.id}>
-            {i > 0 && <div style={{ height: 1, background: C.border, margin: "0 20px" }} />}
-            <div
-              key={`item-${m.id}`}
-              onClick={() => {
-                navigate(toModuleUrl(i));
-                setExpandedSections({ 0: true });
-                setActiveTab("content");
-                setSidebarOpen(false);
-              }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "9px 20px",
-                cursor: "pointer",
-                borderLeft: `3px solid ${i === activeModule ? m.color : "transparent"}`,
-                background:
-                  i === activeModule
-                    ? `rgba(${hexToRgb(m.color)},0.08)`
-                    : "transparent",
-                transition: "all 0.15s",
-              }}
-            >
-              <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>
-                {m.emoji}
-              </span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: i === activeModule ? C.textPrimary : C.textMuted,
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      flex: 1,
-                    }}
-                  >
-                    {m.title}
-                  </div>
-                  {m.workflow && (
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 8,
-                        color: m.workflow === "py" ? "#34d399" : m.workflow === "ui" ? "#f472b6" : "#94a3b8",
-                        border: `1px solid ${m.workflow === "py" ? "#34d39950" : m.workflow === "ui" ? "#f472b650" : "#94a3b850"}`,
-                        borderRadius: 3,
-                        padding: "1px 4px",
-                        letterSpacing: 1,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {m.workflow === "py" ? "PY" : m.workflow === "ui" ? "UI" : "PY+UI"}
-                    </span>
-                  )}
-                </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: 9,
-                      color: C.textFaint,
-                      letterSpacing: 1,
-                    }}
-                  >
-                    {m.tag}
-                  </span>
-                  {(m.advanced || m.specialized) && (
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 8,
-                        color: C.orange,
-                        border: `1px solid ${C.orange}50`,
-                        borderRadius: 3,
-                        padding: "1px 4px",
-                        letterSpacing: 1,
-                        flexShrink: 0,
-                      }}
-                    >
-                      SPECIALIZED
-                    </span>
-                  )}
-                </div>
-              </div>
-              {completedModules.has(i) && (
-                <div
-                  style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: "50%",
-                    background: C.green,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 9,
-                    color: C.bgBase,
-                    fontWeight: 700,
-                    flexShrink: 0,
-                  }}
-                >
-                  ✓
-                </div>
-              )}
-            </div>
-            </div>
-          ))}
+          {/* Foundation modules */}
+          {modules.map((m, i) => {
+            if (m.specialized || m.advanced) return null;
+            return (
+              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setActiveTab={setActiveTab} setSidebarOpen={setSidebarOpen} hexToRgb={hexToRgb} C={C} />
+            );
+          })}
+
+          {/* Level Up collapsible section */}
+          <div
+            onClick={() => setLevelUpOpen(o => !o)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "10px 20px",
+              cursor: "pointer",
+              borderTop: `1px solid ${C.border}`,
+              borderBottom: levelUpOpen ? `1px solid ${C.border}` : "none",
+              marginTop: 4,
+              userSelect: "none",
+            }}
+          >
+            <span style={{ fontSize: 11, color: C.textFaint, letterSpacing: 1, fontFamily: "'JetBrains Mono', monospace", flex: 1 }}>
+              LEVEL UP
+            </span>
+            <span style={{ fontSize: 10, color: C.textFaint }}>{levelUpOpen ? "▲" : "▼"}</span>
+          </div>
+          {levelUpOpen && modules.map((m, i) => {
+            if (!m.specialized && !m.advanced) return null;
+            return (
+              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setActiveTab={setActiveTab} setSidebarOpen={setSidebarOpen} hexToRgb={hexToRgb} C={C} />
+            );
+          })}
         </div>
 
         {/* Ko-fi */}
