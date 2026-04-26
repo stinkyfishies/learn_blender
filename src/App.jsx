@@ -325,8 +325,10 @@ export default function BlenderWorkshop() {
             style={{ height: 1, background: C.border, margin: "4px 20px 8px" }}
           />
           {modules.map((m, i) => (
+            <div key={m.id}>
+            {i > 0 && <div style={{ height: 1, background: C.border, margin: "0 20px" }} />}
             <div
-              key={m.id}
+              key={`item-${m.id}`}
               onClick={() => {
                 navigate(toModuleUrl(i));
                 setExpandedSections({ 0: true });
@@ -430,6 +432,7 @@ export default function BlenderWorkshop() {
                   ✓
                 </div>
               )}
+            </div>
             </div>
           ))}
         </div>
