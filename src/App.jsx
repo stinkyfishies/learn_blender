@@ -412,10 +412,10 @@ export default function BlenderWorkshop() {
               userSelect: "none",
             }}
           >
-            <span style={{ fontSize: 11, color: C.textFaint, letterSpacing: 1, fontFamily: "'JetBrains Mono', monospace", flex: 1 }}>
+            <span style={{ fontSize: 11, color: C.orange, letterSpacing: 1, fontFamily: "'JetBrains Mono', monospace", flex: 1 }}>
               LEVEL UP
             </span>
-            <span style={{ fontSize: 10, color: C.textFaint }}>{levelUpOpen ? "▲" : "▼"}</span>
+            <span style={{ fontSize: 10, color: C.orange }}>{levelUpOpen ? "▲" : "▼"}</span>
           </div>
           {levelUpOpen && modules.map((m, i) => {
             if (!m.specialized && !m.advanced) return null;
