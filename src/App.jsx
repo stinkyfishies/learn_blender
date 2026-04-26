@@ -1354,7 +1354,7 @@ export default function BlenderWorkshop() {
                         const isSpecialized = mod.specialized || mod.advanced;
                         const group = modules.filter(m => isSpecialized ? (m.specialized || m.advanced) : (!m.specialized && !m.advanced));
                         const pos = group.findIndex((_, gi) => modules.indexOf(group[gi]) === activeModule) + 1;
-                        return `MODULE ${pos}/${group.length}`;
+                        return `${isSpecialized ? "LEVEL UP " : ""}MODULE ${pos}/${group.length}`;
                       })()}
                     </div>
                     <div
