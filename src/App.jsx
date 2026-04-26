@@ -1339,7 +1339,7 @@ export default function BlenderWorkshop() {
                         marginBottom: 4,
                       }}
                     >
-                      {mod.tag} · MODULE {mod.id}/{modules.length}
+                      {mod.tag} · MODULE {activeModule + 1}/{modules.length}
                     </div>
                     <div
                       style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}
