@@ -51,7 +51,7 @@ export const TIME_ALLOCATION = [
   {
     label: "Concept pass",
     time: "~5.5 hrs",
-    note: "Reading only, all 14 modules",
+    note: "Reading only, all 17 modules",
     colorKey: "blue",
   },
   {
