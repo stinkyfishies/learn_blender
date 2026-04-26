@@ -363,15 +363,32 @@ export default function BlenderWorkshop() {
                 >
                   {m.title}
                 </div>
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 9,
-                    color: C.textFaint,
-                    letterSpacing: 1,
-                  }}
-                >
-                  {m.tag}
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: 9,
+                      color: C.textFaint,
+                      letterSpacing: 1,
+                    }}
+                  >
+                    {m.tag}
+                  </span>
+                  {m.advanced && (
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 8,
+                        color: C.orange,
+                        border: `1px solid ${C.orange}50`,
+                        borderRadius: 3,
+                        padding: "1px 4px",
+                        letterSpacing: 1,
+                      }}
+                    >
+                      ADV
+                    </span>
+                  )}
                 </div>
               </div>
               {completedModules.has(i) && (

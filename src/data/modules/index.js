@@ -6,11 +6,13 @@ import bpyAIAssist from './bpyAIAssist.jsx';
 import enhancingBlender from './enhancingBlender.jsx';
 import meshPrimitives from './meshPrimitives.jsx';
 import editModeTopology from './editModeTopology.jsx';
+import uvUnwrapping from './uvUnwrapping.jsx';
 import modifiers from './modifiers.jsx';
 import geometryNodes from './geometryNodes.jsx';
 import materialsShading from './materialsShading.jsx';
 import lighting from './lighting.jsx';
 import sculptMode from './sculptMode.jsx';
+import rigging from './rigging.jsx';
 import booleanHardSurface from './booleanHardSurface.jsx';
 import physicsSimulation from './physicsSimulation.jsx';
 import rendering from './rendering.jsx';
@@ -23,11 +25,13 @@ const modules = [
   enhancingBlender,
   meshPrimitives,
   editModeTopology,
+  uvUnwrapping,
   modifiers,
   geometryNodes,
   materialsShading,
   lighting,
   sculptMode,
+  rigging,
   booleanHardSurface,
   physicsSimulation,
   rendering,
