@@ -8,7 +8,7 @@ const bpyAIAssist = {
     workflow: "py",
     color: "#38bdf8",
     intro:
-      "Blender has a complete Python API called bpy. Every single thing you can do in Blender's UI (add an object, apply a modifier, set a material, trigger a render) has a Python equivalent. This is Blender's most powerful aspect: the entire application is programmable. A script can build a fully lit, shaded, rendered scene from nothing. That's what we're going to drive with AI. You describe the outcome, an AI writes the bpy script, and Blender executes it. If the idea of writing code feels overwhelming, stop. You don't write it. You describe what you want and the AI writes it. Your job is to set up the environment, run the script, see what happens, and iterate. This module breaks that into four parts: your workspace, version control, your editor, and the run-refresh cycle.",
+      "Blender has a complete Python API called bpy. Every action you can take in the UI has a Python equivalent: add an object, apply a modifier, set a material, trigger a render. This module covers the tools, environment, and mechanics of working with bpy — including what Python can and cannot do. The AI-assisted workflow for bridging UI work and Python scripting is still evolving and will be covered in a future update.",
     quiz: [
       {
         q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",
@@ -99,6 +99,7 @@ USD (Universal Scene Description) is the open standard built for exactly this. P
 
 > This module is for a specific use case: using AI to generate and automate Blender work. Knowing where Python stops is the first thing to get clear on.`,
       },
+      /* WORKFLOW SECTIONS — commented out pending AI-assist workflow revision
       {
         title: "What You Actually Need to Get Started",
         pythonCode: `# The AI-assisted coding setup in one place:
@@ -265,6 +266,7 @@ If you opened the script from disk (via the Text Editor's Open button or your ex
 
 !! Re-running a script without a scene clear creates duplicates. Always clear the scene at the top of your script before building anything.`,
       },
+      END WORKFLOW SECTIONS */
       {
         title: "Blender's Python Environment",
         pythonCode: `# Blender ships with its own Python interpreter: you don't install anything.
