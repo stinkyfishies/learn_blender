@@ -107,6 +107,7 @@ export default function BlenderWorkshop() {
   const [searchQuery, setSearchQuery] = useState("");
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
+  const levelUpRef = useRef(null);
 
   // Scroll content area back to top whenever the active module changes.
   useEffect(() => {
@@ -399,7 +400,14 @@ export default function BlenderWorkshop() {
 
           {/* Level Up collapsible section */}
           <div
-            onClick={() => setLevelUpOpen(o => !o)}
+            ref={levelUpRef}
+            onClick={() => {
+              const opening = !levelUpOpen;
+              setLevelUpOpen(opening);
+              if (opening) {
+                setTimeout(() => levelUpRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+              }
+            }}
             style={{
               display: "flex",
               alignItems: "center",
