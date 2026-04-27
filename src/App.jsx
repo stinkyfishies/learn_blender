@@ -232,7 +232,7 @@ export default function BlenderWorkshop() {
         >
           <SectionLabel text="WORKSHOP FOR AI-ASSISTED CODERS" color={C.orange} size={9} mb={4} />
           <div style={{ fontSize: 20, fontWeight: 800 }}>
-            Modern <span style={{ color: C.orange }}>Blender</span>
+            Blender <span style={{ color: C.orange }}>5.1</span>
           </div>
         </div>
 
