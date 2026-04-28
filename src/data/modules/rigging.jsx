@@ -9,7 +9,7 @@ const rigging = {
   specialized: true,
   color: "#f43f5e",
   intro:
-    "Learn how armatures, bones, and skinning work together — enough to rig a simple prop or character and understand rigs you encounter in downloaded assets.",
+    "Learn how armatures, bones, and skinning work together: enough to rig a simple prop or character and understand rigs you encounter in downloaded assets.",
   quiz: [
     {
       q: "What is the correct order to parent a mesh to an armature with Ctrl+P?",

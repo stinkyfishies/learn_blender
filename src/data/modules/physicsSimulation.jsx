@@ -9,7 +9,7 @@ const physicsSimulation = {
     specialized: true,
     color: "#fb923c",
     intro:
-      "Learn which simulation system handles which problem — cloth, rigid body, fluid, smoke — and how to set one up without guessing.",
+      "Learn which simulation system handles which problem (cloth, rigid body, fluid, smoke) and how to set one up without guessing.",
     quiz: [
       {
         q: "In Rigid Body simulation, what is a Passive object?",

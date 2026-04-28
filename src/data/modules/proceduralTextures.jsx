@@ -9,7 +9,7 @@ const proceduralTextures = {
     specialized: true,
     color: "#818cf8",
     intro:
-      "Learn to build a surface appearance from math nodes alone — no image files — and how noise, voronoi, and color ramps combine to describe almost any material.",
+      "Learn to build a surface appearance from math nodes alone (no image files) and how noise, voronoi, and color ramps combine to describe almost any material.",
     quiz: [
       {
         q: "What does a ColorRamp node do?",
