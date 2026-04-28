@@ -527,6 +527,24 @@ export default function BlenderWorkshop() {
               paddingRight: 4,
             }}
           >
+            <a
+              href="https://forms.gle/PLACEHOLDER"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 9,
+                color: C.textFaint,
+                letterSpacing: 1,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                padding: "4px 8px",
+                border: `1px solid ${C.border}`,
+                borderRadius: 6,
+              }}
+            >
+              REPORT ISSUE
+            </a>
             <div
               onClick={() => setShowPython((p) => !p)}
               style={{
