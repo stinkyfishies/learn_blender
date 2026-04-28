@@ -89,6 +89,56 @@ Subdivided plane. Terrain, cloth sims, displacement maps.
 Blender's test subject. Use her for shading and lighting experiments.`,
       },
       {
+        title: "First Moves: Transforms in Object Mode",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Move (G equivalent)
+obj.location = (2.0, 0.0, 0.0)       # place at exact position
+obj.location.x += 1.0                 # move 1 unit along X
+
+# Rotate (R equivalent) — values in radians
+import math
+obj.rotation_euler.z = math.radians(45)   # 45° around Z
+
+# Scale (S equivalent)
+obj.scale = (2.0, 2.0, 2.0)          # uniform scale
+obj.scale.x = 0.5                     # non-uniform: squash on X
+
+# Apply transforms (make current position/rotation/scale the new "default")
+bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)`,
+        content: `You added a primitive. Now what?
+
+Three keys work in Object Mode on any selected object:
+
+**G** — Grab (move)
+Press G, move the mouse, click to confirm. Press Esc to cancel.
+
+**R** — Rotate
+Press R, move the mouse, click to confirm.
+
+**S** — Scale
+Press S, move the mouse, click to confirm.
+
+**Lock to an axis: X, Y, or Z**
+After pressing G, R, or S — press X, Y, or Z to constrain to that axis. The movement locks to a straight line or plane.
+
+Examples:
+- G → Z: move straight up/down
+- R → Z: spin around the vertical axis
+- S → X: stretch or squash on X only
+
+**Type a number for exact values:**
+- G → Z → 2 → Enter: move exactly 2 meters up
+- R → Z → 90 → Enter: rotate exactly 90°
+- S → 0.5 → Enter: scale to half size
+
+These same three keys (G, R, S) also work in Edit Mode on selected vertices, edges, or faces. The mechanics are identical — the only difference is what you have selected.
+
+> For detailed mesh editing — loop cuts, extrusion, bevels — continue to Edit Mode & Topology.`,
+      },
+      {
         title: "The Operator Panel (F9)",
         pythonCode: `import bpy
 
