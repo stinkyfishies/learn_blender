@@ -1079,7 +1079,7 @@ export default function BlenderWorkshop() {
                     maxWidth: 560,
                   }}
                 >
-                  You don't need to master Blender. You need to think in it. This workshop gives you the vocabulary, the mental model, the outcome→tool map and everything else you need to direct AI and get extraordinary results.
+                  Think in Blender and you'll master it. This workshop gives you the vocabulary, the mental model, the outcome→tool map and everything else you need to learn fast, efficiently and with AI assistance to get extraordinary results.
                 </div>
               </div>
 
