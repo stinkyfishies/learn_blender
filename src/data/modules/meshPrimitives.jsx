@@ -64,29 +64,19 @@ bpy.ops.mesh.primitive_plane_add(size=2)
 bpy.ops.mesh.primitive_circle_add(radius=1, vertices=32, fill_type='NOTHING')
 bpy.ops.mesh.primitive_grid_add(x_subdivisions=10, y_subdivisions=10, size=2)
 bpy.ops.mesh.primitive_monkey_add(size=2)  # Suzanne`,
-        content: `**Shift+A → Mesh**: The add menu. Every object in your scene starts here.
-
-Primitives and their structural value:
-**Cube**
-6 quads, 8 verts, 12 edges. Perfect base for box-modeling anything boxy. Workhorse.
-**UV Sphere**
-Latitude/longitude topology. Good for planets, eyes, balls. Poles are messy for animation.
-**Ico Sphere**
-Triangulated sphere. Even distribution across surface: better for sculpting and subdivision.
-**Cylinder**
-Flat ends + loop-based sides. Cups, cans, columns, limbs, any tube shape.
-**Cone**
-Pointed top. Arrow tips, teeth, spikes, horns.
-**Torus**
-Donut topology. Rings, tunnels, life preservers, cables bent into circles.
-**Plane**
-Single quad face. Floor, wall, starting point for many models, cards for hair/leaves.
-**Circle**
-Edges only, no fill. Boundary for extrusion, profile for Screw modifier.
-**Grid**
-Subdivided plane. Terrain, cloth sims, displacement maps.
-**Monkey (Suzanne)**
-Blender's test subject. Use her for shading and lighting experiments.`,
+        content: `**Shift+A → Mesh** to open the add menu. Every model starts from one of these.`,
+        primitiveGrid: [
+          { emoji: "🟦", name: "Cube", desc: "6 quads, 8 verts. Box-modeling workhorse.", use: "Furniture, buildings, mechanical parts" },
+          { emoji: "🌐", name: "UV Sphere", desc: "Latitude/longitude topology. Poles are messy under subdivision.", use: "Planets, eyes, balls" },
+          { emoji: "🔺", name: "Ico Sphere", desc: "Uniform triangle distribution. Better for sculpting and subdivision.", use: "Organic shapes, creature heads" },
+          { emoji: "🪣", name: "Cylinder", desc: "Loop-based sides, flat end caps.", use: "Cups, cans, limbs, columns" },
+          { emoji: "📐", name: "Cone", desc: "Pointed top, circular base.", use: "Arrow tips, teeth, spikes, horns" },
+          { emoji: "🍩", name: "Torus", desc: "Donut topology: ring of edge loops.", use: "Rings, cables, life preservers" },
+          { emoji: "⬜", name: "Plane", desc: "Single quad face.", use: "Floors, walls, leaf/hair cards" },
+          { emoji: "⭕", name: "Circle", desc: "Edges only, no fill. Not a mesh face.", use: "Extrusion base, Screw modifier profile" },
+          { emoji: "🔲", name: "Grid", desc: "Subdivided plane.", use: "Terrain, cloth, displacement maps" },
+          { emoji: "🐒", name: "Monkey (Suzanne)", desc: "Blender's test subject.", use: "Shading and lighting experiments" },
+        ],
       },
       {
         title: "First Moves: Transforms in Object Mode",

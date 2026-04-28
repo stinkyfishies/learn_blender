@@ -1497,6 +1497,29 @@ export default function BlenderWorkshop() {
                       }}
                     >
                       {renderContent(section.content)}
+                      {section.primitiveGrid && (
+                        <div style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          gap: 8,
+                          marginTop: 12,
+                        }}>
+                          {section.primitiveGrid.map((p, pi) => (
+                            <div key={pi} style={{
+                              background: C.bgBase,
+                              border: `1px solid ${C.border}`,
+                              borderRadius: 8,
+                              padding: "10px 12px",
+                            }}>
+                              <div style={{ fontSize: 12, fontWeight: 700, color: C.textPrimary, marginBottom: 3 }}>
+                                {p.emoji} {p.name}
+                              </div>
+                              <div style={{ fontSize: 12, color: C.textBody, lineHeight: 1.5 }}>{p.desc}</div>
+                              {p.use && <div style={{ fontSize: 11, color: C.textFaint, marginTop: 4 }}>{p.use}</div>}
+                            </div>
+                          ))}
+                        </div>
+                      )}
                       {showPython && section.pythonCode && (
                         <CodeBlock code={section.pythonCode} />
                       )}
