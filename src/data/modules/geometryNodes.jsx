@@ -9,7 +9,7 @@ const geometryNodes = {
     specialized: true,
     color: "#38bdf8",
     intro:
-      "Geometry Nodes is Blender's procedural modeling system: a visual node graph that generates, modifies, and instances geometry without touching the mesh directly. Think of it as programming in Blender. It's fully non-destructive and animatable.",
+      "Learn what Geometry Nodes is for, how to read a basic node graph, and when to reach for it over manual modeling.",
     quiz: [
       {
         q: "What is a Field in Geometry Nodes?",

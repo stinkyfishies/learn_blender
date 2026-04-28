@@ -9,7 +9,7 @@ const sculptMode = {
     specialized: true,
     color: "#34d399",
     intro:
-      "Sculpt Mode is digital clay. Push and pull geometry with brushes to create organic forms: characters, creatures, terrain, abstract shapes. The approach to topology here is completely different from Edit Mode.",
+      "Learn how sculpting differs from polygon modeling, which brushes handle which tasks, and when sculpting is the right tool for a shape.",
     quiz: [
       {
         q: "What is Dyntopo (Dynamic Topology) best used for?",

@@ -7,7 +7,7 @@ const editModeTopology = {
     tag: "CORE MODELING",
     color: "#44d9a2",
     intro:
-      "Edit Mode is where real modeling happens. You're operating on the mesh's actual geometry: vertices, edges, faces. Topology (how geometry is connected) determines everything: how the mesh deforms, subdivides, and renders.",
+      "Learn to select and transform geometry, why topology matters, and the core operations that shape any mesh.",
     quiz: [
       {
         q: "What does Alt+Click do on an edge in Edit Mode?",

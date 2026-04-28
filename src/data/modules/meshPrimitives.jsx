@@ -8,7 +8,7 @@ const meshPrimitives = {
     workflow: "both",
     color: "#60a5fa",
     intro:
-      "Every 3D model starts from a primitive. These are the raw materials. What matters is knowing what each one gives you topologically: not just what it looks like.",
+      "Learn which primitive to reach for given any target shape, how to configure it before committing, and how to move and transform it immediately.",
     quiz: [
       {
         q: "You want to sculpt a creature head. Which sphere primitive is the better starting point, and why?",

@@ -8,7 +8,7 @@ const lighting = {
     workflow: "both",
     color: "#fbbf24",
     intro:
-      "Lighting is half the art. The same object in bad lighting looks terrible. Modern Blender with EEVEE Next gives you cinema-grade lighting in real time.",
+      "Learn which light type to use for which situation and how to set up a scene that looks good in both EEVEE Next and Cycles.",
     quiz: [
       {
         q: "Which light type produces the softest shadows, and why?",

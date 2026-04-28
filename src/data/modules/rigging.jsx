@@ -9,7 +9,7 @@ const rigging = {
   specialized: true,
   color: "#f43f5e",
   intro:
-    "Rigging is building a control system for animating a mesh. A rig consists of an armature (skeleton of bones), skinning (binding the mesh to those bones), and pose controls. This module covers the fundamentals: enough to rig props and simple characters for personal projects.",
+    "Learn how armatures, bones, and skinning work together — enough to rig a simple prop or character and understand rigs you encounter in downloaded assets.",
   quiz: [
     {
       q: "What is the correct order to parent a mesh to an armature with Ctrl+P?",

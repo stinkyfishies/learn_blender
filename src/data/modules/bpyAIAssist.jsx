@@ -8,7 +8,7 @@ const bpyAIAssist = {
     workflow: "py",
     color: "#38bdf8",
     intro:
-      "Blender has a complete Python API called bpy. Every action you can take in the UI has a Python equivalent: add an object, apply a modifier, set a material, trigger a render. This module covers the tools, environment, and mechanics of working with bpy — including what Python can and cannot do. The AI-assisted workflow for bridging UI work and Python scripting is still evolving and will be covered in a future update.",
+      "Learn what bpy is, where Python fits in Blender's architecture, what it can and can't do, and how to set up your environment to start scripting.",
     quiz: [
       {
         q: "What is the fastest way to find the Python operator name for a menu action you just performed in Blender?",

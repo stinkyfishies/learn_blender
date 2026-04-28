@@ -9,7 +9,7 @@ const booleanHardSurface = {
     specialized: true,
     color: "#60a5fa",
     intro:
-      "Hard surface modeling covers anything manufactured: machines, architecture, vehicles, electronics. The core technique is combining precise primitives using Boolean operations, then refining with bevels and subdivision.",
+      "Learn to combine geometry with Boolean operations, control edge sharpness with bevels, and build the kind of mechanical precision that hard surface modeling requires.",
     quiz: [
       {
         q: "What does a Boolean Difference operation do?",

@@ -8,7 +8,7 @@ const materialsShading = {
     workflow: "py",
     color: "#f472b6",
     intro:
-      "Materials define what an object is made of: metal, glass, skin, rubber, cloth. The Shader Editor is a node graph where you can build any surface appearance. Blender supports both Cycles and EEVEE Next, each with full Principled BSDF support.",
+      "Learn to build materials in the Shader Editor, set up a Principled BSDF correctly, and understand the node graph well enough to follow or modify AI-generated shaders.",
     quiz: [
       {
         q: "What does setting Metallic to 0.5 on the Principled BSDF produce?",

@@ -7,7 +7,7 @@ const interfaceNavigation = {
     tag: "MAC TRACKPAD",
     color: "#5b8dee",
     intro:
-      "Blender was designed around a 3-button mouse but works great on Mac trackpad once configured. Three settings unlock everything: do these first.",
+      "Learn to navigate Blender comfortably on a Mac trackpad — viewport movement, editor layout, and the three settings that make everything work.",
     quiz: [
       {
         q: "On a Mac trackpad, what gesture orbits the 3D viewport in Blender?",

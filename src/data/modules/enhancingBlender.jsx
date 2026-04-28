@@ -7,7 +7,7 @@ const enhancingBlender = {
     tag: "SETUP + ADD-ONS",
     color: "#a78bfa",
     intro:
-      "Blender ships with a solid default setup, but a handful of built-in add-ons and free community tools make a meaningful difference from day one. This module covers what to enable, what to install, and where to find more.",
+      "Learn to set up Blender the way experienced users run it: the right add-ons enabled, the extensions platform configured, nothing missing.",
     quiz: [
       {
         q: "Node Wrangler is a free add-on that ships with Blender. What does it do?",

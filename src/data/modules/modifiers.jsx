@@ -8,7 +8,7 @@ const modifiers = {
     workflow: "py",
     color: "#c084fc",
     intro:
-      "Modifiers are Blender's superpower: non-destructive operations stacked on top of your base mesh. Stack them, reorder them, toggle them. The original is always safe until you Apply.",
+      "Learn to use the modifier stack non-destructively, which modifiers matter most, and why the order you stack them changes the result.",
     quiz: [
       {
         q: "You add a Bevel modifier, then a Subdivision Surface modifier. The result looks different than Subdivision then Bevel. Why?",

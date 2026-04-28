@@ -9,7 +9,7 @@ const physicsSimulation = {
     specialized: true,
     color: "#fb923c",
     intro:
-      "Blender includes several simulation systems for dynamics, fabric, fluids, fire, smoke, and particles. Each is its own domain. Knowing which system handles which problem is the skill.",
+      "Learn which simulation system handles which problem — cloth, rigid body, fluid, smoke — and how to set one up without guessing.",
     quiz: [
       {
         q: "In Rigid Body simulation, what is a Passive object?",

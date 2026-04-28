@@ -8,7 +8,7 @@ const rendering = {
     workflow: "py",
     color: "#a78bfa",
     intro:
-      "Rendering converts your 3D scene into a final image or animation. Blender has two main renderers: Cycles (path-traced, physically accurate) and EEVEE Next (real-time path-traced, dramatically faster). Knowing when to use each is the key decision.",
+      "Learn to choose between Cycles and EEVEE Next, configure a render, and get output that looks like you intended.",
     quiz: [
       {
         q: "Your scene has light focusing through a glass lens creating a caustic pattern on the table. Which renderer handles this correctly?",
