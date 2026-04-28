@@ -194,27 +194,15 @@ curve.bevel_object = bpy.data.objects["ProfileCurve"]
 
 # Convert curve to mesh (destructive)
 bpy.ops.object.convert(target='MESH')`,
-        content: `**Shift+A → Curve** gives you a different data type: mathematically smooth paths, not polygon meshes.
-
-**Bezier**
-Handles for smooth curves. Great for paths, logos, cables, motion paths.
-**NURBS**
-Weighted control points. Smooth surfaces, automotive design.
-**Path**
-A simple spline. Use as a motion path for animation or a spine for Curve modifier.
-
-Curves can be converted to meshes (**Object → Convert → Mesh**) or used directly with the **Curve modifier** to deform other objects along them.
-
-**Shift+A → Surface**
-NURBS surface patches. Rarely used for modeling, but understand they exist.
-
-Key curve settings (Properties → Object Data → Geometry):
-**Bevel → Depth**
-Give the curve a round cross-section (instant pipe/tube)
-**Bevel → Object**
-Use a custom shape as the cross-section
-**Fill Mode**
-Whether the curve end caps are filled`,
+        content: `**Shift+A → Curve** gives you a different data type: mathematically smooth paths, not polygon meshes. Curves can be converted to meshes (Object → Convert → Mesh) or used directly with the **Curve modifier** to deform other objects along them.`,
+        primitiveGrid: [
+          { emoji: "〰️", name: "Bezier Curve", desc: "Control points with handles for smooth curves.", use: "Paths, logos, cables, motion paths" },
+          { emoji: "⭕", name: "Bezier Circle", desc: "Closed Bezier loop.", use: "Custom cross-section profiles, extrusion bases" },
+          { emoji: "〜", name: "NURBS Curve", desc: "Weighted control points, very smooth.", use: "Automotive design, industrial surfaces" },
+          { emoji: "➰", name: "NURBS Circle", desc: "Closed NURBS loop.", use: "Lathe profiles, sweep paths" },
+          { emoji: "📏", name: "Path", desc: "Simple open spline, 5 control points.", use: "Motion paths, Curve modifier spine" },
+          { emoji: "🏁", name: "Surface (NURBS)", desc: "Smooth surface patches, not polygons.", use: "Rare — industrial CAD-style modeling" },
+        ],
       },
       {
         title: "🔨 Mini Workshop: Know Your Topology",
