@@ -534,12 +534,12 @@ export default function BlenderWorkshop() {
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: 9,
-                color: C.textFaint,
+                color: C.textMuted,
                 letterSpacing: 1,
                 textDecoration: "none",
                 whiteSpace: "nowrap",
                 padding: "4px 8px",
-                border: `1px solid ${C.border}`,
+                border: `1px solid ${C.textFaint}`,
                 borderRadius: 6,
               }}
             >
