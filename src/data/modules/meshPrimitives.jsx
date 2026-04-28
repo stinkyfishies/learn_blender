@@ -129,7 +129,7 @@ These same three keys (G, R, S) also work in Edit Mode on selected vertices, edg
 > For detailed mesh editing — loop cuts, extrusion, bevels — continue to Edit Mode & Topology.`,
       },
       {
-        title: "The Operator Panel (F9)",
+        title: "The Operator Panel (F9) — Configure Before You Commit",
         pythonCode: `import bpy
 
 # The F9 panel settings are just keyword args on the operator.
@@ -160,21 +160,17 @@ bpy.ops.mesh.primitive_torus_add(
     major_segments=32,
     minor_segments=8
 )`,
-        content: `When you add a primitive, a panel appears at the **bottom-left** of the viewport. This is your one chance to set initial parameters before the operator locks in.
+        content: `>> Every time you add a primitive, Blender gives you a free configuration window. Most beginners never notice it. This is one of the most useful things to know early.
 
-**Click the panel or press F9** to expand it:
-**Vertices / Segments**
-Controls mesh density. More = smoother, heavier.
-**Radius / Size**
-Initial dimensions.
-**Generate UVs**
-Auto-create a UV map. Turn this on. It costs nothing and saves time later.
-**Align to View**
-Face the current camera direction. Useful when adding on a specific axis.
-**Location / Rotation**
-Exact initial placement.
+When you add a primitive, a small panel appears at the **bottom-left** of the viewport. Click it or press **F9** to expand it. You can change the topology of the object before doing anything else: vertex count, radius, segments, alignment, exact position.
 
-⚠️ This panel disappears the moment you perform any other action. It is a one-time window. If you miss it, use Ctrl+Z and re-add.`,
+- **Vertices / Segments**: mesh density — more = smoother, heavier
+- **Radius / Size**: initial dimensions
+- **Generate UVs**: auto-create a UV map — turn this on, costs nothing
+- **Align to View**: face the current camera direction
+- **Location / Rotation**: exact initial placement
+
+!! This panel disappears the moment you do anything else — click, move, type. It is a one-time window. If you miss it, Ctrl+Z and re-add.`,
       },
       {
         title: "Curves & Surfaces (Non-Mesh Primitives)",
