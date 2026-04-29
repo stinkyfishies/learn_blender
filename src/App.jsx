@@ -16,14 +16,14 @@ import { C } from "./utils/colors.js";
 const toSlug = (title) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-function ModuleItem({ m, i, activeModule, completedModules, navigate, setExpandedSections, setSidebarOpen, hexToRgb, C }) {
+function ModuleItem({ m, i, activeModule, completedModules, navigate, setExpandedSections, setSidebarOpen, isMobile, hexToRgb, C }) {
   return (
     <div>
       <div
         onClick={() => {
           navigate(`/module/${toSlug(m.title)}`);
           setExpandedSections({ 0: true });
-          setSidebarOpen(false);
+          if (isMobile) setSidebarOpen(false);
         }}
         style={{
           display: "flex",
@@ -162,7 +162,7 @@ export default function BlenderWorkshop() {
 
   const goHome = () => {
     navigate("/");
-    setSidebarOpen(false);
+    if (isMobile) setSidebarOpen(false);
   };
 
 
@@ -329,7 +329,7 @@ export default function BlenderWorkshop() {
                     key={ri}
                     onClick={() => {
                       navigate(toModuleUrl(r.moduleIdx));
-                      setSidebarOpen(false);
+                      if (isMobile) setSidebarOpen(false);
                       setSearchQuery("");
                       if (r.sectionIdx !== null) {
                         setExpandedSections(prev => ({ ...prev, [r.sectionIdx]: true }));
@@ -406,7 +406,7 @@ export default function BlenderWorkshop() {
           {modules.map((m, i) => {
             if (m.specialized || m.advanced) return null;
             return (
-              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} hexToRgb={hexToRgb} C={C} />
+              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} isMobile={isMobile} hexToRgb={hexToRgb} C={C} />
             );
           })}
 
@@ -440,7 +440,7 @@ export default function BlenderWorkshop() {
           {levelUpOpen && modules.map((m, i) => {
             if (!m.specialized && !m.advanced) return null;
             return (
-              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} hexToRgb={hexToRgb} C={C} />
+              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} isMobile={isMobile} hexToRgb={hexToRgb} C={C} />
             );
           })}
         </div>
