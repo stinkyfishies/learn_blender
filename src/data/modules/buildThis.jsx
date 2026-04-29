@@ -60,16 +60,32 @@ const buildThis = {
     },
     {
       title: "Mug + Steam",
-      content: `**The model:** A ceramic mug. Cylinder primitive, loop cuts for the rim thickness, extrude-and-bridge for the handle, Solidify modifier for wall thickness. Smooth shading. A ceramic material: Principled BSDF, off-white or terracotta Base Color, Roughness around 0.6.
+      content: `**The model**
 
-**The animation:** Steam rising from the opening. Two approaches:
+1. **Shift+A → Mesh → Cylinder** — in F9: 32 vertices, depth 1.2, cap fill type Ngon. This gives you a closed tube.
+2. **Tab into Edit Mode**. Select the top face, delete it (X → Faces only). The mug is now an open tube.
+3. **Ctrl+R** — add a loop cut near the top (scroll to get one cut, slide it up close to the rim). This edge loop will define the rim thickness.
+4. Select the top edge loop (Alt+Click). **I** to inset slightly (about 0.05). This creates the rim lip.
+5. **E → Z → type -1.1** — extrude the inner wall downward. This is the reveal: the inside of the mug appears in one move.
+6. Select the bottom inner edge loop. **F** to fill the bottom of the inner cavity. Now it's a proper hollow mug with wall thickness.
 
-- **Quick:** A Bezier curve above the rim, animated with a Noise F-Curve modifier on a path-follow constraint. Looks decent, no particles needed.
-- **Better:** A GeoNodes setup that distributes points above the rim, offsets them upward over time with animated noise, and fades them out at a set height.
+**The handle**
+7. In the N-panel, go to Item. Note the mug's dimensions. You need two face loops on the side of the cylinder to bridge.
+8. Select a vertical column of 3-4 faces on one side of the cylinder. **Ctrl+I** to select all other faces, **H** to hide them. Now you see just your handle patch.
+9. **Extrude** the faces outward, shape them into a D loop. **Alt+H** to unhide everything.
+10. Alternatively: select two edge loops on the side → **Edge → Bridge Edge Loops** — cleaner topology.
 
-**What this exercises:** Mesh Primitives, Edit Mode, Modifiers (Solidify), Materials, basic GeoNodes or F-Curve modifiers.
+**Finishing**
+11. Right-click → **Shade Smooth**
+12. Add **Subdivision Surface** modifier (level 2) — watch the rim soften and round naturally
+13. Material: Principled BSDF, off-white or terracotta Base Color, Roughness 0.55, slight IOR bump to 1.45
 
-!! Don't spend more than two hours on the mug shape. The animation is the interesting part.`,
+**The animation: steam**
+A GeoNodes setup above the rim that emits rising wisps. If GeoNodes is too early, a simpler approach: add a **Bezier Curve** above the opening, add a **Noise F-Curve modifier** to its path offset. Looks like a rising curl of steam with no particles.
+
+**What this exercises:** Mesh Primitives, Edit Mode (loop cuts, inset, extrude, fill), Subdivision Surface, Materials, F-Curve modifiers or basic GeoNodes.
+
+!! The inner wall (step 5) is what separates a mug from a cup. Don't skip it — the render will look hollow and flat without it.`,
     },
     {
       title: "Clock + Moving Hands",

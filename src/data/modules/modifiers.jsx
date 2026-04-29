@@ -173,6 +173,56 @@ Merge vertices within a distance threshold. Essential after Booleans.
 Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes). Key for sculpt prep.`,
       },
       {
+        title: "Mirror Modifier: Symmetric Modeling",
+        pythonCode: `import bpy
+
+obj = bpy.context.active_object
+
+# Add Mirror on X axis with clipping
+mir = obj.modifiers.new("Mirror", 'MIRROR')
+mir.use_axis[0]  = True   # X axis
+mir.use_axis[1]  = False  # Y axis
+mir.use_clip     = True   # clipping: verts snap at seam, won't cross
+mir.merge_threshold = 0.001
+
+# Mirror relative to another object instead of origin
+mir.mirror_object = bpy.data.objects["MirrorTarget"]
+
+# Bisect an existing mesh before mirroring (via Edit Mode)
+# Select all → Mesh → Bisect along the axis, delete one side, then add Mirror`,
+        content: `The Mirror modifier reflects your mesh across the object's origin. Model one half: the other appears automatically.
+
+**The workflow**
+1. Place the object's origin at the center of symmetry (Object → Set Origin → Origin to Geometry, or manually position it)
+2. Add the Mirror modifier, choose axis (X for left-right symmetry)
+3. Enable **Clipping** — vertices at the seam snap together and cannot be pulled apart accidentally
+4. Model freely on one side. The mirrored half updates in real time.
+
+**Clipping explained**
+Without Clipping, vertices at the center seam can drift apart and leave a gap, or cross through each other. With Clipping on, they're locked to the mirror plane. Always enable it.
+
+**Starting from an existing mesh**
+If you have a full mesh and want to mirror half of it:
+1. Tab into Edit Mode → select all
+2. **Mesh → Bisect** — cut exactly along the axis (hold Ctrl to snap)
+3. Delete one side
+4. Add Mirror modifier
+
+**X-Mirror toggle vs Mirror modifier**
+Edit Mode has an X-Mirror toggle (top of Edit Mode toolbar). This mirrors vertex movement while editing but is not a modifier — it doesn't generate geometry and won't show the full shape while you work. The modifier is almost always the right choice.
+
+**Mirror Object**
+Instead of mirroring across the object's own origin, you can mirror relative to another object's origin. Useful for asymmetric rigs or objects that don't sit at world center.
+
+**Common uses**
+- Character faces and bodies (bilateral symmetry)
+- Vehicle bodies and wings
+- Furniture (chairs, tables)
+- Architectural details (window frames, decorative panels)
+
+>> Mirror goes first in the stack: Mirror → Array → Boolean → Bevel → Subdivision Surface. Putting it after Boolean or Bevel causes unpredictable results at the seam.`,
+      },
+      {
         title: "Deform Modifiers: Shape Changers",
         pythonCode: `import bpy
 

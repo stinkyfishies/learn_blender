@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import modules from "./data/modules/index.js";
-import outcomes from "./data/outcomes.jsx";
+import outcomes, { workflows } from "./data/outcomes.jsx";
 import { TABS, LEARNING_PATHS } from "./data/learningPaths.js";
 import { LEARNING_METHOD_CARDS, HOW_TO_USE_STEPS, TIME_ALLOCATION, CAPABILITIES } from "./data/homeContent.js";
 import { hexToRgb } from "./utils/index.js";
@@ -706,98 +706,156 @@ export default function BlenderWorkshop() {
           {/* ── OUTCOMES TAB ── */}
           {activeTab === "outcomes" && (
             <div>
-              <div style={{ marginBottom: 28 }}>
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 10,
-                    color: C.orange,
-                    letterSpacing: 3,
-                    marginBottom: 6,
-                  }}
-                >
-                  DECISION GUIDE
-                </div>
-                <div style={{ fontSize: 24, fontWeight: 800 }}>
-                  What Do You Want to Make?
-                </div>
-                <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
-                  Find your goal → learn which Blender tools and workflow apply
-                </div>
-              </div>
 
-              {outcomes.map((group) => (
-                <div key={group.category} style={{ marginBottom: 32 }}>
-                  <SectionLabel text={group.category.toUpperCase()} />
-                  <div
-                    style={{ display: "flex", flexDirection: "column", gap: 8 }}
-                  >
-                    {group.items.map((item, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          background: C.bgCard,
-                          border: "1px solid #1e1e2e",
-                          borderRadius: 10,
-                          padding: "14px 18px",
-                          display: "grid",
-                          gridTemplateColumns: "1fr 1.4fr auto",
-                          gap: 16,
-                          alignItems: "start",
-                        }}
-                      >
-                        <div>
-                          <div
-                            style={{
-                              fontSize: 13,
-                              fontWeight: 700,
-                              color: C.textPrimary,
-                              marginBottom: 2,
-                            }}
-                          >
+              {/* Section 1: What do you want to make? */}
+              <div style={{ marginBottom: 40 }}>
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 6 }}>
+                    DECISION GUIDE
+                  </div>
+                  <div style={{ fontSize: 24, fontWeight: 800 }}>What Do You Want to Make?</div>
+                  <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
+                    Find your goal, learn which Blender tools and workflow apply.
+                  </div>
+                </div>
+
+                {outcomes.map((group) => (
+                  <div key={group.category} style={{ marginBottom: 28 }}>
+                    <SectionLabel text={group.category.toUpperCase()} />
+                    <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 8 }}>
+                      {group.items.map((item, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            background: C.bgCard,
+                            border: "1px solid #1e1e2e",
+                            borderRadius: 8,
+                            padding: "12px 14px",
+                          }}
+                        >
+                          <div style={{ fontSize: 12, fontWeight: 700, color: C.textPrimary, marginBottom: 5 }}>
                             {item.goal}
                           </div>
-                        </div>
-                        <div
-                          style={{
-                            fontSize: 12,
-                            color: C.textBody,
-                            lineHeight: 1.6,
-                          }}
-                        >
-                          {item.approach}
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: 4,
-                            justifyContent: "flex-end",
-                          }}
-                        >
-                          {item.tools.map((tool, j) => (
-                            <span
-                              key={j}
-                              style={{
+                          <div style={{ fontSize: 11.5, color: C.textBody, lineHeight: 1.6, marginBottom: 8 }}>
+                            {item.approach}
+                          </div>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                            {item.tools.map((tool, j) => (
+                              <span key={j} style={{
                                 background: "rgba(91,141,238,0.12)",
                                 border: "1px solid rgba(91,141,238,0.2)",
                                 borderRadius: 4,
-                                padding: "2px 8px",
+                                padding: "2px 7px",
                                 fontSize: 10,
                                 color: C.blue,
                                 fontFamily: "'JetBrains Mono', monospace",
                                 whiteSpace: "nowrap",
-                              }}
-                            >
-                              {tool}
-                            </span>
-                          ))}
+                              }}>
+                                {tool}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div style={{ height: 1, background: C.border, marginBottom: 40 }} />
+
+              {/* Section 2: Workflows and what they unlock */}
+              <div style={{ marginBottom: 40 }}>
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 6 }}>
+                    TECHNIQUE MAP
+                  </div>
+                  <div style={{ fontSize: 24, fontWeight: 800 }}>Workflows and What They Unlock</div>
+                  <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
+                    Each workflow is a reusable pattern. Master one, apply it across many different objects.
                   </div>
                 </div>
-              ))}
+
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 10 }}>
+                  {workflows.map((wf, wi) => (
+                    <div
+                      key={wi}
+                      style={{
+                        background: C.bgCard,
+                        border: "1px solid #1e1e2e",
+                        borderRadius: 10,
+                        padding: "14px 16px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8 }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: C.textPrimary }}>{wf.name}</div>
+                        <span style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: 9,
+                          letterSpacing: 1,
+                          color: wf.difficulty === "beginner" ? C.green : C.orange,
+                          border: `1px solid ${wf.difficulty === "beginner" ? C.green : C.orange}40`,
+                          borderRadius: 4,
+                          padding: "2px 6px",
+                          flexShrink: 0,
+                        }}>
+                          {wf.difficulty.toUpperCase()}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 12, color: C.textBody, lineHeight: 1.55 }}>{wf.desc}</div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                        {wf.produces.map((p, pi) => (
+                          <span key={pi} style={{
+                            background: "rgba(68,217,162,0.08)",
+                            border: "1px solid rgba(68,217,162,0.2)",
+                            borderRadius: 4,
+                            padding: "2px 7px",
+                            fontSize: 10,
+                            color: C.green,
+                            fontFamily: "'JetBrains Mono', monospace",
+                            whiteSpace: "nowrap",
+                          }}>{p}</span>
+                        ))}
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 2 }}>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                          {wf.tools.map((t, ti) => (
+                            <span key={ti} style={{
+                              background: "rgba(91,141,238,0.10)",
+                              border: "1px solid rgba(91,141,238,0.18)",
+                              borderRadius: 4,
+                              padding: "2px 7px",
+                              fontSize: 10,
+                              color: C.blue,
+                              fontFamily: "'JetBrains Mono', monospace",
+                              whiteSpace: "nowrap",
+                            }}>{t}</span>
+                          ))}
+                        </div>
+                        <span
+                          onClick={() => { navigate(toModuleUrl(slugToIdx[wf.moduleSlug])); setActiveTab("content"); setExpandedSections({ 0: true }); }}
+                          style={{
+                            fontFamily: "'JetBrains Mono', monospace",
+                            fontSize: 10,
+                            color: C.orange,
+                            cursor: "pointer",
+                            whiteSpace: "nowrap",
+                            marginLeft: 8,
+                            flexShrink: 0,
+                          }}
+                        >
+                          → MODULE
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           )}
 

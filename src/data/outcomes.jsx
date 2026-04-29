@@ -6,44 +6,25 @@ const outcomes = [
         goal: "Organic creature or character",
         approach:
           "Sculpt Mode (Dyntopo for exploration → Remesh → Multires for detail). Retopologize with Shrinkwrap modifier.",
-        tools: [
-          "Sculpt Mode",
-          "Multiresolution",
-          "Remesh",
-          "Shrinkwrap modifier",
-        ],
+        tools: ["Sculpt Mode", "Multiresolution", "Remesh", "Shrinkwrap modifier"],
       },
       {
         goal: "Hard surface / mechanical object",
         approach:
           "Edit Mode box-modeling + Boolean modifier for cuts + Bevel modifier for edge highlights + Subdivision Surface.",
-        tools: [
-          "Edit Mode",
-          "Boolean modifier",
-          "Bevel modifier",
-          "Subdivision Surface",
-        ],
+        tools: ["Edit Mode", "Boolean modifier", "Bevel modifier", "Subdivision Surface"],
       },
       {
         goal: "Terrain or landscape",
         approach:
           "Grid + Displace modifier with Noise texture. Or Geometry Nodes with noise-driven height.",
-        tools: [
-          "Grid",
-          "Displace modifier",
-          "Geometry Nodes",
-          "Noise Texture",
-        ],
+        tools: ["Grid", "Displace modifier", "Geometry Nodes", "Noise Texture"],
       },
       {
         goal: "Repeated / instanced objects (forest, crowd, bricks)",
         approach:
           "Geometry Nodes: Distribute Points on Faces → Instance on Points. Near-zero memory cost.",
-        tools: [
-          "Geometry Nodes",
-          "Instance on Points",
-          "Distribute Points on Faces",
-        ],
+        tools: ["Geometry Nodes", "Instance on Points", "Distribute Points on Faces"],
       },
       {
         goal: "Rope, cable, pipe following a path",
@@ -166,11 +147,7 @@ const outcomes = [
         goal: "Camera fly-through or orbit",
         approach:
           "Keyframe camera transforms. Or: Follow Path constraint (camera follows a Bezier curve). Or: camera shake with Noise modifier in Graph Editor.",
-        tools: [
-          "Camera keyframes",
-          "Follow Path constraint",
-          "Graph Editor Noise modifier",
-        ],
+        tools: ["Camera keyframes", "Follow Path constraint", "Graph Editor Noise modifier"],
       },
     ],
   },
@@ -243,6 +220,81 @@ const outcomes = [
         tools: ["Panoramic Camera", "Cycles", "Equirectangular"],
       },
     ],
+  },
+];
+
+export const workflows = [
+  {
+    name: "Profile + Revolve",
+    desc: "Draw a 2D silhouette of the object's cross-section, spin it 360° around an axis. One profile curve becomes a full solid of revolution.",
+    produces: ["Mugs", "Vases", "Bottles", "Wine glasses", "Chess pieces", "Columns", "Wheels", "Bowls"],
+    tools: ["Screw modifier", "Spin (Edit Mode)"],
+    moduleSlug: "modifiers",
+    difficulty: "beginner",
+  },
+  {
+    name: "Profile + Path",
+    desc: "Give a 2D cross-section shape and a 3D path curve. The profile sweeps along the path to generate the surface.",
+    produces: ["Pipes", "Cables", "Rails", "Molding", "Roads", "Roller coaster tracks", "Noodles"],
+    tools: ["Bezier Curve", "Curve modifier", "Geometry Nodes (Curve to Mesh)"],
+    moduleSlug: "modifiers",
+    difficulty: "beginner",
+  },
+  {
+    name: "Box Modeling",
+    desc: "Start from a primitive, add edge loops, extrude faces, push and pull vertices. The foundational hard-surface workflow.",
+    produces: ["Furniture", "Buildings", "Vehicles", "Electronics", "Architectural props", "Weapons"],
+    tools: ["Edit Mode", "Loop Cut", "Extrude", "Inset", "Bevel modifier"],
+    moduleSlug: "edit-mode-topology",
+    difficulty: "beginner",
+  },
+  {
+    name: "Mirror + Subdivision",
+    desc: "Model one half of a symmetrical object, mirror it, then smooth with Subdivision Surface. Standard character and vehicle workflow.",
+    produces: ["Faces", "Character bodies", "Vehicles", "Helmets", "Shoes", "Symmetric props"],
+    tools: ["Mirror modifier", "Subdivision Surface", "Edit Mode"],
+    moduleSlug: "modifiers",
+    difficulty: "beginner",
+  },
+  {
+    name: "Boolean Subtraction",
+    desc: "Use one object as a cutter to remove volume from another. Fast for holes, slots, vents, and mechanical cutouts.",
+    produces: ["Mechanical parts", "Vents and grilles", "Architectural cutouts", "Sci-fi paneling", "Molds"],
+    tools: ["Boolean modifier", "Bevel modifier", "Weld modifier"],
+    moduleSlug: "boolean-hard-surface",
+    difficulty: "intermediate",
+  },
+  {
+    name: "Array + Curve",
+    desc: "Duplicate a single unit along a curve path. The curve controls spacing, count, and direction automatically.",
+    produces: ["Chains", "Fences", "Stairs", "Roller coaster cars", "Beaded necklaces", "Brick walls"],
+    tools: ["Array modifier", "Curve modifier", "Bezier Curve"],
+    moduleSlug: "modifiers",
+    difficulty: "beginner",
+  },
+  {
+    name: "GeoNodes Distribution",
+    desc: "Scatter instances across a surface procedurally, with density, rotation, and scale driven by textures or attributes.",
+    produces: ["Forests", "Grass fields", "Crowds", "Rocks", "Coral reefs", "Scattered debris"],
+    tools: ["Geometry Nodes", "Distribute Points on Faces", "Instance on Points"],
+    moduleSlug: "geometry-nodes",
+    difficulty: "intermediate",
+  },
+  {
+    name: "Displacement + Grid",
+    desc: "Start from a flat grid, push vertices outward using a texture map. Fast terrain and surface detail with no manual sculpting.",
+    produces: ["Terrain", "Ocean surfaces", "Desert dunes", "Alien landscapes", "Fabric wrinkles", "Knurled surfaces"],
+    tools: ["Displace modifier", "Noise Texture", "Musgrave Texture", "Subdivision Surface"],
+    moduleSlug: "modifiers",
+    difficulty: "beginner",
+  },
+  {
+    name: "Sculpt from Sphere",
+    desc: "Start from a sphere, use sculpt brushes to push and pull mass into form. The organic modeling workflow for anything biological.",
+    produces: ["Creatures", "Faces", "Hands", "Rocks", "Trees", "Clouds", "Abstract organic shapes"],
+    tools: ["Sculpt Mode", "Dyntopo", "Remesh", "Multiresolution"],
+    moduleSlug: "sculpt-mode",
+    difficulty: "intermediate",
   },
 ];
 
