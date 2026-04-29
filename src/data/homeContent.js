@@ -50,20 +50,20 @@ export const HOW_TO_USE_STEPS = [
 export const TIME_ALLOCATION = [
   {
     label: "Concept pass",
-    time: "~5.5 hrs",
-    note: "Reading only, all 17 modules",
+    time: "~6 hrs",
+    note: "Reading only, all 18 modules",
     colorKey: "blue",
   },
   {
     label: "With exercises",
-    time: "~11 hrs",
-    note: "Doing the workshops in Blender",
+    time: "~12 hrs",
+    note: "Doing the mini workshops in Blender",
     colorKey: "purple",
   },
   {
-    label: "Per session",
-    time: "1–2 modules",
-    note: "Recommended pace",
+    label: "Build This projects",
+    time: "Days to weeks",
+    note: "One project per tier, at your own pace",
     colorKey: "orange",
   },
 ];
