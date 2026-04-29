@@ -336,45 +336,74 @@ Procedural pipe/cable following a path:
         title: "🔨 Mini Workshop: Procedural Vase",
         isWorkshop: true,
         pythonCode: `import bpy
+import bmesh
 import math
 
-# Build the entire procedural vase in Python
-bpy.ops.mesh.primitive_circle_add(vertices=16, radius=0.5, fill_type='NOTHING')
-vase = bpy.context.active_object
-vase.name = "Vase"
+# Clear scene
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
 
-# Add Screw modifier: revolves the circle profile
-scr = vase.modifiers.new("Screw", 'SCREW')
+# Define vase profile as (radius, height) pairs, bottom to top.
+# The Screw modifier will revolve these points around the Z axis.
+profile = [
+    (0.0,  0.0),   # base center
+    (0.28, 0.0),   # base edge
+    (0.30, 0.04),  # base bevel
+    (0.22, 0.22),  # lower body taper
+    (0.32, 0.50),  # widest point
+    (0.26, 0.70),  # upper body
+    (0.16, 0.86),  # neck
+    (0.19, 0.92),  # lip flare
+    (0.21, 0.97),  # lip rim
+]
+
+mesh = bpy.data.meshes.new("VaseProfile")
+bm = bmesh.new()
+verts = [bm.verts.new((x, 0, z)) for x, z in profile]
+for i in range(len(verts) - 1):
+    bm.edges.new([verts[i], verts[i + 1]])
+bm.to_mesh(mesh)
+bm.free()
+
+obj = bpy.data.objects.new("Vase", mesh)
+bpy.context.collection.objects.link(obj)
+bpy.context.view_layer.objects.active = obj
+obj.select_set(True)
+
+# Screw modifier: revolve profile 360° around Z
+scr = obj.modifiers.new("Screw", 'SCREW')
 scr.angle = math.radians(360)
-scr.steps = 32
+scr.steps = 48
+scr.render_steps = 48
 scr.axis = 'Z'
-
-# Add Solidify for wall thickness
-sol = vase.modifiers.new("Solidify", 'SOLIDIFY')
-sol.thickness = 0.03
+scr.use_merge_vertices = True  # closes seam and base
 
 # Smooth with Subdivision Surface
-sub = vase.modifiers.new("Subdiv", 'SUBSURF')
+sub = obj.modifiers.new("Subdiv", 'SUBSURF')
 sub.levels = 2
-sub.subdivision_type = 'CATMULL_CLARK'
+sub.subdivision_type = 'CATMULL_CLARK'`,
+        content: `The Screw modifier works as a lathe: it revolves a 2D profile around an axis to produce a solid of revolution. The key is getting the profile right before touching any modifier.
 
-# Optional: twist the body
-sd = vase.modifiers.new("Twist", 'SIMPLE_DEFORM')
-sd.deform_method = 'TWIST'
-sd.angle = math.radians(45)
-sd.deform_axis = 'Z'`,
-        content: `Build a vase using zero manual sculpting: pure modifiers:
+**Why a flat circle doesn't work**
+Adding a circle and immediately applying Screw produces a torus (the circle itself revolves). You need a single open profile: a chain of vertices representing one side of the vase silhouette, positioned along the Z axis, offset from it on X.
 
-1. **Shift+A → Mesh → Circle** (16 vertices)
-2. **Tab → Edit Mode** → select all → **E** to extrude upward repeatedly, pulling verts in/out to shape a profile
-3. Back in **Object Mode** → **Add → Modifier → Screw**: instant vase shape!
-4. **Add → Modifier → Solidify**: give it wall thickness (0.02–0.05)
-5. **Add → Modifier → Subdivision Surface** (level 2): smooth it
-6. Optional: **Add → Modifier → Simple Deform → Twist**: twist the vase body
+**Step by step**
 
-Explore: change the Screw angle (360° = full closed, less = open spiral), change Screw axis.
+1. **Shift+A → Mesh → Circle** (8 vertices, Fill Type: Nothing)
+2. **Tab → Edit Mode**, **Alt+Z** to toggle wireframe (you need to see through the mesh)
+3. **Box select** the left half (negative X vertices) → **X → Vertices** to delete them. You now have a right-side arc.
+4. **R → X → 90** to rotate the arc upright. It now runs along the Z axis — this is your starting profile.
+5. Select individual vertices with **Alt+click** on an edge loop, then **G → X** to push the radius in or out at that height. Shape: narrow at base, wide in the middle, narrow at neck, slight flare at the lip.
+6. **For the base:** select the bottom vertex → **E → X** to extrude it toward center → type **0 → Enter** to snap it to X=0. This closes the base when the modifier runs.
+7. **Object Mode → Properties → Modifier (wrench icon) → Add → Screw**: axis Z, 360°, 32 steps. Check **Merge Vertices** to close the seam and base.
+8. **Add → Subdivision Surface** (level 2): smooth it out.
 
-✅ Goal: Understand that complex shapes = simple profiles + stacked modifiers`,
+**Shaping tips**
+- Use **G → X** not **S** to move individual verts. S scales all selected verts from a center point and goes horizontal. G → X moves them along a true axis.
+- Add more vertices to your profile with **Ctrl+click** in Edit Mode to place new verts between existing ones wherever you need finer control.
+- Change Screw **Angle** below 360° to get an open spiral instead of a closed vase.
+
+✅ Goal: A vase with a closed base, shaped silhouette, and no manual sculpting`,
       },
     ],
   };
