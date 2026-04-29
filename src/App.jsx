@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useNavigationType } from "react-router-dom";
 import modules from "./data/modules/index.js";
 import outcomes, { workflows } from "./data/outcomes.jsx";
 import { TABS, LEARNING_PATHS } from "./data/learningPaths.js";
@@ -82,6 +82,7 @@ function ModuleItem({ m, i, activeModule, completedModules, navigate, setExpande
 export default function BlenderWorkshop() {
   const navigate = useNavigate();
   const location = useLocation();
+  const navigationType = useNavigationType();
 
   // Slug → array index map, built once
   const slugToIdx = useMemo(
@@ -117,11 +118,21 @@ export default function BlenderWorkshop() {
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
   const levelUpRef = useRef(null);
+  const scrollPositions = useRef({});
 
-  // Scroll content area back to top whenever the active module changes.
+  // Save scroll position when leaving a page, restore on back, reset on forward.
   useEffect(() => {
-    if (contentRef.current) contentRef.current.scrollTop = 0;
-  }, [activeModule]);
+    const el = contentRef.current;
+    if (!el) return;
+    if (navigationType === 'POP') {
+      el.scrollTop = scrollPositions.current[location.key] ?? 0;
+    } else {
+      el.scrollTop = 0;
+    }
+    return () => {
+      scrollPositions.current[location.key] = el.scrollTop;
+    };
+  }, [location.key]);
 
   // Scroll to a specific section when scrollToSection is set.
   // The 100ms delay lets the module render complete before scrollIntoView fires.
