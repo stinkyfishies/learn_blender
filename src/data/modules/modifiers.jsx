@@ -390,13 +390,15 @@ Adding a circle and immediately applying Screw produces a torus (the circle itse
 **Step by step**
 
 1. **Shift+A → Mesh → Circle** (8 vertices, Fill Type: Nothing)
-2. **Tab → Edit Mode**, press **Z → Wireframe** from the pie menu (or click the wireframe icon top-right of the viewport). You need to see through the mesh to select verts cleanly.
-3. **Box select** the left half (negative X vertices) → **X → Vertices** to delete them. You now have a right-side arc.
-4. **R → X → 90** to rotate the arc upright. It now runs along the Z axis — this is your starting profile.
-5. Select individual vertices with **Alt+click** on an edge loop, then **G → X** to push the radius in or out at that height. Shape: narrow at base, wide in the middle, narrow at neck, slight flare at the lip.
-6. **For the base:** select the bottom vertex → **E → X** to extrude it toward center → type **0 → Enter** to snap it to X=0. This closes the base when the modifier runs.
-7. **Object Mode → Properties → Modifier (wrench icon) → Add → Screw**: axis Z, 360°, 32 steps. Check **Merge Vertices** to close the seam and base.
-8. **Add → Subdivision Surface** (level 2): smooth it out.
+2. **Tab → Edit Mode**. Press **1** to enter Vertex select mode. Press **Z → Wireframe** from the pie menu so you can see through the mesh.
+3. **Alt+A** to deselect all vertices.
+4. Press **B**, then click-drag to box select the left half (all vertices on the negative X side, including any exactly on center).
+5. **X → Vertices** to delete them. You now have a right-side arc of 4–5 vertices.
+6. **A** to select all remaining vertices. **R → X → 90 → Enter** to rotate the arc upright. It now runs vertically along the Z axis — this is your profile.
+7. **Alt+A** to deselect. Now click individual vertices and use **G → X** to push each one left or right: narrow at the base, wide in the belly, narrow at the neck, slight outward flare at the top lip.
+8. **For the base:** click the bottom vertex → **E → Enter** to extrude in place → then **G → X**, type **-0.3 → Enter** (or whatever your base radius is) to pull it outward. Then select that new vert → **E → Enter → G → X → 0 → Enter** to bring a final vert to center. This gives the modifier a closed base to revolve.
+9. **Tab → Object Mode**. In the Properties panel (wrench icon) → **Add Modifier → Screw**: set Axis to Z, Angle 360°, Steps 32. Enable **Merge Vertices**.
+10. **Add Modifier → Subdivision Surface** (level 2) to smooth.
 
 **Shaping tips**
 - Use **G → X** not **S** to move individual verts. S scales all selected verts from a center point and goes horizontal. G → X moves them along a true axis.
