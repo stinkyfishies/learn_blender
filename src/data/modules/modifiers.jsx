@@ -390,7 +390,7 @@ Adding a circle and immediately applying Screw produces a torus (the circle itse
 **Step by step**
 
 1. **Shift+A → Mesh → Circle** (8 vertices, Fill Type: Nothing)
-2. **Tab → Edit Mode**, **Alt+Z** to toggle wireframe (you need to see through the mesh)
+2. **Tab → Edit Mode**, press **Z → Wireframe** from the pie menu (or click the wireframe icon top-right of the viewport). You need to see through the mesh to select verts cleanly.
 3. **Box select** the left half (negative X vertices) → **X → Vertices** to delete them. You now have a right-side arc.
 4. **R → X → 90** to rotate the arc upright. It now runs along the Z axis — this is your starting profile.
 5. Select individual vertices with **Alt+click** on an edge loop, then **G → X** to push the radius in or out at that height. Shape: narrow at base, wide in the middle, narrow at neck, slight flare at the lip.
