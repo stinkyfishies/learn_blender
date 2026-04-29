@@ -8,7 +8,7 @@ const buildThis = {
   workflow: "ui",
   color: "#f59e0b",
   intro:
-    "Learn what the foundational modules can produce by building complete objects and bringing them to life with math-driven animation. Each project pairs a modeled form with an animated behavior — the animation is the same object pushed further, not a separate exercise.",
+    "Learn what the foundational modules can produce by building complete objects and bringing them to life with math-driven animation. Each project pairs a modeled form with an animated behavior: the animation is the same object pushed further, not a separate exercise.",
   quiz: [
     {
       q: "You want the hands of a clock to move at the correct relative speed automatically. Which Blender feature handles this?",
@@ -56,28 +56,28 @@ const buildThis = {
 
 **What "done" looks like:** a render, not a perfect model. Set up a camera, light the scene, render a short clip or a still. That's the finish line. Refinement is something you do on the next project.
 
->> Share your work at **r/blender** or **Blenderartists.org** — both are beginner-friendly and give honest feedback.`,
+>> Share your work at **r/blender** or **Blenderartists.org** -- both are beginner-friendly and give honest feedback.`,
     },
     {
       title: "Mug + Steam",
       content: `**The model**
 
-1. **Shift+A → Mesh → Cylinder** — in F9: 32 vertices, depth 1.2, cap fill type Ngon. This gives you a closed tube.
+1. **Shift+A → Mesh → Cylinder** (in F9: 32 vertices, depth 1.2, cap fill type Ngon). This gives you a closed tube.
 2. **Tab into Edit Mode**. Select the top face, delete it (X → Faces only). The mug is now an open tube.
-3. **Ctrl+R** — add a loop cut near the top (scroll to get one cut, slide it up close to the rim). This edge loop will define the rim thickness.
+3. **Ctrl+R** to add a loop cut near the top (scroll to get one cut, slide it up close to the rim). This edge loop defines the rim thickness.
 4. Select the top edge loop (Alt+Click). **I** to inset slightly (about 0.05). This creates the rim lip.
-5. **E → Z → type -1.1** — extrude the inner wall downward. This is the reveal: the inside of the mug appears in one move.
+5. **E → Z → type -1.1** to extrude the inner wall downward. This is the reveal: the inside of the mug appears in one move.
 6. Select the bottom inner edge loop. **F** to fill the bottom of the inner cavity. Now it's a proper hollow mug with wall thickness.
 
 **The handle**
 7. In the N-panel, go to Item. Note the mug's dimensions. You need two face loops on the side of the cylinder to bridge.
 8. Select a vertical column of 3-4 faces on one side of the cylinder. **Ctrl+I** to select all other faces, **H** to hide them. Now you see just your handle patch.
 9. **Extrude** the faces outward, shape them into a D loop. **Alt+H** to unhide everything.
-10. Alternatively: select two edge loops on the side → **Edge → Bridge Edge Loops** — cleaner topology.
+10. Alternatively: select two edge loops on the side → **Edge → Bridge Edge Loops** (cleaner topology).
 
 **Finishing**
 11. Right-click → **Shade Smooth**
-12. Add **Subdivision Surface** modifier (level 2) — watch the rim soften and round naturally
+12. Add **Subdivision Surface** modifier (level 2) to watch the rim soften and round naturally.
 13. Material: Principled BSDF, off-white or terracotta Base Color, Roughness 0.55, slight IOR bump to 1.45
 
 **The animation: steam**
@@ -85,7 +85,7 @@ A GeoNodes setup above the rim that emits rising wisps. If GeoNodes is too early
 
 **What this exercises:** Mesh Primitives, Edit Mode (loop cuts, inset, extrude, fill), Subdivision Surface, Materials, F-Curve modifiers or basic GeoNodes.
 
-!! The inner wall (step 5) is what separates a mug from a cup. Don't skip it — the render will look hollow and flat without it.`,
+!! The inner wall (step 5) is what separates a mug from a cup. Don't skip it: the render will look hollow and flat without it.`,
     },
     {
       title: "Clock + Moving Hands",
@@ -116,8 +116,8 @@ fc2.driver.expression = "frame / 48 * 0.10472"`,
 
 **The animation:** In the Graph Editor, select the Emission Strength keyframe and add two F-Curve modifiers:
 
-1. **Sine** — the base pulse. Amplitude 1, Phase Offset slightly randomized.
-2. **Noise** — irregular variation on top. Scale 2, Strength 0.5.
+1. **Sine** (the base pulse). Amplitude 1, Phase Offset slightly randomized.
+2. **Noise** (irregular variation on top). Scale 2, Strength 0.5.
 
 The combination produces flickering that never exactly repeats. Apply the same Noise modifier to the flame's Z Scale for subtle size variation.
 
@@ -162,7 +162,7 @@ fcx.driver.expression = "1 + (max(0, 1 - z_loc) * 0.2)"`,
     },
     {
       title: "Gear + Rotation",
-      content: `**The model:** Two interlocking gears. Model the teeth with an Array modifier set to fit a curve circle — count matches the tooth count. Duplicate for the second gear, scale it down. Position them so teeth interlock.
+      content: `**The model:** Two interlocking gears. Model the teeth with an Array modifier set to fit a curve circle (count matches the tooth count). Duplicate for the second gear, scale it down. Position them so teeth interlock.
 
 **The animation:** Rotate the driver gear by keyframing its Z rotation. The follower gear rotates automatically in the opposite direction at proportional speed via a Driver:
 
@@ -184,7 +184,7 @@ v = fc.driver.variables.new()
 v.name = "driver_z"
 v.targets[0].id = driver_gear
 v.targets[0].data_path = "rotation_euler[2]"
-# Large: 24 teeth, Small: 12 teeth — ratio 2
+# Large: 24 teeth, Small: 12 teeth, ratio 2
 fc.driver.expression = "-driver_z * 2"`,
     },
   ],
