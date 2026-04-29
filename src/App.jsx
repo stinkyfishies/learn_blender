@@ -235,32 +235,6 @@ export default function BlenderWorkshop() {
             : {}),
         }}
       >
-        {/* Desktop edge tab */}
-        {!isMobile && (
-          <div
-            onClick={() => setSidebarOpen(o => !o)}
-            style={{
-              position: "absolute",
-              top: "50%",
-              right: -12,
-              transform: "translateY(-50%)",
-              zIndex: 30,
-              width: 12,
-              height: 48,
-              background: "#1e1e2e",
-              borderRadius: "0 6px 6px 0",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              color: C.textDim,
-              fontSize: 9,
-              userSelect: "none",
-            }}
-          >
-            {sidebarOpen ? "‹" : "›"}
-          </div>
-        )}
         {/* Logo */}
         <div
           onClick={goHome}
@@ -495,6 +469,36 @@ export default function BlenderWorkshop() {
           </a>
         </div>
       </div>
+
+      {/* Desktop sidebar edge tab */}
+      {!isMobile && (
+        <div
+          onClick={() => setSidebarOpen(o => !o)}
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: sidebarOpen ? 260 : 0,
+            transform: "translateY(-50%)",
+            zIndex: 30,
+            width: 14,
+            height: 48,
+            background: "#1e1e2e",
+            border: "1px solid #2a2a3a",
+            borderLeft: "none",
+            borderRadius: "0 6px 6px 0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            color: C.textDim,
+            fontSize: 10,
+            userSelect: "none",
+            transition: "left 0.25s ease",
+          }}
+        >
+          {sidebarOpen ? "‹" : "›"}
+        </div>
+      )}
 
       {/* Main */}
       <div
