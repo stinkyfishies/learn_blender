@@ -474,11 +474,12 @@ export default function BlenderWorkshop() {
       {!isMobile && (
         <div
           onClick={() => setSidebarOpen(o => !o)}
+          onMouseEnter={e => e.currentTarget.style.opacity = "1"}
+          onMouseLeave={e => e.currentTarget.style.opacity = "0"}
           style={{
             position: "fixed",
-            top: "50%",
+            top: 80,
             left: sidebarOpen ? 260 : 0,
-            transform: "translateY(-50%)",
             zIndex: 100,
             width: 20,
             height: 56,
@@ -494,7 +495,8 @@ export default function BlenderWorkshop() {
             fontSize: 14,
             fontWeight: 700,
             userSelect: "none",
-            transition: "left 0.25s ease",
+            opacity: 0,
+            transition: "left 0.25s ease, opacity 0.15s ease",
             boxShadow: "2px 0 8px rgba(0,0,0,0.4)",
           }}
         >
