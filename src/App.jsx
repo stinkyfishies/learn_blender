@@ -109,7 +109,7 @@ export default function BlenderWorkshop() {
   const [showPython, setShowPython] = useState(false);
   const [openPath, setOpenPath] = useState(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [levelUpOpen, setLevelUpOpen] = useState(false);
   const [outcomesOpen, setOutcomesOpen] = useState(false);
   const [workflowsOpen, setWorkflowsOpen] = useState(false);
@@ -210,13 +210,15 @@ export default function BlenderWorkshop() {
       {/* Sidebar */}
       <div
         style={{
-          width: 260,
+          width: sidebarOpen ? 260 : 0,
           flexShrink: 0,
           background: "rgba(13,13,20,0.98)",
-          borderRight: "1px solid #1e1e2e",
+          borderRight: sidebarOpen ? "1px solid #1e1e2e" : "none",
           display: "flex",
           flexDirection: "column",
           overflowY: "auto",
+          overflow: "hidden",
+          transition: "width 0.25s ease",
           ...(isMobile
             ? {
                 position: "fixed",
@@ -224,6 +226,8 @@ export default function BlenderWorkshop() {
                 left: 0,
                 bottom: 0,
                 zIndex: 20,
+                width: undefined,
+                overflow: undefined,
                 transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
                 transition: "transform 0.25s ease",
               }
@@ -485,23 +489,21 @@ export default function BlenderWorkshop() {
             flexShrink: 0,
           }}
         >
-          {isMobile && (
-            <button
-              onClick={() => setSidebarOpen(true)}
-              style={{
-                background: "transparent",
-                border: "none",
-                color: C.textMuted,
-                fontSize: 20,
-                cursor: "pointer",
-                padding: "12px 12px 12px 0",
-                lineHeight: 1,
-                flexShrink: 0,
-              }}
-            >
-              ☰
-            </button>
-          )}
+          <button
+            onClick={() => setSidebarOpen(o => !o)}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: sidebarOpen ? C.textMuted : C.orange,
+              fontSize: 18,
+              cursor: "pointer",
+              padding: isMobile ? "12px 12px 12px 0" : "12px 16px 12px 0",
+              lineHeight: 1,
+              flexShrink: 0,
+            }}
+          >
+            ☰
+          </button>
           {TABS.map((tab) => (
             <button
               key={tab.id}
