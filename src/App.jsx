@@ -664,10 +664,13 @@ export default function BlenderWorkshop() {
                 <div style={{ fontSize: 13, fontWeight: 700, color: C.textPrimary }}>{LEARNING_PATHS[openPath].emoji} {LEARNING_PATHS[openPath].title}</div>
                 <div style={{ fontSize: 11, color: C.textDim, marginTop: 2 }}>{LEARNING_PATHS[openPath].desc}</div>
               </div>
-              {LEARNING_PATHS[openPath].modules.map((m, mi) => (
+              {LEARNING_PATHS[openPath].modules.map((m, mi) => {
+                const idx = slugToIdx[m.slug];
+                const mod = modules[idx];
+                return (
                 <div
                   key={mi}
-                  onClick={() => { navigate(toModuleUrl(m.idx)); setExpandedSections({ 0: true }); setActiveTab("content"); setOpenPath(null); }}
+                  onClick={() => { navigate(toModuleUrl(idx)); setExpandedSections({ 0: true }); setActiveTab("content"); setOpenPath(null); }}
                   style={{
                     display: "flex", alignItems: "center", gap: 12,
                     padding: "10px 20px",
@@ -678,14 +681,15 @@ export default function BlenderWorkshop() {
                   onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
                   <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.textGhost, width: 18, flexShrink: 0 }}>{String(mi + 1).padStart(2, "0")}</div>
-                  <span style={{ fontSize: 15, width: 22, textAlign: "center", flexShrink: 0 }}>{modules[m.idx].emoji}</span>
+                  <span style={{ fontSize: 15, width: 22, textAlign: "center", flexShrink: 0 }}>{mod.emoji}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: C.textSubtle }}>{modules[m.idx].title}</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: C.textSubtle }}>{mod.title}</div>
                     <div style={{ fontSize: 11, color: C.textDim }}>{m.note}</div>
                   </div>
                   <span style={{ fontSize: 11, color: C.textGhost }}>→</span>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -867,32 +871,32 @@ export default function BlenderWorkshop() {
                     title: "Set up Blender",
                     color: C.blue,
                     steps: [
-                      { label: "Configure Mac trackpad", moduleIdx: 1, sectionIdx: 0 },
-                      { label: "Editor layout & workspaces", moduleIdx: 1, sectionIdx: 2 },
-                      { label: "Built-in add-ons to enable", moduleIdx: 3, sectionIdx: 0 },
-                      { label: "Recommended preferences", moduleIdx: 3, sectionIdx: 3 },
+                      { label: "Configure Mac trackpad", moduleSlug: "interface-navigation", sectionIdx: 0 },
+                      { label: "Editor layout & workspaces", moduleSlug: "interface-navigation", sectionIdx: 2 },
+                      { label: "Built-in add-ons to enable", moduleSlug: "enhancing-blender", sectionIdx: 0 },
+                      { label: "Recommended preferences", moduleSlug: "enhancing-blender", sectionIdx: 3 },
                     ],
                   },
                   {
                     title: "Set up IDE for AI-Assist",
                     color: C.sky,
                     steps: [
-                      { label: "What you actually need", moduleIdx: 2, sectionIdx: 0 },
-                      { label: "External editor: VS Code or Zed", moduleIdx: 2, sectionIdx: 7 },
-                      { label: "Give your AI Blender context", moduleIdx: 2, sectionIdx: 8 },
-                      { label: "Organise your project", moduleIdx: 2, sectionIdx: 9 },
-                      { label: "Version control (git)", moduleIdx: 2, sectionIdx: 10 },
+                      { label: "What you actually need", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 0 },
+                      { label: "External editor: VS Code or Zed", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 7 },
+                      { label: "Give your AI Blender context", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 8 },
+                      { label: "Organise your project", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 9 },
+                      { label: "Version control (git)", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 10 },
                     ],
                   },
                   {
                     title: "AI-Assisted Coding Workflow",
                     color: C.purpleLight,
                     steps: [
-                      { label: "The coding loop", moduleIdx: 2, sectionIdx: 1 },
-                      { label: "Scripting workspace layout", moduleIdx: 2, sectionIdx: 3 },
-                      { label: "Finding operator names", moduleIdx: 2, sectionIdx: 4 },
-                      { label: "Debugging scripts", moduleIdx: 2, sectionIdx: 5 },
-                      { label: "Mini workshop: first bpy script", moduleIdx: 2, sectionIdx: 11 },
+                      { label: "The coding loop", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 1 },
+                      { label: "Scripting workspace layout", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 3 },
+                      { label: "Finding operator names", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 4 },
+                      { label: "Debugging scripts", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 5 },
+                      { label: "Mini workshop: first bpy script", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 11 },
                     ],
                   },
                 ];
@@ -907,7 +911,7 @@ export default function BlenderWorkshop() {
                             <div
                               key={i}
                               onClick={() => {
-                                navigate(toModuleUrl(step.moduleIdx));
+                                navigate(toModuleUrl(slugToIdx[step.moduleSlug]));
                                 setActiveTab("content");
                                 setExpandedSections(prev => ({ ...prev, [step.sectionIdx]: true }));
                                 setTimeout(() => setScrollToSection(step.sectionIdx), 80);
