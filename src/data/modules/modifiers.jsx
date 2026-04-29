@@ -396,7 +396,7 @@ Adding a circle and immediately applying Screw produces a torus (the circle itse
 5. **X → Vertices** to delete them. You now have a right-side arc of 4–5 vertices.
 6. **A** to select all remaining vertices. **R → X → 90 → Enter** to rotate the arc upright. It now runs vertically along the Z axis — this is your profile.
 7. **Alt+A** to deselect. Now click individual vertices and use **G → X** to push each one left or right: narrow at the base, wide in the belly, narrow at the neck, slight outward flare at the top lip.
-8. **For the base:** click the bottom vertex → **E → Enter** to extrude in place → then **G → X**, type **-0.3 → Enter** (or whatever your base radius is) to pull it outward. Then select that new vert → **E → Enter → G → X → 0 → Enter** to bring a final vert to center. This gives the modifier a closed base to revolve.
+8. **For the base:** click the bottom vertex → **G → X → 0 → Enter** to snap it to the center axis (X=0). The Screw modifier revolves around that axis, so a vertex sitting on it stays fixed and the base closes automatically. No extrusion needed.
 9. **Tab → Object Mode**. In the Properties panel (wrench icon) → **Add Modifier → Screw**: set Axis to Z, Angle 360°, Steps 32. Enable **Merge Vertices**.
 10. **Add Modifier → Subdivision Surface** (level 2) to smooth.
 
