@@ -111,6 +111,8 @@ export default function BlenderWorkshop() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [levelUpOpen, setLevelUpOpen] = useState(false);
+  const [outcomesOpen, setOutcomesOpen] = useState(true);
+  const [workflowsOpen, setWorkflowsOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
@@ -713,58 +715,42 @@ export default function BlenderWorkshop() {
             <div>
 
               {/* Section 1: What do you want to make? */}
-              <div style={{ marginBottom: 40 }}>
-                <div style={{ marginBottom: 24 }}>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 6 }}>
-                    DECISION GUIDE
+              <div style={{ marginBottom: 16 }}>
+                <div
+                  onClick={() => setOutcomesOpen(o => !o)}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", marginBottom: outcomesOpen ? 24 : 0, userSelect: "none" }}
+                >
+                  <div>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 4 }}>DECISION GUIDE</div>
+                    <div style={{ fontSize: 20, fontWeight: 800 }}>What Do You Want to Make?</div>
                   </div>
-                  <div style={{ fontSize: 24, fontWeight: 800 }}>What Do You Want to Make?</div>
-                  <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
-                    Find your goal, learn which Blender tools and workflow apply.
-                  </div>
+                  <span style={{ fontSize: 14, color: C.textDim, marginLeft: 12 }}>{outcomesOpen ? "▲" : "▼"}</span>
                 </div>
 
-                {outcomes.map((group) => (
-                  <div key={group.category} style={{ marginBottom: 28 }}>
-                    <SectionLabel text={group.category.toUpperCase()} />
-                    <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 8 }}>
-                      {group.items.map((item, i) => (
-                        <div
-                          key={i}
-                          style={{
-                            background: C.bgCard,
-                            border: "1px solid #1e1e2e",
-                            borderRadius: 8,
-                            padding: "12px 14px",
-                          }}
-                        >
-                          <div style={{ fontSize: 12, fontWeight: 700, color: C.textPrimary, marginBottom: 5 }}>
-                            {item.goal}
-                          </div>
-                          <div style={{ fontSize: 11.5, color: C.textBody, lineHeight: 1.6, marginBottom: 8 }}>
-                            {item.approach}
-                          </div>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                            {item.tools.map((tool, j) => (
-                              <span key={j} style={{
-                                background: "rgba(91,141,238,0.12)",
-                                border: "1px solid rgba(91,141,238,0.2)",
-                                borderRadius: 4,
-                                padding: "2px 7px",
-                                fontSize: 10,
-                                color: C.blue,
-                                fontFamily: "'JetBrains Mono', monospace",
-                                whiteSpace: "nowrap",
-                              }}>
-                                {tool}
-                              </span>
-                            ))}
-                          </div>
+                {outcomesOpen && (
+                  <div>
+                    {outcomes.map((group) => (
+                      <div key={group.category} style={{ marginBottom: 28 }}>
+                        <SectionLabel text={group.category.toUpperCase()} />
+                        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 8 }}>
+                          {group.items.map((item, i) => (
+                            <div key={i} style={{ background: C.bgCard, border: "1px solid #1e1e2e", borderRadius: 8, padding: "12px 14px" }}>
+                              <div style={{ fontSize: 12, fontWeight: 700, color: C.textPrimary, marginBottom: 5 }}>{item.goal}</div>
+                              <div style={{ fontSize: 11.5, color: C.textBody, lineHeight: 1.6, marginBottom: 8 }}>{item.approach}</div>
+                              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                                {item.tools.map((tool, j) => (
+                                  <span key={j} style={{ background: "rgba(91,141,238,0.12)", border: "1px solid rgba(91,141,238,0.2)", borderRadius: 4, padding: "2px 7px", fontSize: 10, color: C.blue, fontFamily: "'JetBrains Mono', monospace", whiteSpace: "nowrap" }}>
+                                    {tool}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
 
               {/* Divider */}
@@ -772,17 +758,18 @@ export default function BlenderWorkshop() {
 
               {/* Section 2: Workflows and what they unlock */}
               <div style={{ marginBottom: 40 }}>
-                <div style={{ marginBottom: 24 }}>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 6 }}>
-                    TECHNIQUE MAP
+                <div
+                  onClick={() => setWorkflowsOpen(o => !o)}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", marginBottom: workflowsOpen ? 24 : 0, userSelect: "none" }}
+                >
+                  <div>
+                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: C.orange, letterSpacing: 3, marginBottom: 4 }}>TECHNIQUE MAP</div>
+                    <div style={{ fontSize: 20, fontWeight: 800 }}>Workflows and What They Unlock</div>
                   </div>
-                  <div style={{ fontSize: 24, fontWeight: 800 }}>Workflows and What They Unlock</div>
-                  <div style={{ fontSize: 13, color: C.textSecondary, marginTop: 4 }}>
-                    Each workflow is a reusable pattern. Master one, apply it across many different objects.
-                  </div>
+                  <span style={{ fontSize: 14, color: C.textDim, marginLeft: 12 }}>{workflowsOpen ? "▲" : "▼"}</span>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 10 }}>
+                {workflowsOpen && <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 10 }}>
                   {workflows.map((wf, wi) => (
                     <div
                       key={wi}
@@ -858,7 +845,7 @@ export default function BlenderWorkshop() {
                       </div>
                     </div>
                   ))}
-                </div>
+                </div>}
               </div>
 
             </div>
@@ -1141,7 +1128,7 @@ export default function BlenderWorkshop() {
                     marginBottom: 20,
                   }}
                 >
-                  MODERN BLENDER WORKSHOP FOR AI-ASSISTED CODERS
+                  BLENDER 5.1 WORKSHOP FOR AI-ASSISTED CODERS
                 </div>
                 <div
                   style={{
