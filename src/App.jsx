@@ -111,8 +111,8 @@ export default function BlenderWorkshop() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [levelUpOpen, setLevelUpOpen] = useState(false);
-  const [outcomesOpen, setOutcomesOpen] = useState(true);
-  const [workflowsOpen, setWorkflowsOpen] = useState(true);
+  const [outcomesOpen, setOutcomesOpen] = useState(false);
+  const [workflowsOpen, setWorkflowsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
