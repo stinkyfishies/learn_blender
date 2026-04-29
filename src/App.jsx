@@ -210,6 +210,7 @@ export default function BlenderWorkshop() {
       {/* Sidebar */}
       <div
         style={{
+          position: "relative",
           width: sidebarOpen ? 260 : 0,
           flexShrink: 0,
           background: "rgba(13,13,20,0.98)",
@@ -234,6 +235,32 @@ export default function BlenderWorkshop() {
             : {}),
         }}
       >
+        {/* Desktop edge tab */}
+        {!isMobile && (
+          <div
+            onClick={() => setSidebarOpen(o => !o)}
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: -12,
+              transform: "translateY(-50%)",
+              zIndex: 30,
+              width: 12,
+              height: 48,
+              background: "#1e1e2e",
+              borderRadius: "0 6px 6px 0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: C.textDim,
+              fontSize: 9,
+              userSelect: "none",
+            }}
+          >
+            {sidebarOpen ? "‹" : "›"}
+          </div>
+        )}
         {/* Logo */}
         <div
           onClick={goHome}
@@ -489,21 +516,23 @@ export default function BlenderWorkshop() {
             flexShrink: 0,
           }}
         >
-          <button
-            onClick={() => setSidebarOpen(o => !o)}
-            style={{
-              background: "transparent",
-              border: "none",
-              color: sidebarOpen ? C.textMuted : C.orange,
-              fontSize: 18,
-              cursor: "pointer",
-              padding: isMobile ? "12px 12px 12px 0" : "12px 16px 12px 0",
-              lineHeight: 1,
-              flexShrink: 0,
-            }}
-          >
-            ☰
-          </button>
+          {isMobile && (
+            <button
+              onClick={() => setSidebarOpen(o => !o)}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: C.textMuted,
+                fontSize: 20,
+                cursor: "pointer",
+                padding: "12px 12px 12px 0",
+                lineHeight: 1,
+                flexShrink: 0,
+              }}
+            >
+              ☰
+            </button>
+          )}
           {TABS.map((tab) => (
             <button
               key={tab.id}
