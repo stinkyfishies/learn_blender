@@ -267,7 +267,7 @@ turb.field.size     = 1.0`,
 - **Physics**: Newtonian (gravity, drag), Keyed (follow another particle), Boids (flocking AI)
 - **Render**: render as Object, Collection, or geometry (dots, halos)
 
-**Hair particles** (legacy): generate strands from a surface. Controlled with Particle Edit mode. The **new hair system** uses Geometry Nodes (see Module 7) and is preferred in Blender 4.x+.
+**Hair particles** (legacy): generate strands from a surface. Controlled with Particle Edit mode. The **new hair system** uses Geometry Nodes (see the Geometry Nodes module) and is preferred in Blender 4.x+.
 
 **Force Fields** (Shift+A → Force Field):
 **Wind**

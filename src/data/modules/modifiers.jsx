@@ -164,7 +164,7 @@ Add thickness to any flat surface: walls, fabric, panels, paper.
 Revolve a profile around an axis: bottles, vases, springs, columns.
 
 **Boolean**
-Use one object to cut/join/intersect another. See Module 11 for detail.
+Use one object to cut/join/intersect another. See the Boolean & Hard Surface module for detail.
 
 **Weld**
 Merge vertices within a distance threshold. Essential after Booleans.

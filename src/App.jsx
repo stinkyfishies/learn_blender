@@ -1355,9 +1355,16 @@ export default function BlenderWorkshop() {
                     padding: "0 4px",
                   }}
                 >
-                  Modules 7 (Geometry Nodes) and 12 (Physics) are the most
-                  conceptually dense: each deserves its own session. Module 2
-                  (bpy Setup) is short but high-value if you plan to AI-assisted.
+                  <span
+                    onClick={() => navigate(toModuleUrl(slugToIdx["geometry-nodes"]))}
+                    style={{ color: C.blue, cursor: "pointer" }}
+                  >Geometry Nodes</span> and <span
+                    onClick={() => navigate(toModuleUrl(slugToIdx["physics-simulation"]))}
+                    style={{ color: C.blue, cursor: "pointer" }}
+                  >Physics & Simulation</span> are the most conceptually dense: each deserves its own session. <span
+                    onClick={() => navigate(toModuleUrl(slugToIdx["bpy-setup-ai-assist"]))}
+                    style={{ color: C.blue, cursor: "pointer" }}
+                  >bpy Setup & AI Assist</span> is short but high-value if you plan to AI-assist.
                 </div>
               </div>
 
@@ -1437,7 +1444,7 @@ export default function BlenderWorkshop() {
                     boxShadow: "0 4px 24px rgba(232,98,42,0.35)",
                   }}
                 >
-                  Start Module 1: Mental Model →
+                  Start with Mental Model →
                 </button>
               </div>
 
