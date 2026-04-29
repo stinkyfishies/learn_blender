@@ -11,6 +11,7 @@ import modifiers from './modifiers.jsx';
 import geometryNodes from './geometryNodes.jsx';
 import materialsShading from './materialsShading.jsx';
 import lighting from './lighting.jsx';
+import buildThis from './buildThis.jsx';
 import sculptMode from './sculptMode.jsx';
 import rigging from './rigging.jsx';
 import booleanHardSurface from './booleanHardSurface.jsx';
@@ -30,6 +31,7 @@ const modules = [
   geometryNodes,
   materialsShading,
   lighting,
+  buildThis,
   sculptMode,
   rigging,
   booleanHardSurface,
