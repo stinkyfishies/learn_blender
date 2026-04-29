@@ -15,7 +15,7 @@ const LEARNING_PATHS = [
     modules: [
       { slug: "mental-model",          note: "Foundation" },
       { slug: "interface-navigation",  note: "Navigation basics" },
-      { slug: "bpy-setup-ai-assist",   note: "Python setup" },
+      { slug: "bpy-with-ai-assist",   note: "Python setup" },
       { slug: "enhancing-blender",     note: "Configure your environment" },
       { slug: "mesh-primitives",       note: "Building geometry" },
       { slug: "edit-mode-topology",    note: "Editing topology" },
@@ -34,7 +34,7 @@ const LEARNING_PATHS = [
     modules: [
       { slug: "mental-model",          note: "Foundation" },
       { slug: "interface-navigation",  note: "Navigation" },
-      { slug: "bpy-setup-ai-assist",   note: "Python setup" },
+      { slug: "bpy-with-ai-assist",   note: "Python setup" },
       { slug: "mesh-primitives",       note: "Geometry" },
       { slug: "edit-mode-topology",    note: "Topology" },
       { slug: "uv-unwrapping",         note: "UV maps for textured assets" },
@@ -52,7 +52,7 @@ const LEARNING_PATHS = [
     desc: "Use Geometry Nodes and shaders to generate complex outputs from simple rules.",
     modules: [
       { slug: "mental-model",          note: "Foundation" },
-      { slug: "bpy-setup-ai-assist",   note: "Python setup" },
+      { slug: "bpy-with-ai-assist",   note: "Python setup" },
       { slug: "modifiers",             note: "Modifiers" },
       { slug: "geometry-nodes",        note: "Geometry Nodes: core tool" },
       { slug: "materials-shading",     note: "Shading" },
@@ -66,7 +66,7 @@ const LEARNING_PATHS = [
     desc: "Learn just enough Blender to direct AI confidently. Focus on vocabulary and bpy.",
     modules: [
       { slug: "mental-model",          note: "Mental model: start here" },
-      { slug: "bpy-setup-ai-assist",   note: "bpy environment: do this second" },
+      { slug: "bpy-with-ai-assist",   note: "bpy environment: do this second" },
       { slug: "modifiers",             note: "Modifiers via code" },
       { slug: "geometry-nodes",        note: "Geometry Nodes via code" },
       { slug: "materials-shading",     note: "Materials via code" },

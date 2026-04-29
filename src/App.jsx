@@ -981,22 +981,22 @@ export default function BlenderWorkshop() {
                     title: "Set up IDE for AI-Assist",
                     color: C.sky,
                     steps: [
-                      { label: "What you actually need", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 0 },
-                      { label: "External editor: VS Code or Zed", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 7 },
-                      { label: "Give your AI Blender context", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 8 },
-                      { label: "Organise your project", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 9 },
-                      { label: "Version control (git)", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 10 },
+                      { label: "What you actually need", moduleSlug: "bpy-with-ai-assist", sectionIdx: 0 },
+                      { label: "External editor: VS Code or Zed", moduleSlug: "bpy-with-ai-assist", sectionIdx: 7 },
+                      { label: "Give your AI Blender context", moduleSlug: "bpy-with-ai-assist", sectionIdx: 8 },
+                      { label: "Organise your project", moduleSlug: "bpy-with-ai-assist", sectionIdx: 9 },
+                      { label: "Version control (git)", moduleSlug: "bpy-with-ai-assist", sectionIdx: 10 },
                     ],
                   },
                   {
                     title: "AI-Assisted Coding Workflow",
                     color: C.purpleLight,
                     steps: [
-                      { label: "The coding loop", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 1 },
-                      { label: "Scripting workspace layout", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 3 },
-                      { label: "Finding operator names", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 4 },
-                      { label: "Debugging scripts", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 5 },
-                      { label: "Mini workshop: first bpy script", moduleSlug: "bpy-setup-ai-assist", sectionIdx: 11 },
+                      { label: "The coding loop", moduleSlug: "bpy-with-ai-assist", sectionIdx: 1 },
+                      { label: "Scripting workspace layout", moduleSlug: "bpy-with-ai-assist", sectionIdx: 3 },
+                      { label: "Finding operator names", moduleSlug: "bpy-with-ai-assist", sectionIdx: 4 },
+                      { label: "Debugging scripts", moduleSlug: "bpy-with-ai-assist", sectionIdx: 5 },
+                      { label: "Mini workshop: first bpy script", moduleSlug: "bpy-with-ai-assist", sectionIdx: 11 },
                     ],
                   },
                 ];
@@ -1373,7 +1373,7 @@ export default function BlenderWorkshop() {
                     onClick={() => navigate(toModuleUrl(slugToIdx["physics-simulation"]))}
                     style={{ color: C.blue, cursor: "pointer" }}
                   >Physics & Simulation</span> are the most conceptually dense: each deserves its own session. <span
-                    onClick={() => navigate(toModuleUrl(slugToIdx["bpy-setup-ai-assist"]))}
+                    onClick={() => navigate(toModuleUrl(slugToIdx["bpy-with-ai-assist"]))}
                     style={{ color: C.blue, cursor: "pointer" }}
                   >bpy Setup & AI Assist</span> is short but high-value if you plan to AI-assist.
                 </div>
