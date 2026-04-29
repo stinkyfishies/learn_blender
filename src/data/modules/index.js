@@ -31,12 +31,12 @@ const modules = [
   geometryNodes,
   materialsShading,
   lighting,
-  buildThis,
   sculptMode,
   rigging,
   booleanHardSurface,
   physicsSimulation,
   rendering,
+  buildThis,
   proceduralTextures,
 ];
 
