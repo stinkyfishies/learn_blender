@@ -225,7 +225,7 @@ const outcomes = [
 
 export const workflows = [
   {
-    name: "Profile + Revolve",
+    name: "Screw Modifier",
     desc: "Draw a 2D silhouette of the object's cross-section, spin it 360° around an axis. One profile curve becomes a full solid of revolution.",
     produces: ["Mugs", "Vases", "Bottles", "Wine glasses", "Chess pieces", "Columns", "Wheels", "Bowls"],
     tools: ["Screw modifier", "Spin (Edit Mode)"],
@@ -233,7 +233,7 @@ export const workflows = [
     difficulty: "beginner",
   },
   {
-    name: "Profile + Path",
+    name: "Curve Modifier",
     desc: "Give a 2D cross-section shape and a 3D path curve. The profile sweeps along the path to generate the surface.",
     produces: ["Pipes", "Cables", "Rails", "Molding", "Roads", "Roller coaster tracks", "Noodles"],
     tools: ["Bezier Curve", "Curve modifier", "Geometry Nodes (Curve to Mesh)"],
@@ -241,7 +241,7 @@ export const workflows = [
     difficulty: "beginner",
   },
   {
-    name: "Box Modeling",
+    name: "Edit Mode Extrusion",
     desc: "Start from a primitive, add edge loops, extrude faces, push and pull vertices. The foundational hard-surface workflow.",
     produces: ["Furniture", "Buildings", "Vehicles", "Electronics", "Architectural props", "Weapons"],
     tools: ["Edit Mode", "Loop Cut", "Extrude", "Inset", "Bevel modifier"],
@@ -249,7 +249,7 @@ export const workflows = [
     difficulty: "beginner",
   },
   {
-    name: "Mirror + Subdivision",
+    name: "Mirror + Subdivision Surface",
     desc: "Model one half of a symmetrical object, mirror it, then smooth with Subdivision Surface. Standard character and vehicle workflow.",
     produces: ["Faces", "Character bodies", "Vehicles", "Helmets", "Shoes", "Symmetric props"],
     tools: ["Mirror modifier", "Subdivision Surface", "Edit Mode"],
@@ -257,7 +257,7 @@ export const workflows = [
     difficulty: "beginner",
   },
   {
-    name: "Boolean Subtraction",
+    name: "Boolean Operations",
     desc: "Use one object as a cutter to remove volume from another. Fast for holes, slots, vents, and mechanical cutouts.",
     produces: ["Mechanical parts", "Vents and grilles", "Architectural cutouts", "Sci-fi paneling", "Molds"],
     tools: ["Boolean modifier", "Bevel modifier", "Weld modifier"],
@@ -265,7 +265,7 @@ export const workflows = [
     difficulty: "intermediate",
   },
   {
-    name: "Array + Curve",
+    name: "Array Modifier",
     desc: "Duplicate a single unit along a curve path. The curve controls spacing, count, and direction automatically.",
     produces: ["Chains", "Fences", "Stairs", "Roller coaster cars", "Beaded necklaces", "Brick walls"],
     tools: ["Array modifier", "Curve modifier", "Bezier Curve"],
@@ -273,7 +273,7 @@ export const workflows = [
     difficulty: "beginner",
   },
   {
-    name: "GeoNodes Distribution",
+    name: "Distribute Points on Faces",
     desc: "Scatter instances across a surface procedurally, with density, rotation, and scale driven by textures or attributes.",
     produces: ["Forests", "Grass fields", "Crowds", "Rocks", "Coral reefs", "Scattered debris"],
     tools: ["Geometry Nodes", "Distribute Points on Faces", "Instance on Points"],
@@ -281,7 +281,7 @@ export const workflows = [
     difficulty: "intermediate",
   },
   {
-    name: "Displacement + Grid",
+    name: "Displace Modifier",
     desc: "Start from a flat grid, push vertices outward using a texture map. Fast terrain and surface detail with no manual sculpting.",
     produces: ["Terrain", "Ocean surfaces", "Desert dunes", "Alien landscapes", "Fabric wrinkles", "Knurled surfaces"],
     tools: ["Displace modifier", "Noise Texture", "Musgrave Texture", "Subdivision Surface"],
@@ -289,7 +289,7 @@ export const workflows = [
     difficulty: "beginner",
   },
   {
-    name: "Sculpt from Sphere",
+    name: "Sculpt Mode",
     desc: "Start from a sphere, use sculpt brushes to push and pull mass into form. The organic modeling workflow for anything biological.",
     produces: ["Creatures", "Faces", "Hands", "Rocks", "Trees", "Clouds", "Abstract organic shapes"],
     tools: ["Sculpt Mode", "Dyntopo", "Remesh", "Multiresolution"],
