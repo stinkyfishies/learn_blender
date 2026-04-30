@@ -87,28 +87,19 @@ bsdf.inputs["Alpha"].default_value             = 1.0    # 0=transparent
 bsdf.inputs["Coat Weight"].default_value       = 0.0    # clearcoat layer
 bsdf.inputs["Sheen Weight"].default_value      = 0.0    # fabric/velvet retroreflection
 bsdf.inputs["Subsurface Weight"].default_value = 0.0    # skin/wax light scatter`,
-        content: `The **Principled BSDF** node handles nearly every real-world material in one node. Key parameters:
-
-**Base Color**
-The fundamental color or texture of the surface.
-**Metallic**
-0 = dielectric (plastic, wood, skin), 1 = metal. Use 0 or 1, not in-between. Real materials are one or the other.
-**Roughness**
-0 = mirror-smooth, 1 = completely matte. Most surfaces: 0.3–0.8. Metals often 0.1–0.4.
-**IOR (Index of Refraction)**
-How much light bends through transparent materials. Glass: 1.45, Water: 1.33, Diamond: 2.42.
-**Transmission Weight**
-0 = opaque, 1 = fully transmissive (glass, water). EEVEE needs Screen Space Refraction enabled.
-**Coat Weight / Coat Roughness**
-A clearcoat layer on top (car paint, lacquered wood).
-**Sheen Weight**
-Soft retroreflective sheen (fabric, velvet, skin at grazing angles).
-**Emission Color + Strength**
-Makes the surface glow and emit light.
-**Alpha**
-Transparency (set Blend Mode in Material Settings to Alpha Blend or Alpha Clip).
-**Subsurface Weight**
-Light scatters below the surface (skin, wax, marble). Set Subsurface Radius for color bleed.`,
+        content: `One node handles nearly every real-world material. Most surfaces only need 2-3 of these parameters changed from defaults.`,
+        primitiveGrid: [
+          { emoji: "🎨", name: "Base Color", desc: "The fundamental color or texture of the surface.", use: "Connect an Image Texture or Noise Texture here for surface color variation" },
+          { emoji: "⚙️", name: "Metallic", desc: "0 = dielectric (plastic, wood, skin). 1 = metal. Use 0 or 1 only: values in between don't correspond to real materials.", use: "Chrome, gold, copper: Metallic 1. Everything else: Metallic 0." },
+          { emoji: "🪨", name: "Roughness", desc: "0 = perfect mirror. 1 = completely matte. Most surfaces fall between 0.3 and 0.8.", use: "Polished metal: 0.05. Brushed metal: 0.4. Plastic: 0.5. Concrete: 0.9." },
+          { emoji: "💎", name: "IOR", desc: "Index of Refraction: how much light bends through transparent materials.", use: "Glass: 1.45. Water: 1.33. Diamond: 2.42. Only matters when Transmission is enabled." },
+          { emoji: "🔮", name: "Transmission Weight", desc: "0 = opaque. 1 = fully transmissive (glass, water). EEVEE needs Screen Space Refraction enabled.", use: "Glass sphere: Transmission 1.0, Roughness 0, IOR 1.45." },
+          { emoji: "🚗", name: "Coat Weight", desc: "A clearcoat layer on top of the base material. Coat Roughness controls its polish.", use: "Car paint, lacquered wood, nail polish: separate glossy layer over a colored base." },
+          { emoji: "🧶", name: "Sheen Weight", desc: "Soft retroreflective sheen at grazing angles.", use: "Fabric, velvet, skin: the subtle brightening at silhouette edges." },
+          { emoji: "💡", name: "Emission Color + Strength", desc: "Makes the surface glow and emit light into the scene.", use: "Neon signs, screens, glowing runes. Strength > 1 affects scene lighting in Cycles." },
+          { emoji: "👻", name: "Alpha", desc: "Surface transparency. Set Blend Mode in Material Settings to Alpha Blend or Alpha Clip.", use: "Leaves, fabric mesh, decals with transparent backgrounds." },
+          { emoji: "🕯️", name: "Subsurface Weight", desc: "Light scatters below the surface and bleeds through thin areas.", use: "Skin, wax, marble, translucent leaves. Set Subsurface Radius to control color bleed depth." },
+        ],
       },
       {
         title: "The Shader Editor",
@@ -151,26 +142,19 @@ tex_coord = nodes.new('ShaderNodeTexCoord'); tex_coord.location = (-800, 0)
 mapping    = nodes.new('ShaderNodeMapping');  mapping.location    = (-600, 0)
 links.new(tex_coord.outputs["UV"], mapping.inputs["Vector"])
 links.new(mapping.outputs["Vector"], noise.inputs["Vector"])`,
-        content: `Open: **Workspace → Shading tab** or split any panel → Shader Editor.
+        content: `Open via the Shading workspace tab or split any panel and switch to Shader Editor.
 
-Every material is a node graph. The minimum: **Principled BSDF → Material Output (Surface)**.
+Every material is a node graph. The minimum: **Principled BSDF → Material Output (Surface)**. Add textures with Shift+A → Texture. Connect outputs to inputs by dragging between sockets.
 
-Adding textures: connect to inputs:
-- **Shift+A → Texture → Image Texture** → Color → Base Color (loads a real image file)
-- **Shift+A → Texture → Noise Texture** → Fac → Roughness (procedural variation)
-- For bump: Image Texture → **Normal Map** node → Normal → Normal input
-
-Essential utility nodes:
-**ColorRamp**
-Remap a grayscale range to any colors or values. Plug noise → ColorRamp → Base Color for instant organic color variation.
-**Mix Color / Mix Shader**
-Blend two colors or two complete shaders.
-**Fresnel**
-More reflective at grazing angles. Physically correct, adds realism.
-**Texture Coordinate**
-Controls how textures map: UV (uses UV map), Object (texture fixed to object), Generated (auto), World (fixed in world space).
-**Mapping**
-Translate/rotate/scale a texture coordinate. Plug Texture Coordinate → Mapping → Texture.`,
+Essential utility nodes:`,
+        primitiveGrid: [
+          { emoji: "🌈", name: "ColorRamp", desc: "Remap a 0-1 grayscale range to any set of colors or values.", use: "Noise Texture → ColorRamp → Base Color: instant organic color variation with no image files" },
+          { emoji: "🔀", name: "Mix Color / Mix Shader", desc: "Blend two colors or two complete shaders by a factor.", use: "Mixing a clean and worn material version by an edge-wear mask" },
+          { emoji: "✨", name: "Fresnel", desc: "Outputs higher values at grazing angles: how real surfaces behave.", use: "As a Mix Shader factor to add edge reflectivity to plastic or skin" },
+          { emoji: "📐", name: "Texture Coordinate", desc: "Controls how textures map: UV, Object, Generated, or World space.", use: "Always the first node in a texture chain. UV for image textures, Generated for procedural." },
+          { emoji: "🗺️", name: "Mapping", desc: "Translate, rotate, and scale a texture coordinate before it reaches the texture node.", use: "Plug Texture Coordinate → Mapping → Texture to control texture size and position" },
+          { emoji: "⛰️", name: "Bump / Normal Map", desc: "Simulate surface detail without adding geometry. Bump uses grayscale, Normal Map uses a baked RGB image.", use: "Noise Texture → Bump → Normal input on Principled BSDF for procedural surface roughness" },
+        ],
       },
       {
         title: "EEVEE Next vs Cycles: Material Considerations",

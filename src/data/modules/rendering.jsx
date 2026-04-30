@@ -94,23 +94,13 @@ eevee.use_ssr             = True  # screen space reflections
 
 # Print current engine
 print(f"Active engine: {scene.render.engine}")`,
-        content: `**Cycles**: Physically accurate path tracing.
-- Simulates true light: reflections, refractions, caustics (light through glass), subsurface scattering, volumetrics
-- Slower: seconds to minutes per frame on GPU, much longer on CPU
-- Use when: photorealistic output is the goal, caustics are required, subsurface skin is critical
-- GPU rendering available: CUDA/OptiX (NVIDIA), Metal (Mac). Enable in **Preferences → System → Cycles Render Devices**.
-
-**EEVEE Next** (Blender 4.2+): Real-time path-traced renderer.
-- Near-instant feedback in the viewport
-- Supports: true reflections, refractions, volumetrics, subsurface scattering, global illumination
-- Significantly faster than Cycles for animation
-- Some limitations vs Cycles: fewer light bounces, limited caustics, lighter volumetric detail
-- Use when: motion graphics, stylized work, animation with tight deadlines, real-time previsualization
-
-**Workbench**
-Technical renderer for clay renders, studio presentation. No materials, just form.
-
-For most non-caustics work, EEVEE Next produces competitive results to Cycles at a fraction of the time.`,
+        content: `For most non-caustics work, EEVEE Next now produces results that were previously Cycles-only, in a fraction of the render time.`,
+        primitiveGrid: [
+          { emoji: "🔬", name: "Cycles", desc: "Physically accurate path tracer. Simulates true light bounces, caustics, subsurface scattering, volumetrics. Slower: seconds to minutes per frame.", use: "Photorealistic stills, caustics through glass, accurate subsurface skin. Enable GPU in Preferences → System → Cycles Render Devices." },
+          { emoji: "⚡", name: "EEVEE Next", desc: "Real-time path-traced renderer (Blender 4.2+). Near-instant frames. Supports reflections, refractions, volumetrics, GI. Some limits on caustics and light bounces.", use: "Motion graphics, animation, stylized work, previsualization. Orders of magnitude faster than Cycles for animation." },
+          { emoji: "🗿", name: "Workbench", desc: "Technical clay renderer. No materials, just form and lighting. Fast.", use: "Studio presentation, design review, clay renders to evaluate shape without material distraction." },
+        ],
+        gridCols: 3,
       },
       {
         title: "Key Render Settings",
@@ -262,25 +252,14 @@ cam_data.clip_end   = 1000.0
 
 # Set as active scene camera
 bpy.context.scene.camera = cam_obj`,
-        content: `Select the camera → **Object Data Properties (🎬 camera icon)**:
-
-**Focal Length**
-Longer = telephoto (compressed perspective, good for portraits). Shorter = wide angle (distorted, dramatic). 50mm ≈ human eye. 85–135mm = portrait. 24mm = wide architectural.
-**Sensor Size**
-Affects depth of field and perspective. Full Frame (36mm) is the default.
-**Depth of Field → F-Stop**
-Lower = more blur (shallow depth of field). Higher = everything sharp. Enable DoF, set Focus Object or Distance.
-**Clip Start/End**
-The near and far range where Blender renders. Adjust for very small or very large scenes.
-**Camera Type**
-Perspective (default), Orthographic (no perspective, technical drawings), Panoramic (360° equirectangular for VR).
-
-**Numpad 0**
-Enter camera view
-**N → View → Lock Camera to View**
-Navigate freely and the camera follows. Disable when done.
-**Ctrl+Alt+0**
-Snap the camera to current viewport.`,
+        content: `Select the camera → Object Data Properties (camera icon). Three shortcuts worth knowing: **Numpad 0** enters camera view, **N → View → Lock Camera to View** lets you navigate and the camera follows, **Ctrl+Alt+0** snaps the camera to the current viewport angle.`,
+        primitiveGrid: [
+          { emoji: "🔭", name: "Focal Length", desc: "Controls zoom and perspective distortion. Longer = telephoto (compressed). Shorter = wide (dramatic).", use: "24mm: wide architectural. 50mm: natural. 85mm: portrait. 135mm: telephoto compression." },
+          { emoji: "📷", name: "Sensor Size", desc: "Affects depth of field and perspective distortion. Full Frame (36mm) is the default.", use: "Leave at 36mm unless matching a specific real camera for reference." },
+          { emoji: "🌀", name: "Depth of Field (F-Stop)", desc: "Lower F-Stop = more background blur (shallow DoF). Higher = everything sharp. Set a Focus Object to track.", use: "Portrait with blurred background: F/1.8. Product shot: F/8. Landscape: F/16." },
+          { emoji: "✂️", name: "Clip Start / End", desc: "The near and far distance where Blender renders geometry. Geometry outside this range disappears.", use: "Adjust for very small scenes (clip start 0.001) or very large ones (clip end 10000)" },
+          { emoji: "📐", name: "Camera Type", desc: "Perspective (default, natural depth). Orthographic (no perspective distortion, technical). Panoramic (360° equirectangular for VR).", use: "Ortho for technical diagrams. Panoramic for 360° renders at 4096x2048 resolution." },
+        ],
       },
       {
         title: "🔨 Mini Workshop: First Beauty Render",

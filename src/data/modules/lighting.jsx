@@ -93,19 +93,14 @@ area = add_light("KeyArea", 'AREA', (4, -2, 6), energy=800, size=2.0)
 area.data.shape = 'RECTANGLE'  # 'SQUARE', 'RECTANGLE', 'DISK', 'ELLIPSE'
 area.data.size  = 2.0
 area.data.size_y = 1.0`,
-        content: `**Point Light**: Omnidirectional bulb. Light radiates in all directions from a single point. Candles, bulbs, glowing orbs.
-
-**Sun**
-Parallel rays from an infinite distance. Consistent across the entire scene; position doesn't matter, only rotation. Outdoor daylight, large directional light sources. Casts parallel shadows.
-
-**Spot**
-Cone of light. Stage lights, flashlights, headlights. Controls: Spot Size (cone angle), Blend (hard vs soft edge).
-
-**Area**
-Rectangular or disc light source. Softest shadows, most photorealistic. Simulates windows, softboxes, diffuse panels. Larger = softer shadows. Requires higher power values (500W–5000W typical).
-
-**HDRI (World Environment)**
-A 360° photograph used as both background and light source. Instantly realistic environmental lighting. Found in: **World Properties → Surface → Background → Environment Texture**. Download free HDRIs from Poly Haven.`,
+        content: `Each light type behaves differently. Choosing the wrong one is the most common reason a scene looks flat or fake.`,
+        primitiveGrid: [
+          { emoji: "💡", name: "Point", desc: "Omnidirectional bulb. Radiates in all directions from a single point. Small, hard shadows.", use: "Candles, light bulbs, glowing orbs, lamp fixtures" },
+          { emoji: "☀️", name: "Sun", desc: "Parallel rays from infinite distance. Position in the scene doesn't matter, only rotation. Consistent across the entire scene.", use: "Outdoor daylight, large directional sources. Casts parallel shadows unlike any other light type." },
+          { emoji: "🔦", name: "Spot", desc: "Cone of light. Controls: Spot Size (cone angle), Blend (0 = hard edge, 1 = soft falloff).", use: "Stage lighting, flashlights, headlights, theatrical beams" },
+          { emoji: "🪟", name: "Area", desc: "Rectangular or disc surface emitter. Larger = softer shadows. Most photorealistic light type. Needs high power values (500W+).", use: "Studio softboxes, windows, diffuse panels, product lighting" },
+          { emoji: "🌍", name: "HDRI (World)", desc: "A 360° real-world photograph used as both background and light source. Instant realistic environment lighting.", use: "World Properties → Environment Texture. Free HDRIs at Poly Haven." },
+        ],
       },
       {
         title: "Key Light Settings",
