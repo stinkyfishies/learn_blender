@@ -140,37 +140,18 @@ bl = obj.modifiers.new("Bool", 'BOOLEAN')
 bl.operation = 'DIFFERENCE'  # 'UNION', 'DIFFERENCE', 'INTERSECT'
 bl.object = bpy.data.objects["Cutter"]
 bl.solver = 'EXACT'`,
-        content: `These modifiers create or grow geometry:
-
-**Subdivision Surface**
-The most-used modifier. Smooths by subdividing geometry.
-- Catmull-Clark: smooth organic shapes (levels 2–3 usually sufficient)
-- Simple: subdivide without smoothing (for displacement maps)
-- Use **Ctrl+E → Mark Crease** on edges to keep them sharp while subdividing
-
-**Mirror**
-Model one half, get full symmetry. Set the axis, enable Clipping (verts snap at center seam).
-
-**Array**
-Duplicate in a pattern: fixed count, fit to length, or fit to curve. Stack multiple Arrays for 2D/3D grids.
-
-**Bevel**
-Procedurally round edges. Set Angle Limit to only bevel edges above a degree threshold. Far more flexible than manual beveling.
-
-**Solidify**
-Add thickness to any flat surface: walls, fabric, panels, paper.
-
-**Screw**
-Revolve a profile around an axis: bottles, vases, springs, columns.
-
-**Boolean**
-Use one object to cut/join/intersect another. See the Boolean & Hard Surface module for detail.
-
-**Weld**
-Merge vertices within a distance threshold. Essential after Booleans.
-
-**Remesh**
-Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes). Key for sculpt prep.`,
+        content: `These modifiers create or grow geometry. Stack them in the order: Mirror → Array → Boolean → Bevel → Subdivision Surface.`,
+        primitiveGrid: [
+          { emoji: "🔲", name: "Subdivision Surface", desc: "Smooths by subdividing geometry. Catmull-Clark for organic shapes, Simple for displacement.", use: "Smoothing a hard-surface object. Use Ctrl+E → Mark Crease on edges to keep them sharp." },
+          { emoji: "🪞", name: "Mirror", desc: "Model one half, get full symmetry. Enable Clipping so verts snap at the center seam.", use: "Character faces, vehicle bodies, furniture. Always goes first in the stack." },
+          { emoji: "🔁", name: "Array", desc: "Duplicate in a pattern: fixed count, fit to length, or fit to curve.", use: "Fence posts, chain links, stairs, brick walls. Stack two Arrays for a 2D grid." },
+          { emoji: "🔪", name: "Bevel", desc: "Procedurally round edges. Set Angle Limit to only bevel sharp edges automatically.", use: "Softening corners on a hard-surface object without manual edge work." },
+          { emoji: "📄", name: "Solidify", desc: "Add thickness to any flat surface.", use: "Walls, fabric, paper, panels. Keeps the mesh non-destructive until you're done." },
+          { emoji: "🌀", name: "Screw", desc: "Revolve a profile around an axis to produce a solid of revolution.", use: "Bottles, vases, springs, columns, wine glasses. Pairs with a single-vertex profile." },
+          { emoji: "✂️", name: "Boolean", desc: "Use one object to cut, join, or intersect another. Solver: Exact for clean results.", use: "Cutting holes, vents, and slots. Goes after Mirror and Array, before Bevel." },
+          { emoji: "🔗", name: "Weld", desc: "Merge vertices within a distance threshold automatically.", use: "Cleaning up after Boolean operations where edges don't quite meet." },
+          { emoji: "🫧", name: "Remesh", desc: "Rebuild the entire mesh surface with uniform topology (Voxel or Quad modes).", use: "Preparing a sculpt for retopology, or cleaning up a Boolean-heavy mesh." },
+        ],
       },
       {
         title: "Mirror Modifier: Symmetric Modeling",
@@ -255,31 +236,17 @@ sw.wrap_method = 'NEAREST_SURFACEPOINT'
 sm = obj.modifiers.new("Smooth", 'SMOOTH')
 sm.factor = 0.5
 sm.iterations = 3`,
-        content: `These modify existing geometry without adding or removing it:
-
-**Simple Deform**
-Twist, Bend, Taper, or Stretch along an axis. Controlled by an angle or factor. Great for stylized shapes.
-
-**Lattice**
-Deform a mesh using a cage object. Edit the cage → the mesh follows. Non-destructive squash and stretch.
-
-**Curve**
-Deform a mesh along a Bezier/NURBS curve. Roads, pipes, roller coasters, any along-path shape.
-
-**Displace**
-Use a texture (Noise, Image, etc.) to push vertices along normals. Instant terrain, wrinkles, knurling.
-
-**Smooth / Laplacian Smooth**
-Relax geometry (reduce bumps) without subdividing. Good for cleaning up sculpts.
-
-**Shrinkwrap**
-Snap a mesh onto the surface of another object. Key for retopology.
-
-**Cast**
-Push the mesh toward a sphere, cube, or cylinder shape. Good for rounding things out.
-
-**Wave**
-Animate a ripple/wave across the surface. Physics-lite animation.`,
+        content: `These modify existing geometry without adding or removing it.`,
+        primitiveGrid: [
+          { emoji: "🌀", name: "Simple Deform", desc: "Twist, Bend, Taper, or Stretch along an axis. Controlled by angle or factor.", use: "Twisted vase body, bent pipe, tapered cone shape without manual vertex editing." },
+          { emoji: "📦", name: "Lattice", desc: "Deform a mesh using a cage object. Edit the cage and the mesh follows.", use: "Non-destructive squash and stretch on a complex mesh without touching its vertices." },
+          { emoji: "〰️", name: "Curve", desc: "Deform a mesh along a Bezier or NURBS curve path.", use: "Roads, pipes, roller coasters, cables, any shape that follows a path." },
+          { emoji: "🏔️", name: "Displace", desc: "Push vertices along their normals using a texture (Noise, Image, Musgrave).", use: "Terrain from a grid, wrinkled fabric, knurled surfaces, alien landscapes." },
+          { emoji: "✨", name: "Smooth / Laplacian Smooth", desc: "Relax geometry to reduce bumps without subdividing.", use: "Cleaning up a sculpt, softening harsh Boolean edges before rendering." },
+          { emoji: "🎯", name: "Shrinkwrap", desc: "Snap a mesh onto the surface of another object.", use: "Retopology: drawing clean geometry over a sculpted mesh." },
+          { emoji: "🔮", name: "Cast", desc: "Push the mesh toward a sphere, cube, or cylinder shape.", use: "Rounding out a blocky mesh, morphing a shape toward a primitive." },
+          { emoji: "🌊", name: "Wave", desc: "Animate a ripple or wave across the surface over time.", use: "Water surface, flag flutter, cloth ripple without a full physics simulation." },
+        ],
       },
       {
         title: "Modifier Recipes for Common Goals",
