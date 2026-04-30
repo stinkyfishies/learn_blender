@@ -382,28 +382,35 @@ scr.use_merge_vertices = True  # closes seam and base
 sub = obj.modifiers.new("Subdiv", 'SUBSURF')
 sub.levels = 2
 sub.subdivision_type = 'CATMULL_CLARK'`,
-        content: `The Screw modifier works as a lathe: it revolves a 2D profile around an axis to produce a solid of revolution. The key is getting the profile right before touching any modifier.
+        content: `The Screw modifier works as a lathe: it revolves a 2D profile around the Z axis to produce a solid of revolution. You build one side of the silhouette, the modifier does the rest.
 
-**Why a flat circle doesn't work**
-Adding a circle and immediately applying Screw produces a torus (the circle itself revolves). You need a single open profile: a chain of vertices representing one side of the vase silhouette, positioned along the Z axis, offset from it on X.
+**Build the profile from a single vertex**
 
-**Step by step**
+Start with one vertex and extrude upward to draw the right-side silhouette of the vase. No circles, no deleting, no rotation ambiguity.
 
-1. **Shift+A → Mesh → Circle** (8 vertices, Fill Type: Nothing)
-2. **Tab → Edit Mode**. Press **1** to enter Vertex select mode. Press **Z → Wireframe** from the pie menu so you can see through the mesh.
-3. **Alt+A** to deselect all vertices.
-4. Press **B**, then click-drag to box select the left half (all vertices on the negative X side, including any exactly on center).
-5. **X → Vertices** to delete them. You now have a right-side arc of 4–5 vertices.
-6. **A** to select all remaining vertices. **R → X → 90 → Enter** to rotate the arc upright. It now runs vertically along the Z axis — this is your profile.
-7. **Alt+A** to deselect. Now click individual vertices and use **G → X** to push each one left or right: narrow at the base, wide in the belly, narrow at the neck, slight outward flare at the top lip.
-8. **For the base:** click the bottom vertex → **G → X → 0 → Enter** to snap it to the center axis (X=0). The Screw modifier revolves around that axis, so a vertex sitting on it stays fixed and the base closes automatically. No extrusion needed.
-9. **Tab → Object Mode**. In the Properties panel (wrench icon) → **Add Modifier → Screw**: set Axis to Z, Angle 360°, Steps 32. Enable **Merge Vertices**.
-10. **Add Modifier → Subdivision Surface** (level 2) to smooth.
+1. **Delete the default cube**: X → Delete
+2. **Shift+A → Mesh → Single Vert** (if not visible: enable Extra Objects add-on in Preferences → Add-ons)
+   - Or: Shift+A → Mesh → Circle, set Vertices to 1 in the F9 panel. Same result.
+3. **Tab → Edit Mode**. Press **1** for Vertex select mode. The single vertex is at the origin.
+4. **G → X → 0.15 → Enter** to move it out to the base edge position.
+5. Now extrude upward and shape as you go. Each step: **E → Z → (amount) → Enter** to extrude up, then **G → X → (amount) → Enter** to adjust the radius at that height:
+   - Base edge: already placed at X=0.15, Z=0
+   - **E → Z → 0.02 → Enter** (base thickness), **G → X → 0.01 → Enter** (slight outward bevel)
+   - **E → Z → 0.15 → Enter** (lower body), **G → X → 0.05 → Enter** (widen slightly)
+   - **E → Z → 0.20 → Enter** (belly), **G → X → 0.08 → Enter** (widest point)
+   - **E → Z → 0.20 → Enter** (upper body), **G → X → -0.06 → Enter** (taper inward)
+   - **E → Z → 0.10 → Enter** (neck), **G → X → -0.04 → Enter** (narrow neck)
+   - **E → Z → 0.05 → Enter** (lip), **G → X → 0.03 → Enter** (slight outward flare)
+6. **For the closed base:** select the very first vertex (the base edge at Z=0) by clicking it. **E → Enter** to extrude in place → **G → X**, type the negative of its current X to bring it to 0 (e.g. **-0.15 → Enter**). This puts a vertex exactly on the axis. The Screw modifier treats any vertex at X=0 as a fixed center point and closes the base.
+7. **Tab → Object Mode**. Properties panel (wrench icon) → **Add Modifier → Screw**: Axis Z, Angle 360°, Steps 32, enable **Merge Vertices**.
+8. Check the result. If the base is open, go back to Edit Mode and confirm the base vertex is exactly at X=0 (check the N panel → Item → X value).
+9. **Add Modifier → Subdivision Surface** (level 2). If Catmull-Clark pulls the base edge upward, select the base edge loop in Edit Mode (Alt+click) → **Shift+E → 1 → Enter** to crease it flat.
 
 **Shaping tips**
-- Use **G → X** not **S** to move individual verts. S scales all selected verts from a center point and goes horizontal. G → X moves them along a true axis.
-- Add more vertices to your profile with **Ctrl+click** in Edit Mode to place new verts between existing ones wherever you need finer control.
-- Change Screw **Angle** below 360° to get an open spiral instead of a closed vase.
+- Use **G → X** not **S** to adjust individual verts. S scales from a center and moves everything horizontally together.
+- Press **Numpad 1** (or **Numpad 3**) to look at the profile from the front/side so you can see the silhouette clearly while shaping.
+- Add more vertices anywhere with **Ctrl+click** on an edge to insert a new vert between two existing ones.
+- Change Screw Angle below 360° to get an open spiral instead of a closed vase.
 
 ✅ Goal: A vase with a closed base, shaped silhouette, and no manual sculpting`,
       },
