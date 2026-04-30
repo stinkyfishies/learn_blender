@@ -1628,7 +1628,7 @@ export default function BlenderWorkshop() {
                       {section.primitiveGrid && (
                         <div style={{
                           display: "grid",
-                          gridTemplateColumns: "1fr 1fr",
+                          gridTemplateColumns: `repeat(${section.gridCols || 2}, 1fr)`,
                           gap: 8,
                           marginTop: 12,
                         }}>
@@ -1648,6 +1648,7 @@ export default function BlenderWorkshop() {
                           ))}
                         </div>
                       )}
+                      {section.contentAfter && renderContent(section.contentAfter)}
                       {showPython && section.pythonCode && (
                         <CodeBlock code={section.pythonCode} />
                       )}
