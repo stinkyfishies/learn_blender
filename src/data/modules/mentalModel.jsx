@@ -147,33 +147,15 @@ print(bpy.context.object.mode)  # returns e.g. 'OBJECT', 'EDIT'
 # Context-safe check before switching
 if bpy.context.object and bpy.context.object.type == 'MESH':
     bpy.ops.object.mode_set(mode='EDIT')`,
-        content: `Blender uses **modes** to expose different toolsets on the same object. You are always in exactly one mode at a time. Press **Ctrl+Tab** to open the mode pie menu from anywhere.
-
-**Object Mode**
-The default. Manage the scene: move, duplicate, link, and organize objects.
-> Example: selecting a cube and pressing G to drag it across the scene.
-
-**Edit Mode**
-Reshape the mesh at the vertex, edge, or face level. Press Tab to toggle in and out.
-> Example: selecting a face on a cube and pressing E to extrude it into a new shape.
-
-**Sculpt Mode**
-Push and pull geometry like digital clay. Works best at high polygon counts.
-> Example: smoothing a lumpy surface or adding a nose to a character head.
-
-**Weight Paint**
-Paint per-vertex bone influence. Used to control how a mesh bends when an armature moves.
-> Example: painting the shoulder area so it follows the arm bone when the character raises their arm.
-
-**Vertex Paint / Texture Paint**
-Paint color or texture directly onto the mesh surface.
-> Example: hand-painting rust patches onto a metal object without a separate image editor.
-
-**Particle Edit**
-Comb, trim, cut, and style hair or fur strands.
-> Example: grooming a character's hair direction after generating it with a particle system.
-
-Each mode is a specialized lens onto the same object. Switching modes does not change your geometry.`,
+        content: `Blender uses modes to expose different toolsets on the same object. You are always in exactly one mode at a time. Press **Ctrl+Tab** to open the mode pie menu, or **Tab** to toggle between Object and Edit Mode.`,
+        primitiveGrid: [
+          { emoji: "🌐", name: "Object Mode", desc: "The default. Manage the scene: move, duplicate, link, and organize objects.", use: "Selecting a cube and pressing G to drag it across the scene" },
+          { emoji: "✏️", name: "Edit Mode", desc: "Reshape the mesh at the vertex, edge, or face level. Press Tab to toggle in and out.", use: "Selecting a face on a cube and pressing E to extrude it into a new shape" },
+          { emoji: "🫧", name: "Sculpt Mode", desc: "Push and pull geometry like digital clay. Works best at high polygon counts.", use: "Smoothing a lumpy surface or pushing in a nose on a character head" },
+          { emoji: "🎨", name: "Weight Paint", desc: "Paint per-vertex bone influence. Controls how a mesh bends when an armature moves.", use: "Painting the shoulder area so it follows the arm bone when the character raises their arm" },
+          { emoji: "🖌️", name: "Vertex / Texture Paint", desc: "Paint color or texture directly onto the mesh surface.", use: "Hand-painting rust patches onto a metal object without a separate image editor" },
+          { emoji: "💈", name: "Particle Edit", desc: "Comb, trim, cut, and style hair or fur strands.", use: "Grooming a character's hair direction after generating it with a particle system" },
+        ],
       },
       {
         title: "Non-Destructive vs Destructive Workflow",
@@ -261,50 +243,20 @@ bpy.context.scene.render.engine = 'CYCLES'  # or 'BLENDER_EEVEE_NEXT'
 # 🖼️ Output resolution
 bpy.context.scene.render.resolution_x = 1920
 bpy.context.scene.render.resolution_y = 1080`,
-        content: `The Properties Editor runs down the right side of the screen. It is organized into tabs by icon, each covering a distinct domain. Knowing which tab holds what saves a lot of hunting.
-
-🎬 **Render**
-Engine selection (Cycles or EEVEE Next), sampling quality, and denoising settings.
-> Example: switch from EEVEE to Cycles here when you need physically accurate light bounces.
-
-🖼️ **Output**
-Resolution, frame range, output folder, and file format for renders.
-> Example: set resolution to 1920x1080 and output path to a folder before hitting render.
-
-🌍 **World**
-The background of the scene and its contribution to lighting. You can use a solid color, a gradient, or an HDRI (a 360° photograph of a real environment that also casts light and reflections into the scene).
-> Example: drop an HDRI image here to instantly light the whole scene with realistic reflections, no lights required.
-
-👁️ **View Layer**
-Render passes and light groups. Used for compositing workflows.
-> Example: enable the Shadow pass to adjust shadows independently in post.
-
-📐 **Object**
-Exact transform values, visibility flags, and instancing options for the selected object.
-> Example: type a precise location value here instead of eyeballing it in the viewport.
-
-🔧 **Modifier**
-The modifier stack for the selected object. Add, reorder, and remove modifiers here.
-> Example: this is where you add a Subdivision Surface or a Boolean modifier.
-
-⚡ **Particles**
-Particle and hair systems attached to the selected object.
-
-🔒 **Constraints**
-Object constraints that control how an object moves or orients relative to others.
-
-📊 **Object Data**
-Mesh-specific settings: UV maps, vertex color layers, normals, and custom attributes.
-> Example: check UV maps here to see which ones exist before setting up a material.
-
-🎨 **Material**
-Material slots and shader assignment for the selected object.
-> Example: add a new slot here to apply a second material to specific faces.
-
-🖼️ **Texture**
-Legacy texture slots. Mostly used for displacement maps and sculpt/paint brushes.
-
-Press **N** in the viewport to open the sidebar panel. The Item tab shows the exact transform of whatever is selected.`,
+        content: `The Properties Editor runs down the right side of the screen, organized into tabs by icon. Knowing which tab holds what saves a lot of hunting. Press **N** in the viewport to also open the sidebar (Item tab shows exact transforms).`,
+        primitiveGrid: [
+          { emoji: "🎬", name: "Render", desc: "Engine selection (Cycles or EEVEE Next), sampling quality, and denoising.", use: "Switch from EEVEE to Cycles when you need physically accurate light bounces" },
+          { emoji: "🖼️", name: "Output", desc: "Resolution, frame range, output folder, and file format for renders.", use: "Set 1920x1080 and output path before hitting render" },
+          { emoji: "🌍", name: "World", desc: "Scene background and its contribution to lighting. Supports solid color, gradient, or HDRI.", use: "Drop an HDRI here to instantly light the whole scene with realistic reflections, no lights required" },
+          { emoji: "👁️", name: "View Layer", desc: "Render passes and light groups for compositing workflows.", use: "Enable the Shadow pass to adjust shadows independently in post" },
+          { emoji: "📐", name: "Object", desc: "Exact transform values, visibility flags, and instancing options for the selected object.", use: "Type a precise location value here instead of eyeballing it in the viewport" },
+          { emoji: "🔧", name: "Modifier", desc: "The modifier stack for the selected object. Add, reorder, and remove modifiers here.", use: "Add a Subdivision Surface or Boolean modifier to the active object" },
+          { emoji: "⚡", name: "Particles", desc: "Particle and hair systems attached to the selected object.", use: "Configure emission rate, lifetime, and physics for a particle effect" },
+          { emoji: "🔒", name: "Constraints", desc: "Control how an object moves or orients relative to others without manual keyframing.", use: "Make a camera always point at a target regardless of where the target moves" },
+          { emoji: "📊", name: "Object Data", desc: "Mesh-specific settings: UV maps, vertex color layers, normals, and custom attributes.", use: "Check which UV maps exist before setting up a material" },
+          { emoji: "🎨", name: "Material", desc: "Material slots and shader assignment for the selected object.", use: "Add a second material slot to apply a different material to specific faces" },
+          { emoji: "🖼️", name: "Texture", desc: "Legacy texture slots. Mostly used for displacement maps and sculpt/paint brushes.", use: "Assign a brush texture when sculpting to add surface detail with each stroke" },
+        ],
       },
       {
         title: "Collections & Scene Organization",
