@@ -83,36 +83,23 @@ for v in bm.verts:
     v.select = True
 
 bmesh.update_edit_mesh(obj.data)  # push changes back`,
-        content: `In Edit Mode press Tab (or Ctrl+Tab) to enter from Object Mode.
+        content: `Press **Tab** to enter Edit Mode from Object Mode. Press Tab again to return.
 
-Switch selection type:
-**1**
-Vertex select (points)
-**2**
-Edge select (lines)
-**3**
-Face select (polygons)
+First choose what you're selecting: vertices (points), edges (lines), or faces (polygons). Press **1**, **2**, or **3** to switch. The wrong mode is the most common reason a selection doesn't work.
 
-Selecting:
-**Alt+Click**
-Select an entire edge/face loop. One of the most powerful selection tools.
-**Ctrl+Click**
-Select shortest path between two elements
-**B**
-Box select
-**C**
-Circle select (paint with brush, scroll to resize, right-click to exit)
-**Ctrl+I**
-Invert selection
-**L**
-Select linked (hover over a mesh island and press L to select it all)
-
-**Alt+Z**
-Toggle X-Ray (lets you select through the mesh, not just surface)
-
-Proportional Editing:
-**O**
-Toggle Proportional Editing: transforms fall off smoothly around selected verts. Press O while transforming to adjust falloff radius with scroll wheel. Essential for organic shaping.`,
+Then select:`,
+        primitiveGrid: [
+          { emoji: "1️⃣", name: "1 — Vertex Mode", desc: "Select individual points. The most granular level of control.", use: "Nudging a single point to fix a silhouette, snapping a base vert to X=0" },
+          { emoji: "2️⃣", name: "2 — Edge Mode", desc: "Select lines between vertices.", use: "Selecting an edge to bevel, adding a crease, loop-cutting at a specific edge" },
+          { emoji: "3️⃣", name: "3 — Face Mode", desc: "Select polygons.", use: "Insetting the top of a cylinder, extruding a face outward to build a wall" },
+          { emoji: "🔁", name: "Alt+Click — Loop Select", desc: "Selects an entire edge or face loop running around the mesh in one click.", use: "Selecting a ring of faces around a mug to inset, selecting the base edge to crease" },
+          { emoji: "📦", name: "B — Box Select", desc: "Click and drag a rectangle to select everything inside it.", use: "Selecting the left half of a mesh to delete, grabbing a group of verts in a region" },
+          { emoji: "⭕", name: "C — Circle Select", desc: "Paint over geometry with a circular brush. Scroll to resize. Right-click to exit.", use: "Selecting an irregular cluster of verts that a box would overshoot" },
+          { emoji: "🔗", name: "L — Linked Select", desc: "Hover over a mesh island and press L to select all connected geometry.", use: "Selecting just the handle when it's already joined to the mug body" },
+          { emoji: "🔀", name: "Ctrl+I — Invert", desc: "Flips the selection: selected becomes unselected and vice versa.", use: "Select the parts you don't want, invert, then work on everything else" },
+          { emoji: "👁️", name: "Alt+Z — X-Ray", desc: "Toggle see-through mode. Lets you select verts behind the surface, not just the front face.", use: "Box selecting verts on a curved surface without missing the ones facing away" },
+          { emoji: "〰️", name: "O — Proportional Edit", desc: "Transforms fall off smoothly to nearby unselected verts within a radius. Scroll to adjust radius while transforming.", use: "Pulling a single vert to create a smooth bump rather than a sharp spike" },
+        ],
       },
       {
         title: "Core Transform Tools",
