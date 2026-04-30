@@ -158,52 +158,22 @@ if obj and obj.active_material:
     tree = obj.active_material.node_tree
     for node in tree.nodes:
         print(node.name, node.type)`,
-        content: `**The UI is made of named regions**
+        content: `Every panel in Blender is an editor. Any area can become any editor type: click the icon in the top-left corner of that area to change it. Split areas by dragging from a corner; join by dragging one corner into a neighbor.
 
-**Top bar**
-The very top strip: Blender's application menus (File, Edit, Render, Window, Help) on the left, workspace tabs in the center, scene/view layer selectors on the right.
-
-**Workspace tabs**
-The labeled tabs across the top bar (Layout, Modeling, Sculpting, Shading, Animation, Rendering, Compositing). Each is a saved arrangement of editors. Add your own with the + tab.
-
-**Editors**
-Every panel in Blender is an editor. Any area can be any editor type. Change it by clicking the icon in the top-left corner of that area. You can have as many editors open as you want by splitting areas.
-
-**Header**
-The bar at the top of each individual editor. Contains the editor type selector (the icon), mode selector (Object Mode / Edit Mode / etc.), and editor-specific menus and controls. Some editors show it at the bottom instead.
-
-**Toolbar (T panel)**
-The vertical strip on the left side of the 3D Viewport. Press T to toggle. Shows tools for the current mode (selection tools, transform tools, etc.).
-
-**Sidebar (N panel)**
-The panel that slides in from the right side of the 3D Viewport. Press N to toggle. Has tabs: Item (selected object transform), Tool (active tool settings), View (viewport settings). Addons often add their own tabs here.
-
-**Properties Editor**
-The tall panel in the bottom-right of the default layout. Organized into tabs by icon along the side: Scene, Output, View Layer, Scene (world), Object, Modifiers, Particles, Physics, Object Data, Material. This is where most settings live.
-
-**Outliner**
-Top-right panel. Shows the scene hierarchy as a tree: collections, objects, and their data. Also has display modes for browsing all data in the file (Blender File mode) or the raw datablock graph (Data API mode).
-
-**Status bar**
-The thin strip at the very bottom of the screen. Shows context-sensitive hints for what the mouse buttons and modifier keys do in the current state.
-
-**Splitting and joining editors**
-To split: hover over the corner of any editor until the cursor becomes a crosshair, then drag. To join: drag from one editor's corner into the neighbor you want to absorb. You can also right-click any border between editors for split/join options.
-
-To open any of these: click the editor type icon in the top-left corner of any existing editor, then pick from the dropdown. You can also use the workspace tabs at the top: Shading opens a layout with the Shader Editor, Animation opens Timeline/Graph/NLA, etc.
-
-**3D Viewport**
-Main working area. Present in every workspace. The large center panel in the default layout.
-**Shader Editor**
-Where you build materials by wiring boxes together. Each box (node) does one thing: set a color, control roughness, add a texture. You connect outputs into inputs to describe how a surface looks. Example: plug a Noise Texture node into the Roughness input of a Principled BSDF and the roughness varies across the surface without painting anything. Open via the Shading workspace tab. Only shows content when an object with a material is selected.
-**Geometry Node Editor**
-Where you create or modify geometry using logic instead of pushing vertices by hand. You build a graph of operations: "take this mesh, scatter 500 copies of another object on its surface, randomize their rotation and scale." Change a number, the result updates instantly. Nothing is destructive. Open by adding a Geometry Nodes modifier to an object, or switching any editor to this type.
-**Compositor**
-Where you process the rendered image after Blender finishes rendering it. Add color grading, glow, depth of field blur, or combine multiple render passes. Works on the final pixels, not the 3D scene. Found in the Compositing workspace tab. Only active when Use Nodes is checked in its header.
-**Timeline / Graph Editor / NLA Editor**
-Animation editors. Timeline shows keyframes on a simple strip. Graph Editor shows the curves between keyframes so you can control how motion accelerates and decelerates. NLA Editor layers and mixes multiple animations. All three are in the Animation workspace tab.
-**UV Editor**
-When you apply a texture image to a 3D object, Blender needs to know which part of the image maps to which face. UV unwrapping is the process of flattening the 3D surface into a 2D layout that lines up with the texture. The UV Editor is where you see and adjust that layout. Only shows content when in Edit Mode with faces selected. Found in the UV Editing workspace tab.`,
+The workspace tabs across the top (Layout, Modeling, Shading, Animation, etc.) are just saved arrangements of editors. Switch freely, nothing is lost.`,
+        primitiveGrid: [
+          { emoji: "🎬", name: "3D Viewport", desc: "Main working area. Present in every workspace.", use: "Everything: modeling, placing objects, sculpting, previewing the scene" },
+          { emoji: "🌳", name: "Outliner", desc: "Scene hierarchy as a tree: collections, objects, and their data.", use: "Finding and selecting objects by name, hiding/showing collections, checking what's in the scene" },
+          { emoji: "⚙️", name: "Properties Editor", desc: "All settings for the scene and selected object, organized by icon tabs down the side.", use: "Adding modifiers, assigning materials, adjusting render settings" },
+          { emoji: "🔗", name: "Shader Editor", desc: "Build materials by wiring nodes together. Each node does one thing: color, roughness, texture.", use: "Creating a material where Noise Texture drives roughness variation across the surface" },
+          { emoji: "📐", name: "Geometry Node Editor", desc: "Modify or generate geometry using a node graph instead of manual editing.", use: "Scattering 500 objects on a surface with controllable density, rotation, and scale" },
+          { emoji: "🖼️", name: "UV Editor", desc: "Shows the 2D flattened layout of a mesh surface for texture mapping.", use: "Adjusting which part of an image lines up with which face after unwrapping" },
+          { emoji: "⏱️", name: "Timeline", desc: "Horizontal strip showing keyframes across frames. Basic animation playback control.", use: "Scrubbing through an animation, setting the frame range for a render" },
+          { emoji: "📈", name: "Graph Editor", desc: "Shows animation curves between keyframes. Control how motion accelerates and decelerates.", use: "Smoothing out a bouncing ball so it eases in and out rather than moving at constant speed" },
+          { emoji: "🎞️", name: "NLA Editor", desc: "Layers and mixes multiple animations as non-linear clips.", use: "Blending a walk cycle with a wave animation on the same character" },
+          { emoji: "🌈", name: "Compositor", desc: "Process the rendered image with nodes: color grade, glow, blur, combine passes.", use: "Adding a Glare node to make emissive materials bloom after rendering" },
+          { emoji: "📊", name: "Info Editor", desc: "Logs every user action as Python in real time.", use: "Doing something manually in the UI then copying the Python line it logged into your script" },
+        ],
       },
       {
         title: "The Most Useful Navigation Shortcuts",
@@ -224,27 +194,17 @@ for area in bpy.context.screen.areas:
 area.spaces[0].shading.type = 'SOLID'      # Solid
 area.spaces[0].shading.type = 'MATERIAL'   # Material Preview
 area.spaces[0].shading.type = 'RENDERED'   # Rendered`,
-        content: `**F3**: Operator search. Type any Blender feature by name and run it. The single most powerful shortcut: if you know what you want but not where it lives, F3 finds it.
-
-**Ctrl+Space**
-Maximize the hovered editor (full screen). Press again to restore.
-
-**N**
-Toggle the N-Panel sidebar (Item, Tool, View, and addon panels)
-**T**
-Toggle the left toolbar (tool icons)
-
-**Ctrl+Alt+Q**
-Quad view (four viewports: top, front, right, perspective). Toggle off the same way.
-
-**Z**
-Shading pie menu: Wireframe, Solid, Material Preview, Rendered. Essential for quickly switching how you see the scene.
-
-**Alt+Z**
-Toggle X-Ray mode (see through the mesh: critical for selecting hidden geometry)
-
-**F11**
-Show last render (if you've rendered anything)`,
+        content: `These shortcuts work anywhere in Blender, regardless of which editor is active.`,
+        primitiveGrid: [
+          { emoji: "🔍", name: "F3: Operator Search", desc: "Type any Blender feature by name and run it instantly.", use: "You know what you want but not where it lives: F3 finds it" },
+          { emoji: "⬛", name: "Ctrl+Space: Maximize", desc: "Expands the hovered editor to fill the screen. Press again to restore.", use: "Focusing on one editor without rearranging the layout" },
+          { emoji: "📋", name: "N: Sidebar", desc: "Toggles the N-Panel on the right of the 3D Viewport (Item, Tool, View, addon tabs).", use: "Checking or typing exact transform values for a selected object" },
+          { emoji: "🛠️", name: "T: Toolbar", desc: "Toggles the left toolbar showing tool icons for the current mode.", use: "Accessing selection and transform tools without keyboard shortcuts" },
+          { emoji: "⊞", name: "Ctrl+Alt+Q: Quad View", desc: "Splits viewport into four: top, front, right, and perspective. Toggle off the same way.", use: "Aligning geometry precisely across multiple axes at once" },
+          { emoji: "🎨", name: "Z: Shading Pie", desc: "Opens the shading picker: Wireframe, Solid, Material Preview, Rendered.", use: "Quickly switching how the scene looks without going to the toolbar" },
+          { emoji: "👁️", name: "Alt+Z: X-Ray", desc: "Toggle see-through mode. Lets you select geometry behind the surface.", use: "Selecting hidden verts or edges that the solid surface is blocking" },
+          { emoji: "🖼️", name: "F11: Last Render", desc: "Opens the last rendered image in a floating window.", use: "Reviewing a render without switching to the Render workspace" },
+        ],
       },
       {
         title: "Selection on Mac",
