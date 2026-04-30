@@ -167,24 +167,14 @@ bpy.ops.transform.resize(value=(0.5, 0.5, 0.5))
 # Place the 3D cursor (used by CURSOR pivot)
 bpy.ops.view3d.cursor3d()  # places at mouse position
 bpy.context.scene.cursor.location = (0, 0, 2)  # or set directly`,
-        content: `When you rotate (R) or scale (S) a selection, Blender needs a center point to transform around. That's the pivot point. Press Period (.) to open the pivot point pie menu.
-
-**Median Point** (default)
-The average center of everything selected. Rotate three objects and they orbit the midpoint between them.
-
-**Individual Origins**
-Each object, face, or vertex group rotates and scales around its own center. Scaling multiple faces inward with Individual Origins shrinks each one separately. With Median Point, they'd all collapse toward a shared center.
-
-**Active Element**
-Transforms around the last-clicked item in your selection (highlighted brighter than the rest).
-
-**3D Cursor**
-Transforms around the red/white cursor in the viewport. Place it anywhere with Shift+Right-click, then use it as a custom pivot. Useful for rotating something around a specific point in space.
-
-**Bounding Box Center**
-Center of the invisible box that fits around your entire selection.
-
-For most work, leave it on Median Point. Switch to Individual Origins when you want things to transform independently rather than as a group.`,
+        content: `When you rotate (R) or scale (S), Blender needs a center point to transform around. Press **.** (period) to open the pivot point pie menu.`,
+        primitiveGrid: [
+          { emoji: "⚖️", name: "Median Point", desc: "Average center of everything selected. The default.", use: "Rotating a group of faces that should orbit a shared center" },
+          { emoji: "🎯", name: "Individual Origins", desc: "Each selected element transforms around its own center independently.", use: "Scaling multiple faces inward so each shrinks separately, not toward a shared point" },
+          { emoji: "🖱️", name: "Active Element", desc: "Transforms around the last-clicked item in your selection (highlighted brighter).", use: "Rotating a chain of edges around one specific end point" },
+          { emoji: "➕", name: "3D Cursor", desc: "Transforms around the red/white cursor. Place it with Shift+Right-click anywhere in the viewport.", use: "Rotating a door hinge around its edge, revolving geometry around a specific axis point" },
+          { emoji: "📦", name: "Bounding Box Center", desc: "Center of the invisible box that fits around your entire selection.", use: "Scaling an irregular selection from its geometric center" },
+        ],
       },
       {
         title: "Topology Concepts That Matter",
@@ -214,27 +204,16 @@ for f in bm.faces:
         print(f"N-gon: face {f.index} has {len(f.verts)} verts")
 
 bmesh.update_edit_mesh(obj.data)`,
-        content: `**Topology** = how geometry is connected. Good topology:
-- Deforms cleanly for animation
-- Subdivides smoothly with Subdivision Surface modifier
-- Shades without artifacts
-
-Key concepts:
-**Quads**
-4-sided faces. Always prefer quads. They subdivide predictably and shade cleanly.
-**Tris (triangles)**
-Acceptable in static meshes, problematic in animated ones. Avoid on curved surfaces.
-**N-gons**
-5+ sided faces. Cause shading artifacts when subdivided. Acceptable only on flat, non-subdivided areas.
-**Edge loops**
-A ring of connected edges that runs around the mesh. The backbone of good topology. Alt+Click selects them.
-**Edge rings**
-The edges connecting two parallel loops. Ctrl+Alt+Click selects them.
-**Poles**
-Vertices where more or fewer than 4 edges meet. 3-edge poles (stars) and 5-edge poles are sometimes necessary but should be placed carefully.
-
-**Ctrl+Alt+Shift+M**
-Select Non-Manifold (broken geometry: holes, internal faces, flipped normals). Use this to diagnose mesh problems.`,
+        content: `Topology = how geometry is connected. It determines whether your mesh subdivides cleanly, deforms without tearing, and shades without artifacts. You don't need to obsess over it as a beginner, but knowing these terms will help you read AI-generated code and understand why a mesh looks wrong.`,
+        primitiveGrid: [
+          { emoji: "🟦", name: "Quads", desc: "4-sided faces. The standard. Subdivide predictably and shade cleanly.", use: "Use quads everywhere you can, especially on curved surfaces you plan to subdivide" },
+          { emoji: "🔺", name: "Tris (Triangles)", desc: "3-sided faces. Acceptable on flat static geometry. Cause shading artifacts on curved subdivided surfaces.", use: "Fine for game assets and static renders. Avoid on anything animated or subdivided" },
+          { emoji: "🔷", name: "N-gons", desc: "5+ sided faces. Cause unpredictable shading and subdivision. Blender creates them when you fill irregular selections.", use: "Acceptable only on flat, non-subdivided areas. Otherwise break them into quads" },
+          { emoji: "〰️", name: "Edge Loops", desc: "A ring of connected edges that runs continuously around the mesh. The backbone of good topology.", use: "Alt+Click selects a loop. Add one with Ctrl+R. Use loops to control where subdivision adds detail" },
+          { emoji: "🔗", name: "Edge Rings", desc: "The edges that connect two parallel loops, running perpendicular to them.", use: "Ctrl+Alt+Click selects a ring. Useful for selecting spans of geometry across a surface" },
+          { emoji: "📍", name: "Poles", desc: "Vertices where more or fewer than 4 edges meet. 3-edge and 5-edge poles are sometimes necessary but affect subdivision flow.", use: "Keep poles away from curved areas. They're fine on flat faces or at corners" },
+          { emoji: "⚠️", name: "Non-Manifold Geometry", desc: "Broken geometry: holes, internal faces, edges shared by more than 2 faces. Causes render errors and simulation failures.", use: "Ctrl+Alt+Shift+M selects all non-manifold elements. Run this when something looks wrong" },
+        ],
       },
       {
         title: "Normals & Shading",
@@ -260,21 +239,16 @@ mesh = obj.data
 mesh.calc_normals_split()
 for poly in mesh.polygons:
     print(f"Face {poly.index} normal: {poly.normal}")`,
-        content: `**Normals** are vectors pointing outward from each face, telling Blender which direction is "outside." They control shading.
+        content: `Normals are invisible vectors pointing outward from each face, telling Blender which direction is "outside." They control how light hits the surface and whether faces shade correctly.
 
-!! A face going black mid-render is almost always a flipped normal, not a lighting or materials problem. Enable **Viewport Overlays → Face Orientation** first: blue = outward, red = inward. Select all in Edit Mode, then **Mesh → Normals → Recalculate Outside** (Shift+N). Check this before touching anything else.
-
-Common normal issues and fixes:
-**Flipped normals**
-Face looks dark or inverted. Fix: Select all → **Mesh → Normals → Recalculate Outside** (Shift+N)
-**Flat vs Smooth shading**
-Right-click object → Shade Smooth (or Shade Auto Smooth). Smooth shading interpolates normals across a face; Flat shows each face as a distinct polygon.
-**Auto Smooth**
-In Object Data Properties → Normals: set an angle threshold. Edges sharper than the angle show as hard; others as smooth. Best of both worlds.
-**Weighted Normals modifier**
-Computes normals based on face area. Keeps hard-surface objects looking clean after boolean operations.
-
-Overlay: **Viewport Overlays → Face Orientation**: Blue = outward-facing, Red = inward. All blue = healthy mesh.`,
+!! A face going black is almost always a flipped normal, not a lighting or material problem. Check **Viewport Overlays → Face Orientation** first: blue = outward (correct), red = inward (flipped). Fix with: Edit Mode → A to select all → Mesh → Normals → Recalculate Outside (Shift+N).`,
+        primitiveGrid: [
+          { emoji: "🔵", name: "Flipped Normals", desc: "Face points inward instead of outward. Renders dark or invisible. The most common mesh problem.", use: "Edit Mode → A → Shift+N (Recalculate Outside) fixes almost all cases automatically" },
+          { emoji: "🪞", name: "Shade Flat", desc: "Each face shades as a distinct polygon. You can see every face boundary.", use: "Hard geometric shapes like crystals, dice, low-poly stylized objects" },
+          { emoji: "✨", name: "Shade Smooth", desc: "Blender interpolates normals across faces so edges appear rounded even on a low-poly mesh.", use: "Right-click the object in Object Mode → Shade Smooth. Use for organic shapes, cylinders, spheres" },
+          { emoji: "🎚️", name: "Auto Smooth (Shade Smooth by Angle)", desc: "Edges sharper than a threshold show hard; shallower edges show smooth. Best of both worlds.", use: "Right-click → Shade Auto Smooth. Default 30°. Hard-surface objects with both sharp corners and curved surfaces" },
+          { emoji: "⚖️", name: "Weighted Normals modifier", desc: "Calculates normals based on face area. Keeps hard-surface shading clean, especially after Boolean operations.", use: "Add after Boolean modifier when faces near cuts show dark shading artifacts" },
+        ],
       },
       {
         title: "🔨 Mini Workshop: Box-Model a Mug",
