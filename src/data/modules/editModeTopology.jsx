@@ -149,37 +149,20 @@ bpy.ops.mesh.bevel(offset=0.1, segments=2, affect='EDGES')
 bpy.ops.mesh.remove_doubles(threshold=0.001)
 
 bmesh.update_edit_mesh(obj.data)`,
-        content: `**G**: Grab (move). Then X/Y/Z to constrain to an axis. Type a number for exact distance.
-**R**
-Rotate. Then X/Y/Z to constrain. Type a number for exact degrees.
-**S**
-Scale. Then X/Y/Z to constrain. Type a number for exact factor.
-
-Axis constraint tricks:
-**Shift+X**
-Move on the YZ plane (constrain to everything EXCEPT X)
-**G → X → 2 → Enter**
-Move exactly 2 units along X
-**R → Z → 90**
-Rotate exactly 90° around Z axis
-
-The most important modeling operations:
-**E**
-Extrude selected (pull new geometry out from selection)
-**I**
-Inset faces (shrink a face inward, creating a border frame)
-**Ctrl+R**
-Loop Cut: add an edge loop running around the mesh. Scroll to add more cuts.
-**K**
-Knife tool: draw freehand cuts across faces
-**F**
-Fill: create a face or edge between selected elements
-**M**
-Merge vertices (to center, to cursor, to last selected, by distance)
-**Ctrl+B**
-Bevel: chamfer edges or vertices. Scroll to add segments.
-**Ctrl+M**
-Mirror selected across an axis`,
+        content: `These are the tools you will reach for constantly. Each one does one thing well. Learn what it's for before memorizing the shortcut.`,
+        primitiveGrid: [
+          { emoji: "✋", name: "G — Grab", desc: "Move selected. Then X/Y/Z to lock to axis. Type a number for exact distance.", use: "Repositioning a vertex, moving a face to align with something else" },
+          { emoji: "🔄", name: "R — Rotate", desc: "Rotate selected around pivot. Then X/Y/Z for axis. Type degrees for exact.", use: "Tilting a face, rotating a profile upright before applying Screw modifier" },
+          { emoji: "↔️", name: "S — Scale", desc: "Scale from pivot point outward. Affects all selected verts together.", use: "Resizing a face uniformly. Not for nudging individual verts — use G for that" },
+          { emoji: "⬆️", name: "E — Extrude", desc: "Pull new geometry out from the selection. Duplicates the selected element and connects it.", use: "Building a mug wall upward from a face, adding a finger to a hand, extending a profile" },
+          { emoji: "🔲", name: "I — Inset", desc: "Shrink a face inward within its boundary, creating a border ring around it.", use: "Creating a recessed panel, hollowing the top of a cylinder before extruding down" },
+          { emoji: "➕", name: "Ctrl+R — Loop Cut", desc: "Adds a new edge loop that follows existing geometry around the mesh. Scroll to add more cuts.", use: "Adding resolution at a specific height, creating a sharp crease near an edge before subdivision" },
+          { emoji: "🔀", name: "M — Merge", desc: "Combines selected vertices into one. Choose: At Center, At First, At Last, At Cursor, By Distance.", use: "Closing the tip of a shape, welding two verts that should be one, cleaning up overlapping geometry" },
+          { emoji: "🔪", name: "Ctrl+B — Bevel", desc: "Chamfers selected edges or vertices. Scroll to add segments for a rounded bevel.", use: "Softening a hard corner, adding a highlight edge on a hard-surface object" },
+          { emoji: "✂️", name: "K — Knife", desc: "Draw freehand cuts across faces. Click to place points, Enter to confirm, Esc to cancel.", use: "Adding geometry exactly where you need it, cutting a specific path across a face" },
+          { emoji: "🔗", name: "F — Fill", desc: "Creates a face between selected edges or vertices. Also closes open edge loops.", use: "Capping an open end, bridging two edges with a face" },
+          { emoji: "🪞", name: "Ctrl+M — Mirror", desc: "Mirrors selected geometry across a chosen axis.", use: "Flipping a set of faces to the other side, symmetrizing part of a mesh" },
+        ],
       },
       {
         title: "Pivot Point: What Rotates Around What",
