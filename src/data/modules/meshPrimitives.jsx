@@ -98,35 +98,12 @@ obj.scale.x = 0.5                     # non-uniform: squash on X
 
 # Apply transforms (make current position/rotation/scale the new "default")
 bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)`,
-        content: `You added a primitive. Now what?
-
-Three keys work in Object Mode on any selected object:
-
-**G**:Grab (move)
-Press G, move the mouse, click to confirm. Press Esc to cancel.
-
-**R**:Rotate
-Press R, move the mouse, click to confirm.
-
-**S**:Scale
-Press S, move the mouse, click to confirm.
-
-**Lock to an axis: X, Y, or Z**
-After pressing G, R, or S:press X, Y, or Z to constrain to that axis. The movement locks to a straight line or plane.
-
-Examples:
-- G → Z: move straight up/down
-- R → Z: spin around the vertical axis
-- S → X: stretch or squash on X only
-
-**Type a number for exact values:**
-- G → Z → 2 → Enter: move exactly 2 meters up
-- R → Z → 90 → Enter: rotate exactly 90°
-- S → 0.5 → Enter: scale to half size
-
-These same three keys (G, R, S) also work in Edit Mode on selected vertices, edges, or faces. The mechanics are identical:the only difference is what you have selected.
-
-> For detailed mesh editing:loop cuts, extrusion, bevels:continue to Edit Mode & Topology.`,
+        content: `You added a primitive. Three keys work on any selected object in Object Mode. After any of them, press X, Y, or Z to lock to that axis. These same keys work identically in Edit Mode on selected vertices, edges, or faces.`,
+        primitiveGrid: [
+          { emoji: "✋", name: "G: Grab", desc: "Move. Press G, move the mouse, click to confirm. Esc to cancel.", use: "G → Z to move straight up. G → Z → 2 → Enter to move exactly 2 meters up." },
+          { emoji: "🔄", name: "R: Rotate", desc: "Rotate around the pivot point. Press R, move the mouse, click to confirm.", use: "R → Z → 90 → Enter to rotate exactly 90° around the vertical axis." },
+          { emoji: "↔️", name: "S: Scale", desc: "Scale from the pivot point outward. Press S, move the mouse, click to confirm.", use: "S → X to stretch on X only. S → 0.5 → Enter to scale to half size." },
+        ],
       },
       {
         title: "The Operator Panel (F9):Configure Before You Commit",
