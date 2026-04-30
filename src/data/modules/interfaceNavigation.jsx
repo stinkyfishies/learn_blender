@@ -107,36 +107,25 @@ bpy.ops.view3d.view_selected()
 for area in bpy.context.screen.areas:
     if area.type == 'VIEW_3D':
         area.spaces[0].region_3d.view_perspective = 'ORTHO'  # or 'PERSP', 'CAMERA'`,
-        content: `Once configured, your primary navigation controls:
+        content: `Trackpad gesture mappings depend on your Preferences settings. The gestures below reflect a typical Mac setup with Multi-Touch Trackpad enabled.
 
-Note: trackpad gesture mappings depend on your Preferences settings and macOS trackpad configuration. The gestures below reflect a typical Mac setup with Multi-Touch Trackpad enabled; yours may differ.
+**Trackpad gestures:**
+- Two-finger drag: orbit
+- Shift + two-finger drag: pan
+- Pinch: zoom
+- Home (Fn+Left Arrow): frame everything in the scene
+- View menu → Frame Selected: center view on selection (the regular Period key opens the pivot point menu instead)
 
-**Two-finger drag**
-Orbit (rotate the view around the scene)
-**Shift+two-finger drag**
-Pan (slide the view left/right/up/down)
-**Pinch (two-finger)**
-Zoom in/out
-**Numpad . (or View menu → Frame Selected)**
-Frame the selected object(s): instantly centers view on your selection. Note: the regular Period key opens the pivot point menu instead. You need the numpad period, or use View → Frame Selected from the viewport header menu.
-**Home** (Fn+Left Arrow on Mac laptop)
-Frame everything in the scene
-
-Keyboard view shortcuts (with Emulate Numpad ON):
-**1**
-Front view (looking down -Y axis)
-**3**
-Right side view
-**7**
-Top view (looking down -Z)
-**Ctrl+1 / 3 / 7**
-Opposite views (Back, Left, Bottom)
-**5**
-Toggle Perspective ↔ Orthographic
-**0**
-Camera view (what your render will see)
-**\` (backtick)**
-View pie menu: access all views at once`,
+**Keyboard view shortcuts (with Emulate Numpad ON):**`,
+        primitiveGrid: [
+          { emoji: "1️⃣", name: "1: Front View", desc: "Look straight down the -Y axis at the front of the scene.", use: "Shaping a profile, aligning objects on the vertical axis" },
+          { emoji: "3️⃣", name: "3: Right Side View", desc: "Look straight down the -X axis from the right.", use: "Checking depth, aligning objects side-on" },
+          { emoji: "7️⃣", name: "7: Top View", desc: "Look straight down the -Z axis from above.", use: "Placing objects on the floor plane, checking XY layout" },
+          { emoji: "🔄", name: "Ctrl+1 / 3 / 7", desc: "Opposite views: Back, Left, Bottom.", use: "Checking the back or underside of a model" },
+          { emoji: "5️⃣", name: "5: Perspective / Ortho", desc: "Toggle between perspective (natural depth) and orthographic (no perspective distortion).", use: "Switch to Ortho when you need to align things precisely without foreshortening" },
+          { emoji: "0️⃣", name: "0: Camera View", desc: "See exactly what the active camera will render.", use: "Framing a shot, checking composition before rendering" },
+          { emoji: "🥧", name: "` (backtick): View Pie", desc: "Opens a pie menu with all view directions at once.", use: "Faster than remembering individual numpad numbers" },
+        ],
       },
       {
         title: "Editor Layout & Workspaces",
@@ -234,36 +223,17 @@ bpy.ops.mesh.select_all(action='INVERT')
 
 # Box select (programmatic, by location range)
 bpy.ops.mesh.select_random(ratio=0.5)  # random % for procedural selection`,
-        content: `Blender defaults to **left-click select** (matches Mac conventions).
-
-**Click**
-Select single item
-**Shift+Click**
-Add/remove from selection
-**Cmd+Click**
-(same as Shift in most contexts)
-**B**
-Box select: drag a rectangle
-**C**
-Circle select: paint with a brush (scroll to resize, right-click to exit)
-**Ctrl+I**
-Invert selection
-**A**
-Select all / deselect all (toggle)
-**Alt+A**
-Deselect all
-
-In Edit Mode, selection works on whichever element type is active. With Emulate Numpad on, 1/2/3 are taken by view shortcuts. Use the three icons in the 3D Viewport header bar instead (left side, looks like a vertex/edge/face icon set). Shift+click an icon to enable multiple modes at once.
-
-If you turn Emulate Numpad off, the number keys work as:
-**1**
-Vertex select mode
-**2**
-Edge select mode
-**3**
-Face select mode
-**Alt+Click**
-Select an entire edge loop (one of the most important shortcuts in modeling)`,
+        content: `Blender defaults to left-click select (matches Mac conventions). In Edit Mode, selection works on whichever element type is active (vertex, edge, or face). With Emulate Numpad on, 1/2/3 are taken by view shortcuts: use the three icons in the 3D Viewport header to switch select mode instead, or Shift+click an icon to enable multiple modes at once.`,
+        primitiveGrid: [
+          { emoji: "👆", name: "Click", desc: "Select a single item. Deselects everything else.", use: "Picking one object, vertex, edge, or face to work on" },
+          { emoji: "➕", name: "Shift+Click", desc: "Add or remove from the current selection without clearing it.", use: "Selecting multiple objects, or adding a second face to an existing selection" },
+          { emoji: "📦", name: "B: Box Select", desc: "Click and drag a rectangle to select everything inside it.", use: "Selecting a group of verts in a region, grabbing the left half of a mesh" },
+          { emoji: "⭕", name: "C: Circle Select", desc: "Paint over geometry with a circular brush. Scroll to resize. Right-click to exit.", use: "Selecting an irregular cluster where a box would overshoot" },
+          { emoji: "🔀", name: "Ctrl+I: Invert", desc: "Flip the selection: selected becomes unselected and vice versa.", use: "Select the parts you don't want, invert, then operate on everything else" },
+          { emoji: "✅", name: "A: Select All / None", desc: "Toggles between selecting everything and deselecting everything.", use: "Quick way to grab all geometry before a bulk operation" },
+          { emoji: "❌", name: "Alt+A: Deselect All", desc: "Clears the selection without toggling.", use: "Reliable deselect before starting a new selection from scratch" },
+          { emoji: "🔁", name: "Alt+Click: Loop Select", desc: "Selects an entire edge or face loop running around the mesh.", use: "One of the most important shortcuts in modeling: select a ring of edges or faces in one click" },
+        ],
       },
     ],
   };
