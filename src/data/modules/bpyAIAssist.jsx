@@ -256,7 +256,7 @@ This means: if you make a manual change in the viewport but don't put it back in
 Make changes in your editor, save to disk, re-run in Blender. This is the main workflow for structural changes. One trap: re-running a script that creates objects will create duplicates unless you clear the scene first. Always start scripts with a scene clear.
 
 **2. Manual tweak → Info Editor → back into script**
-Make a manual change in the viewport. Open the Info Editor — it logged that action as Python in real time. Copy the line, paste it into your script in the right place. Save. Now the change is permanent and survives the next run. This is how you bridge manual work and the script without losing anything.
+Make a manual change in the viewport. Open the Info Editor: it logged that action as Python in real time. Copy the line, paste it into your script in the right place. Save. Now the change is permanent and survives the next run. This is how you bridge manual work and the script without losing anything.
 
 **3. Throwaway exploration**
 Make manual changes freely, knowing they're a sketch. Once you know what you want, describe the result to AI and get a clean script. The manual session was just discovery.

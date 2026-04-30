@@ -195,7 +195,7 @@ mir.mirror_object = bpy.data.objects["MirrorTarget"]
 **The workflow**
 1. Place the object's origin at the center of symmetry (Object → Set Origin → Origin to Geometry, or manually position it)
 2. Add the Mirror modifier, choose axis (X for left-right symmetry)
-3. Enable **Clipping** — vertices at the seam snap together and cannot be pulled apart accidentally
+3. Enable **Clipping**: vertices at the seam snap together and cannot be pulled apart accidentally
 4. Model freely on one side. The mirrored half updates in real time.
 
 **Clipping explained**
@@ -204,12 +204,12 @@ Without Clipping, vertices at the center seam can drift apart and leave a gap, o
 **Starting from an existing mesh**
 If you have a full mesh and want to mirror half of it:
 1. Tab into Edit Mode → select all
-2. **Mesh → Bisect** — cut exactly along the axis (hold Ctrl to snap)
+2. **Mesh → Bisect**: cut exactly along the axis (hold Ctrl to snap)
 3. Delete one side
 4. Add Mirror modifier
 
 **X-Mirror toggle vs Mirror modifier**
-Edit Mode has an X-Mirror toggle (top of Edit Mode toolbar). This mirrors vertex movement while editing but is not a modifier — it doesn't generate geometry and won't show the full shape while you work. The modifier is almost always the right choice.
+Edit Mode has an X-Mirror toggle (top of Edit Mode toolbar). This mirrors vertex movement while editing but is not a modifier: it doesn't generate geometry and won't show the full shape while you work. The modifier is almost always the right choice.
 
 **Mirror Object**
 Instead of mirroring across the object's own origin, you can mirror relative to another object's origin. Useful for asymmetric rigs or objects that don't sit at world center.

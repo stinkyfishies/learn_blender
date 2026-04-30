@@ -88,7 +88,7 @@ obj = bpy.context.active_object
 obj.location = (2.0, 0.0, 0.0)       # place at exact position
 obj.location.x += 1.0                 # move 1 unit along X
 
-# Rotate (R equivalent) — values in radians
+# Rotate (R equivalent):values in radians
 import math
 obj.rotation_euler.z = math.radians(45)   # 45° around Z
 
@@ -102,17 +102,17 @@ bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)`,
 
 Three keys work in Object Mode on any selected object:
 
-**G** — Grab (move)
+**G**:Grab (move)
 Press G, move the mouse, click to confirm. Press Esc to cancel.
 
-**R** — Rotate
+**R**:Rotate
 Press R, move the mouse, click to confirm.
 
-**S** — Scale
+**S**:Scale
 Press S, move the mouse, click to confirm.
 
 **Lock to an axis: X, Y, or Z**
-After pressing G, R, or S — press X, Y, or Z to constrain to that axis. The movement locks to a straight line or plane.
+After pressing G, R, or S:press X, Y, or Z to constrain to that axis. The movement locks to a straight line or plane.
 
 Examples:
 - G → Z: move straight up/down
@@ -124,12 +124,12 @@ Examples:
 - R → Z → 90 → Enter: rotate exactly 90°
 - S → 0.5 → Enter: scale to half size
 
-These same three keys (G, R, S) also work in Edit Mode on selected vertices, edges, or faces. The mechanics are identical — the only difference is what you have selected.
+These same three keys (G, R, S) also work in Edit Mode on selected vertices, edges, or faces. The mechanics are identical:the only difference is what you have selected.
 
-> For detailed mesh editing — loop cuts, extrusion, bevels — continue to Edit Mode & Topology.`,
+> For detailed mesh editing:loop cuts, extrusion, bevels:continue to Edit Mode & Topology.`,
       },
       {
-        title: "The Operator Panel (F9) — Configure Before You Commit",
+        title: "The Operator Panel (F9):Configure Before You Commit",
         pythonCode: `import bpy
 
 # The F9 panel settings are just keyword args on the operator.
@@ -164,13 +164,13 @@ bpy.ops.mesh.primitive_torus_add(
 
 When you add a primitive, a small panel appears at the **bottom-left** of the viewport. Click it or press **F9** to expand it. You can change the topology of the object before doing anything else: vertex count, radius, segments, alignment, exact position.
 
-- **Vertices / Segments**: mesh density — more = smoother, heavier
+- **Vertices / Segments**: mesh density:more = smoother, heavier
 - **Radius / Size**: initial dimensions
-- **Generate UVs**: auto-create a UV map — turn this on, costs nothing
+- **Generate UVs**: auto-create a UV map:turn this on, costs nothing
 - **Align to View**: face the current camera direction
 - **Location / Rotation**: exact initial placement
 
-!! This panel disappears the moment you do anything else — click, move, type. It is a one-time window. If you miss it, Ctrl+Z and re-add.`,
+!! This panel disappears the moment you do anything else:click, move, type. It is a one-time window. If you miss it, Ctrl+Z and re-add.`,
       },
       {
         title: "Curves & Surfaces (Non-Mesh Primitives)",
@@ -201,7 +201,7 @@ bpy.ops.object.convert(target='MESH')`,
           { emoji: "〜", name: "NURBS Curve", desc: "Weighted control points, very smooth.", use: "Automotive design, industrial surfaces" },
           { emoji: "➰", name: "NURBS Circle", desc: "Closed NURBS loop.", use: "Lathe profiles, sweep paths" },
           { emoji: "📏", name: "Path", desc: "Simple open spline, 5 control points.", use: "Motion paths, Curve modifier spine" },
-          { emoji: "🏁", name: "Surface (NURBS)", desc: "Smooth surface patches, not polygons.", use: "Rare — industrial CAD-style modeling" },
+          { emoji: "🏁", name: "Surface (NURBS)", desc: "Smooth surface patches, not polygons.", use: "Rare:industrial CAD-style modeling" },
         ],
       },
       {
