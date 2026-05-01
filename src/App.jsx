@@ -448,7 +448,7 @@ export default function BlenderWorkshop() {
             });
             const isOpen = stageOpen[stage.key];
             const isLevelUp = stage.key === "levelUp";
-            const color = isLevelUp ? C.orange : C.textMuted;
+            const color = C.orange;
             return (
               <div key={stage.key}>
                 <div
