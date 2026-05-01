@@ -106,6 +106,7 @@ export default function BlenderWorkshop() {
   };
 
   const [completedModules, setCompletedModules] = useState(new Set());
+  const [showCelebration, setShowCelebration] = useState(false);
   const [expandedSections, setExpandedSections] = useState({ 0: true });
   const [showPython, setShowPython] = useState(false);
   const [openPath, setOpenPath] = useState(null);
@@ -190,7 +191,13 @@ export default function BlenderWorkshop() {
   };
 
   const markComplete = () => {
-    setCompletedModules((prev) => new Set([...prev, activeModule]));
+    setCompletedModules((prev) => {
+      const next = new Set([...prev, activeModule]);
+      if (next.size === modules.length) {
+        setTimeout(() => setShowCelebration(true), 400);
+      }
+      return next;
+    });
     if (activeModule < modules.length - 1) {
       navigate(toModuleUrl(activeModule + 1));
       setExpandedSections({ 0: true });
@@ -229,7 +236,93 @@ export default function BlenderWorkshop() {
           25% { transform: translateX(3px); }
           75% { transform: translateX(-3px); }
         }
+        @keyframes celebrate-in {
+          0%   { opacity: 0; transform: scale(0.85); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes confetti-fall {
+          0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes celebrate-glow {
+          0%, 100% { text-shadow: 0 0 20px rgba(232,98,42,0.6); }
+          50%       { text-shadow: 0 0 40px rgba(232,98,42,1), 0 0 80px rgba(91,141,238,0.6); }
+        }
       `}</style>
+
+      {/* Celebration overlay */}
+      {showCelebration && (() => {
+        const CONFETTI = Array.from({ length: 60 }, (_, i) => ({
+          id: i,
+          left: `${Math.random() * 100}%`,
+          delay: `${Math.random() * 2}s`,
+          duration: `${2.5 + Math.random() * 2}s`,
+          color: ["#e8622a","#5b8dee","#fbbf24","#34d399","#a78bfa","#f472b6"][i % 6],
+          size: `${6 + Math.random() * 8}px`,
+          shape: i % 3 === 0 ? "50%" : "2px",
+        }));
+        return (
+          <div
+            onClick={() => setShowCelebration(false)}
+            style={{
+              position: "fixed", inset: 0, zIndex: 1000,
+              background: "rgba(8,8,14,0.92)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer",
+              overflow: "hidden",
+            }}
+          >
+            {/* Confetti */}
+            {CONFETTI.map(c => (
+              <div key={c.id} style={{
+                position: "absolute",
+                left: c.left,
+                top: "-20px",
+                width: c.size,
+                height: c.size,
+                borderRadius: c.shape,
+                background: c.color,
+                animation: `confetti-fall ${c.duration} ${c.delay} ease-in forwards`,
+                pointerEvents: "none",
+              }} />
+            ))}
+            {/* Card */}
+            <div
+              style={{
+                textAlign: "center",
+                animation: "celebrate-in 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards",
+                padding: "48px 56px",
+                background: "rgba(15,15,25,0.95)",
+                border: "1px solid #2a2a4a",
+                borderRadius: 20,
+                boxShadow: "0 0 80px rgba(91,141,238,0.15)",
+                maxWidth: 440,
+              }}
+            >
+              <div style={{ fontSize: 64, marginBottom: 16 }}>🎉</div>
+              <div style={{
+                fontSize: 28, fontWeight: 800, marginBottom: 12,
+                animation: "celebrate-glow 2s ease-in-out infinite",
+                color: C.textPrimary,
+              }}>
+                Workshop Complete
+              </div>
+              <div style={{
+                fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 24,
+              }}>
+                You've mapped Blender's full possibility space.<br />
+                You know the vocabulary. Now go build something weird.
+              </div>
+              <div style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 11, color: C.textFaint, letterSpacing: 1,
+              }}>
+                click anywhere to dismiss
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Mobile overlay backdrop */}
       {isMobile && sidebarOpen && (
