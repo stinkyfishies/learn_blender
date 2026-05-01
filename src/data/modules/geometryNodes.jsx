@@ -1,4 +1,4 @@
-// Module 8: geometryNodes
+// Module: geometryNodes
 
 const geometryNodes = {
     id: 8,
@@ -9,356 +9,346 @@ const geometryNodes = {
     specialized: true,
     color: "#38bdf8",
     intro:
-      "Learn what Geometry Nodes is for, how to read a basic node graph, and when to reach for it over manual modeling.",
+      "Learn Geometry Nodes by building one thing: a ripple wave. Every concept is introduced only when the wave needs it.",
     quiz: [
       {
-        q: "What is a Field in Geometry Nodes?",
+        q: "You connect a Position node to a Math node set to Sine. What does this produce?",
         options: [
-          "A named input parameter on a node group",
-          "A value that is evaluated per-element (per vertex, face, instance) rather than as a single constant",
-          "A 2D texture used to drive geometry",
-          "A node that stores multiple geometry outputs",
+          "A static flat mesh with no visible change",
+          "A sine wave displacement: every vertex moves based on its position, producing a wave shape",
+          "An error: Position outputs a Vector, not a Float",
+          "A random noise pattern across the mesh",
         ],
         answer: 1,
         explanation:
-          "Fields are functions, not values. A Position field doesn't return one point: it returns the position of each element individually. This is what makes 'distribute across a surface' possible.",
+          "Position gives each vertex its XY location. Feeding that into Sine applies the sine function per-vertex: vertices at different X positions get different Z offsets, producing a wave. This is the core of how GN displaces geometry.",
       },
       {
-        q: "You want to scatter 5,000 rocks across a terrain with near-zero memory cost. What's the GN approach?",
+        q: "You want the wave to animate: moving forward over time. What do you add to the sine input?",
         options: [
-          "Duplicate the rock object 5,000 times manually",
-          "Use Array modifier with count 5000",
-          "Distribute Points on Faces → Instance on Points, with the rock as the instance",
-          "Export and reimport as a particle system",
+          "A Noise Texture node",
+          "A Timeline node",
+          "A Scene Time node (outputting Seconds or Frame), subtracted from the position value",
+          "A Keyframe on the Math node's Value input",
         ],
         answer: 2,
         explanation:
-          "Instances are lightweight references: 5,000 instances point to one rock mesh. Near-zero memory overhead vs 5,000 duplicates which would copy all geometry.",
+          "Scene Time outputs the current frame or elapsed seconds as a number. Subtracting it from the position before the sine function shifts the wave's phase over time — the wave appears to move. This is called phase animation.",
       },
       {
-        q: "What do Simulation Zones in Geometry Nodes allow you to do?",
+        q: "What is a Field in Geometry Nodes?",
         options: [
-          "Simulate rendering performance before a final render",
-          "Run per-frame iterative logic where each frame can read the previous frame's state",
-          "Preview physics simulations faster",
-          "Run geometry nodes only during simulation playback",
+          "A named group input on a node group",
+          "A value evaluated per-element: each vertex, face, or instance gets its own result",
+          "A texture used to drive geometry displacement",
+          "A 2D grid of values baked from a simulation",
         ],
         answer: 1,
         explanation:
-          "Simulation Zones pass state from frame to frame: the output of frame N becomes the input of frame N+1. This enables custom physics, growth algorithms, and any iterative process.",
+          "Fields are the reason GN can say 'displace every vertex by a function of its position.' A field isn't one number: it's a rule evaluated independently at every element. Position is a field. Sine of position is a field. That's what makes per-vertex displacement possible.",
       },
       {
-        q: "What's the key difference between using GN for hair vs the legacy particle hair system?",
+        q: "You want expanding rings from a center point rather than parallel wave bands. What changes in the wave math?",
         options: [
-          "GN hair is slower and only works in Cycles",
-          "GN hair is Curves-based, fully procedural, and integrated with the node graph: the legacy system uses particles and is being phased out",
-          "GN hair requires a GPU",
-          "There is no difference: they produce identical results",
+          "Use Y position instead of X position as the sine input",
+          "Replace the X position input with the distance from the center: length of the XY position vector",
+          "Add a Rotate Instances node to the graph",
+          "Switch the Math node from Sine to Cosine",
         ],
         answer: 1,
         explanation:
-          "The new hair system (Blender 4.x+) treats each strand as a Curves object, which can be driven and styled procedurally in GN. Legacy particle hair is deprecated.",
+          "Parallel bands use one axis (X) as the sine input. Expanding rings use radial distance from center: the length of the (X, Y) vector. Every vertex at the same distance from center gets the same displacement, producing a ring.",
       },
     ],
     sections: [
       {
-        title: "What Geometry Nodes Is For",
+        title: "What Geometry Nodes Actually Does",
         pythonCode: `import bpy
 
-# Add a Geometry Nodes modifier to an object
+# Add a GN modifier to any object
 obj = bpy.context.active_object
 mod = obj.modifiers.new("GeoNodes", 'NODES')
 
-# Create a new node group and assign it
-ng = bpy.data.node_groups.new("MyGeoNodes", 'GeometryNodeTree')
+# Create and assign a node group
+ng = bpy.data.node_groups.new("RippleWave", 'GeometryNodeTree')
 mod.node_group = ng
 
-# Add Group Input and Group Output (the minimum valid graph)
+# Every GN graph needs these two nodes minimum
 ng.interface.new_socket("Geometry", in_out='INPUT',  socket_type='NodeSocketGeometry')
 ng.interface.new_socket("Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
 
-input_node  = ng.nodes.new('NodeGroupInput')
-output_node = ng.nodes.new('NodeGroupOutput')
-input_node.location  = (-300, 0)
-output_node.location = (300, 0)
+inp = ng.nodes.new('NodeGroupInput');  inp.location = (-400, 0)
+out = ng.nodes.new('NodeGroupOutput'); out.location = ( 400, 0)
 
-# Connect input → output (pass-through, no changes yet)
-ng.links.new(input_node.outputs[0], output_node.inputs[0])`,
-        content: `Geometry Nodes (GN) lets you define geometry through rules rather than by hand. The results are:
-- Fully non-destructive: the node graph is always editable
-- Instantly animatable: any value can be driven by time, a driver, or another node
-- Instancing-friendly: generate thousands of objects with near-zero memory cost
+# Pass geometry through unchanged (nothing happens yet)
+ng.links.new(inp.outputs[0], out.inputs[0])`,
+        content: `Geometry Nodes is a modifier. You add it to an object, and it gives you a node graph where you describe what should happen to that object's geometry — procedurally, non-destructively, animatably.
 
-When to reach for Geometry Nodes:
-- Any **repeated or distributed** geometry (trees in a forest, bolts on a panel, bricks on a wall)
-- **Procedural shapes** that would take too long to model manually
-- **Rule-based generation** where parameters should be tweakable
-- **Hair and fur** (Blender 4.x+ uses GN for the hair system)
-- **Simulation** (Blender 4.1+ Simulation Zones run physics inside GN)
-- **Anything you want to animate that isn't keyframeable with standard tools**
+The graph has two fixed endpoints:
+- **Group Input**: the object's geometry comes in here
+- **Group Output**: whatever you wire here is what renders
 
-Access: Select an object → **Properties → Modifier → Add → Geometry Nodes**. This creates a GN modifier and opens the Geometry Node Editor.`,
+Everything in between is up to you. You connect nodes that transform, displace, distribute, or generate geometry. The object updates live as you wire nodes.
+
+The key insight: **every node operation happens to every vertex simultaneously**. When you say "displace by sine of position," Blender evaluates that for every vertex in parallel. You're not writing a loop — you're describing a rule.
+
+This is what makes it Python-native in spirit: you describe the transformation, not the steps.`,
       },
       {
-        title: "Core Concepts: Fields, Instances, Attributes",
-        pythonCode: `import bpy
+        title: "Step 1: Displace a Grid",
+        pythonCode: `import bpy, math
 
-# Read a named attribute from a mesh via Python
+# Start with a subdivided grid (needs enough vertices to show the wave)
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=64, y_subdivisions=64, size=4)
 obj = bpy.context.active_object
-mesh = obj.data
 
-# Access built-in attributes
-mesh.attributes["position"]       # vertex positions (FLOAT_VECTOR on POINT domain)
-mesh.attributes[".edge_verts"]    # edge connectivity
-
-# Create a custom attribute
-attr = mesh.attributes.new(name="my_weight", type='FLOAT', domain='POINT')
-# domain options: 'POINT' (vertex), 'EDGE', 'FACE', 'CORNER', 'CURVE', 'INSTANCE'
-
-# Write values to it
-for i, val in enumerate(attr.data):
-    val.value = i / len(attr.data)  # 0.0 → 1.0 gradient
-
-# Read attribute values
-for val in mesh.attributes["my_weight"].data:
-    print(val.value)
-
-# Geometry Nodes exposes attributes as named inputs/outputs
-# Use "Named Attribute" node in GN to read "my_weight" as a field`,
-        content: `**Fields**: Values that vary per-element. Instead of one number, a field is a function evaluated at each vertex/edge/face/instance. This is what makes "distribute across a surface" possible: the position field gives each point's location.
-
-**Instances**
-Lightweight references to geometry placed at many locations. An instance doesn't copy the mesh: it points to the original. 10,000 trees as instances use almost no extra memory. Key nodes:
-**Instance on Points**
-Place a geometry (or collection) at every point in a point cloud
-**Realize Instances**
-Convert instances to actual mesh data (necessary before some operations)
-
-**Attributes**
-Named data stored per-element (vertex, edge, face, instance). Position, normal, ID, custom names. You can create, read, and write attributes. They flow through the graph.
-
-**Domains**
-Where attributes live: Vertex, Edge, Face, Face Corner, Spline, Instance. Nodes can transfer data between domains.`,
-      },
-      {
-        title: "Key Node Categories",
-        pythonCode: `import bpy
-
-ng = bpy.data.node_groups["MyGeoNodes"]
-nodes = ng.nodes
-links = ng.links
-
-# Helper to add and position a node
-def add_node(type_name, x=0, y=0):
-    n = nodes.new(type_name)
-    n.location = (x, y)
-    return n
-
-# Key node type names (use these strings with nodes.new())
-# Geometry
-join        = add_node('GeometryNodeJoinGeometry',         200,  0)
-transform   = add_node('GeometryNodeTransform',            200, -200)
-merge_dist  = add_node('GeometryNodeMergeByDistance',      200, -400)
-
-# Points & Instances
-distribute  = add_node('GeometryNodeDistributePointsOnFaces', -200, 100)
-instance_on = add_node('GeometryNodeInstanceOnPoints',        0,   100)
-rand_val    = add_node('FunctionNodeRandomValue',             -200, -100)
-col_info    = add_node('GeometryNodeCollectionInfo',          -400, 100)
-
-# Mesh primitives (create inside the graph, no scene object needed)
-cube_prim   = add_node('GeometryNodeMeshCube',             -400, 200)
-
-# Utilities
-math_node   = add_node('ShaderNodeMath',                   0, -200)
-map_range   = add_node('ShaderNodeMapRange',               0, -400)
-mix_node    = add_node('ShaderNodeMix',                    0, -600)`,
-        content: `All accessed via **Shift+A** in the Geometry Node Editor:
-
-**Geometry**:
-**Join Geometry**
-Merge multiple geometry streams into one
-**Transform Geometry**
-Move/rotate/scale geometry in the graph
-**Merge by Distance**
-Weld close vertices (like the Weld modifier)
-**Subdivide Mesh**
-Subdivide inside the graph
-
-**Instances**:
-**Instance on Points**
-The workhorse distribution node
-**Rotate Instances**
-Randomize rotation per instance
-**Scale Instances**
-Randomize scale per instance
-**Collection Info**
-Bring a collection into the graph as instancable geometry
-
-**Point**:
-**Distribute Points on Faces**
-Scatter points across a surface (random or Poisson disk)
-**Points to Vertices**
-Convert a point cloud to a mesh
-
-**Mesh Primitives**
-Create cubes, spheres, cylinders inside the graph without scene objects
-
-**Utilities**:
-**Random Value**
-Generate random floats/vectors/integers/booleans per-element
-**Math**
-Every math operation you need
-**Mix**
-Blend between two values by a factor
-**Map Range**
-Remap a value from one range to another (like lerp + clamp)
-
-**Input**:
-**Position**
-The world position of each element (a field)
-**Index**
-The integer index of each element
-**Named Attribute**
-Read a custom attribute by name`,
-      },
-      {
-        title: "Simulation Zones (Blender 4.1+)",
-        versionNote: "v4.1+",
-        pythonCode: `import bpy
-
-# Simulation zones are defined by two paired nodes in the graph:
-# GeometryNodeSimulationInput and GeometryNodeSimulationOutput
-# Everything wired between them runs per-frame, retaining state.
-
-ng = bpy.data.node_groups["MyGeoNodes"]
-
-sim_in  = ng.nodes.new('GeometryNodeSimulationInput')
-sim_out = ng.nodes.new('GeometryNodeSimulationOutput')
-sim_in.location  = (-100, 0)
-sim_out.location = (300, 0)
-
-# The simulation zone pair is linked automatically on creation.
-# Wire geometry through: Group Input → Sim Input → [process] → Sim Output → Group Output
-
-# Bake simulation from Python
-bpy.ops.object.simulation_nodes_cache_bake(override={"selected_editable_objects": [bpy.context.active_object]})
-
-# Clear baked simulation
-bpy.ops.object.simulation_nodes_cache_delete()
-
-# Set bake path
-obj = bpy.context.active_object
-mod = obj.modifiers["GeoNodes"]
-# Bake path is set per modifier in the UI (Properties → Modifier → Bake)`,
-        content: `**Simulation Zones** let you run iterative (frame-by-frame) simulation logic inside Geometry Nodes. This means you can write custom physics, growth algorithms, or state machines: entirely in nodes.
-
-Structure:
-- **Simulation Input** node → process geometry for one frame → **Simulation Output** node
-- Whatever geometry flows through the zone is "remembered" and passed to the next frame
-- You can read the previous frame's state and use it to compute the next
-
-What this unlocks:
-- Custom particle systems with GN-controlled behavior
-- Growth/spread simulations (fire spread, crystal growth)
-- Agent-based motion
-- Reaction-diffusion patterns
-- Any iterative process
-
-This is advanced but understanding it exists changes what you think is possible.`,
-      },
-      {
-        title: "Hair System (Geometry Nodes Based)",
-        versionNote: "v4.0+",
-        pythonCode: `import bpy
-
-# Add a hair curves object parented to a mesh
-surface = bpy.data.objects["Character_Head"]
-bpy.ops.object.curves_empty_hair_add(surface_object=surface.name)
-hair = bpy.context.active_object  # bpy.types.Curves object
-
-# Read hair strand data
-curves = hair.data  # bpy.types.Curves
-print(f"Strands: {len(curves.curves)}")
-print(f"Total points: {len(curves.points)}")
-
-# Each strand has a slice of points
-for curve in curves.curves:
-    pts = curves.points[curve.first_point_index : curve.first_point_index + curve.points_length]
-    for pt in pts:
-        print(pt.position)
-
-# Add a Geometry Nodes modifier to procedurally style hair
-mod = hair.modifiers.new("HairGeoNodes", 'NODES')
-# Then build the node graph to scatter, grow, and style strands`,
-        content: `As of Blender 4.x, the new hair system is built on Geometry Nodes. Hair is a **Curves** object: each strand is a spline.
-
-**Object → Add → Curve → Empty Hair**
-starts a hair object parented to a mesh (the mesh acts as the base surface).
-
-In the **Hair Curves** context:
-- Use sculpt brushes to style hair (comb, cut, smooth, clump)
-- Hair is instanced as actual strand geometry at render time
-
-In Geometry Nodes, you can procedurally generate hair by:
-- Distributing points on the surface
-- Creating curves at those points with defined length/direction
-- Adding noise for variation
-
-Key nodes for hair: **Distribute Points on Faces**, **Curve Line**, **Set Curve Normal**, **Noise Texture** (for random variation), **Resample Curve** (for render resolution).`,
-      },
-      {
-        title: "🔨 Mini Workshop: Scatter Objects on a Surface",
-        isWorkshop: true,
-        pythonCode: `import bpy
-
-# Build the full scatter graph in Python
-bpy.ops.mesh.primitive_grid_add(x_subdivisions=1, y_subdivisions=1, size=10)
-ground = bpy.context.active_object
-
-bpy.ops.mesh.primitive_ico_sphere_add(radius=0.1)
-sphere = bpy.context.active_object
-sphere.hide_set(True)  # hide from viewport (still available to GN)
-
-# Add GN modifier to ground
-mod = ground.modifiers.new("Scatter", 'NODES')
-ng = bpy.data.node_groups.new("ScatterNodes", 'GeometryNodeTree')
+mod = obj.modifiers.new("RippleWave", 'NODES')
+ng  = bpy.data.node_groups.new("RippleWave", 'GeometryNodeTree')
 mod.node_group = ng
 
-# Setup interface
 ng.interface.new_socket("Geometry", in_out='INPUT',  socket_type='NodeSocketGeometry')
 ng.interface.new_socket("Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
 
 n = ng.nodes
 l = ng.links
 
-inp  = n.new('NodeGroupInput');  inp.location  = (-600, 0)
-out  = n.new('NodeGroupOutput'); out.location  = (600,  0)
-dist = n.new('GeometryNodeDistributePointsOnFaces'); dist.location = (-300, 0)
-inst = n.new('GeometryNodeInstanceOnPoints');        inst.location = (0,    0)
-info = n.new('GeometryNodeObjectInfo');              info.location = (-300, -200)
-info.inputs["Object"].default_value = sphere
+inp  = n.new('NodeGroupInput');       inp.location  = (-800, 0)
+out  = n.new('NodeGroupOutput');      out.location  = ( 400, 0)
 
-dist.inputs["Density"].default_value = 5.0  # instances per m²
+# Get vertex positions
+pos  = n.new('GeometryNodeInputPosition'); pos.location = (-600, -150)
 
-l.new(inp.outputs[0],  dist.inputs["Mesh"])
-l.new(dist.outputs[0], inst.inputs["Points"])
-l.new(info.outputs["Geometry"], inst.inputs["Instance"])
-l.new(inst.outputs[0], out.inputs[0])`,
-        content: `The foundational GN workflow: place objects procedurally on a mesh:
+# Separate XYZ to get the X component
+sep  = n.new('ShaderNodeSeparateXYZ');    sep.location = (-400, -150)
 
-1. **Shift+A → Mesh → Grid**: your ground plane (scale it up: S → 5)
-2. **Shift+A → Mesh → Ico Sphere**: the object you'll scatter. Scale small (S → 0.1). Keep it in scene.
-3. Select the **Grid** → Properties → Modifier → Add → **Geometry Nodes**
-4. In the node editor, **Shift+A → Point → Distribute Points on Faces**: place it between Group Input and Group Output. Connect: Geometry → Mesh, Geometry → Geometry.
-5. **Shift+A → Instances → Instance on Points**: connect: Points → Points, output Instances → Geometry.
-6. **Shift+A → Input → Object Info**: set the Object to your Ico Sphere. Connect: Geometry → Instance (on Instance on Points).
+# Apply sine to X position
+sine = n.new('ShaderNodeMath');           sine.location = (-200, -150)
+sine.operation = 'SINE'
 
-You now have hundreds of spheres scattered on the grid: procedurally.
+# Scale the sine output (wave height)
+scale = n.new('ShaderNodeMath');          scale.location = (0, -150)
+scale.operation = 'MULTIPLY'
+scale.inputs[1].default_value = 0.3  # amplitude: 0.3m wave height
 
-7. Add **Rotate Instances** node after Instance on Points → connect a **Random Value** (Vector) to Rotation for random rotation.
+# Combine back into a vector (only Z changes)
+comb = n.new('ShaderNodeCombineXYZ');     comb.location = (200, -150)
 
-✅ Goal: Understand the Distribute → Instance → Modify pipeline: the foundation of 80% of GN work`,
+# Set position on the geometry
+setpos = n.new('GeometryNodeSetPosition'); setpos.location = (200, 0)
+
+l.new(inp.outputs[0],    setpos.inputs["Geometry"])
+l.new(pos.outputs[0],    sep.inputs[0])
+l.new(sep.outputs[0],    sine.inputs[0])   # X → Sine
+l.new(sine.outputs[0],   scale.inputs[0])
+l.new(scale.outputs[0],  comb.inputs[2])   # into Z
+l.new(comb.outputs[0],   setpos.inputs["Offset"])
+l.new(setpos.outputs[0], out.inputs[0])`,
+        content: `Start with a **Grid** (Shift+A → Mesh → Grid). In F9, set X and Y subdivisions to 64. You need enough vertices to see the wave — a grid with 4 vertices is too coarse.
+
+Add a **Geometry Nodes modifier**. In the node editor, build this chain:
+
+**Position** → **Separate XYZ** → **Math (Sine)** → **Math (Multiply)** → **Combine XYZ** → **Set Position**
+
+What each node does:
+- **Position**: outputs the XYZ location of each vertex as a vector
+- **Separate XYZ**: breaks the vector into individual X, Y, Z numbers
+- **Math (Sine)**: applies the sine function to X — vertices at different X positions get different values
+- **Math (Multiply)**: scales the result (this is your wave height/amplitude)
+- **Combine XYZ**: puts the value back as a vector, only in the Z channel
+- **Set Position**: moves each vertex by that offset
+
+The result: a sine wave running across the grid. Vertices undulate based on their X position.
+
+!! The grid needs enough subdivisions to show a smooth wave. Too few and you get a jagged zigzag. 32+ per axis is a reasonable starting point.`,
+      },
+      {
+        title: "Step 2: Animate It",
+        pythonCode: `import bpy
+
+ng = bpy.data.node_groups["RippleWave"]
+n  = ng.nodes
+l  = ng.links
+
+# Add Scene Time node (outputs current frame as a number)
+time = n.new('GeometryNodeInputSceneTime'); time.location = (-600, -300)
+
+# Add a Math node to scale the time (controls wave speed)
+speed = n.new('ShaderNodeMath'); speed.location = (-400, -300)
+speed.operation = 'MULTIPLY'
+speed.inputs[1].default_value = 0.1  # lower = slower wave
+
+# Subtract time from position before sine: this shifts the phase
+subtract = n.new('ShaderNodeMath'); subtract.location = (-200, -300)
+subtract.operation = 'SUBTRACT'
+
+# Re-wire: X position and time both go into Subtract, then into Sine
+sep  = n["Separate XYZ"]
+sine = n["Math"]  # the Sine node from step 1
+
+# Disconnect X from sine, route through subtract first
+for link in list(l):
+    if link.from_node == sep and link.to_node == sine:
+        l.remove(link)
+
+l.new(sep.outputs[0],      subtract.inputs[0])   # X position
+l.new(speed.outputs[0],    subtract.inputs[1])   # scaled time
+l.new(time.outputs["Frame"], speed.inputs[0])    # frame number
+l.new(subtract.outputs[0], sine.inputs[0])       # phase-shifted X into sine`,
+        content: `The wave is static. To animate it, you need to shift its phase over time.
+
+**Phase** is the offset of a wave — shifting it makes the wave appear to move forward.
+
+Add a **Scene Time** node (Shift+A → Input → Scene Time). It outputs the current frame number. Multiply that by a small value (0.1) to control speed. Then **subtract** it from the X position before feeding into Sine.
+
+The result: as the frame number increases, the phase shifts, and the wave appears to travel across the grid.
+
+Press **Spacebar** to play — you now have a moving wave.
+
+**Controlling the wave:**
+- **Amplitude** (Multiply value after Sine): wave height. 0.1 = gentle ripple, 0.5 = dramatic.
+- **Frequency**: multiply the X position before Sine to increase how many wave peaks fit across the grid.
+- **Speed**: multiply the Scene Time before subtracting. Higher = faster.
+
+These three numbers — amplitude, frequency, speed — are the controls for every wave effect you'll ever build.`,
+      },
+      {
+        title: "Step 3: Make It Radial (Expanding Rings)",
+        pythonCode: `import bpy
+
+ng = bpy.data.node_groups["RippleWave"]
+n  = ng.nodes
+l  = ng.links
+
+# Replace the X-only input with radial distance from center
+# Vector Math: Length of the XY position vector
+
+pos  = n["Input Position"]   # already exists
+sep  = n["Separate XYZ"]     # already exists
+
+# Add Vector Math node to compute distance from center
+vmath = n.new('ShaderNodeVectorMath'); vmath.location = (-600, -100)
+vmath.operation = 'LENGTH'
+
+# Re-wire: full position vector into Length, output scalar into subtract
+sub = n["Subtract"]  # already exists from step 2
+
+for link in list(l):
+    if link.from_node == sep and link.to_node == sub:
+        l.remove(link)
+
+l.new(pos.outputs[0],    vmath.inputs[0])   # full XYZ into Length
+l.new(vmath.outputs[1],  sub.inputs[0])     # scalar distance into subtract
+
+# Now the sine input is distance from center, not just X
+# Result: concentric expanding rings instead of parallel bands`,
+        content: `Parallel bands use X position as the sine input. Expanding rings use **distance from center**.
+
+The change: instead of Separate XYZ → take X, use **Vector Math (Length)** on the full position vector. Length gives you a single number: how far each vertex is from the origin (0,0,0).
+
+Every vertex at the same distance from center gets the same displacement — producing a ring. As time advances and phase shifts, the ring expands outward.
+
+This is the singing bowl wave. Place this graph on a plane at the bowl's position and the rings expand from the bowl's center.
+
+**Controlling the rings:**
+- More frequency = tighter rings, more visible at once
+- Faster speed = rings expand quickly (match to the bowl's sustain time)
+- Amplitude that decays with distance = rings fade as they expand (add a Divide by Distance node after the sine)
+
+>> The only difference between parallel bands and expanding rings is what feeds into the sine function. One axis = bands. Distance from center = rings. This is the core pattern in wave math.`,
+      },
+      {
+        title: "Step 4: Fade With Distance",
+        pythonCode: `import bpy
+
+ng = bpy.data.node_groups["RippleWave"]
+n  = ng.nodes
+l  = ng.links
+
+# The amplitude should decrease with distance from center
+# Multiply the sine output by (1 / distance), clamped
+
+vmath = n["Vector Math"]  # Length node from step 3
+
+# Add nodes for falloff
+# Map Range: remap distance (0 to 2m) to amplitude (1 to 0)
+falloff = n.new('ShaderNodeMapRange'); falloff.location = (-100, -300)
+falloff.inputs["From Min"].default_value = 0.0
+falloff.inputs["From Max"].default_value = 2.0
+falloff.inputs["To Min"].default_value   = 1.0  # full amplitude at center
+falloff.inputs["To Max"].default_value   = 0.0  # zero amplitude at edge
+
+# Multiply: sine * falloff
+mul_fade = n.new('ShaderNodeMath'); mul_fade.location = (100, -200)
+mul_fade.operation = 'MULTIPLY'
+
+# Re-wire: after sine and scale, multiply by falloff
+scale_node = n["Multiply"]  # amplitude scale from step 1
+comb       = n["Combine XYZ"]
+
+for link in list(l):
+    if link.from_node == scale_node and link.to_node == comb:
+        l.remove(link)
+
+l.new(vmath.outputs[1],     falloff.inputs["Value"])
+l.new(scale_node.outputs[0], mul_fade.inputs[0])
+l.new(falloff.outputs[0],    mul_fade.inputs[1])
+l.new(mul_fade.outputs[0],   comb.inputs[2])`,
+        content: `Real waves lose energy as they travel. The rings should be tallest at the center and fade to nothing at the edge.
+
+Add a **Map Range** node:
+- Input: the distance from center (reuse the Length output from Step 3)
+- From: 0 → 2 (meters from center)
+- To: 1 → 0 (amplitude at that distance)
+
+Then **Multiply** the sine output by this falloff value. At the center (distance 0): amplitude × 1 = full height. At 2m out: amplitude × 0 = flat.
+
+The result: a wave that blooms from the center and fades as it expands — exactly the physical behavior of a singing bowl's vibration.
+
+**Map Range** is one of the most useful nodes in GN. It translates any number from one range to another. You'll use it constantly to convert raw math outputs into meaningful visual ranges.`,
+      },
+      {
+        title: "🔨 Mini Workshop: Build the Wave",
+        isWorkshop: true,
+        pythonCode: `import bpy
+
+# Run this to set up the starting point
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
+
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=64, y_subdivisions=64, size=4)
+grid = bpy.context.active_object
+grid.name = "WavePlane"
+
+mod = grid.modifiers.new("RippleWave", 'NODES')
+ng  = bpy.data.node_groups.new("RippleWave", 'GeometryNodeTree')
+mod.node_group = ng
+
+ng.interface.new_socket("Geometry", in_out='INPUT',  socket_type='NodeSocketGeometry')
+ng.interface.new_socket("Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
+
+inp = ng.nodes.new('NodeGroupInput');  inp.location = (-800, 0)
+out = ng.nodes.new('NodeGroupOutput'); out.location = ( 600, 0)
+ng.links.new(inp.outputs[0], out.inputs[0])
+
+# Switch to Geometry Node Editor and build the graph manually
+# following the steps in this module
+print("Grid ready. Build the wave graph in the Geometry Node Editor.")`,
+        content: `Build the full ripple wave from scratch, following the four steps in this module:
+
+1. **Grid setup**: 64x64 subdivisions, size 4m
+2. **Step 1**: Position → Separate XYZ → Sine → Multiply → Combine XYZ → Set Position. Confirm you see a static sine wave.
+3. **Step 2**: Add Scene Time → Multiply (speed) → Subtract before Sine. Press Spacebar: wave moves.
+4. **Step 3**: Replace X with Vector Math (Length) of full position. Wave becomes expanding rings.
+5. **Step 4**: Add Map Range on distance → Multiply with sine output. Rings fade at the edge.
+
+**Tune it:**
+- Amplitude: 0.05–0.1 for subtle, 0.3+ for dramatic
+- Frequency: multiply X/distance by 5–15 before Sine
+- Speed: multiply Scene Time by 0.05–0.2
+
+**Take it further:** add a second wave at a different frequency and Mix the two displacements together. Two overlapping waves produce the interference patterns that make singing bowls visually distinctive.
+
+✅ Goal: A plane with animated expanding rings that fade with distance. If it looks like it could be a bowl vibrating, you're done.`,
       },
     ],
   };
