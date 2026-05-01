@@ -6,37 +6,43 @@ import bpyAIAssist from './bpyAIAssist.jsx';
 import enhancingBlender from './enhancingBlender.jsx';
 import meshPrimitives from './meshPrimitives.jsx';
 import editModeTopology from './editModeTopology.jsx';
-import uvUnwrapping from './uvUnwrapping.jsx';
 import modifiers from './modifiers.jsx';
-import geometryNodes from './geometryNodes.jsx';
 import materialsShading from './materialsShading.jsx';
-import lighting from './lighting.jsx';
 import buildThis from './buildThis.jsx';
+import lighting from './lighting.jsx';
+import rendering from './rendering.jsx';
+import finishThis from './finishThis.jsx';
+import uvUnwrapping from './uvUnwrapping.jsx';
+import geometryNodes from './geometryNodes.jsx';
 import sculptMode from './sculptMode.jsx';
 import rigging from './rigging.jsx';
 import booleanHardSurface from './booleanHardSurface.jsx';
 import physicsSimulation from './physicsSimulation.jsx';
-import rendering from './rendering.jsx';
 import proceduralTextures from './proceduralTextures.jsx';
 
 const modules = [
+  // Set Up
   mentalModel,
   interfaceNavigation,
   bpyAIAssist,
   enhancingBlender,
+  // Build Model
   meshPrimitives,
   editModeTopology,
-  uvUnwrapping,
   modifiers,
-  geometryNodes,
   materialsShading,
+  buildThis,
+  // Finish Model
   lighting,
+  rendering,
+  finishThis,
+  // Level Up
+  uvUnwrapping,
+  geometryNodes,
   sculptMode,
   rigging,
   booleanHardSurface,
   physicsSimulation,
-  rendering,
-  buildThis,
   proceduralTextures,
 ];
 

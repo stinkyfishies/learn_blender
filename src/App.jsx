@@ -111,13 +111,39 @@ export default function BlenderWorkshop() {
   const [openPath, setOpenPath] = useState(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [levelUpOpen, setLevelUpOpen] = useState(false);
+  const [stageOpen, setStageOpen] = useState({ setUp: true, buildModel: true, finishModel: true, levelUp: false });
   const [outcomesOpen, setOutcomesOpen] = useState(false);
   const [workflowsOpen, setWorkflowsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [scrollToSection, setScrollToSection] = useState(null);
   const contentRef = useRef(null);
   const levelUpRef = useRef(null);
+
+  // Stage definitions by slug
+  const STAGES = useMemo(() => [
+    { key: "setUp",      label: "Set Up",      slugs: ["mental-model","interface-navigation","bpy-with-ai-assist","enhancing-blender"] },
+    { key: "buildModel", label: "Build Model",  slugs: ["mesh-primitives","edit-mode-topology","modifiers","materials-shading","build-this"] },
+    { key: "finishModel",label: "Finish Model", slugs: ["lighting","rendering","finish-this"] },
+    { key: "levelUp",    label: "Level Up",     slugs: null }, // null = all remaining
+  ], []);
+
+  // Auto-expand the stage containing the active module
+  useEffect(() => {
+    if (activeModule === null) return;
+    const activeSlug = toSlug(modules[activeModule].title);
+    for (const stage of STAGES) {
+      if (stage.slugs === null) {
+        const foundationSlugs = STAGES.slice(0, 3).flatMap(s => s.slugs);
+        if (!foundationSlugs.includes(activeSlug)) {
+          setStageOpen(prev => ({ ...prev, levelUp: true }));
+          return;
+        }
+      } else if (stage.slugs.includes(activeSlug)) {
+        setStageOpen(prev => ({ ...prev, [stage.key]: true }));
+        return;
+      }
+    }
+  }, [activeModule]);
   const scrollPositions = useRef({});
 
   // Save scroll position when leaving a page, restore on back, reset on forward.
@@ -410,48 +436,51 @@ export default function BlenderWorkshop() {
               </div>
             </div>
           </div>
-          <div
-            style={{ height: 1, background: C.border, margin: "4px 20px 8px" }}
-          />
-          {/* Foundation modules */}
-          {modules.map((m, i) => {
-            if (m.specialized || m.advanced) return null;
-            return (
-              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} isMobile={isMobile} hexToRgb={hexToRgb} C={C} />
-            );
-          })}
+          <div style={{ height: 1, background: C.border, margin: "4px 20px 8px" }} />
 
-          {/* Level Up collapsible section */}
-          <div
-            ref={levelUpRef}
-            onClick={() => {
-              const opening = !levelUpOpen;
-              setLevelUpOpen(opening);
-              if (opening) {
-                setTimeout(() => levelUpRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
-              }
-            }}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "10px 20px",
-              cursor: "pointer",
-              borderTop: `1px solid ${C.border}`,
-              borderBottom: levelUpOpen ? `1px solid ${C.border}` : "none",
-              marginTop: 4,
-              userSelect: "none",
-            }}
-          >
-            <span style={{ fontSize: 11, color: C.orange, letterSpacing: 1, fontFamily: "'JetBrains Mono', monospace", flex: 1 }}>
-              LEVEL UP
-            </span>
-            <span style={{ fontSize: 10, color: C.orange }}>{levelUpOpen ? "▲" : "▼"}</span>
-          </div>
-          {levelUpOpen && modules.map((m, i) => {
-            if (!m.specialized && !m.advanced) return null;
+          {/* Four stage accordions */}
+          {STAGES.map((stage, si) => {
+            const foundationSlugs = STAGES.slice(0, 3).flatMap(s => s.slugs);
+            const stageModules = modules.map((m, i) => ({ m, i })).filter(({ m }) => {
+              const slug = toSlug(m.title);
+              if (stage.slugs === null) return !foundationSlugs.includes(slug);
+              return stage.slugs.includes(slug);
+            });
+            const isOpen = stageOpen[stage.key];
+            const isLevelUp = stage.key === "levelUp";
+            const color = isLevelUp ? C.orange : C.textMuted;
             return (
-              <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} isMobile={isMobile} hexToRgb={hexToRgb} C={C} />
+              <div key={stage.key}>
+                <div
+                  ref={isLevelUp ? levelUpRef : null}
+                  onClick={() => {
+                    const opening = !isOpen;
+                    setStageOpen(prev => ({ ...prev, [stage.key]: opening }));
+                    if (opening && isLevelUp) {
+                      setTimeout(() => levelUpRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+                    }
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: "8px 20px",
+                    cursor: "pointer",
+                    borderTop: si > 0 ? `1px solid ${C.border}` : "none",
+                    borderBottom: isOpen ? `1px solid ${C.border}` : "none",
+                    marginTop: si > 0 ? 4 : 0,
+                    userSelect: "none",
+                  }}
+                >
+                  <span style={{ fontSize: 11, color, letterSpacing: 1, fontFamily: "'JetBrains Mono', monospace", flex: 1 }}>
+                    {stage.label.toUpperCase()}
+                  </span>
+                  <span style={{ fontSize: 10, color }}>{isOpen ? "▲" : "▼"}</span>
+                </div>
+                {isOpen && stageModules.map(({ m, i }) => (
+                  <ModuleItem key={m.id} m={m} i={i} activeModule={activeModule} completedModules={completedModules} navigate={navigate} setExpandedSections={setExpandedSections} setSidebarOpen={setSidebarOpen} isMobile={isMobile} hexToRgb={hexToRgb} C={C} />
+                ))}
+              </div>
             );
           })}
         </div>
