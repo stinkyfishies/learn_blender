@@ -580,7 +580,7 @@ export default function BlenderWorkshop() {
 
         {/* Ko-fi */}
         <div style={{ padding: "16px 20px", borderTop: "1px solid #1e1e2e", marginTop: "auto" }}>
-          <div style={{ fontSize: 11, color: C.textFaint, marginBottom: 10, lineHeight: 1.5 }}>
+          <div style={{ fontSize: isMobile ? 11 : 9.5, color: C.textFaint, marginBottom: 10, lineHeight: 1.5 }}>
             If you're enjoying learning Blender with me
           </div>
           <a
