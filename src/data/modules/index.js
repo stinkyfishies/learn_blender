@@ -19,6 +19,7 @@ import rigging from './rigging.jsx';
 import booleanHardSurface from './booleanHardSurface.jsx';
 import physicsSimulation from './physicsSimulation.jsx';
 import proceduralTextures from './proceduralTextures.jsx';
+import cameraTracking from './cameraTracking.jsx';
 
 const modules = [
   // Set Up
@@ -44,6 +45,7 @@ const modules = [
   booleanHardSurface,
   physicsSimulation,
   proceduralTextures,
+  cameraTracking,
 ];
 
 export default modules;
