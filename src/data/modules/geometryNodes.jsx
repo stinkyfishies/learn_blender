@@ -62,6 +62,33 @@ const geometryNodes = {
     ],
     sections: [
       {
+        title: "Using the Node Editor",
+        content: `Before building anything, get comfortable with the interface. The Geometry Node Editor works the same as the Shader Editor — if you've used either, this is familiar.
+
+**Open it:**
+At the top of any Blender panel, click the editor type icon (the two overlapping circles) and choose **Geometry Node Editor**. Or use the **Geometry Nodes** workspace tab at the top of the screen.
+
+**Add a node:**
+**Shift+A** opens the Add menu. Start typing the node name to search — you don't need to find it in the category list. Hit Enter to place it.
+
+**Connect two nodes:**
+Click and drag from an **output socket** (right side of a node) to an **input socket** (left side of another node). Sockets are color-coded: gray = number, yellow = vector, green = geometry. You can only connect matching types.
+
+**Disconnect a link:**
+**Alt+Click** on any link to remove it. Or drag from the input socket to an empty space.
+
+**Move nodes:**
+**G** to grab, same as in the 3D viewport.
+
+**Zoom and pan:**
+Scroll to zoom, MMB to pan — same as everywhere in Blender.
+
+**See the result:**
+The node graph updates the object live in the 3D viewport as you wire things. Switch the viewport to **Material Preview** (Z → Material Preview) or **Rendered** to see shading as well.
+
+That's all you need. Everything else you'll learn as you build the wave.`,
+      },
+      {
         title: "What Geometry Nodes Actually Does",
         pythonCode: `import bpy
 
@@ -143,23 +170,36 @@ l.new(sine.outputs[0],   scale.inputs[0])
 l.new(scale.outputs[0],  comb.inputs[2])   # into Z
 l.new(comb.outputs[0],   setpos.inputs["Offset"])
 l.new(setpos.outputs[0], out.inputs[0])`,
-        content: `Start with a **Grid** (Shift+A → Mesh → Grid). In F9, set X and Y subdivisions to 64. You need enough vertices to see the wave — a grid with 4 vertices is too coarse.
+        content: `**1. Add the grid**
+Shift+A → Mesh → Grid. Press F9 (or click the bottom-left panel). Set X Subdivisions: 64, Y Subdivisions: 64. You need enough vertices to see a smooth wave — too few and you get a jagged zigzag.
 
-Add a **Geometry Nodes modifier**. In the node editor, build this chain:
+**2. Add the Geometry Nodes modifier**
+With the grid selected: Properties panel (right side) → Modifier (wrench icon) → Add Modifier → Geometry Nodes. Click **New** to create a new node group. The node editor now shows two nodes: Group Input and Group Output, already connected.
 
-**Position** → **Separate XYZ** → **Math (Sine)** → **Math (Multiply)** → **Combine XYZ** → **Set Position**
+**3. Add a Position node**
+In the node editor: Shift+A → type "Position" → select **Position**. Place it to the left of the Group Input. This node outputs the XYZ location of every vertex as a vector.
 
-What each node does:
-- **Position**: outputs the XYZ location of each vertex as a vector
-- **Separate XYZ**: breaks the vector into individual X, Y, Z numbers
-- **Math (Sine)**: applies the sine function to X — vertices at different X positions get different values
-- **Math (Multiply)**: scales the result (this is your wave height/amplitude)
-- **Combine XYZ**: puts the value back as a vector, only in the Z channel
-- **Set Position**: moves each vertex by that offset
+**4. Add a Separate XYZ node**
+Shift+A → type "Separate" → select **Separate XYZ**. Place it to the right of Position. Drag from Position's **Vector** output to Separate XYZ's **Vector** input. This splits the position into three separate numbers: X, Y, Z.
 
-The result: a sine wave running across the grid. Vertices undulate based on their X position.
+**5. Add a Math node set to Sine**
+Shift+A → type "Math" → select **Math**. In the node's dropdown, change **Add** to **Sine**. Drag from Separate XYZ's **X** output to Math's top input. Sine of X: each vertex gets a different value based on where it sits on the X axis.
 
-!! The grid needs enough subdivisions to show a smooth wave. Too few and you get a jagged zigzag. 32+ per axis is a reasonable starting point.`,
+**6. Add another Math node set to Multiply**
+Shift+A → Math again. Change to **Multiply**. Connect the Sine node's **Value** output to this Multiply node's top input. Set the bottom input value to **0.3** — this is your wave height (amplitude).
+
+**7. Add a Combine XYZ node**
+Shift+A → type "Combine" → select **Combine XYZ**. Connect the Multiply node's **Value** output to Combine XYZ's **Z** input only. Leave X and Y at 0. This creates a vector that only moves vertices up and down.
+
+**8. Add a Set Position node**
+Shift+A → type "Set Position" → select **Set Position**. Connect:
+- Group Input's **Geometry** output → Set Position's **Geometry** input
+- Combine XYZ's **Vector** output → Set Position's **Offset** input
+- Set Position's **Geometry** output → Group Output's **Geometry** input
+
+The grid now shows a sine wave. Vertices rise and fall based on their X position.
+
+!! If you see nothing change: make sure the viewport shading is not in Wireframe mode. Switch to Solid (Z → Solid) to see the displacement.`,
       },
       {
         title: "Step 2: Animate It",
@@ -194,22 +234,31 @@ l.new(sep.outputs[0],      subtract.inputs[0])   # X position
 l.new(speed.outputs[0],    subtract.inputs[1])   # scaled time
 l.new(time.outputs["Frame"], speed.inputs[0])    # frame number
 l.new(subtract.outputs[0], sine.inputs[0])       # phase-shifted X into sine`,
-        content: `The wave is static. To animate it, you need to shift its phase over time.
+        content: `The wave is static. To make it move, you need to shift its phase over time. Phase is the offset of a wave — shifting it forward each frame makes the wave appear to travel.
 
-**Phase** is the offset of a wave — shifting it makes the wave appear to move forward.
+**1. Add a Scene Time node**
+Shift+A → type "Scene Time" → select **Scene Time**. Place it below the existing nodes. This node outputs the current frame number — it changes automatically as you play the animation.
 
-Add a **Scene Time** node (Shift+A → Input → Scene Time). It outputs the current frame number. Multiply that by a small value (0.1) to control speed. Then **subtract** it from the X position before feeding into Sine.
+**2. Add a Math node set to Multiply (speed control)**
+Shift+A → Math → change to **Multiply**. Connect Scene Time's **Frame** output to this Multiply node's top input. Set the bottom input to **0.1**. This slows the time value down — without it the wave moves too fast.
 
-The result: as the frame number increases, the phase shifts, and the wave appears to travel across the grid.
+**3. Add a Math node set to Subtract**
+Shift+A → Math → change to **Subtract**. Now connect:
+- Separate XYZ's **X** output → Subtract's top input
+- The speed Multiply node's **Value** output → Subtract's bottom input
 
-Press **Spacebar** to play — you now have a moving wave.
+**4. Rewire: Subtract goes into Sine**
+Currently Separate XYZ connects directly to the Sine node. Alt+Click that link to remove it. Now connect Subtract's **Value** output to the Sine node's input instead.
 
-**Controlling the wave:**
-- **Amplitude** (Multiply value after Sine): wave height. 0.1 = gentle ripple, 0.5 = dramatic.
-- **Frequency**: multiply the X position before Sine to increase how many wave peaks fit across the grid.
-- **Speed**: multiply the Scene Time before subtracting. Higher = faster.
+What's happening: instead of feeding raw X position into Sine, you're feeding X minus scaled-time. As the frame increases, the subtracted value grows, shifting the whole sine wave forward — the wave appears to move.
 
-These three numbers — amplitude, frequency, speed — are the controls for every wave effect you'll ever build.`,
+**5. Press Spacebar**
+The wave travels across the grid. You have a moving wave.
+
+**The three knobs:**
+- **Amplitude**: the Multiply value after Sine (currently 0.3). Higher = taller waves.
+- **Speed**: the Multiply value on Scene Time (currently 0.1). Higher = faster.
+- **Frequency**: add another Multiply before Subtract and multiply the X value. Higher = more wave peaks across the grid.`,
       },
       {
         title: "Step 3: Make It Radial (Expanding Rings)",
@@ -241,20 +290,27 @@ l.new(vmath.outputs[1],  sub.inputs[0])     # scalar distance into subtract
 
 # Now the sine input is distance from center, not just X
 # Result: concentric expanding rings instead of parallel bands`,
-        content: `Parallel bands use X position as the sine input. Expanding rings use **distance from center**.
+        content: `Right now the wave runs in parallel bands along the X axis. For the singing bowl effect you want expanding rings from a center point. One change makes this happen.
 
-The change: instead of Separate XYZ → take X, use **Vector Math (Length)** on the full position vector. Length gives you a single number: how far each vertex is from the origin (0,0,0).
+**The idea:** instead of feeding the X position into Sine, feed the *distance from the center*. Every vertex at the same distance from the center gets the same displacement — that's a ring.
 
-Every vertex at the same distance from center gets the same displacement — producing a ring. As time advances and phase shifts, the ring expands outward.
+**1. Add a Vector Math node set to Length**
+Shift+A → type "Vector Math" → select **Vector Math**. Change its operation dropdown from **Add** to **Length**. Place it between the Position node and the Subtract node.
 
-This is the singing bowl wave. Place this graph on a plane at the bowl's position and the rings expand from the bowl's center.
+**2. Connect Position → Vector Math (Length)**
+Drag from Position's **Vector** output to Vector Math's top **Vector** input. The **Value** output (bottom) now gives a single number: how far each vertex is from the origin.
 
-**Controlling the rings:**
-- More frequency = tighter rings, more visible at once
-- Faster speed = rings expand quickly (match to the bowl's sustain time)
-- Amplitude that decays with distance = rings fade as they expand (add a Divide by Distance node after the sine)
+**3. Rewire: Length output goes into Subtract**
+Currently Separate XYZ's X output connects to Subtract. Alt+Click that link to remove it. Now connect Vector Math's **Value** output to Subtract's top input instead.
 
->> The only difference between parallel bands and expanding rings is what feeds into the sine function. One axis = bands. Distance from center = rings. This is the core pattern in wave math.`,
+The Separate XYZ node is now unused — you can delete it (X key with it selected).
+
+**4. Press Spacebar**
+Parallel bands are now expanding concentric rings. The rings bloom outward from the center and the wave travels radially.
+
+This is the singing bowl wave shape. Place this plane at the bowl's origin in the Camera Tracking composite and the rings appear to emerge from the bowl itself.
+
+>> The only difference between bands and rings is what feeds into Sine. One axis = bands. Distance from center = rings. Remember this — it's the core pattern for any radial wave effect.`,
       },
       {
         title: "Step 4: Fade With Distance",
@@ -293,18 +349,35 @@ l.new(vmath.outputs[1],     falloff.inputs["Value"])
 l.new(scale_node.outputs[0], mul_fade.inputs[0])
 l.new(falloff.outputs[0],    mul_fade.inputs[1])
 l.new(mul_fade.outputs[0],   comb.inputs[2])`,
-        content: `Real waves lose energy as they travel. The rings should be tallest at the center and fade to nothing at the edge.
+        content: `Real waves lose energy as they travel. Right now the rings are equally tall at the center and the edge. You want them to fade to nothing as they expand outward.
 
-Add a **Map Range** node:
-- Input: the distance from center (reuse the Length output from Step 3)
-- From: 0 → 2 (meters from center)
-- To: 1 → 0 (amplitude at that distance)
+**1. Add a Map Range node**
+Shift+A → type "Map Range" → select **Map Range**. Place it below the Vector Math (Length) node.
 
-Then **Multiply** the sine output by this falloff value. At the center (distance 0): amplitude × 1 = full height. At 2m out: amplitude × 0 = flat.
+Connect Vector Math's **Value** output to Map Range's **Value** input.
 
-The result: a wave that blooms from the center and fades as it expands — exactly the physical behavior of a singing bowl's vibration.
+Set these values on the Map Range node:
+- **From Min**: 0
+- **From Max**: 2
+- **To Min**: 1
+- **To Max**: 0
 
-**Map Range** is one of the most useful nodes in GN. It translates any number from one range to another. You'll use it constantly to convert raw math outputs into meaningful visual ranges.`,
+What this does: a vertex at distance 0 (dead center) outputs 1. A vertex at distance 2m outputs 0. Everything in between scales linearly. This is your falloff curve.
+
+**2. Add a Math node set to Multiply (fade)**
+Shift+A → Math → change to **Multiply**. Place it after the amplitude Multiply node from Step 1.
+
+Connect:
+- The amplitude Multiply node's **Value** output → this new Multiply's top input
+- Map Range's **Value** output → this new Multiply's bottom input
+
+**3. Rewire: fade Multiply goes into Combine XYZ**
+Alt+Click the link from the amplitude Multiply to Combine XYZ's Z input. Now connect the fade Multiply's **Value** output to Combine XYZ's **Z** input instead.
+
+**4. Press Spacebar**
+The rings now bloom from the center and fade to flat at the edges — the physical shape of a vibrating bowl.
+
+**Map Range** is one of the most useful nodes in GN. Any time you need to translate a raw number into a meaningful range — distance into brightness, time into opacity, position into color — Map Range is the tool.`,
       },
       {
         title: "🔨 Mini Workshop: Build the Wave",
